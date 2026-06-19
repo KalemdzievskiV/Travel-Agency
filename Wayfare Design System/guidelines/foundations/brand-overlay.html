@@ -1,0 +1,18 @@
+<!-- @dsCard group="Brand" viewport="700x220" name="Image overlays" subtitle="Bottom protection gradient keeps captions legible over photography." -->
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<style>
+  body{margin:0;background:var(--wf-cream);font-family:var(--wf-font-sans);padding:24px;}
+  .frame{position:relative;height:172px;border-radius:var(--wf-radius-md);overflow:hidden;
+    background:linear-gradient(135deg,#6b6258,#3a332b 70%);}
+  .frame::after{content:"";position:absolute;inset:0;background:var(--wf-overlay-bottom);}
+  .ph{position:absolute;top:12px;left:14px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55);z-index:1;}
+  .cap{position:absolute;left:18px;bottom:16px;z-index:2;color:#fff;}
+  .cap .eg{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.16em;color:var(--wf-coral-400);}
+  .cap .t{font-family:var(--wf-font-display);font-size:26px;font-weight:500;margin-top:4px;}
+</style></head>
+<body>
+  <div class="frame">
+    <span class="ph">Your photo</span>
+    <div class="cap"><div class="eg">Indian Ocean</div><div class="t">The Maldives</div></div>
+  </div>
+</body></html>

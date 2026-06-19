@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wayfare — Brand Directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #ececef;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    color: #1a1a1a;
+    padding: 56px 40px 100px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page-head { max-width: 1320px; margin: 0 auto 44px; }
+  .eyebrow {
+    font-size: 12px; letter-spacing: .18em; text-transform: uppercase;
+    color: #6b7280; font-weight: 600; margin-bottom: 12px;
+  }
+  .page-head h1 { font-size: 34px; font-weight: 700; letter-spacing: -.02em; color: #111827; }
+  .page-head p { font-size: 16px; color: #6b7280; margin-top: 10px; max-width: 640px; line-height: 1.55; }
+
+  .grid {
+    max-width: 1320px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+    align-items: start;
+  }
+  @media (max-width: 1100px) { .grid { grid-template-columns: 1fr; } }
+
+  .frame-label { display: flex; align-items: baseline; gap: 10px; margin-bottom: 14px; padding-left: 4px; }
+  .frame-label .n { font-size: 12px; font-weight: 700; color: #9ca3af; }
+  .frame-label .name { font-size: 15px; font-weight: 700; color: #374151; letter-spacing: -.01em; }
+  .frame-label .tag { font-size: 12px; color: #9ca3af; font-weight: 500; }
+
+  .card {
+    background: #fff; border-radius: 20px; overflow: hidden;
+    box-shadow: 0 1px 2px rgba(16,24,40,.04), 0 12px 32px rgba(16,24,40,.08);
+  }
+  .section { padding: 26px 26px; border-top: 1px solid #f1f2f4; }
+  .section:first-child { border-top: none; }
+  .sec-cap { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; margin-bottom: 16px; opacity: .55; }
+
+  /* logo lockup */
+  .logo { display: flex; align-items: center; gap: 12px; }
+  .logo .mark { width: 40px; height: 40px; flex: none; display: grid; place-items: center; }
+  .logo .word { font-size: 26px; letter-spacing: -.02em; }
+
+  /* palette */
+  .swatches { display: flex; gap: 10px; }
+  .sw { flex: 1; border-radius: 12px; height: 64px; display: flex; align-items: flex-end; padding: 8px; position: relative; }
+  .sw span { font-size: 10px; font-weight: 600; font-family: 'Space Grotesk', monospace; }
+  .sw.light span { color: rgba(0,0,0,.55); }
+  .sw.dark span { color: rgba(255,255,255,.85); }
+
+  /* type specimen */
+  .type-display { font-size: 30px; letter-spacing: -.02em; line-height: 1.05; margin-bottom: 10px; }
+  .type-body { font-size: 14px; line-height: 1.6; color: #6b7280; }
+  .type-meta { font-size: 11px; color: #9ca3af; margin-top: 14px; font-family: 'Space Grotesk', monospace; }
+
+  /* destination card */
+  .dest { border-radius: 16px; overflow: hidden; border: 1px solid #eef0f2; }
+  .dest .photo {
+    height: 140px; position: relative;
+    display: flex; align-items: flex-start; justify-content: space-between; padding: 12px;
+  }
+  .dest .photo .ph-label {
+    position: absolute; inset: 0; display: grid; place-items: center;
+    font-size: 11px; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,.7);
+  }
+  .pill {
+    font-size: 11px; font-weight: 600; padding: 5px 10px; border-radius: 999px;
+    background: rgba(255,255,255,.92); backdrop-filter: blur(4px); position: relative; z-index: 1;
+  }
+  .heart { width: 30px; height: 30px; border-radius: 999px; background: rgba(255,255,255,.92); display: grid; place-items: center; position: relative; z-index: 1; }
+  .dest .body { padding: 14px 16px 16px; }
+  .dest .row { display: flex; justify-content: space-between; align-items: baseline; }
+  .dest .title { font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
+  .dest .loc { font-size: 12px; color: #9ca3af; margin-top: 2px; }
+  .dest .rate { font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 3px; }
+  .dest .price { margin-top: 12px; font-size: 13px; color: #6b7280; }
+  .dest .price b { font-size: 17px; color: #111827; }
+
+  /* search widget */
+  .search { display: flex; align-items: stretch; border-radius: 14px; overflow: hidden; }
+  .search .field { flex: 1; padding: 12px 14px; }
+  .search .field .lab { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; font-weight: 600; opacity: .5; }
+  .search .field .val { font-size: 13px; font-weight: 600; margin-top: 3px; }
+  .search .go { flex: none; display: grid; place-items: center; padding: 0 18px; color: #fff; font-weight: 700; font-size: 13px; }
+
+  /* buttons */
+  .btns { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .btn { font-size: 13px; font-weight: 600; padding: 11px 18px; border-radius: 12px; border: none; cursor: default; }
+  .btn-ghost { background: transparent; }
+  svg { display: block; }
+</style>
+</head>
+<body>
+  <div class="page-head">
+    <div class="eyebrow">Wayfare · Brand Exploration</div>
+    <h1>Three directions for a travel-booking brand</h1>
+    <p>Same ocean-anchored palette, three personalities. Pick one (or mix elements) and I'll build the full design system, components, and website + app UI kits around it.</p>
+  </div>
+
+  <div class="grid">
+
+    <!-- ============ DIRECTION 1: COASTAL PREMIUM ============ -->
+    <div>
+      <div class="frame-label"><span class="n">01</span><span class="name">Coastal</span><span class="tag">premium · refined</span></div>
+      <div class="card" style="font-family:'Sora',sans-serif;">
+        <div class="section">
+          <div class="logo">
+            <span class="mark">
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                <rect width="40" height="40" rx="11" fill="#0B3C5D"/>
+                <path d="M13 24c4-1 6-4 7-8 1 4 3 7 7 8-4 1-6 4-7 8-1-4-3-7-7-8z" fill="#C8A24B"/>
+              </svg>
+            </span>
+            <span class="word" style="font-weight:600;color:#0B3C5D;">Wayfare</span>
+          </div>
+        </div>
+        <div class="section">
+          <div class="sec-cap">Palette</div>
+          <div class="swatches">
+            <div class="sw dark" style="background:#0B3C5D;"><span>#0B3C5D</span></div>
+            <div class="sw dark" style="background:#0B6E99;"><span>#0B6E99</span></div>
+            <div class="sw dark" style="background:#2A8C82;"><span>#2A8C82</span></div>
+            <div class="sw light" style="background:#C8A24B;"><span>#C8A24B</span></div>
+            <div class="sw light" style="background:#EFE9DC;"><span>#EFE9DC</span></div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="sec-cap">Type — Sora</div>
+          <div class="type-display" style="font-weight:600;color:#0B3C5D;">Find your<br>quiet horizon.</div>
+          <div class="type-body">Curated stays and slow journeys for travelers who'd rather arrive than rush.</div>
+          <div class="type-meta">Sora · 300–700 · tight tracking</div>
+        </div>
+        <div class="section">
+          <div class="sec-cap">Destination card</div>
+          <div class="dest">
+            <div class="photo" style="background:linear-gradient(135deg,#0B3C5D,#0B6E99);">
+              <div class="ph-label">Your photo</div>
+              <span class="pill" style="color:#0B3C5D;">Overwater</span>
+              <span class="heart"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0B3C5D" stroke-width="2"><path d="M12 21s-7-4.5-9.5-9A5 5 0 0112 5a5 5 0 019.5 7c-2.5 4.5-9.5 9-9.5 9z"/></svg></span>
+            </div>
+            <div class="body">
+              <div class="row">
+                <div><div class="title">Amilla Maldives</div><div class="loc">Baa Atoll, Maldives</div></div>
+                <div class="rate" style="color:#0B3C5D;"><svg width="13" height="13" viewBox="0 0 24 24" fill="#C8A24B"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>4.9</div>
+              </div>
+              <div class="price"><b>$1,240</b> / night</div>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="sec-cap">Search · buttons</div>
+          <div class="search" style="border:1px solid #e5e0d4;background:#fbfaf6;">
+            <div class="field" style="border-right:1px solid #e5e0d4;"><div class="lab">Where</div><div class="val" style="color:#0B3C5D;">Maldives</div></div>
+            <div class="field"><div class="lab">When</div><div class="val" style="color:#0B3C5D;">Nov 4–11</div></div>
+            <div class="go" style="background:#0B3C5D;">Search</div>
+          </div>
+          <div class="btns" style="margin-top:14px;">
+            <button class="btn" style="background:#0B3C5D;color:#fff;">Book now</button>
+            <button class="btn" style="background:#EFE9DC;color:#0B3C5D;">Save trip</button>
+            <button class="btn btn-ghost" style="color:#0B6E99;">Details</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ DIRECTION 2: HORIZON (ADVENTUROUS) ============ -->
+    <div>
+      <div class="frame-label"><span class="n">02</span><span class="name">Horizon</span><span class="tag">adventurous · bold</span></div>
+      <div class="card" style="font-family:'Space Grotesk',sans-serif;">
+        <div class="section">
+          <div class="logo">
+            <span class="mark">
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                <rect width="40" height="40" rx="12" fill="#0E8C82"/>
+                <path d="M9 22l21-9-9 21-3-8-9-4z" fill="#fff"/>
+                <path d="M18 22l3 8 1.5-3.5z" fill="#F4A259"/>
+              </svg>
+            </span>
+            <span class="word" style="font-weight:700;color:#0E8C82;letter-spacing:-.03em;">Wayfare</span>
+          </div>
+        </div>
+        <div class="section">
+          <div class="sec-cap">Palette</div>
+          <div class="swatches">
+            <div class="sw dark" style="background:#0E8C82;"><span>#0E8C82</span></div>
+            <div class="sw dark" style="background:#14B8A6;"><span>#14B8A6</span></div>
+            <div class="sw dark" style="background:#F4823C;"><span>#F4823C</span></div>
+            <div class="sw light" style="background:#FFD37A;"><span>#FFD37A</span></div>
+            <div class="sw dark" style="background:#13343B;"><span>#13343B</span></div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="sec-cap">Type — Space Grotesk</div>
+          <div class="type-display" style="font-weight:700;color:#13343B;letter-spacing:-.03em;">Go further,<br>book faster.</div>
+          <div class="type-body">Flights, stays and wild detours — all in one tap. Adventure shouldn't wait on a checkout flow.</div>
+          <div class="type-meta">Space Grotesk · 400–700</div>
+        </div>
+        <div class="section">
+          <div class="sec-cap">Destination card</div>
+          <div class="dest" style="border-radius:18px;">
+            <div class="photo" style="background:linear-gradient(135deg,#0E8C82,#14B8A6 60%,#F4823C);">
+              <div class="ph-label">Your photo</div>
+              <span class="pill" style="color:#0E8C82;font-weight:700;">↗ Trending</span>
+              <span class="heart"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0E8C82" stroke-width="2.2"><path d="M12 21s-7-4.5-9.5-9A5 5 0 0112 5a5 5 0 019.5 7c-2.5 4.5-9.5 9-9.5 9z"/></svg></span>
+            </div>
+            <div class="body">
+              <div class="row">
+                <div><div class="title">Patagonia Base Camp</div><div class="loc">El Chaltén, Argentina</div></div>
+                <div class="rate" style="color:#13343B;"><svg width="13" height="13" viewBox="0 0 24 24" fill="#F4823C"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>4.8</div>
+              </div>
+              <div class="price"><b>$320</b> / night</div>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="sec-cap">Search · buttons</div>
+          <div class="search" style="background:#13343B;">
+            <div class="field" style="border-right:1px solid rgba(255,255,255,.12);"><div class="lab" style="color:#7fd9cf;">Where</div><div class="val" style="color:#fff;">Patagonia</div></div>
+            <div class="field"><div class="lab" style="color:#7fd9cf;">When</div><div class="val" style="color:#fff;">Dec 2–14</div></div>
+            <div class="go" style="background:#F4823C;color:#13343B;">Go →</div>
+          </div>
+          <div class="btns" style="margin-top:14px;">
+            <button class="btn" style="background:#F4823C;color:#13343B;">Book now</button>
+            <button class="btn" style="background:#0E8C82;color:#fff;">Save trip</button>
+            <button class="btn btn-ghost" style="color:#0E8C82;">Details</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ DIRECTION 3: DRIFT (CLEAN & FRIENDLY) ============ -->
+    <div>
+      <div class="frame-label"><span class="n">03</span><span class="name">Drift</span><span class="tag">clean · friendly</span></div>
+      <div class="card" style="font-family:'Plus Jakarta Sans',sans-serif;">
+        <div class="section">
+          <div class="logo">
+            <span class="mark">
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                <rect width="40" height="40" rx="14" fill="#E6F4F1"/>
+                <circle cx="20" cy="18" r="6" fill="none" stroke="#0F9488" stroke-width="2.5"/>
+                <path d="M20 24c0 4-0 8 0 8M14 32h12" stroke="#0F9488" stroke-width="2.5" stroke-linecap="round"/>
+                <circle cx="20" cy="18" r="2" fill="#F4A259"/>
+              </svg>
+            </span>
+            <span class="word" style="font-weight:800;color:#13343B;letter-spacing:-.03em;">Wayfare</span>
+          </div>
+        </div>
+        <div class="section">
+          <div class="sec-cap">Palette</div>
+          <div class="swatches">
+            <div class="sw dark" style="background:#0F9488;"><span>#0F9488</span></div>
+            <div class="sw dark" style="background:#2BB6A8;"><span>#2BB6A8</span></div>
+            <div class="sw light" style="background:#F4A259;"><span>#F4A259</span></div>
+            <div class="sw light" style="background:#E6F4F1;"><span>#E6F4F1</span></div>
+            <div class="sw dark" style="background:#13343B;"><span>#13343B</span></div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="sec-cap">Type — Plus Jakarta Sans</div>
+          <div class="type-display" style="font-weight:800;color:#13343B;letter-spacing:-.03em;">Trips made<br>simple.</div>
+          <div class="type-body">Friendly, fuss-free booking for hotels, flights and weekend getaways. Plan it together in minutes.</div>
+          <div class="type-meta">Plus Jakarta Sans · 400–800</div>
+        </div>
+        <div class="section">
+          <div class="sec-cap">Destination card</div>
+          <div class="dest" style="border-radius:20px;">
+            <div class="photo" style="background:linear-gradient(135deg,#2BB6A8,#7fd9cf);border-radius:16px;margin:6px;height:128px;">
+              <div class="ph-label" style="color:rgba(19,52,59,.45);">Your photo</div>
+              <span class="pill" style="color:#0F9488;font-weight:700;">Guest favorite</span>
+              <span class="heart"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0F9488" stroke-width="2.2"><path d="M12 21s-7-4.5-9.5-9A5 5 0 0112 5a5 5 0 019.5 7c-2.5 4.5-9.5 9-9.5 9z"/></svg></span>
+            </div>
+            <div class="body">
+              <div class="row">
+                <div><div class="title">Casa Lima Loft</div><div class="loc">Lisbon, Portugal</div></div>
+                <div class="rate" style="color:#13343B;"><svg width="13" height="13" viewBox="0 0 24 24" fill="#F4A259"><path d="M12 2l3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>4.95</div>
+              </div>
+              <div class="price"><b>$148</b> / night</div>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="sec-cap">Search · buttons</div>
+          <div class="search" style="background:#fff;border:2px solid #E6F4F1;border-radius:16px;">
+            <div class="field" style="border-right:2px solid #E6F4F1;"><div class="lab" style="color:#0F9488;">Where</div><div class="val" style="color:#13343B;">Lisbon</div></div>
+            <div class="field"><div class="lab" style="color:#0F9488;">When</div><div class="val" style="color:#13343B;">Sep 8–12</div></div>
+            <div class="go" style="background:#0F9488;border-radius:12px;margin:5px;">Search</div>
+          </div>
+          <div class="btns" style="margin-top:14px;">
+            <button class="btn" style="background:#0F9488;color:#fff;border-radius:14px;">Book now</button>
+            <button class="btn" style="background:#F4A259;color:#13343B;border-radius:14px;">Save trip</button>
+            <button class="btn btn-ghost" style="color:#0F9488;">Details</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

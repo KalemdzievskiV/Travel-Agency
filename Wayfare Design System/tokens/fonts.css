@@ -1,0 +1,7 @@
+/* ============================================================
+   Wayfare — Webfonts
+   SUBSTITUTIONS (flagged): the production brand uses Saol Display
+   + Founders Grotesk (commercial). These Google Fonts are the
+   closest free stand-ins. Replace with licensed @font-face here.
+   ============================================================ */
+@import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,400;1,6..96,500&family=Hanken+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap");

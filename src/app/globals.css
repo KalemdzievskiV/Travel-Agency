@@ -1,26 +1,127 @@
 @import "tailwindcss";
 
+/* ── bookit design foundations (Wayfare design system tokens) ────────────
+   Source of truth for colour, type, spacing, and effects. Edit tokens in
+   src/styles/wayfare/*. See .claude/skills/wayfare-design for the rules. */
+@import "../styles/wayfare/colors.css";
+@import "../styles/wayfare/typography.css";
+@import "../styles/wayfare/spacing.css";
+@import "../styles/wayfare/effects.css";
+@import "../styles/wayfare/responsive.css";
+
+/* Wire the design-system font tokens to the self-hosted next/font faces
+   (loaded in app/layout.tsx). The literal family names remain as fallbacks. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --wf-font-display: var(--font-display), "Bodoni Moda", "Times New Roman", Georgia, serif;
+  --wf-font-sans: var(--font-sans), "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
+/* ── Tailwind v4 theme bridge ────────────────────────────────────────────
+   Maps Tailwind utilities onto the brand tokens so every utility we write
+   (bg-cream, text-ink, font-display, rounded-md, shadow-md…) is on-brand. */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Surfaces & neutrals */
+  --color-cream: var(--wf-cream);
+  --color-cream-2: var(--wf-cream-2);
+  --color-paper: var(--wf-paper);
+  --color-sand: var(--wf-sand);
+  --color-ink: var(--wf-ink-900);
+  --color-ink-900: var(--wf-ink-900);
+  --color-ink-800: var(--wf-ink-800);
+  --color-ink-700: var(--wf-ink-700);
+  --color-ink-500: var(--wf-ink-500);
+  --color-ink-400: var(--wf-ink-400);
+  --color-ink-300: var(--wf-ink-300);
+  --color-ink-200: var(--wf-ink-200);
+  --color-ink-100: var(--wf-ink-100);
+
+  /* The single accent — "the tomato" */
+  --color-coral: var(--wf-coral-500);
+  --color-coral-700: var(--wf-coral-700);
+  --color-coral-600: var(--wf-coral-600);
+  --color-coral-500: var(--wf-coral-500);
+  --color-coral-400: var(--wf-coral-400);
+  --color-coral-200: var(--wf-coral-200);
+  --color-coral-050: var(--wf-coral-050);
+
+  /* Semantic */
+  --color-success: var(--wf-success);
+  --color-warning: var(--wf-warning);
+  --color-error: var(--wf-error);
+  --color-info: var(--wf-info);
+
+  /* Roles */
+  --color-border: var(--wf-border);
+  --color-border-strong: var(--wf-border-strong);
+  --color-divider: var(--wf-divider);
+
+  /* Type */
+  --font-display: var(--wf-font-display);
+  --font-sans: var(--wf-font-sans);
+  --font-mono: var(--wf-font-mono);
+
+  /* Radii */
+  --radius-sm: var(--wf-radius-sm);
+  --radius-md: var(--wf-radius-md);
+  --radius-lg: var(--wf-radius-lg);
+  --radius-xl: var(--wf-radius-xl);
+
+  /* Shadows */
+  --shadow-xs: var(--wf-shadow-xs);
+  --shadow-sm: var(--wf-shadow-sm);
+  --shadow-md: var(--wf-shadow-md);
+  --shadow-lg: var(--wf-shadow-lg);
+
+  /* Motion */
+  --ease-out: var(--wf-ease-out);
+  --ease-in-out: var(--wf-ease-in-out);
+
+  /* Container widths */
+  --container-wf: var(--wf-container);
+  --container-wf-wide: var(--wf-container-wide);
+  --container-wf-text: var(--wf-container-text);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ── Base ────────────────────────────────────────────────────────────── */
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--wf-bg);
+  color: var(--wf-text);
+  font-family: var(--wf-font-sans);
+  font-size: var(--wf-body-size);
+  line-height: var(--wf-body-leading);
+}
+
+::selection {
+  background: var(--wf-coral-200);
+  color: var(--wf-ink-900);
+}
+
+/* Helpers for hand-written markup */
+.wf-display {
+  font-family: var(--wf-font-display);
+  font-weight: 500;
+  letter-spacing: var(--wf-tracking-display);
+  line-height: var(--wf-leading-tight);
+}
+.wf-eyebrow {
+  font-size: var(--wf-eyebrow-size);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--wf-eyebrow-tracking);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -1,0 +1,120 @@
+/* ============================================================
+   bookit — responsive layout utilities
+   Inline styles can't hold media queries, so any layout that must
+   CHANGE at a breakpoint (grid column counts, the header nav, split
+   layouts, stacked widgets) lives here as a class. Fluid type and
+   spacing use clamp() inline and need no class.
+   Breakpoints: 980 (tablet) · 860 (nav) · 720 (search) · 640/520 (phone)
+   ============================================================ */
+
+/* ── Page width + gutters ─────────────────────────────────── */
+.wf-wrap {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: clamp(20px, 5vw, 32px);
+}
+.wf-wrap--wide { max-width: var(--wf-container-wide); }
+.wf-wrap--default { max-width: var(--wf-container); }
+
+/* ── Responsive card grids ────────────────────────────────── */
+.wf-grid { display: grid; gap: 24px; }
+.wf-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.wf-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.wf-grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+@media (max-width: 980px) {
+  .wf-grid-3,
+  .wf-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  .wf-grid-2,
+  .wf-grid-3,
+  .wf-grid-4 { grid-template-columns: 1fr; gap: 18px; }
+}
+
+/* ── Content + sticky sidebar split ───────────────────────── */
+.wf-split {
+  display: grid;
+  gap: clamp(40px, 6vw, 64px);
+  grid-template-columns: 1.7fr 1fr;
+  align-items: start;
+}
+.wf-split > .wf-split__aside {
+  position: sticky;
+  top: calc(var(--wf-header-h) + 24px);
+}
+@media (max-width: 900px) {
+  .wf-split { grid-template-columns: 1fr; }
+  .wf-split > .wf-split__aside { position: static; }
+}
+
+/* ── Footer columns ───────────────────────────────────────── */
+.wf-footer-grid {
+  display: grid;
+  gap: 40px;
+  grid-template-columns: 1.6fr 1fr 1fr 1fr;
+}
+@media (max-width: 860px) {
+  .wf-footer-grid { grid-template-columns: 1fr 1fr; gap: 40px 32px; }
+  .wf-footer-grid > :first-child { grid-column: 1 / -1; }
+}
+@media (max-width: 520px) {
+  .wf-footer-grid { grid-template-columns: 1fr; gap: 32px; }
+}
+
+/* ── Form pairs (enquiry modal) ───────────────────────────── */
+.wf-form-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: 1fr 1fr;
+}
+@media (max-width: 520px) {
+  .wf-form-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Search widget ────────────────────────────────────────── */
+.wf-searchbar { display: flex; align-items: stretch; }
+@media (max-width: 720px) {
+  .wf-searchbar { flex-direction: column; }
+  /* inline borders win without !important; flip the divider on stack */
+  .wf-searchbar > button { border-right: none !important; }
+  .wf-searchbar > button:not(:last-child) {
+    border-bottom: 1px solid var(--wf-border) !important;
+  }
+}
+
+/* ── Header ───────────────────────────────────────────────── */
+.wf-header-nav { display: flex; gap: 34px; }
+.wf-header-actions { display: flex; align-items: center; gap: 18px; }
+.wf-nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+}
+@media (max-width: 860px) {
+  .wf-header-nav { display: none; }
+  .wf-header-phone { display: none; }
+  .wf-header-enquire { display: none; }
+  .wf-nav-toggle { display: inline-flex; }
+}
+
+/* Mobile menu panel */
+.wf-mobile-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px clamp(20px, 5vw, 32px) 24px;
+  background: var(--wf-cream);
+  border-bottom: 1px solid var(--wf-border);
+}
+.wf-mobile-menu a {
+  text-decoration: none;
+  font-family: var(--wf-font-sans);
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--wf-ink-900);
+  padding: 12px 0;
+  border-bottom: 1px solid var(--wf-divider);
+}

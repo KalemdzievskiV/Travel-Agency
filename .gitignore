@@ -39,3 +39,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Generated preview screenshots/video
+/preview/*.png
+/preview/*.jpg
+/preview/*.webm
+
+# Large local hero video (swap/host as needed)
+/public/videos/
+
+# Admin image uploads (dev)
+/public/uploads/

@@ -1,0 +1,16 @@
+import { chromium } from "playwright";
+import path from "node:path"; import { fileURLToPath } from "node:url";
+const OUT = path.dirname(fileURLToPath(import.meta.url));
+const b = await chromium.launch({ channel:"chrome", headless:true, args:["--no-sandbox","--hide-scrollbars"] });
+const ctx = await b.newContext({ viewport:{width:1280,height:900}, deviceScaleFactor:1 });
+const p = await ctx.newPage();
+await p.goto("http://localhost:3000/login",{waitUntil:"networkidle"});
+await p.waitForTimeout(500);
+await p.screenshot({path:path.join(OUT,"admin-login.jpg"),type:"jpeg",quality:75});
+await p.fill('input[name="email"]','admin@bookit.mk');
+await p.fill('input[name="password"]','bookit-admin-2026');
+await Promise.all([ p.waitForURL('**/admin',{timeout:20000}), p.click('button[type="submit"]') ]);
+await p.waitForLoadState("networkidle"); await p.waitForTimeout(600);
+await p.screenshot({path:path.join(OUT,"admin-dashboard.jpg"),type:"jpeg",quality:75});
+console.log("ADMIN URL:", p.url());
+await b.close();

@@ -1,0 +1,32 @@
+/* ============================================================
+   Wayfare — Shadows, borders, motion, overlays
+   Shadows are soft and low; the brand leans on hairline borders
+   and image overlays rather than heavy elevation.
+   ============================================================ */
+:root {
+  /* — Elevation (soft, warm-tinted) ——————————————— */
+  --wf-shadow-xs: 0 1px 2px rgba(22, 19, 15, 0.05);
+  --wf-shadow-sm: 0 2px 8px rgba(22, 19, 15, 0.06);
+  --wf-shadow-md: 0 8px 24px rgba(22, 19, 15, 0.10);
+  --wf-shadow-lg: 0 18px 48px rgba(22, 19, 15, 0.14);
+  --wf-shadow-hover: 0 14px 36px rgba(22, 19, 15, 0.16);
+
+  /* — Borders ———————————————————————————————————— */
+  --wf-border-width: 1px;
+  --wf-border-hairline: 1px solid var(--wf-border);
+
+  /* — Image overlays / protection gradients ——————— */
+  --wf-overlay-bottom: linear-gradient(to top, rgba(22,19,15,0.72) 0%, rgba(22,19,15,0.28) 38%, rgba(22,19,15,0) 70%); /* @kind other */
+  --wf-overlay-full: linear-gradient(to top, rgba(22,19,15,0.55), rgba(22,19,15,0.15)); /* @kind other */
+  --wf-overlay-scrim: rgba(22, 19, 15, 0.32); /* @kind color */
+
+  /* — Motion ————————————————————————————————————— */
+  --wf-ease-out: cubic-bezier(0.22, 1, 0.36, 1); /* @kind other */
+  --wf-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1); /* @kind other */
+  --wf-dur-fast: 160ms;   /* @kind other */
+  --wf-dur-base: 280ms;   /* @kind other */
+  --wf-dur-slow: 600ms; /* @kind other */
+
+  /* — Focus —————————————————————————————————————— */
+  --wf-focus-shadow: 0 0 0 3px var(--wf-coral-200);
+}

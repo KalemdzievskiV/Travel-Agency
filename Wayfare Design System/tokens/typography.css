@@ -1,0 +1,51 @@
+/* ============================================================
+   Wayfare — Typography tokens
+   Display: Bodoni Moda  (substitute for Saol Display — high-contrast
+            editorial Didone; SWAP for licensed face in production)
+   Text:    Hanken Grotesk (substitute for Founders Grotesk —
+            neutral humanist grotesk)
+   Mono:    used only for spec/labels.
+   ============================================================ */
+:root {
+  /* — Families ——————————————————————————————————— */
+  --wf-font-display: "Bodoni Moda", "Times New Roman", Georgia, serif;
+  --wf-font-sans: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --wf-font-mono: "Space Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* — Weights ———————————————————————————————————— */
+  --wf-w-light: 300;     /* @kind font */
+  --wf-w-regular: 400;   /* @kind font */
+  --wf-w-medium: 500;    /* @kind font */
+  --wf-w-semibold: 600;  /* @kind font */
+  --wf-w-bold: 700;      /* @kind font */
+
+  /* — Type scale (px) — fluid-friendly editorial scale ——— */
+  --wf-text-xs: 12px;
+  --wf-text-sm: 14px;
+  --wf-text-base: 16px;
+  --wf-text-md: 18px;
+  --wf-text-lg: 21px;
+  --wf-text-xl: 26px;
+  --wf-display-sm: 34px;
+  --wf-display-md: 46px;
+  --wf-display-lg: 64px;
+  --wf-display-xl: 88px;     /* hero headlines */
+
+  /* — Line heights ——————————————————————————————— */
+  --wf-leading-tight: 1.05;  /* display */
+  --wf-leading-snug: 1.2;
+  --wf-leading-normal: 1.5;
+  --wf-leading-relaxed: 1.65; /* long-form body */
+
+  /* — Letter spacing ————————————————————————————— */
+  --wf-tracking-display: -0.02em; /* tighten large serif */
+  --wf-tracking-normal: 0;
+  --wf-tracking-wide: 0.04em;
+  --wf-tracking-label: 0.18em;    /* uppercase eyebrow labels */
+
+  /* — Semantic roles ————————————————————————————— */
+  --wf-eyebrow-size: var(--wf-text-xs);
+  --wf-eyebrow-tracking: var(--wf-tracking-label);
+  --wf-body-size: var(--wf-text-base);
+  --wf-body-leading: var(--wf-leading-relaxed);
+}

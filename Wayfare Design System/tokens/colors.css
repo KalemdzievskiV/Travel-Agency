@@ -1,0 +1,55 @@
+/* ============================================================
+   Wayfare — Colour tokens
+   Editorial-luxury travel palette: warm cream, ink near-black,
+   a single coral accent, and warm neutral greys. Imagery carries
+   the colour; the UI stays quiet around it.
+   ============================================================ */
+:root {
+  /* — Brand —————————————————————————————————————— */
+  --wf-coral-700: #B83A24;   /* pressed / deep accent */
+  --wf-coral-600: #CF4329;   /* hover */
+  --wf-coral-500: #E14E31;   /* primary accent — the "tomato" */
+  --wf-coral-400: #EC6B4F;   /* lighter accent, hover-on-dark */
+  --wf-coral-200: #F4C2B4;   /* tint / focus ring backing */
+  --wf-coral-050: #FBEEE9;   /* faint wash, hover surfaces */
+
+  /* — Ink / neutrals (warm) ——————————————————————— */
+  --wf-ink-900: #16130F;     /* near-black, primary text & dark sections */
+  --wf-ink-800: #25201A;
+  --wf-ink-700: #3A332B;     /* secondary text on light */
+  --wf-ink-500: #6B6258;     /* muted text, captions */
+  --wf-ink-400: #948A7D;     /* placeholder, disabled text */
+  --wf-ink-300: #C4BCAF;     /* borders on cream */
+  --wf-ink-200: #DED7CB;     /* dividers, hairlines */
+  --wf-ink-100: #ECE6DC;     /* subtle fill */
+
+  /* — Surfaces (warm whites) ——————————————————————— */
+  --wf-cream:    #F6F2EA;    /* page background */
+  --wf-cream-2:  #FBF8F2;    /* raised card on cream */
+  --wf-paper:    #FFFFFF;    /* pure white card */
+  --wf-sand:     #EEE7DA;    /* tonal block / alt section */
+
+  /* — Semantic ——————————————————————————————————— */
+  --wf-success: #4F7A52;
+  --wf-warning: #C98A2B;
+  --wf-error:   #C0392B;
+  --wf-info:    #3E5C76;
+
+  /* — Aliases (use these in components) ———————————— */
+  --wf-bg:              var(--wf-cream);
+  --wf-bg-raised:       var(--wf-cream-2);
+  --wf-bg-dark:         var(--wf-ink-900);
+  --wf-surface-card:    var(--wf-paper);
+  --wf-text:            var(--wf-ink-900);
+  --wf-text-secondary:  var(--wf-ink-700);
+  --wf-text-muted:      var(--wf-ink-500);
+  --wf-text-on-dark:    #F4EFE7;
+  --wf-text-on-accent:  #FFFFFF;
+  --wf-accent:          var(--wf-coral-500);
+  --wf-accent-hover:    var(--wf-coral-600);
+  --wf-accent-press:    var(--wf-coral-700);
+  --wf-border:          var(--wf-ink-200);
+  --wf-border-strong:   var(--wf-ink-300);
+  --wf-divider:         var(--wf-ink-100);
+  --wf-focus-ring:      var(--wf-coral-500);
+}
