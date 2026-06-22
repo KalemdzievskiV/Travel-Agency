@@ -5,11 +5,14 @@ import {
   destinations as destinationsTable,
   experiences as experiencesTable,
   testimonials as testimonialsTable,
+  trips as tripsTable,
+  tripDestinations as tripDestinationsTable,
 } from "@/db/schema";
 import type {
   Destination,
   Experience,
   Testimonial,
+  Trip,
 } from "@/content/types";
 
 // Map DB rows to the existing content-facing shapes so components are unchanged.
@@ -25,10 +28,8 @@ function toDestination(r: DestinationRow): Destination {
     teaser: r.teaser,
     grad: r.grad ?? "",
     image: r.image ?? undefined,
-    priceFrom: r.priceFrom,
-    rating: r.rating,
     badge: r.badge,
-    duration: r.duration,
+    whenToGo: r.whenToGo,
     bestMonths: r.bestMonths,
     feelings: r.feelings,
     intro: r.intro,
@@ -49,6 +50,24 @@ function toExperience(r: ExperienceRow): Experience {
 
 function toTestimonial(r: TestimonialRow): Testimonial {
   return { quote: r.quote, who: r.who, where: r.where };
+}
+
+type TripRow = typeof tripsTable.$inferSelect;
+
+function toTrip(r: TripRow): Trip {
+  return {
+    slug: r.slug,
+    title: r.title,
+    summary: r.summary,
+    description: r.description,
+    durationDays: r.durationDays,
+    priceFrom: r.priceFrom,
+    grad: r.grad ?? "",
+    image: r.image ?? undefined,
+    feelings: r.feelings,
+    itinerary: r.itinerary,
+    departures: r.departures,
+  };
 }
 
 export async function getDestinations(): Promise<Destination[]> {
@@ -92,4 +111,57 @@ export async function getTestimonials(): Promise<Testimonial[]> {
     .where(eq(testimonialsTable.published, true))
     .orderBy(asc(testimonialsTable.sortOrder), asc(testimonialsTable.id));
   return rows.map(toTestimonial);
+}
+
+export async function getTrips(): Promise<Trip[]> {
+  const rows = await db
+    .select()
+    .from(tripsTable)
+    .where(eq(tripsTable.published, true))
+    .orderBy(asc(tripsTable.sortOrder), asc(tripsTable.id));
+  return rows.map(toTrip);
+}
+
+export async function getTripWithDestinations(
+  slug: string,
+): Promise<{ trip: Trip; destinations: Destination[] } | undefined> {
+  const [row] = await db
+    .select()
+    .from(tripsTable)
+    .where(and(eq(tripsTable.slug, slug), eq(tripsTable.published, true)))
+    .limit(1);
+  if (!row) return undefined;
+
+  const linked = await db
+    .select({ destination: destinationsTable })
+    .from(tripDestinationsTable)
+    .innerJoin(
+      destinationsTable,
+      eq(tripDestinationsTable.destinationId, destinationsTable.id),
+    )
+    .where(eq(tripDestinationsTable.tripId, row.id))
+    .orderBy(asc(tripDestinationsTable.position));
+
+  return {
+    trip: toTrip(row),
+    destinations: linked
+      .map((l) => l.destination)
+      .filter((d) => d.published)
+      .map(toDestination),
+  };
+}
+
+// Trips (products) that visit a given destination — bridges guide → product.
+export async function getTripsForDestination(slug: string): Promise<Trip[]> {
+  const rows = await db
+    .select({ trip: tripsTable })
+    .from(tripDestinationsTable)
+    .innerJoin(tripsTable, eq(tripDestinationsTable.tripId, tripsTable.id))
+    .innerJoin(
+      destinationsTable,
+      eq(tripDestinationsTable.destinationId, destinationsTable.id),
+    )
+    .where(and(eq(destinationsTable.slug, slug), eq(tripsTable.published, true)))
+    .orderBy(asc(tripsTable.sortOrder), asc(tripsTable.id));
+  return rows.map((r) => toTrip(r.trip));
 }

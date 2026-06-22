@@ -27,9 +27,8 @@ export function DestinationGrid({
           image={d.image}
           region={d.region}
           title={d.title}
-          price={d.priceFrom}
-          rating={d.rating}
           badge={d.badge}
+          meta={d.bestMonths.length ? `Best ${d.bestMonths.join(", ")}` : undefined}
           height={height}
           onClick={() => router.push(`/destinations/${d.slug}`)}
         />

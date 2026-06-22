@@ -17,18 +17,16 @@ export function DestinationForm({ destination }: { destination?: Destination }) 
           defaultValue={d?.slug}
           hint="Leave blank to generate from the title."
         />
-        <TextField label="Region" name="region" defaultValue={d?.region} />
-        <TextField label="Teaser" name="teaser" defaultValue={d?.teaser} hint="One-line card summary." />
-        <TextAreaField label="Intro" name="intro" defaultValue={d?.intro} rows={4} />
-
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
-          <TextField label="Price from" name="priceFrom" defaultValue={d?.priceFrom} placeholder="€180 / night" />
-          <TextField label="Rating" name="rating" defaultValue={d?.rating} placeholder="4.9" />
-          <TextField label="Badge" name="badge" defaultValue={d?.badge} placeholder="Lakeside" />
-          <TextField label="Duration" name="duration" defaultValue={d?.duration} placeholder="4–7 nights" />
+          <TextField label="Region" name="region" defaultValue={d?.region} placeholder="North Macedonia" />
+          <TextField label="Style (badge)" name="badge" defaultValue={d?.badge} placeholder="Lakeside" />
         </div>
+        <TextField label="Teaser" name="teaser" defaultValue={d?.teaser} hint="One-line card summary." />
+        <TextAreaField label="Intro" name="intro" defaultValue={d?.intro} rows={4} hint="Editorial guide to the place." />
 
-        <TextAreaField label="Highlights" name="highlights" defaultValue={d?.highlights.join("\n")} rows={4} hint="One per line." />
+        <TextAreaField label="When to go" name="whenToGo" defaultValue={d?.whenToGo} rows={3} hint="A short editorial note on the best season." />
+
+        <TextAreaField label="Don't miss" name="highlights" defaultValue={d?.highlights.join("\n")} rows={4} hint="One per line." />
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
           <TextAreaField label="Best months" name="bestMonths" defaultValue={d?.bestMonths.join("\n")} rows={4} hint="One per line (e.g. May)." />
           <TextAreaField label="Feelings" name="feelings" defaultValue={d?.feelings.join("\n")} rows={4} hint="One per line." />

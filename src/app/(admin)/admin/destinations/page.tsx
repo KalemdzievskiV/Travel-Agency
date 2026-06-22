@@ -14,7 +14,7 @@ export default async function AdminDestinationsPage() {
       rows={rows.map((d) => ({
         id: d.id,
         primary: d.title,
-        secondary: `${d.region}${d.priceFrom ? ` · ${d.priceFrom}` : ""}`,
+        secondary: [d.region, d.badge].filter(Boolean).join(" · "),
         published: d.published,
         editHref: `/admin/destinations/${d.id}`,
       }))}

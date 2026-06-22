@@ -1,6 +1,8 @@
 // Content model for bookit. In-repo and typed for now — designed so it can be
 // swapped for a headless CMS later without changing component code.
 
+// A destination is an evergreen *guide to a place* — not a sellable product.
+// The bookable products are Trips, which link to destinations.
 export type Destination = {
   slug: string;
   region: string;
@@ -11,14 +13,15 @@ export type Destination = {
   grad: string;
   /** Real photo URL (preferred over `grad` when present). */
   image?: string;
-  priceFrom: string;
-  rating: string;
+  /** Category tag, e.g. "Lakeside". */
   badge: string;
-  duration: string;
+  /** Editorial "when to go" note. */
+  whenToGo: string;
   bestMonths: string[];
   feelings: string[];
   /** Long-form editorial body, sentence-case, British English. */
   intro: string;
+  /** Don't-miss experiences in this place. */
   highlights: string[];
 };
 
@@ -35,4 +38,22 @@ export type Testimonial = {
   quote: string;
   who: string;
   where: string;
+};
+
+// A trip is the concrete, sellable product: fixed length, price, day-by-day
+// itinerary, and departure dates. It visits one or more destinations.
+export type Trip = {
+  slug: string;
+  title: string;
+  summary: string;
+  description: string;
+  durationDays: number | null;
+  priceFrom: string;
+  grad: string;
+  image?: string;
+  feelings: string[];
+  /** Day-by-day plan, one entry per day/stage. */
+  itinerary: string[];
+  /** Fixed departure dates. */
+  departures: string[];
 };

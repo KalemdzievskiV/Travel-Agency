@@ -35,6 +35,21 @@ export function TripForm({
 
         <TextAreaField label="Feelings" name="feelings" defaultValue={t?.feelings.join("\n")} rows={3} hint="One per line." />
 
+        <TextAreaField
+          label="Itinerary"
+          name="itinerary"
+          defaultValue={t?.itinerary.join("\n")}
+          rows={6}
+          hint="One day/stage per line, e.g. 'Days 1–2 · Lake Ohrid — settle in'."
+        />
+        <TextAreaField
+          label="Departures"
+          name="departures"
+          defaultValue={t?.departures.join("\n")}
+          rows={3}
+          hint="One departure date per line, e.g. '12 May 2026'."
+        />
+
         <Field label="Destinations" hint="Tick the destinations this trip visits.">
           <div
             style={{

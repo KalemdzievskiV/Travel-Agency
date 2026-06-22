@@ -42,6 +42,8 @@ export async function saveTrip(formData: FormData) {
     priceFrom: str(formData, "priceFrom"),
     grad: str(formData, "grad") || null,
     feelings: linesToArray(formData.get("feelings")),
+    itinerary: linesToArray(formData.get("itinerary")),
+    departures: linesToArray(formData.get("departures")),
     published: formData.get("published") === "on",
     sortOrder: Number(formData.get("sortOrder") ?? 0) || 0,
     updatedAt: new Date(),

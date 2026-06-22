@@ -1,5 +1,5 @@
 {
-  "id": "83f76bac-7e9b-4304-8418-463c2313d53d",
+  "id": "92058f8b-14f1-419a-9f1d-744c6b32f3b0",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -46,20 +46,6 @@
           "notNull": true,
           "default": "''"
         },
-        "price_from": {
-          "name": "price_from",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "''"
-        },
-        "rating": {
-          "name": "rating",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "''"
-        },
         "badge": {
           "name": "badge",
           "type": "text",
@@ -67,8 +53,8 @@
           "notNull": true,
           "default": "''"
         },
-        "duration": {
-          "name": "duration",
+        "when_to_go": {
+          "name": "when_to_go",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -457,6 +443,20 @@
         },
         "feelings": {
           "name": "feelings",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'"
+        },
+        "itinerary": {
+          "name": "itinerary",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'"
+        },
+        "departures": {
+          "name": "departures",
           "type": "text[]",
           "primaryKey": false,
           "notNull": true,

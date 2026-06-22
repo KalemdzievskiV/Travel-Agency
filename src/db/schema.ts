@@ -34,10 +34,9 @@ export const destinations = pgTable(
     title: text("title").notNull(),
     teaser: text("teaser").notNull().default(""),
     intro: text("intro").notNull().default(""),
-    priceFrom: text("price_from").notNull().default(""),
-    rating: text("rating").notNull().default(""),
     badge: text("badge").notNull().default(""),
-    duration: text("duration").notNull().default(""),
+    // Editorial guide fields — when to go / what it feels like / what not to miss.
+    whenToGo: text("when_to_go").notNull().default(""),
     image: text("image"),
     grad: text("grad"),
     highlights: text("highlights").array().notNull().default([]),
@@ -96,6 +95,9 @@ export const trips = pgTable(
     image: text("image"),
     grad: text("grad"),
     feelings: text("feelings").array().notNull().default([]),
+    // The sellable product: a day-by-day plan and fixed departure dates.
+    itinerary: text("itinerary").array().notNull().default([]),
+    departures: text("departures").array().notNull().default([]),
     published: boolean("published").notNull().default(true),
     sortOrder: integer("sort_order").notNull().default(0),
     createdAt: timestamp("created_at").notNull().defaultNow(),

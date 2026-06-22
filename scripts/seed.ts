@@ -30,10 +30,8 @@ async function main() {
         title: d.title,
         teaser: d.teaser,
         intro: d.intro,
-        priceFrom: d.priceFrom,
-        rating: d.rating,
         badge: d.badge,
-        duration: d.duration,
+        whenToGo: d.whenToGo,
         image: d.image ?? null,
         grad: d.grad ?? null,
         highlights: d.highlights,
@@ -86,6 +84,13 @@ async function main() {
         grad: "linear-gradient(135deg,#3f6f7a,#1d3c45)",
         image: "/images/ohrid.jpg",
         feelings: ["Wonder", "Contentment", "Freedom"],
+        itinerary: [
+          "Days 1–2 · Lake Ohrid — settle in, a dawn boat to Kaneo, lazy lakeside lunches",
+          "Days 3–4 · Mavrovo highlands — ridge walks and a long table by the fire",
+          "Days 5–6 · Skopje & Matka — the Old Bazaar, then kayaking the canyon",
+          "Day 7 · Departure from Skopje",
+        ],
+        departures: ["12 May 2026", "9 Jun 2026", "8 Sep 2026"],
         sortOrder: 0,
       },
       {
@@ -99,6 +104,11 @@ async function main() {
         grad: "linear-gradient(135deg,#5f8a8f,#2f5559)",
         image: "/images/amalfi-coast.jpg",
         feelings: ["Contentment", "Revitalised"],
+        itinerary: [
+          "Days 1–4 · Amalfi Coast — boat days, lemon-grove lunches, quiet Ravello",
+          "Days 5–9 · Santorini & the Cyclades — caldera sunsets and a quieter island",
+        ],
+        departures: ["19 May 2026", "16 Jun 2026", "22 Sep 2026"],
         sortOrder: 1,
       },
     ])
