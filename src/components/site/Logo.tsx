@@ -1,46 +1,41 @@
 import Link from "next/link";
 import Image from "next/image";
 
+// Final Bookit wordmark (converted from public/brand/Final LOGO.ai).
+const LOGO_RATIO = 900 / 257; // intrinsic aspect ratio of bookit-logo.png
+
 /**
- * bookit lockup — compass mark + serif wordmark. `light` renders the
- * reversed mark and cream wordmark for use over photography / dark bands.
+ * bookit logo. `size` sets the rendered height in px; width scales to the
+ * wordmark's aspect ratio. `light` swaps to the white knockout for use over
+ * photography / dark bands. `href={null}` renders the image without a link.
  */
 export function Logo({
   light = false,
-  size = 32,
+  size = 30,
   href = "/",
 }: {
   light?: boolean;
   size?: number;
   href?: string | null;
 }) {
-  const content = (
-    <span style={{ display: "inline-flex", alignItems: "center", gap: 11 }}>
-      <Image
-        src={light ? "/brand/bookit-mark-reversed.svg" : "/brand/bookit-mark.svg"}
-        alt=""
-        width={size}
-        height={size}
-        priority
-      />
-      <span
-        style={{
-          fontFamily: "var(--wf-font-display)",
-          fontWeight: 500,
-          fontSize: Math.round(size * 0.78),
-          letterSpacing: "-0.01em",
-          color: light ? "#fff" : "var(--wf-ink-900)",
-        }}
-      >
-        bookit
-      </span>
-    </span>
+  const height = size;
+  const width = Math.round(height * LOGO_RATIO);
+
+  const img = (
+    <Image
+      src={light ? "/brand/bookit-logo-white.png" : "/brand/bookit-logo.png"}
+      alt="bookit"
+      width={width}
+      height={height}
+      priority
+      style={{ height, width: "auto", display: "block" }}
+    />
   );
 
-  if (href === null) return content;
+  if (href === null) return img;
   return (
-    <Link href={href} aria-label="bookit — home" style={{ textDecoration: "none" }}>
-      {content}
+    <Link href={href} aria-label="bookit — home" style={{ display: "inline-flex" }}>
+      {img}
     </Link>
   );
 }

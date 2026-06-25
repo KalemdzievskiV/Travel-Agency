@@ -72,6 +72,17 @@
   .wf-form-grid { grid-template-columns: 1fr; }
 }
 
+/* ── Enquiry modal: reassurance panel + form ──────────────── */
+.wf-enquiry {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+}
+@media (max-width: 760px) {
+  .wf-enquiry { grid-template-columns: 1fr; }
+  /* Lead with the form on small screens; reassurance panel follows. */
+  .wf-enquiry > form { order: -1; }
+}
+
 /* ── Search widget ────────────────────────────────────────── */
 .wf-searchbar { display: flex; align-items: stretch; }
 @media (max-width: 720px) {
