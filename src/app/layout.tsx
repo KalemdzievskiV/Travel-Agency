@@ -19,6 +19,14 @@ const sans = Hanken_Grotesk({
   display: "swap",
 });
 
+// Canonical site URL for metadata (OG/canonical). Set NEXT_PUBLIC_SITE_URL in
+// production; on Vercel it falls back to the deployment URL, then localhost.
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "http://localhost:3000");
+
 export const metadata: Metadata = {
   title: {
     default: "bookit — Tailor-made journeys from North Macedonia",
@@ -26,7 +34,7 @@ export const metadata: Metadata = {
   },
   description:
     "bookit is a tailor-made travel studio in North Macedonia. Personalised journeys designed around how you want to feel — not where the crowds go.",
-  metadataBase: new URL("https://bookit.mk"),
+  metadataBase: new URL(siteUrl),
   openGraph: {
     title: "bookit — Tailor-made journeys",
     description:
