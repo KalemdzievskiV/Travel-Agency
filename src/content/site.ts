@@ -16,7 +16,34 @@ export const nav: { label: string; href: string }[] = [
   { label: "Trips", href: "/trips" },
   { label: "Experiences", href: "/#experiences" },
   { label: "Trip finder", href: "/trip-finder" },
-  { label: "About", href: "/#about" },
+  { label: "About", href: "/about" },
+];
+
+// The "About" mega-menu — two groups, each opening its own pages. Mirrors the
+// client brief (Who we are / Why book with us). Drives both the desktop dropdown
+// and the mobile accordion in SiteHeader.
+export const aboutMenu: { group: string; href: string; items: { label: string; href: string }[] }[] = [
+  {
+    group: "Who we are",
+    href: "/about",
+    items: [
+      { label: "Our purpose", href: "/about" },
+      { label: "Our team", href: "/about/team" },
+      { label: "Our awards", href: "/about/awards" },
+      { label: "Client testimonials", href: "/about/testimonials" },
+      { label: "In the press", href: "/about/press" },
+    ],
+  },
+  {
+    group: "Why book with us",
+    href: "/about/5-reasons",
+    items: [
+      { label: "5 reasons to book with us", href: "/about/5-reasons" },
+      { label: "Why not just do it yourself?", href: "/about/why-not-diy" },
+      { label: "How it all works", href: "/about/how-it-works" },
+      { label: "Regenerative travel", href: "/about/regenerative-travel" },
+    ],
+  },
 ];
 
 export const press: string[] = [

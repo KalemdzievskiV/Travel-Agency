@@ -11,7 +11,8 @@ the look & feel of [Black Tomato](https://www.blacktomato.com/). The visual
 language is the **Wayfare design system** (an original editorial-luxury brand);
 we use it verbatim but the product is branded **bookit**. Every screen should
 feel like a travel magazine wrapped around photography: cinematic imagery, a
-high-contrast serif, a quiet warm-neutral palette, and a single coral accent.
+high-contrast serif, a clean white canvas, and a single turquoise accent drawn
+from the bookit logo's blue → green gradient.
 
 > Brand voice in one line: *"It's not where you want to go; it's how you want to feel."*
 
@@ -77,10 +78,13 @@ styles cannot hold media queries**, so follow this split:
   ≥ ~40px, nav reachable, images/cards full-width, text not clipped.
 
 ## Foundations (the short version)
-- **Colour:** cream canvas (`--wf-cream`), warm near-black ink (`--wf-ink-900`),
-  one coral accent (`--wf-coral-500`, "the tomato") used **sparingly** — one
-  primary action per view. Warm neutrals only (never blue-greys). Imagery
-  supplies all other colour. Alternate cream / `--wf-sand` / ink-900 section bands.
+- **Colour:** white canvas (`--wf-cream`, now pure white), cool teal-navy ink
+  (`--wf-ink-900`), one turquoise accent (`--wf-coral-500` — token name kept, now
+  holds the brand turquoise) used **sparingly** — one primary action per view.
+  The logo's sky-blue → leaf-green gradient is available as `--wf-brand-gradient`
+  (and `--wf-brand-gradient-deep` for legibility behind light text) for hero bands
+  and feature panels. Cool neutrals only (no warm beiges). Imagery supplies the
+  rest of the colour. Alternate white / `--wf-sand` (light turquoise) / ink-900 bands.
 - **Type:** Bodoni Moda display serif (headlines, tight `-0.02em` tracking, a
   frequent *italic* accent word) + Hanken Grotesk body (line-height ~1.65).
   **Eyebrows** are 12px, 600, UPPERCASE, `.18em` tracking — above most headlines.
@@ -89,10 +93,10 @@ styles cannot hold media queries**, so follow this split:
 - **Shape:** restrained radii — `--wf-radius-md` (4px) for cards/buttons; pills
   only for chips and circular icon buttons. Luxury reads square-ish.
 - **Depth:** hairline borders (`1px var(--wf-border)`) over heavy shadows; soft,
-  warm-tinted shadows; cards lift gently on hover (slow 600ms image zoom).
+  cool teal-tinted shadows; cards lift gently on hover (slow 600ms image zoom).
 - **Motion:** calm and slow — ease `--wf-ease-out`, image reveals ~600ms, UI
   160–280ms. No bounces, spins, or infinite loops. Respect reduced-motion.
-- **Imagery:** warm, cinematic, slightly desaturated. Placeholders are tonal
+- **Imagery:** bright, cinematic, slightly desaturated. Placeholders are tonal
   gradients labelled "Your photo" — replace with real travel photography.
 - **Layout:** max width `--wf-container` (1280) / wide 1480; long-form text capped
   ~680px; generous section padding (96–128px desktop); 4px spacing base.

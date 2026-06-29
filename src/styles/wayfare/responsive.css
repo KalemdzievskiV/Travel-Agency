@@ -129,3 +129,185 @@
   padding: 12px 0;
   border-bottom: 1px solid var(--wf-divider);
 }
+
+/* ── About mega-menu (desktop dropdown) ───────────────────── */
+.wf-megamenu { position: relative; display: inline-flex; }
+.wf-megamenu__panel {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px 44px;
+  min-width: 480px;
+  margin-top: 16px;
+  padding: 26px 30px 28px;
+  background: var(--wf-cream);
+  border: 1px solid var(--wf-border);
+  border-radius: var(--wf-radius-md);
+  box-shadow: var(--wf-shadow-lg);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(6px);
+  transition: opacity 0.2s var(--wf-ease-out), transform 0.2s var(--wf-ease-out);
+  z-index: 60;
+}
+/* Invisible bridge so the cursor can cross the gap without closing. */
+.wf-megamenu__panel::before {
+  content: "";
+  position: absolute;
+  inset: -16px 0 auto 0;
+  height: 16px;
+}
+.wf-megamenu:hover .wf-megamenu__panel,
+.wf-megamenu:focus-within .wf-megamenu__panel {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+.wf-megamenu__col-title {
+  font-family: var(--wf-font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--wf-coral-500);
+  margin-bottom: 14px;
+}
+.wf-megamenu__link {
+  display: block;
+  text-decoration: none;
+  font-family: var(--wf-font-sans);
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--wf-ink-700);
+  padding: 7px 0;
+  border-bottom: 1px solid var(--wf-divider);
+  transition: color 0.16s var(--wf-ease-out);
+}
+.wf-megamenu__link:last-child { border-bottom: none; }
+.wf-megamenu__link:hover { color: var(--wf-coral-500); }
+
+/* ── About mega-menu (mobile accordion, inside .wf-mobile-menu) ── */
+.wf-mobile-about__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--wf-font-sans);
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--wf-ink-900);
+  padding: 12px 0;
+  border-bottom: 1px solid var(--wf-divider);
+}
+.wf-mobile-about__panel {
+  display: flex;
+  flex-direction: column;
+  padding: 4px 0 8px 14px;
+}
+.wf-mobile-about__group {
+  font-family: var(--wf-font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--wf-coral-500);
+  padding: 12px 0 4px;
+}
+.wf-mobile-about__panel a {
+  font-size: 15.5px;
+  font-weight: 400;
+  padding: 9px 0;
+}
+
+/* ── About: masthead (big word + lead, image overlapping the seam) ── */
+.wf-about-masthead {
+  /* One width drives both the image column and the word above it, so the
+     "About us" word starts and ends with the picture. */
+  --mh-img: clamp(240px, 33vw, 520px);
+  position: relative;
+  background: var(--wf-cream);
+  overflow: hidden;
+  padding-bottom: clamp(40px, 7vw, 88px);
+}
+.wf-about-masthead__band {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: clamp(460px, 56vw, 660px);
+  z-index: 0;
+}
+.wf-about-masthead__inner {
+  position: relative;
+  z-index: 1;
+  padding-top: calc(var(--wf-header-h) + clamp(20px, 4vw, 44px));
+}
+.wf-about-masthead__word {
+  margin: 0;
+  max-width: var(--mh-img);
+  white-space: nowrap;
+  font-family: var(--wf-font-display);
+  font-weight: 500;
+  font-size: clamp(44px, 7vw, 112px);
+  line-height: 0.94;
+  letter-spacing: -0.03em;
+  color: var(--wf-text-on-dark);
+}
+.wf-about-masthead__grid {
+  display: grid;
+  grid-template-columns: var(--mh-img) 1fr;
+  gap: clamp(28px, 5vw, 72px);
+  align-items: start;
+  margin-top: clamp(16px, 2.5vw, 32px);
+}
+/* The portrait image runs taller than the lead, so its foot crosses onto white. */
+.wf-about-masthead__media {
+  width: 100%;
+}
+/* Lead sits within the coloured band, beside the upper part of the image. */
+.wf-about-masthead__lead {
+  padding-top: clamp(16px, 4vw, 56px);
+}
+@media (max-width: 860px) {
+  .wf-about-masthead { --mh-img: 100%; }
+  .wf-about-masthead__band { height: clamp(260px, 72vw, 420px); }
+  .wf-about-masthead__word { white-space: normal; font-size: clamp(44px, 14vw, 92px); }
+  .wf-about-masthead__grid { grid-template-columns: 1fr; gap: 24px; }
+  .wf-about-masthead__lead { padding-top: 0; }
+}
+
+/* ── About: alternating image / text row ──────────────────── */
+.wf-about-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(28px, 5vw, 72px);
+}
+.wf-about-row--right > .wf-about-row__media { order: 2; }
+@media (max-width: 860px) {
+  .wf-about-row { grid-template-columns: 1fr; gap: 28px; }
+  /* Image always leads when stacked, regardless of desktop side. */
+  .wf-about-row--right > .wf-about-row__media { order: 0; }
+}
+
+/* ── About: numbered reason (image + number/text) ─────────── */
+.wf-reason {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(28px, 5vw, 64px);
+}
+.wf-reason--flip > .wf-reason__media { order: 2; }
+@media (max-width: 860px) {
+  .wf-reason { grid-template-columns: 1fr; gap: 24px; }
+  .wf-reason--flip > .wf-reason__media { order: 0; }
+}
+
+/* About "why not DIY" is a pinned scroll-driven stage (WhySplit.tsx) — its
+   desktop layout is inline (desktop-only render) and its stacked fallback uses
+   wf-wrap, so no dedicated class is needed here. */

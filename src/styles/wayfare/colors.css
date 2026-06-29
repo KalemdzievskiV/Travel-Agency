@@ -1,39 +1,48 @@
 /* ============================================================
-   Wayfare — Colour tokens
-   Editorial-luxury travel palette: warm cream, ink near-black,
-   a single coral accent, and warm neutral greys. Imagery carries
-   the colour; the UI stays quiet around it.
+   bookit — Colour tokens
+   Brand palette taken from the bookit logo: a sky-blue → leaf-green
+   gradient with a turquoise accent, on clean white. Cool teal-navy
+   neutrals keep text and dark sections on-brand. Imagery still carries
+   most of the colour; the UI stays quiet and airy around it.
+   (Token names are kept stable — `--wf-coral-*` now holds the turquoise
+   accent — so every component reskins from this one file.)
    ============================================================ */
 :root {
-  /* — Brand —————————————————————————————————————— */
-  --wf-coral-700: #B83A24;   /* pressed / deep accent */
-  --wf-coral-600: #CF4329;   /* hover */
-  --wf-coral-500: #E14E31;   /* primary accent — the "tomato" */
-  --wf-coral-400: #EC6B4F;   /* lighter accent, hover-on-dark */
-  --wf-coral-200: #F4C2B4;   /* tint / focus ring backing */
-  --wf-coral-050: #FBEEE9;   /* faint wash, hover surfaces */
+  /* — Brand accent: turquoise (the unifying blue/green) ——————— */
+  --wf-coral-700: #0A5C66;   /* pressed / deep accent */
+  --wf-coral-600: #0C747E;   /* hover */
+  --wf-coral-500: #11919B;   /* primary accent — the turquoise */
+  --wf-coral-400: #35B3BC;   /* lighter accent, hover-on-dark */
+  --wf-coral-200: #BCE6E9;   /* tint / focus ring backing */
+  --wf-coral-050: #E9F7F8;   /* faint wash, hover surfaces */
 
-  /* — Ink / neutrals (warm) ——————————————————————— */
-  --wf-ink-900: #16130F;     /* near-black, primary text & dark sections */
-  --wf-ink-800: #25201A;
-  --wf-ink-700: #3A332B;     /* secondary text on light */
-  --wf-ink-500: #6B6258;     /* muted text, captions */
-  --wf-ink-400: #948A7D;     /* placeholder, disabled text */
-  --wf-ink-300: #C4BCAF;     /* borders on cream */
-  --wf-ink-200: #DED7CB;     /* dividers, hairlines */
-  --wf-ink-100: #ECE6DC;     /* subtle fill */
+  /* — Logo brand hues (for gradients & accents) ——————————————— */
+  --wf-brand-blue:  #2E9FD8; /* logo top — sky blue */
+  --wf-brand-green: #6FB52C; /* logo foot — leaf green */
+  --wf-brand-gradient:      linear-gradient(135deg, var(--wf-brand-blue), var(--wf-brand-green));
+  --wf-brand-gradient-deep: linear-gradient(140deg, #14729F, #4A8E2A); /* legible behind light text */
 
-  /* — Surfaces (warm whites) ——————————————————————— */
-  --wf-cream:    #F6F2EA;    /* page background */
-  --wf-cream-2:  #FBF8F2;    /* raised card on cream */
+  /* — Ink / neutrals (cool teal-navy) ——————————————————————— */
+  --wf-ink-900: #0E2A33;     /* near-black, primary text & dark sections */
+  --wf-ink-800: #163A44;
+  --wf-ink-700: #284C56;     /* secondary text on light */
+  --wf-ink-500: #5C7079;     /* muted text, captions */
+  --wf-ink-400: #8AA1A8;     /* placeholder, disabled text */
+  --wf-ink-300: #BCD0D3;     /* borders on light */
+  --wf-ink-200: #DBE8EA;     /* dividers, hairlines */
+  --wf-ink-100: #ECF4F5;     /* subtle fill */
+
+  /* — Surfaces (white + cool tints) ————————————————————————— */
+  --wf-cream:    #FFFFFF;    /* page background */
+  --wf-cream-2:  #F3FAFB;    /* raised card on white */
   --wf-paper:    #FFFFFF;    /* pure white card */
-  --wf-sand:     #EEE7DA;    /* tonal block / alt section */
+  --wf-sand:     #E9F4F5;    /* tonal block / alt section (light turquoise) */
 
   /* — Semantic ——————————————————————————————————— */
-  --wf-success: #4F7A52;
+  --wf-success: #3F9E5A;
   --wf-warning: #C98A2B;
   --wf-error:   #C0392B;
-  --wf-info:    #3E5C76;
+  --wf-info:    #2E7FB0;
 
   /* — Aliases (use these in components) ———————————— */
   --wf-bg:              var(--wf-cream);
@@ -43,7 +52,7 @@
   --wf-text:            var(--wf-ink-900);
   --wf-text-secondary:  var(--wf-ink-700);
   --wf-text-muted:      var(--wf-ink-500);
-  --wf-text-on-dark:    #F4EFE7;
+  --wf-text-on-dark:    #E9F5F6;
   --wf-text-on-accent:  #FFFFFF;
   --wf-accent:          var(--wf-coral-500);
   --wf-accent-hover:    var(--wf-coral-600);

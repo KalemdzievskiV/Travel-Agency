@@ -1,0 +1,46 @@
+import type { Metadata } from "next";
+import { Button } from "@/components/ui";
+import { WhySplit } from "@/components/about";
+import { whyNotDiy } from "@/content/about";
+
+export const metadata: Metadata = {
+  title: "Why not just do it yourself?",
+  description:
+    "You could plan it alone — but here is what changes when you don't have to. Time, ideas, value, peace of mind and a watertight plan from bookit.",
+};
+
+export default function WhyNotDiyPage() {
+  return (
+    <>
+      <WhySplit
+        eyebrow={whyNotDiy.hero.eyebrow}
+        title={whyNotDiy.hero.title}
+        intro={whyNotDiy.hero.intro}
+        topics={whyNotDiy.topics}
+      />
+
+      <section style={{ background: "var(--wf-ink-900)", color: "var(--wf-text-on-dark)", padding: "clamp(64px, 9vw, 96px) 0" }}>
+        <div className="wf-wrap wf-wrap--default" style={{ textAlign: "center" }}>
+          <p
+            style={{
+              fontFamily: "var(--wf-font-display)",
+              fontWeight: 500,
+              fontSize: "clamp(24px, 3.6vw, 36px)",
+              lineHeight: 1.2,
+              letterSpacing: "-0.01em",
+              maxWidth: 640,
+              margin: "0 auto",
+            }}
+          >
+            {whyNotDiy.closing}
+          </p>
+          <div style={{ marginTop: 28 }}>
+            <Button variant="primary" size="lg" as="a" href="/trip-finder">
+              Let us take it from here
+            </Button>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
