@@ -79,3 +79,67 @@ export const whyPoints: { icon: "award" | "globe" | "phone" | "pin"; label: stri
   { icon: "phone", label: "24/7 on-the-ground support" },
   { icon: "pin", label: "Expert private guides" },
 ];
+
+// "Why bookit?" reasons (modelled on Black Tomato's row). Each point uses either
+// a custom SVG (`src`, in /public/brand/icons) or a lucide glyph key (`icon`,
+// mapped in the WhyBookit component); `src` wins when both are set.
+export const whyBookit: {
+  icon: "award" | "quote" | "map" | "support" | "guide";
+  src?: string;
+  label: string;
+}[] = [
+  { icon: "award", src: "/brand/icons/award.svg", label: "Award-winning planners" },
+  { icon: "quote", src: "/brand/icons/quotes.svg", label: "No-obligation quotes" },
+  { icon: "map", src: "/brand/icons/fees.svg", label: "No planning fees" },
+  { icon: "support", src: "/brand/icons/support.svg", label: "24/7 on-the-ground support" },
+  { icon: "guide", src: "/brand/icons/guide.svg", label: "Expert private guides" },
+];
+
+// "Start your journey" — landing tabs (modelled on Black Tomato). Front-end
+// placeholders for now (images via Lorem Picsum); the destinations backend will
+// wire these to real filters later. Each card links to /destinations for now.
+export type JourneyCard = { label: string; image: string; href: string };
+export type JourneyTab = { key: string; label: string; cards: JourneyCard[] };
+
+export const journeyTabs: JourneyTab[] = [
+  {
+    key: "traveller",
+    label: "By traveller",
+    cards: [
+      { label: "Family", image: "https://picsum.photos/seed/bookit-jr-family/800/1100", href: "/destinations" },
+      { label: "Couples", image: "https://picsum.photos/seed/bookit-jr-couples/800/1100", href: "/destinations" },
+      { label: "Groups", image: "https://picsum.photos/seed/bookit-jr-groups/800/1100", href: "/destinations" },
+      { label: "Honeymoon", image: "https://picsum.photos/seed/bookit-jr-honeymoon/800/1100", href: "/destinations" },
+      { label: "Solo", image: "https://picsum.photos/seed/bookit-jr-solo/800/1100", href: "/destinations" },
+    ],
+  },
+  {
+    key: "popular",
+    label: "Most popular",
+    cards: [
+      { label: "Lake Ohrid", image: "https://picsum.photos/seed/bookit-jr-ohrid/800/1100", href: "/destinations" },
+      { label: "Mavrovo", image: "https://picsum.photos/seed/bookit-jr-mavrovo/800/1100", href: "/destinations" },
+      { label: "Matka Canyon", image: "https://picsum.photos/seed/bookit-jr-matka/800/1100", href: "/destinations" },
+      { label: "Prespa", image: "https://picsum.photos/seed/bookit-jr-prespa/800/1100", href: "/destinations" },
+      { label: "Galičica", image: "https://picsum.photos/seed/bookit-jr-galicica/800/1100", href: "/destinations" },
+    ],
+  },
+  {
+    key: "month",
+    label: "By month",
+    cards: [
+      { label: "January", image: "https://picsum.photos/seed/bookit-jr-jan/800/1100", href: "/destinations" },
+      { label: "February", image: "https://picsum.photos/seed/bookit-jr-feb/800/1100", href: "/destinations" },
+      { label: "March", image: "https://picsum.photos/seed/bookit-jr-mar/800/1100", href: "/destinations" },
+      { label: "April", image: "https://picsum.photos/seed/bookit-jr-apr/800/1100", href: "/destinations" },
+      { label: "May", image: "https://picsum.photos/seed/bookit-jr-may/800/1100", href: "/destinations" },
+      { label: "June", image: "https://picsum.photos/seed/bookit-jr-jun/800/1100", href: "/destinations" },
+      { label: "July", image: "https://picsum.photos/seed/bookit-jr-jul/800/1100", href: "/destinations" },
+      { label: "August", image: "https://picsum.photos/seed/bookit-jr-aug/800/1100", href: "/destinations" },
+      { label: "September", image: "https://picsum.photos/seed/bookit-jr-sep/800/1100", href: "/destinations" },
+      { label: "October", image: "https://picsum.photos/seed/bookit-jr-oct/800/1100", href: "/destinations" },
+      { label: "November", image: "https://picsum.photos/seed/bookit-jr-nov/800/1100", href: "/destinations" },
+      { label: "December", image: "https://picsum.photos/seed/bookit-jr-dec/800/1100", href: "/destinations" },
+    ],
+  },
+];
