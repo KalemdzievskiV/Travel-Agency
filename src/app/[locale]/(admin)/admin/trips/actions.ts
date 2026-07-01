@@ -2,9 +2,9 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { eq } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import { db } from "@/db";
-import { trips, tripDestinations } from "@/db/schema";
+import { trips, tripDestinations, tripFilterOptions, filterOptions, filterGroups } from "@/db/schema";
 import { requireUser } from "@/lib/session";
 import { slugify, linesToArray } from "@/lib/slug";
 import { uploadImage } from "@/lib/uploads";
@@ -32,6 +32,23 @@ export async function saveTrip(formData: FormData) {
   const slug = str(formData, "slug") || slugify(title);
   const uploaded = await uploadImage(formData.get("image"));
 
+  const optionIds = formData
+    .getAll("optionIds")
+    .map((v) => Number(v))
+    .filter((n) => Number.isFinite(n) && n > 0);
+
+  // Keep the legacy feelings[] column in sync with the Feeling taxonomy group,
+  // so the trip finder / destinations browser keep working off it.
+  const feelingLabels = optionIds.length
+    ? (
+        await db
+          .select({ label: filterOptions.label })
+          .from(filterOptions)
+          .innerJoin(filterGroups, eq(filterOptions.groupId, filterGroups.id))
+          .where(and(inArray(filterOptions.id, optionIds), eq(filterGroups.key, "feeling")))
+      ).map((r) => r.label)
+    : [];
+
   const durationDays = Number(formData.get("durationDays"));
   const values = {
     slug,
@@ -41,7 +58,7 @@ export async function saveTrip(formData: FormData) {
     durationDays: Number.isFinite(durationDays) && durationDays > 0 ? durationDays : null,
     priceFrom: str(formData, "priceFrom"),
     grad: str(formData, "grad") || null,
-    feelings: linesToArray(formData.get("feelings")),
+    feelings: feelingLabels,
     itinerary: linesToArray(formData.get("itinerary")),
     departures: linesToArray(formData.get("departures")),
     published: formData.get("published") === "on",
@@ -79,6 +96,15 @@ export async function saveTrip(formData: FormData) {
         position,
       })),
     );
+  }
+
+  // Replace filter tags.
+  await db.delete(tripFilterOptions).where(eq(tripFilterOptions.tripId, tripId));
+  if (optionIds.length) {
+    await db
+      .insert(tripFilterOptions)
+      .values(optionIds.map((optionId) => ({ tripId, optionId })))
+      .onConflictDoNothing();
   }
 
   revalidateTrips(slug);

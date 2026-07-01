@@ -9,6 +9,7 @@ const links: [string, string][] = [
   ["Experiences", "/admin/experiences"],
   ["Testimonials", "/admin/testimonials"],
   ["Trips", "/admin/trips"],
+  ["Filters", "/admin/filters"],
 ];
 
 export function AdminNav() {

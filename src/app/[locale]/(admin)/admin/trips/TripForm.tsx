@@ -1,5 +1,7 @@
 import { TextField, TextAreaField, CheckboxField, FormCard, Field } from "@/components/admin/ui";
 import { SubmitButton, ImageField } from "@/components/admin/controls";
+import { FilterTagPicker } from "@/components/admin/FilterTagPicker";
+import type { FilterGroupWithOptions } from "@/lib/queries/filters";
 import type { Trip } from "@/db/schema";
 import { saveTrip } from "./actions";
 
@@ -7,10 +9,14 @@ export function TripForm({
   trip,
   allDestinations,
   selectedIds = [],
+  filterGroups = [],
+  selectedOptionIds = [],
 }: {
   trip?: Trip;
   allDestinations: { id: number; title: string; region: string }[];
   selectedIds?: number[];
+  filterGroups?: FilterGroupWithOptions[];
+  selectedOptionIds?: number[];
 }) {
   const t = trip;
   const selected = new Set(selectedIds);
@@ -33,7 +39,9 @@ export function TripForm({
           <TextField label="Price from" name="priceFrom" defaultValue={t?.priceFrom} placeholder="€2,400 per person" />
         </div>
 
-        <TextAreaField label="Feelings" name="feelings" defaultValue={t?.feelings.join("\n")} rows={3} hint="One per line." />
+        <Field label="Filters" hint="Tag this trip so travellers can filter to it. Feeling tags also feed the trip finder.">
+          <FilterTagPicker groups={filterGroups} selected={selectedOptionIds} />
+        </Field>
 
         <TextAreaField
           label="Itinerary"

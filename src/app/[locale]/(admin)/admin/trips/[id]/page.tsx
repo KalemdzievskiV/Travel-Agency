@@ -5,6 +5,7 @@ import {
   listDestinations,
   getTripDestinationIds,
 } from "@/lib/queries/admin";
+import { getAllFilterGroups, getTripOptionIds } from "@/lib/queries/filters";
 import { TripForm } from "../TripForm";
 
 export default async function EditTripPage({
@@ -16,9 +17,11 @@ export default async function EditTripPage({
   const trip = await getTrip(Number(id));
   if (!trip) notFound();
 
-  const [destinations, selectedIds] = await Promise.all([
+  const [destinations, selectedIds, filterGroups, selectedOptionIds] = await Promise.all([
     listDestinations(),
     getTripDestinationIds(trip.id),
+    getAllFilterGroups(),
+    getTripOptionIds(trip.id),
   ]);
 
   return (
@@ -32,6 +35,8 @@ export default async function EditTripPage({
           region: d.region,
         }))}
         selectedIds={selectedIds}
+        filterGroups={filterGroups}
+        selectedOptionIds={selectedOptionIds}
       />
     </>
   );

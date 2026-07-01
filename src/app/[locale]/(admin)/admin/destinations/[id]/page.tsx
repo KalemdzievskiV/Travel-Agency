@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/admin/ui";
 import { getDestination } from "@/lib/queries/admin";
+import { getAllFilterGroups, getDestinationOptionIds } from "@/lib/queries/filters";
 import { DestinationForm } from "../DestinationForm";
 
 export default async function EditDestinationPage({
@@ -12,13 +13,22 @@ export default async function EditDestinationPage({
   const destination = await getDestination(Number(id));
   if (!destination) notFound();
 
+  const [filterGroups, selectedOptionIds] = await Promise.all([
+    getAllFilterGroups(),
+    getDestinationOptionIds(destination.id),
+  ]);
+
   return (
     <>
       <PageHeader
         title={destination.title}
         back={{ href: "/admin/destinations", label: "Destinations" }}
       />
-      <DestinationForm destination={destination} />
+      <DestinationForm
+        destination={destination}
+        filterGroups={filterGroups}
+        selectedOptionIds={selectedOptionIds}
+      />
     </>
   );
 }

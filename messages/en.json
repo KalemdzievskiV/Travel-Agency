@@ -107,12 +107,13 @@
     "testimonialsIntro": "The trips we are proudest of are the ones our travellers can't stop talking about."
   },
   "tripFinder": {
-    "eyebrow": "The Feelings Engine",
-    "title": "How do you want to feel?",
-    "feelingStep": "The feeling",
-    "whenStep": "When",
-    "show": "Show me {feeling} in {month}",
-    "choose": "Choose a feeling & month"
+    "title": "The trip finder",
+    "subtitle": "The world is wider than any list. Tell us how you want to feel and when — we'll point you somewhere remarkable.",
+    "feelingPlaceholder": "How do you want to feel?",
+    "whenPlaceholder": "When do you want to travel?",
+    "takeMeThere": "Take me there",
+    "resultsHeading": "Where that could take you",
+    "noMatch": "No perfect match yet — send us an enquiry and we'll design one from scratch."
   },
   "destinations": {
     "eyebrow": "Destinations",
@@ -145,6 +146,12 @@
   "months": {
     "Jan": "Jan", "Feb": "Feb", "Mar": "Mar", "Apr": "Apr", "May": "May", "Jun": "Jun",
     "Jul": "Jul", "Aug": "Aug", "Sep": "Sep", "Oct": "Oct", "Nov": "Nov", "Dec": "Dec"
+  },
+  "filters": {
+    "title": "Filters",
+    "clearAll": "Clear all",
+    "results": "{count, plural, one {# trip} other {# trips}}",
+    "none": "No trips match those filters yet — adjust or clear them to see more."
   },
   "footer": {
     "description": "Tailor-made luxury travel from North Macedonia, designed entirely around how you want to feel. No templates. No planning fees.",

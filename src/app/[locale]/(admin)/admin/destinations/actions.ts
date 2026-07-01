@@ -2,9 +2,14 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { eq } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import { db } from "@/db";
-import { destinations } from "@/db/schema";
+import {
+  destinations,
+  destinationFilterOptions,
+  filterOptions,
+  filterGroups,
+} from "@/db/schema";
 import { requireUser } from "@/lib/session";
 import { slugify, linesToArray } from "@/lib/slug";
 import { uploadImage } from "@/lib/uploads";
@@ -34,6 +39,22 @@ export async function saveDestination(formData: FormData) {
 
   const uploaded = await uploadImage(formData.get("image"));
 
+  const optionIds = formData
+    .getAll("optionIds")
+    .map((v) => Number(v))
+    .filter((n) => Number.isFinite(n) && n > 0);
+
+  // Keep the legacy feelings[] column in sync with the Feeling taxonomy group.
+  const feelingLabels = optionIds.length
+    ? (
+        await db
+          .select({ label: filterOptions.label })
+          .from(filterOptions)
+          .innerJoin(filterGroups, eq(filterOptions.groupId, filterGroups.id))
+          .where(and(inArray(filterOptions.id, optionIds), eq(filterGroups.key, "feeling")))
+      ).map((r) => r.label)
+    : [];
+
   const values = {
     slug,
     region: str(formData, "region"),
@@ -45,19 +66,34 @@ export async function saveDestination(formData: FormData) {
     grad: str(formData, "grad") || null,
     highlights: linesToArray(formData.get("highlights")),
     bestMonths: linesToArray(formData.get("bestMonths")),
-    feelings: linesToArray(formData.get("feelings")),
+    feelings: feelingLabels,
     published: formData.get("published") === "on",
     sortOrder: Number(formData.get("sortOrder") ?? 0) || 0,
     updatedAt: new Date(),
   };
 
+  let destinationId: number;
   if (id) {
     await db
       .update(destinations)
       .set(uploaded ? { ...values, image: uploaded } : values)
       .where(eq(destinations.id, id));
+    destinationId = id;
   } else {
-    await db.insert(destinations).values({ ...values, image: uploaded });
+    const [row] = await db
+      .insert(destinations)
+      .values({ ...values, image: uploaded })
+      .returning({ id: destinations.id });
+    destinationId = row.id;
+  }
+
+  // Replace filter tags.
+  await db.delete(destinationFilterOptions).where(eq(destinationFilterOptions.destinationId, destinationId));
+  if (optionIds.length) {
+    await db
+      .insert(destinationFilterOptions)
+      .values(optionIds.map((optionId) => ({ destinationId, optionId })))
+      .onConflictDoNothing();
   }
 
   revalidateDestinations(slug);

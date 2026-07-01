@@ -1,9 +1,13 @@
 import { PageHeader } from "@/components/admin/ui";
 import { listDestinations } from "@/lib/queries/admin";
+import { getAllFilterGroups } from "@/lib/queries/filters";
 import { TripForm } from "../TripForm";
 
 export default async function NewTripPage() {
-  const destinations = await listDestinations();
+  const [destinations, filterGroups] = await Promise.all([
+    listDestinations(),
+    getAllFilterGroups(),
+  ]);
   return (
     <>
       <PageHeader title="New trip" back={{ href: "/admin/trips", label: "Trips" }} />
@@ -13,6 +17,7 @@ export default async function NewTripPage() {
           title: d.title,
           region: d.region,
         }))}
+        filterGroups={filterGroups}
       />
     </>
   );

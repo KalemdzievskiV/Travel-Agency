@@ -248,6 +248,22 @@
   .wf-trip-card__reveal { grid-template-rows: 1fr; }
 }
 
+/* ── Filter sidebar + results layout (trips listing) ──────── */
+.wf-filter-layout {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 48px);
+  align-items: start;
+}
+.wf-filter-layout__aside {
+  position: sticky;
+  top: calc(var(--wf-header-h) + 16px);
+}
+@media (max-width: 860px) {
+  .wf-filter-layout { grid-template-columns: 1fr; }
+  .wf-filter-layout__aside { position: static; }
+}
+
 /* ── Page width + gutters ─────────────────────────────────── */
 .wf-wrap {
   width: 100%;

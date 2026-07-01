@@ -7,6 +7,9 @@ import {
   testimonials as testimonialsTable,
   trips as tripsTable,
   tripDestinations as tripDestinationsTable,
+  tripFilterOptions,
+  filterOptions,
+  filterGroups,
 } from "@/db/schema";
 import type {
   Destination,
@@ -14,6 +17,10 @@ import type {
   Testimonial,
   Trip,
 } from "@/content/types";
+import { deriveTripFacets } from "./filters";
+
+/** A trip plus the facet keys ("group:option") it matches, for filtering. */
+export type TripWithFacets = Trip & { facets: string[] };
 
 // Map DB rows to the existing content-facing shapes so components are unchanged.
 type DestinationRow = typeof destinationsTable.$inferSelect;
@@ -120,6 +127,38 @@ export async function getTrips(): Promise<Trip[]> {
     .where(eq(tripsTable.published, true))
     .orderBy(asc(tripsTable.sortOrder), asc(tripsTable.id));
   return rows.map(toTrip);
+}
+
+// Trips with their facet keys attached (taxonomy tags + derived duration/price),
+// for the filterable /trips listing.
+export async function getTripsWithFacets(): Promise<TripWithFacets[]> {
+  const rows = await db
+    .select()
+    .from(tripsTable)
+    .where(eq(tripsTable.published, true))
+    .orderBy(asc(tripsTable.sortOrder), asc(tripsTable.id));
+
+  const tags = await db
+    .select({
+      tripId: tripFilterOptions.tripId,
+      groupKey: filterGroups.key,
+      optionKey: filterOptions.key,
+    })
+    .from(tripFilterOptions)
+    .innerJoin(filterOptions, eq(tripFilterOptions.optionId, filterOptions.id))
+    .innerJoin(filterGroups, eq(filterOptions.groupId, filterGroups.id));
+
+  const byTrip = new Map<number, string[]>();
+  for (const r of tags) {
+    const arr = byTrip.get(r.tripId) ?? [];
+    arr.push(`${r.groupKey}:${r.optionKey}`);
+    byTrip.set(r.tripId, arr);
+  }
+
+  return rows.map((r) => ({
+    ...toTrip(r),
+    facets: [...(byTrip.get(r.id) ?? []), ...deriveTripFacets(r.durationDays, r.priceFrom)],
+  }));
 }
 
 export async function getTripWithDestinations(

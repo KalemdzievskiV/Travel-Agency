@@ -1,9 +1,19 @@
-import { TextField, TextAreaField, CheckboxField, FormCard } from "@/components/admin/ui";
+import { TextField, TextAreaField, CheckboxField, FormCard, Field } from "@/components/admin/ui";
 import { SubmitButton, ImageField } from "@/components/admin/controls";
+import { FilterTagPicker } from "@/components/admin/FilterTagPicker";
+import type { FilterGroupWithOptions } from "@/lib/queries/filters";
 import type { Destination } from "@/db/schema";
 import { saveDestination } from "./actions";
 
-export function DestinationForm({ destination }: { destination?: Destination }) {
+export function DestinationForm({
+  destination,
+  filterGroups = [],
+  selectedOptionIds = [],
+}: {
+  destination?: Destination;
+  filterGroups?: FilterGroupWithOptions[];
+  selectedOptionIds?: number[];
+}) {
   const d = destination;
   return (
     <form action={saveDestination}>
@@ -27,10 +37,11 @@ export function DestinationForm({ destination }: { destination?: Destination }) 
         <TextAreaField label="When to go" name="whenToGo" defaultValue={d?.whenToGo} rows={3} hint="A short editorial note on the best season." />
 
         <TextAreaField label="Don't miss" name="highlights" defaultValue={d?.highlights.join("\n")} rows={4} hint="One per line." />
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
-          <TextAreaField label="Best months" name="bestMonths" defaultValue={d?.bestMonths.join("\n")} rows={4} hint="One per line (e.g. May)." />
-          <TextAreaField label="Feelings" name="feelings" defaultValue={d?.feelings.join("\n")} rows={4} hint="One per line." />
-        </div>
+        <TextAreaField label="Best months" name="bestMonths" defaultValue={d?.bestMonths.join("\n")} rows={4} hint="One per line (e.g. May)." />
+
+        <Field label="Filters" hint="Tag this destination so travellers can filter to it. Feeling tags also feed the trip finder.">
+          <FilterTagPicker groups={filterGroups} selected={selectedOptionIds} />
+        </Field>
 
         <ImageField currentUrl={d?.image} />
         <TextField label="Gradient (fallback)" name="grad" defaultValue={d?.grad} hint="CSS gradient shown when no image is set." />

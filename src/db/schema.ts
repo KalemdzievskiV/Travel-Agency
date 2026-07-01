@@ -121,13 +121,76 @@ export const tripDestinations = pgTable(
   (t) => [primaryKey({ columns: [t.tripId, t.destinationId] })],
 );
 
+// ── Filter taxonomy (admin-managed facets) ────────────────────────
+// A group is a facet (e.g. "Feeling", "Who"); an option is a value within it
+// (e.g. "Challenged"). Trips and destinations are tagged with options. When /
+// duration / price facets are NOT stored here — they're derived from the trip's
+// own duration/price/dates at query time.
+export const filterGroups = pgTable(
+  "filter_groups",
+  {
+    id: serial("id").primaryKey(),
+    key: text("key").notNull(),
+    label: text("label").notNull(),
+    sortOrder: integer("sort_order").notNull().default(0),
+    published: boolean("published").notNull().default(true),
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+    updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  },
+  (t) => [uniqueIndex("filter_groups_key_idx").on(t.key)],
+);
+
+export const filterOptions = pgTable(
+  "filter_options",
+  {
+    id: serial("id").primaryKey(),
+    groupId: integer("group_id")
+      .notNull()
+      .references(() => filterGroups.id, { onDelete: "cascade" }),
+    key: text("key").notNull(),
+    label: text("label").notNull(),
+    sortOrder: integer("sort_order").notNull().default(0),
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+    updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  },
+  (t) => [uniqueIndex("filter_options_group_key_idx").on(t.groupId, t.key)],
+);
+
+export const tripFilterOptions = pgTable(
+  "trip_filter_options",
+  {
+    tripId: integer("trip_id")
+      .notNull()
+      .references(() => trips.id, { onDelete: "cascade" }),
+    optionId: integer("option_id")
+      .notNull()
+      .references(() => filterOptions.id, { onDelete: "cascade" }),
+  },
+  (t) => [primaryKey({ columns: [t.tripId, t.optionId] })],
+);
+
+export const destinationFilterOptions = pgTable(
+  "destination_filter_options",
+  {
+    destinationId: integer("destination_id")
+      .notNull()
+      .references(() => destinations.id, { onDelete: "cascade" }),
+    optionId: integer("option_id")
+      .notNull()
+      .references(() => filterOptions.id, { onDelete: "cascade" }),
+  },
+  (t) => [primaryKey({ columns: [t.destinationId, t.optionId] })],
+);
+
 // ── Relations ─────────────────────────────────────────────────────
 export const tripsRelations = relations(trips, ({ many }) => ({
   tripDestinations: many(tripDestinations),
+  tripFilterOptions: many(tripFilterOptions),
 }));
 
 export const destinationsRelations = relations(destinations, ({ many }) => ({
   tripDestinations: many(tripDestinations),
+  destinationFilterOptions: many(destinationFilterOptions),
 }));
 
 export const tripDestinationsRelations = relations(
@@ -144,9 +207,40 @@ export const tripDestinationsRelations = relations(
   }),
 );
 
+export const filterGroupsRelations = relations(filterGroups, ({ many }) => ({
+  options: many(filterOptions),
+}));
+
+export const filterOptionsRelations = relations(filterOptions, ({ one, many }) => ({
+  group: one(filterGroups, {
+    fields: [filterOptions.groupId],
+    references: [filterGroups.id],
+  }),
+  tripFilterOptions: many(tripFilterOptions),
+  destinationFilterOptions: many(destinationFilterOptions),
+}));
+
+export const tripFilterOptionsRelations = relations(tripFilterOptions, ({ one }) => ({
+  trip: one(trips, { fields: [tripFilterOptions.tripId], references: [trips.id] }),
+  option: one(filterOptions, { fields: [tripFilterOptions.optionId], references: [filterOptions.id] }),
+}));
+
+export const destinationFilterOptionsRelations = relations(destinationFilterOptions, ({ one }) => ({
+  destination: one(destinations, {
+    fields: [destinationFilterOptions.destinationId],
+    references: [destinations.id],
+  }),
+  option: one(filterOptions, {
+    fields: [destinationFilterOptions.optionId],
+    references: [filterOptions.id],
+  }),
+}));
+
 // Inferred types for use across the app.
 export type User = typeof users.$inferSelect;
 export type Destination = typeof destinations.$inferSelect;
 export type Experience = typeof experiences.$inferSelect;
 export type Testimonial = typeof testimonials.$inferSelect;
 export type Trip = typeof trips.$inferSelect;
+export type FilterGroup = typeof filterGroups.$inferSelect;
+export type FilterOption = typeof filterOptions.$inferSelect;
