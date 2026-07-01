@@ -138,15 +138,21 @@ export async function getTripsWithFacets(): Promise<TripWithFacets[]> {
     .where(eq(tripsTable.published, true))
     .orderBy(asc(tripsTable.sortOrder), asc(tripsTable.id));
 
-  const tags = await db
-    .select({
-      tripId: tripFilterOptions.tripId,
-      groupKey: filterGroups.key,
-      optionKey: filterOptions.key,
-    })
-    .from(tripFilterOptions)
-    .innerJoin(filterOptions, eq(tripFilterOptions.optionId, filterOptions.id))
-    .innerJoin(filterGroups, eq(filterOptions.groupId, filterGroups.id));
+  // Degrade to derived-only facets if the taxonomy tables aren't present yet.
+  let tags: { tripId: number; groupKey: string; optionKey: string }[] = [];
+  try {
+    tags = await db
+      .select({
+        tripId: tripFilterOptions.tripId,
+        groupKey: filterGroups.key,
+        optionKey: filterOptions.key,
+      })
+      .from(tripFilterOptions)
+      .innerJoin(filterOptions, eq(tripFilterOptions.optionId, filterOptions.id))
+      .innerJoin(filterGroups, eq(filterOptions.groupId, filterGroups.id));
+  } catch {
+    tags = [];
+  }
 
   const byTrip = new Map<number, string[]>();
   for (const r of tags) {

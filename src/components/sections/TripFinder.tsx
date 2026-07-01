@@ -23,6 +23,9 @@ export function TripFinder({ destinations }: { destinations: Destination[] }) {
   const t = useTranslations("tripFinder");
   const tf = useTranslations("feelings");
   const tm = useTranslations("months");
+  // Fall back to the raw value for feelings/months not in the dictionary.
+  const feelingLabel = (f: string) => (tf.has(f) ? tf(f) : f);
+  const monthLabel = (m: string) => (tm.has(m) ? tm(m) : m);
   const [feeling, setFeeling] = React.useState("");
   const [month, setMonth] = React.useState("");
   const [submitted, setSubmitted] = React.useState(false);
@@ -118,7 +121,7 @@ export function TripFinder({ destinations }: { destinations: Destination[] }) {
               <option value="">{t("feelingPlaceholder")}</option>
               {feelings.map((f) => (
                 <option key={f} value={f}>
-                  {tf(f)}
+                  {feelingLabel(f)}
                 </option>
               ))}
             </select>
@@ -131,7 +134,7 @@ export function TripFinder({ destinations }: { destinations: Destination[] }) {
               <option value="">{t("whenPlaceholder")}</option>
               {months.map((m) => (
                 <option key={m} value={m}>
-                  {tm(m)}
+                  {monthLabel(m)}
                 </option>
               ))}
             </select>

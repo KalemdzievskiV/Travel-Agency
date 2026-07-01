@@ -19,7 +19,7 @@ export function DestinationsBrowser({ items }: { items: Destination[] }) {
   const filters = ["All", ...feelings];
   const list =
     sel === "All" ? items : items.filter((d) => d.feelings.includes(sel));
-  const filterLabel = (f: string) => (f === "All" ? tb("all") : tf(f));
+  const filterLabel = (f: string) => (f === "All" ? tb("all") : tf.has(f) ? tf(f) : f);
 
   return (
     <>

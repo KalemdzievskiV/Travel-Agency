@@ -78,14 +78,20 @@ function mapGroup(g: {
   };
 }
 
-/** Published taxonomy groups (with options), for the public filter UI. */
+/** Published taxonomy groups (with options), for the public filter UI.
+ * Degrades to an empty list if the taxonomy tables aren't present yet
+ * (e.g. before the migration has run on a fresh environment). */
 export async function getFilterGroups(): Promise<FilterGroupWithOptions[]> {
-  const rows = await db.query.filterGroups.findMany({
-    where: eq(groupsTable.published, true),
-    orderBy: [asc(groupsTable.sortOrder), asc(groupsTable.id)],
-    with: { options: { orderBy: [asc(optionsTable.sortOrder), asc(optionsTable.id)] } },
-  });
-  return rows.map(mapGroup);
+  try {
+    const rows = await db.query.filterGroups.findMany({
+      where: eq(groupsTable.published, true),
+      orderBy: [asc(groupsTable.sortOrder), asc(groupsTable.id)],
+      with: { options: { orderBy: [asc(optionsTable.sortOrder), asc(optionsTable.id)] } },
+    });
+    return rows.map(mapGroup);
+  } catch {
+    return [];
+  }
 }
 
 /** All taxonomy groups (incl. unpublished), for the admin. */

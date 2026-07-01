@@ -21,6 +21,8 @@ export function DestinationGrid({
   const router = useRouter();
   const t = useTranslations("cards");
   const tm = useTranslations("months");
+  // Fall back to the raw value for any month not in the dictionary.
+  const monthLabel = (m: string) => (tm.has(m) ? tm(m) : m);
   return (
     <div className={`wf-grid wf-grid-${columns}`}>
       {items.map((d) => (
@@ -33,7 +35,7 @@ export function DestinationGrid({
           badge={d.badge}
           meta={
             d.bestMonths.length
-              ? t("best", { months: d.bestMonths.map((m) => tm(m)).join(", ") })
+              ? t("best", { months: d.bestMonths.map(monthLabel).join(", ") })
               : undefined
           }
           height={height}
