@@ -248,6 +248,41 @@
   .wf-trip-card__reveal { grid-template-rows: 1fr; }
 }
 
+/* ── Region browser (destinations page: list + hover image) ─── */
+.wf-region-browser {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 46%;
+  gap: clamp(24px, 4vw, 56px);
+  align-items: start;
+}
+.wf-region-browser__list { list-style: none; margin: 0; padding: 0; }
+.wf-region-browser__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  text-decoration: none;
+  padding: clamp(10px, 1.4vw, 16px) 0;
+  border-bottom: 1px solid var(--wf-border);
+  font-family: var(--wf-font-display);
+  font-weight: 500;
+  font-size: clamp(20px, 2.6vw, 30px);
+  letter-spacing: -0.01em;
+  transition: color 0.15s var(--wf-ease-out);
+}
+.wf-region-browser__image {
+  position: sticky;
+  top: calc(var(--wf-header-h) + 16px);
+  border-radius: var(--wf-radius-md);
+  min-height: 420px;
+  background-size: cover;
+  background-position: center;
+}
+@media (max-width: 860px) {
+  .wf-region-browser { grid-template-columns: 1fr; }
+  .wf-region-browser__image { display: none; }
+}
+
 /* ── Filter sidebar + results layout (trips listing) ──────── */
 .wf-filter-layout {
   display: grid;
@@ -446,6 +481,116 @@
 }
 .wf-megamenu__link:last-child { border-bottom: none; }
 .wf-megamenu__link:hover { color: var(--wf-coral-500); }
+
+/* ── Destinations mega-menu (regions → countries → image) ─────── */
+.wf-destmenu {
+  align-self: stretch;
+  display: inline-flex;
+  align-items: center;
+  position: static;
+}
+.wf-destmenu__panel {
+  position: fixed;
+  top: var(--wf-header-h);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+  background: var(--wf-cream);
+  border-top: 1px solid var(--wf-border);
+  box-shadow: var(--wf-shadow-lg);
+  z-index: 55;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .wf-destmenu__panel { animation: wf-destmenu-in 0.2s var(--wf-ease-out) both; }
+}
+@keyframes wf-destmenu-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: none; }
+}
+.wf-destmenu__close {
+  position: absolute;
+  top: 16px;
+  right: clamp(20px, 5vw, 48px);
+  display: grid;
+  place-items: center;
+  padding: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--wf-ink-700);
+  transition: color 0.15s var(--wf-ease-out);
+  z-index: 1;
+}
+.wf-destmenu__close:hover { color: var(--wf-ink-900); }
+.wf-destmenu__grid {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr) 420px;
+  gap: clamp(24px, 4vw, 64px);
+  padding: clamp(28px, 3vw, 44px) 0 clamp(36px, 4vw, 56px);
+  align-items: start;
+}
+.wf-destmenu__regions {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.wf-destmenu__region {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  text-decoration: none;
+  padding: 9px 0;
+  font-family: var(--wf-font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: color 0.15s var(--wf-ease-out);
+}
+.wf-destmenu__all {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 9px 0;
+  text-decoration: none;
+  font-family: var(--wf-font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--wf-ink-900);
+}
+.wf-destmenu__all:hover { color: var(--wf-coral-500); }
+.wf-destmenu__cols { column-count: 2; column-gap: 44px; }
+@media (max-width: 1160px) { .wf-destmenu__cols { column-count: 1; } }
+.wf-destmenu__country {
+  display: block;
+  break-inside: avoid;
+  text-decoration: none;
+  padding: 8px 0;
+  font-size: 16px;
+  color: var(--wf-ink-700);
+  transition: color 0.15s var(--wf-ease-out);
+}
+.wf-destmenu__country:hover { color: var(--wf-coral-500); }
+.wf-destmenu__browse {
+  display: inline-block;
+  margin-top: 20px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--wf-ink-900);
+}
+.wf-destmenu__browse:hover { color: var(--wf-coral-500); }
+.wf-destmenu__image {
+  height: clamp(420px, 46vw, 600px);
+  border-radius: 2px;
+  background-size: cover;
+  background-position: center;
+}
 
 /* ── About mega-menu (mobile accordion, inside .wf-mobile-menu) ── */
 .wf-mobile-about__toggle {

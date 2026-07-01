@@ -6,9 +6,11 @@ import { Button, Icon } from "@/components/ui";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { Logo } from "./Logo";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { DestinationsMegaMenu } from "./DestinationsMegaMenu";
+import type { RegionNavItem } from "@/lib/queries/regions";
 import { nav, aboutMenu, site } from "@/content/site";
 
-export function SiteHeader() {
+export function SiteHeader({ regionsNav = [] }: { regionsNav?: RegionNavItem[] }) {
   const pathname = usePathname();
   const router = useRouter();
   const t = useTranslations();
@@ -97,7 +99,15 @@ export function SiteHeader() {
 
         <nav className="wf-header-nav">
           {nav.map((l) =>
-            l.href === "/about" ? (
+            l.href === "/destinations" ? (
+              <DestinationsMegaMenu
+                key={l.href}
+                regions={regionsNav}
+                label={navLabel(l.href)}
+                triggerStyle={navLinkStyle(l.href)}
+                iconColor={dark ? "rgba(255,255,255,0.9)" : "var(--wf-ink-700)"}
+              />
+            ) : l.href === "/about" ? (
               <div className="wf-megamenu" key={l.href}>
                 <Link
                   href={l.href}

@@ -9,6 +9,7 @@ import {
   destinationFilterOptions,
   filterOptions,
   filterGroups,
+  regions,
 } from "@/db/schema";
 import { requireUser } from "@/lib/session";
 import { slugify, linesToArray } from "@/lib/slug";
@@ -39,6 +40,12 @@ export async function saveDestination(formData: FormData) {
 
   const uploaded = await uploadImage(formData.get("image"));
 
+  // Region — store the FK and keep the legacy region text in sync from its label.
+  const regionId = Number(formData.get("regionId")) || null;
+  const regionLabel = regionId
+    ? (await db.select({ label: regions.label }).from(regions).where(eq(regions.id, regionId)).limit(1))[0]?.label ?? ""
+    : "";
+
   const optionIds = formData
     .getAll("optionIds")
     .map((v) => Number(v))
@@ -57,7 +64,8 @@ export async function saveDestination(formData: FormData) {
 
   const values = {
     slug,
-    region: str(formData, "region"),
+    region: regionLabel,
+    regionId,
     title,
     teaser: str(formData, "teaser"),
     intro: str(formData, "intro"),

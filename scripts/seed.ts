@@ -12,6 +12,7 @@ async function main() {
   const { destinations } = await import("../src/content/destinations.ts");
   const { experiences } = await import("../src/content/experiences.ts");
   const { testimonials } = await import("../src/content/testimonials.ts");
+  const { slugify } = await import("../src/lib/slug.ts");
 
   // Clear (respect FKs: join table first).
   await db.delete(s.tripDestinations);
@@ -19,6 +20,33 @@ async function main() {
   await db.delete(s.destinations);
   await db.delete(s.experiences);
   await db.delete(s.testimonials);
+  await db.delete(s.regions);
+
+  // Regions (grouping for the mega-menu / listing), in content order.
+  const regionGrads = [
+    "linear-gradient(135deg,#4f6f57,#1d2c20)",
+    "linear-gradient(135deg,#3f6f7a,#1d3c45)",
+    "linear-gradient(135deg,#7a6a52,#2c2418)",
+    "linear-gradient(135deg,#0c747e,#0e2a33)",
+    "linear-gradient(135deg,#6a4f6a,#241a24)",
+    "linear-gradient(135deg,#5a6b86,#2a3550)",
+    "linear-gradient(135deg,#15709b,#0e2a33)",
+  ];
+  const regionLabels = [...new Set(destinations.map((d) => d.region))];
+  const insertedRegions = await db
+    .insert(s.regions)
+    .values(
+      regionLabels.map((label, i) => ({
+        slug: slugify(label),
+        label,
+        sortOrder: i,
+        image: `https://picsum.photos/seed/bookit-region-${slugify(label)}/1200/1400`,
+        grad: regionGrads[i % regionGrads.length],
+      })),
+    )
+    .returning({ id: s.regions.id, label: s.regions.label });
+  const regionIdByLabel = Object.fromEntries(insertedRegions.map((r) => [r.label, r.id]));
+  console.log(`  regions: ${insertedRegions.length}`);
 
   // Destinations
   const insertedDestinations = await db
@@ -27,6 +55,7 @@ async function main() {
       destinations.map((d, i) => ({
         slug: d.slug,
         region: d.region,
+        regionId: regionIdByLabel[d.region] ?? null,
         title: d.title,
         teaser: d.teaser,
         intro: d.intro,

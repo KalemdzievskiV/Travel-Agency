@@ -2,15 +2,17 @@ import { TextField, TextAreaField, CheckboxField, FormCard, Field } from "@/comp
 import { SubmitButton, ImageField } from "@/components/admin/controls";
 import { FilterTagPicker } from "@/components/admin/FilterTagPicker";
 import type { FilterGroupWithOptions } from "@/lib/queries/filters";
-import type { Destination } from "@/db/schema";
+import type { Destination, Region } from "@/db/schema";
 import { saveDestination } from "./actions";
 
 export function DestinationForm({
   destination,
+  regions = [],
   filterGroups = [],
   selectedOptionIds = [],
 }: {
   destination?: Destination;
+  regions?: Region[];
   filterGroups?: FilterGroupWithOptions[];
   selectedOptionIds?: number[];
 }) {
@@ -28,7 +30,30 @@ export function DestinationForm({
           hint="Leave blank to generate from the title."
         />
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
-          <TextField label="Region" name="region" defaultValue={d?.region} placeholder="North Macedonia" />
+          <Field label="Region">
+            <select
+              id="regionId"
+              name="regionId"
+              defaultValue={d?.regionId ?? ""}
+              style={{
+                width: "100%",
+                fontFamily: "var(--wf-font-sans)",
+                fontSize: 15,
+                color: "var(--wf-ink-900)",
+                background: "var(--wf-paper)",
+                border: "1px solid var(--wf-border-strong)",
+                borderRadius: "var(--wf-radius-md)",
+                padding: "12px 14px",
+              }}
+            >
+              <option value="">— None —</option>
+              {regions.map((r) => (
+                <option key={r.id} value={r.id}>
+                  {r.label}
+                </option>
+              ))}
+            </select>
+          </Field>
           <TextField label="Style (badge)" name="badge" defaultValue={d?.badge} placeholder="Lakeside" />
         </div>
         <TextField label="Teaser" name="teaser" defaultValue={d?.teaser} hint="One-line card summary." />

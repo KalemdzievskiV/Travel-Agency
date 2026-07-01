@@ -31,6 +31,7 @@ export const destinations = pgTable(
     id: serial("id").primaryKey(),
     slug: text("slug").notNull(),
     region: text("region").notNull(),
+    regionId: integer("region_id").references(() => regions.id, { onDelete: "set null" }),
     title: text("title").notNull(),
     teaser: text("teaser").notNull().default(""),
     intro: text("intro").notNull().default(""),
@@ -121,6 +122,23 @@ export const tripDestinations = pgTable(
   (t) => [primaryKey({ columns: [t.tripId, t.destinationId] })],
 );
 
+// ── Regions (destinations grouped for the mega-menu / listing) ────
+export const regions = pgTable(
+  "regions",
+  {
+    id: serial("id").primaryKey(),
+    slug: text("slug").notNull(),
+    label: text("label").notNull(),
+    image: text("image"),
+    grad: text("grad"),
+    sortOrder: integer("sort_order").notNull().default(0),
+    published: boolean("published").notNull().default(true),
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+    updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  },
+  (t) => [uniqueIndex("regions_slug_idx").on(t.slug)],
+);
+
 // ── Filter taxonomy (admin-managed facets) ────────────────────────
 // A group is a facet (e.g. "Feeling", "Who"); an option is a value within it
 // (e.g. "Challenged"). Trips and destinations are tagged with options. When /
@@ -188,9 +206,17 @@ export const tripsRelations = relations(trips, ({ many }) => ({
   tripFilterOptions: many(tripFilterOptions),
 }));
 
-export const destinationsRelations = relations(destinations, ({ many }) => ({
+export const destinationsRelations = relations(destinations, ({ one, many }) => ({
+  region: one(regions, {
+    fields: [destinations.regionId],
+    references: [regions.id],
+  }),
   tripDestinations: many(tripDestinations),
   destinationFilterOptions: many(destinationFilterOptions),
+}));
+
+export const regionsRelations = relations(regions, ({ many }) => ({
+  destinations: many(destinations),
 }));
 
 export const tripDestinationsRelations = relations(
@@ -244,3 +270,4 @@ export type Testimonial = typeof testimonials.$inferSelect;
 export type Trip = typeof trips.$inferSelect;
 export type FilterGroup = typeof filterGroups.$inferSelect;
 export type FilterOption = typeof filterOptions.$inferSelect;
+export type Region = typeof regions.$inferSelect;
