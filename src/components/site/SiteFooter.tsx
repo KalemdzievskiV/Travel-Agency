@@ -3,12 +3,12 @@
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui";
 import { Logo } from "./Logo";
-import { useEnquiry } from "./EnquiryProvider";
+import { useRouter } from "@/i18n/navigation";
 import { footerColumns, site } from "@/content/site";
 
 export function SiteFooter() {
   const t = useTranslations();
-  const { open } = useEnquiry();
+  const router = useRouter();
   const year = new Date().getFullYear();
 
   return (
@@ -40,7 +40,7 @@ export function SiteFooter() {
             >
               {t("footer.description")}
             </p>
-            <Button variant="primary" size="md" onClick={() => open()}>
+            <Button variant="primary" size="md" onClick={() => router.push("/make-an-enquiry")}>
               {t("footer.startJourney")}
             </Button>
           </div>

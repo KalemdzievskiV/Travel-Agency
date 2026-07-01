@@ -1,11 +1,11 @@
 "use client";
 
 import { Button, type ButtonVariant, type ButtonSize } from "@/components/ui";
-import { useEnquiry } from "./EnquiryProvider";
+import { useRouter } from "@/i18n/navigation";
 
 /**
- * Client wrapper that opens the global enquiry modal, optionally pre-filling
- * a destination. Safe to drop into server components.
+ * Navigates to the /make-an-enquiry page, optionally pre-filling a destination.
+ * Safe to drop into server components.
  */
 export function EnquireButton({
   children = "Enquire now",
@@ -20,14 +20,13 @@ export function EnquireButton({
   size?: ButtonSize;
   fullWidth?: boolean;
 }) {
-  const { open } = useEnquiry();
+  const router = useRouter();
+  const go = () =>
+    router.push(
+      destination ? `/make-an-enquiry?to=${encodeURIComponent(destination)}` : "/make-an-enquiry",
+    );
   return (
-    <Button
-      variant={variant}
-      size={size}
-      fullWidth={fullWidth}
-      onClick={() => open(destination)}
-    >
+    <Button variant={variant} size={size} fullWidth={fullWidth} onClick={go}>
       {children}
     </Button>
   );

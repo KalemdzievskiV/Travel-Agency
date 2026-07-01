@@ -3,16 +3,16 @@
 import React from "react";
 import { useTranslations } from "next-intl";
 import { Button, Icon } from "@/components/ui";
-import { Link, usePathname } from "@/i18n/navigation";
+import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { Logo } from "./Logo";
 import { LanguageSwitcher } from "./LanguageSwitcher";
-import { useEnquiry } from "./EnquiryProvider";
 import { nav, aboutMenu, site } from "@/content/site";
 
 export function SiteHeader() {
   const pathname = usePathname();
+  const router = useRouter();
   const t = useTranslations();
-  const { open } = useEnquiry();
+  const goEnquire = () => router.push("/make-an-enquiry");
   const [scrolled, setScrolled] = React.useState(false);
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [aboutOpen, setAboutOpen] = React.useState(false);
@@ -164,7 +164,7 @@ export function SiteHeader() {
             <Button
               variant={dark ? "primary" : "dark"}
               size="sm"
-              onClick={() => open()}
+              onClick={goEnquire}
             >
               {t("common.enquireNow")}
             </Button>
@@ -240,7 +240,7 @@ export function SiteHeader() {
               fullWidth
               onClick={() => {
                 setMenuOpen(false);
-                open();
+                goEnquire();
               }}
             >
               {t("common.enquireNow")}
