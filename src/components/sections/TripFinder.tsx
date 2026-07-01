@@ -2,147 +2,173 @@
 
 import React from "react";
 import { useTranslations } from "next-intl";
-import { Button, Eyebrow } from "@/components/ui";
+import { Button } from "@/components/ui";
 import { DestinationGrid } from "@/components/sections/DestinationGrid";
 import { feelings, months } from "@/content/site";
 import type { Destination } from "@/content/types";
+
+const selectStyle: React.CSSProperties = {
+  flex: "1 1 260px",
+  fontFamily: "var(--wf-font-sans)",
+  fontSize: 16,
+  color: "var(--wf-ink-900)",
+  background: "var(--wf-paper)",
+  border: "none",
+  borderRadius: "var(--wf-radius-md)",
+  padding: "18px 20px",
+  cursor: "pointer",
+};
 
 export function TripFinder({ destinations }: { destinations: Destination[] }) {
   const t = useTranslations("tripFinder");
   const tf = useTranslations("feelings");
   const tm = useTranslations("months");
-  const [feeling, setFeeling] = React.useState<string | null>(null);
-  const [month, setMonth] = React.useState<string | null>(null);
-  const ready = Boolean(feeling && month);
+  const [feeling, setFeeling] = React.useState("");
+  const [month, setMonth] = React.useState("");
+  const [submitted, setSubmitted] = React.useState(false);
+  const resultsRef = React.useRef<HTMLDivElement>(null);
 
   const matches = React.useMemo(() => {
-    if (!ready) return [];
-    const byFeeling = destinations.filter((d) => feeling && d.feelings.includes(feeling));
-    const inMonth = byFeeling.filter((d) => month && d.bestMonths.includes(month));
+    const byFeeling = feeling ? destinations.filter((d) => d.feelings.includes(feeling)) : destinations;
+    const inMonth = month ? byFeeling.filter((d) => d.bestMonths.includes(month)) : byFeeling;
     const pool = inMonth.length ? inMonth : byFeeling.length ? byFeeling : destinations;
-    return pool.slice(0, 3);
-  }, [feeling, month, ready, destinations]);
+    return pool.slice(0, 6);
+  }, [feeling, month, destinations]);
+
+  const submit = () => {
+    setSubmitted(true);
+    requestAnimationFrame(() =>
+      resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }),
+    );
+  };
 
   return (
-    <div
-      style={{
-        background: "var(--wf-ink-900)",
-        minHeight: "100vh",
-        color: "#fff",
-        padding: "calc(var(--wf-header-h) + 56px) 0 96px",
-        marginTop: "calc(-1 * var(--wf-header-h))",
-      }}
-    >
-      <div className="wf-wrap" style={{ maxWidth: 980 }}>
-        <div style={{ textAlign: "center" }}>
-          <Eyebrow tone="light">{t("eyebrow")}</Eyebrow>
+    <>
+      {/* Full-screen hero with the two-select finder */}
+      <section
+        style={{
+          position: "relative",
+          minHeight: "100vh",
+          marginTop: "calc(-1 * var(--wf-header-h))",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "url(/images/hero.jpg) center/cover no-repeat, linear-gradient(135deg,#0e2a33,#0a1a20)",
+          }}
+        />
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: "linear-gradient(180deg, rgba(14,42,51,0.55) 0%, rgba(14,42,51,0.45) 50%, rgba(14,42,51,0.7) 100%)",
+          }}
+        />
+
+        <div className="wf-wrap" style={{ position: "relative", maxWidth: 820, textAlign: "center", color: "#fff" }}>
           <h1
             style={{
               fontFamily: "var(--wf-font-display)",
               fontWeight: 500,
-              fontSize: "clamp(34px, 7vw, 58px)",
+              fontSize: "clamp(36px, 7vw, 62px)",
+              lineHeight: 1.05,
               letterSpacing: "-0.02em",
-              margin: "18px 0 0",
+              margin: 0,
             }}
           >
             {t("title")}
           </h1>
-        </div>
+          <p
+            style={{
+              fontSize: "clamp(16px, 2.2vw, 19px)",
+              lineHeight: 1.6,
+              color: "rgba(255,255,255,0.85)",
+              margin: "18px auto 0",
+              maxWidth: 560,
+            }}
+          >
+            {t("subtitle")}
+          </p>
 
-        {/* 01 — feeling */}
-        <div style={{ marginTop: 56 }}>
-          <Step n="01" label={t("feelingStep")} />
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
-            {feelings.map((f) => (
-              <button
-                key={f}
-                onClick={() => setFeeling(f)}
-                style={{
-                  padding: "12px 22px",
-                  borderRadius: 999,
-                  cursor: "pointer",
-                  fontFamily: "var(--wf-font-sans)",
-                  fontSize: 15,
-                  fontWeight: 500,
-                  background: feeling === f ? "var(--wf-coral-500)" : "transparent",
-                  color: "#fff",
-                  border: `1px solid ${feeling === f ? "var(--wf-coral-500)" : "rgba(255,255,255,0.3)"}`,
-                  transition: "all .2s",
-                }}
-              >
-                {tf(f)}
-              </button>
-            ))}
+          <div
+            style={{
+              display: "flex",
+              gap: 12,
+              flexWrap: "wrap",
+              justifyContent: "center",
+              margin: "clamp(28px, 4vw, 40px) auto 0",
+              maxWidth: 720,
+            }}
+          >
+            <select
+              aria-label={t("feelingPlaceholder")}
+              value={feeling}
+              onChange={(e) => setFeeling(e.target.value)}
+              style={{ ...selectStyle, color: feeling ? "var(--wf-ink-900)" : "var(--wf-ink-500)" }}
+            >
+              <option value="">{t("feelingPlaceholder")}</option>
+              {feelings.map((f) => (
+                <option key={f} value={f}>
+                  {tf(f)}
+                </option>
+              ))}
+            </select>
+            <select
+              aria-label={t("whenPlaceholder")}
+              value={month}
+              onChange={(e) => setMonth(e.target.value)}
+              style={{ ...selectStyle, color: month ? "var(--wf-ink-900)" : "var(--wf-ink-500)" }}
+            >
+              <option value="">{t("whenPlaceholder")}</option>
+              {months.map((m) => (
+                <option key={m} value={m}>
+                  {tm(m)}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div style={{ marginTop: "clamp(22px, 3vw, 30px)" }}>
+            <Button variant="dark" size="lg" onClick={submit}>
+              {t("takeMeThere")}
+            </Button>
           </div>
         </div>
+      </section>
 
-        {/* 02 — when */}
-        <div style={{ marginTop: 48 }}>
-          <Step n="02" label={t("whenStep")} />
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-            {months.map((m) => (
-              <button
-                key={m}
-                onClick={() => setMonth(m)}
-                style={{
-                  width: 72,
-                  padding: "12px 0",
-                  borderRadius: "var(--wf-radius-md)",
-                  cursor: "pointer",
-                  fontFamily: "var(--wf-font-sans)",
-                  fontSize: 14,
-                  fontWeight: 500,
-                  background: month === m ? "#fff" : "transparent",
-                  color: month === m ? "var(--wf-ink-900)" : "rgba(255,255,255,0.8)",
-                  border: "1px solid rgba(255,255,255,0.25)",
-                  transition: "all .2s",
-                }}
-              >
-                {tm(m)}
-              </button>
-            ))}
+      {/* Results */}
+      {submitted && (
+        <section ref={resultsRef} style={{ background: "var(--wf-cream)", padding: "clamp(56px, 8vw, 96px) 0", scrollMarginTop: "var(--wf-header-h)" }}>
+          <div className="wf-wrap wf-wrap--wide">
+            <h2
+              style={{
+                fontFamily: "var(--wf-font-display)",
+                fontWeight: 500,
+                fontSize: "clamp(26px, 4vw, 38px)",
+                letterSpacing: "-0.02em",
+                margin: "0 0 clamp(28px, 5vw, 44px)",
+                color: "var(--wf-ink-900)",
+              }}
+            >
+              {t("resultsHeading")}
+            </h2>
+            {matches.length > 0 ? (
+              <DestinationGrid items={matches} />
+            ) : (
+              <p style={{ color: "var(--wf-ink-500)" }}>{t("noMatch")}</p>
+            )}
           </div>
-        </div>
-
-        {/* result */}
-        <div
-          style={{
-            marginTop: 56,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 28,
-          }}
-        >
-          <Button variant="primary" size="lg" disabled={!ready}>
-            {ready
-              ? t("show", { feeling: tf(feeling as string), month: tm(month as string) })
-              : t("choose")}
-          </Button>
-          {ready && matches.length > 0 && (
-            <div style={{ width: "100%", marginTop: 12 }}>
-              <DestinationGrid items={matches} height={300} />
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Step({ n, label }: { n: string; label: string }) {
-  return (
-    <div
-      style={{
-        fontSize: 12,
-        fontWeight: 600,
-        letterSpacing: "0.16em",
-        textTransform: "uppercase",
-        color: "rgba(244,239,231,0.55)",
-        marginBottom: 16,
-      }}
-    >
-      {n} — {label}
-    </div>
+        </section>
+      )}
+    </>
   );
 }

@@ -35,9 +35,9 @@ export function SiteHeader() {
     }
   };
 
-  // Home has a full-bleed hero — the header floats transparent over it until
+  // Full-bleed hero pages — the header floats transparent over the hero until
   // the user scrolls, then becomes solid cream. The open mobile menu is solid.
-  const overHero = pathname === "/";
+  const overHero = pathname === "/" || pathname === "/trip-finder";
   const dark = overHero && !scrolled && !menuOpen;
 
   React.useEffect(() => {
