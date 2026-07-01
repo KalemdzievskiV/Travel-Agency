@@ -64,6 +64,29 @@ export function DestinationForm({
         <TextAreaField label="Don't miss" name="highlights" defaultValue={d?.highlights.join("\n")} rows={4} hint="One per line." />
         <TextAreaField label="Best months" name="bestMonths" defaultValue={d?.bestMonths.join("\n")} rows={4} hint="One per line (e.g. May)." />
 
+        <div
+          style={{
+            marginTop: 8,
+            paddingTop: 20,
+            borderTop: "1px solid var(--wf-border)",
+            fontSize: 12,
+            fontWeight: 600,
+            letterSpacing: "0.14em",
+            textTransform: "uppercase",
+            color: "var(--wf-ink-500)",
+          }}
+        >
+          Macedonian (leave blank to fall back to English)
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+          <TextField label="Title (MK)" name="titleMk" defaultValue={d?.titleMk ?? ""} placeholder="Египет" />
+          <TextField label="Style / badge (MK)" name="badgeMk" defaultValue={d?.badgeMk ?? ""} />
+        </div>
+        <TextField label="Teaser (MK)" name="teaserMk" defaultValue={d?.teaserMk ?? ""} />
+        <TextAreaField label="Intro (MK)" name="introMk" defaultValue={d?.introMk ?? ""} rows={4} />
+        <TextAreaField label="When to go (MK)" name="whenToGoMk" defaultValue={d?.whenToGoMk ?? ""} rows={3} />
+        <TextAreaField label="Don't miss (MK)" name="highlightsMk" defaultValue={(d?.highlightsMk ?? []).join("\n")} rows={4} hint="One per line." />
+
         <Field label="Filters" hint="Tag this destination so travellers can filter to it. Feeling tags also feed the trip finder.">
           <FilterTagPicker groups={filterGroups} selected={selectedOptionIds} />
         </Field>

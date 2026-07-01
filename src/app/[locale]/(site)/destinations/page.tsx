@@ -28,9 +28,10 @@ export default async function DestinationsPage({
   // Group destinations by their region label for the per-region sections.
   const byRegion = new Map<string, typeof destinations>();
   for (const d of destinations) {
-    const arr = byRegion.get(d.region) ?? [];
+    const key = d.regionSlug ?? d.region;
+    const arr = byRegion.get(key) ?? [];
     arr.push(d);
-    byRegion.set(d.region, arr);
+    byRegion.set(key, arr);
   }
 
   return (
@@ -76,7 +77,7 @@ export default async function DestinationsPage({
               <RegionBrowser regions={regions} />
 
               {regions.map((reg) => {
-                const items = byRegion.get(reg.label) ?? [];
+                const items = byRegion.get(reg.slug) ?? [];
                 if (items.length === 0) return null;
                 return (
                   <div

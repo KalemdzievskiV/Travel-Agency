@@ -33,6 +33,7 @@ export async function saveRegion(formData: FormData) {
   const values = {
     slug,
     label,
+    labelMk: str(formData, "labelMk") || null,
     grad: str(formData, "grad") || null,
     sortOrder: Number(formData.get("sortOrder") ?? 0) || 0,
     published: formData.get("published") === "on",

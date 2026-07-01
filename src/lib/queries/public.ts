@@ -1,5 +1,6 @@
 import "server-only";
 import { and, asc, eq } from "drizzle-orm";
+import { getLocale } from "next-intl/server";
 import { db } from "@/db";
 import {
   destinations as destinationsTable,
@@ -10,6 +11,7 @@ import {
   tripFilterOptions,
   filterOptions,
   filterGroups,
+  regions as regionsTable,
 } from "@/db/schema";
 import type {
   Destination,
@@ -27,20 +29,49 @@ type DestinationRow = typeof destinationsTable.$inferSelect;
 type ExperienceRow = typeof experiencesTable.$inferSelect;
 type TestimonialRow = typeof testimonialsTable.$inferSelect;
 
-function toDestination(r: DestinationRow): Destination {
+type RegionInfo = { label: string; labelMk: string | null; slug: string };
+
+async function localeIsMk(): Promise<boolean> {
+  try {
+    return (await getLocale()) === "mk";
+  } catch {
+    return false;
+  }
+}
+
+async function getRegionMap(): Promise<Map<number, RegionInfo>> {
+  try {
+    const rows = await db
+      .select({
+        id: regionsTable.id,
+        label: regionsTable.label,
+        labelMk: regionsTable.labelMk,
+        slug: regionsTable.slug,
+      })
+      .from(regionsTable);
+    return new Map(rows.map((r) => [r.id, { label: r.label, labelMk: r.labelMk, slug: r.slug }]));
+  } catch {
+    return new Map();
+  }
+}
+
+function toDestination(r: DestinationRow, mk: boolean, regionMap: Map<number, RegionInfo>): Destination {
+  const pick = (en: string, mkVal: string | null | undefined) => (mk && mkVal ? mkVal : en);
+  const region = r.regionId != null ? regionMap.get(r.regionId) : undefined;
   return {
     slug: r.slug,
-    region: r.region,
-    title: r.title,
-    teaser: r.teaser,
+    region: region ? pick(region.label, region.labelMk) : r.region,
+    regionSlug: region?.slug,
+    title: pick(r.title, r.titleMk),
+    teaser: pick(r.teaser, r.teaserMk),
     grad: r.grad ?? "",
     image: r.image ?? undefined,
-    badge: r.badge,
-    whenToGo: r.whenToGo,
+    badge: pick(r.badge, r.badgeMk),
+    whenToGo: pick(r.whenToGo, r.whenToGoMk),
     bestMonths: r.bestMonths,
     feelings: r.feelings,
-    intro: r.intro,
-    highlights: r.highlights,
+    intro: pick(r.intro, r.introMk),
+    highlights: mk && r.highlightsMk && r.highlightsMk.length ? r.highlightsMk : r.highlights,
   };
 }
 
@@ -78,12 +109,16 @@ function toTrip(r: TripRow): Trip {
 }
 
 export async function getDestinations(): Promise<Destination[]> {
-  const rows = await db
-    .select()
-    .from(destinationsTable)
-    .where(eq(destinationsTable.published, true))
-    .orderBy(asc(destinationsTable.sortOrder), asc(destinationsTable.id));
-  return rows.map(toDestination);
+  const [rows, mk, regionMap] = await Promise.all([
+    db
+      .select()
+      .from(destinationsTable)
+      .where(eq(destinationsTable.published, true))
+      .orderBy(asc(destinationsTable.sortOrder), asc(destinationsTable.id)),
+    localeIsMk(),
+    getRegionMap(),
+  ]);
+  return rows.map((r) => toDestination(r, mk, regionMap));
 }
 
 export async function getDestinationBySlug(
@@ -99,7 +134,9 @@ export async function getDestinationBySlug(
       ),
     )
     .limit(1);
-  return row ? toDestination(row) : undefined;
+  if (!row) return undefined;
+  const [mk, regionMap] = await Promise.all([localeIsMk(), getRegionMap()]);
+  return toDestination(row, mk, regionMap);
 }
 
 export async function getExperiences(): Promise<Experience[]> {
@@ -187,12 +224,13 @@ export async function getTripWithDestinations(
     .where(eq(tripDestinationsTable.tripId, row.id))
     .orderBy(asc(tripDestinationsTable.position));
 
+  const [mk, regionMap] = await Promise.all([localeIsMk(), getRegionMap()]);
   return {
     trip: toTrip(row),
     destinations: linked
       .map((l) => l.destination)
       .filter((d) => d.published)
-      .map(toDestination),
+      .map((d) => toDestination(d, mk, regionMap)),
   };
 }
 

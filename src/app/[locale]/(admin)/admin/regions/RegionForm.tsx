@@ -10,6 +10,7 @@ export function RegionForm({ region }: { region?: Region }) {
       <FormCard>
         {r && <input type="hidden" name="id" value={r.id} />}
         <TextField label="Label" name="label" defaultValue={r?.label} required placeholder="Africa" />
+        <TextField label="Label (Macedonian)" name="labelMk" defaultValue={r?.labelMk ?? ""} placeholder="Африка" />
         <TextField
           label="Slug"
           name="slug"

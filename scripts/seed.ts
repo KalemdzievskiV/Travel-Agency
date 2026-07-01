@@ -32,6 +32,15 @@ async function main() {
     "linear-gradient(135deg,#5a6b86,#2a3550)",
     "linear-gradient(135deg,#15709b,#0e2a33)",
   ];
+  const regionLabelMk: Record<string, string> = {
+    Africa: "Африка",
+    Asia: "Азија",
+    "South America": "Јужна Америка",
+    "Caribbean & Central America": "Кариби и Централна Америка",
+    "Middle East": "Блиски Исток",
+    "North America": "Северна Америка",
+    Europe: "Европа",
+  };
   const regionLabels = [...new Set(destinations.map((d) => d.region))];
   const insertedRegions = await db
     .insert(s.regions)
@@ -39,6 +48,7 @@ async function main() {
       regionLabels.map((label, i) => ({
         slug: slugify(label),
         label,
+        labelMk: regionLabelMk[label] ?? null,
         sortOrder: i,
         image: `https://picsum.photos/seed/bookit-region-${slugify(label)}/1200/1400`,
         grad: regionGrads[i % regionGrads.length],
@@ -66,6 +76,12 @@ async function main() {
         highlights: d.highlights,
         bestMonths: d.bestMonths,
         feelings: d.feelings,
+        titleMk: d.titleMk,
+        teaserMk: d.teaserMk,
+        introMk: d.introMk,
+        whenToGoMk: d.whenToGoMk,
+        badgeMk: d.badgeMk,
+        highlightsMk: d.highlightsMk,
         sortOrder: i,
       })),
     )

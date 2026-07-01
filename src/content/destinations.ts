@@ -116,11 +116,52 @@ const regions: { region: string; places: Seed[] }[] = [
   },
 ];
 
+// Macedonian copy (keyed by slug). Used by the seed to populate the *_mk
+// columns; the app resolves these per locale.
+export type DestinationSeed = Destination & {
+  titleMk: string;
+  teaserMk: string;
+  introMk: string;
+  whenToGoMk: string;
+  badgeMk: string;
+  highlightsMk: string[];
+};
+
+const mkTitle: Record<string, string> = {
+  egypt: "Египет", ethiopia: "Етиопија", kenya: "Кенија", mauritius: "Маврициус", morocco: "Мароко", tunisia: "Тунис", seychelles: "Сејшели", "south-africa": "Јужна Африка", "tanzania-zanzibar": "Танзанија и Занзибар",
+  bali: "Бали", philippines: "Филипини", china: "Кина", india: "Индија", indonesia: "Индонезија", japan: "Јапонија", "south-korea": "Јужна Кореја", malaysia: "Малезија", maldives: "Малдиви", "sri-lanka": "Шри Ланка", thailand: "Тајланд", vietnam: "Виетнам", cambodia: "Камбоџа", nepal: "Непал",
+  argentina: "Аргентина", brazil: "Бразил", colombia: "Колумбија", peru: "Перу", chile: "Чиле", bolivia: "Боливија",
+  cuba: "Куба", mexico: "Мексико", "dominican-republic": "Доминиканска Република", panama: "Панама", "costa-rica": "Коста Рика",
+  israel: "Израел", jordan: "Јордан", oman: "Оман", qatar: "Катар", "united-arab-emirates": "Обединети Арапски Емирати",
+  canada: "Канада", "united-states": "Соединети Американски Држави",
+  italy: "Италија", spain: "Шпанија", france: "Франција", turkey: "Турција", greece: "Грција", netherlands: "Холандија", iceland: "Исланд", germany: "Германија", portugal: "Португалија", russia: "Русија", cyprus: "Кипар", malta: "Малта",
+};
+
+const mkTeaser: Record<string, string> = {
+  egypt: "Фараонски храмови, Нил и пустински хоризонти.", ethiopia: "Карпести цркви и лулката на кафето.", kenya: "Големата преселба и широката Рифт долина.", mauritius: "Лагунско сино и бавен островски ритам.", morocco: "Пазари, касби и работ на Сахара.", tunisia: "Римски урнатини, медини и медитеранско крајбрежје.", seychelles: "Гранитни заливи и најбистри води.", "south-africa": "Кејп винарии, диво крајбрежје и буш.", "tanzania-zanzibar": "Рамнините на Серенгети и зачинети островски брегови.",
+  bali: "Оризови тераси, храмови и сурферска опуштеност.", philippines: "Седум илјади острови бел песок и гребени.", china: "Кинески ѕид, магловити врвови и древни градови.", india: "Палати, зачини и светиот Ганг.", indonesia: "Вулкани, џунгла и скриен архипелаг.", japan: "Неонски градови, храмски гратчиња и планински онсени.", "south-korea": "Палати, ноќни пазари и планински патеки.", malaysia: "Прашума, острови и празник на културите.", maldives: "Спокој над вода, над коралниот свет.", "sri-lanka": "Чајни ридови, древни градови и слонови.", thailand: "Храмови, ноќни пазари и тиркизни заливи.", vietnam: "Варовнички заливи, оризишта и улична храна.", cambodia: "Храмовите на Ангкор во зори.", nepal: "Хималајски гиганти и старите улички на Катманду.",
+  argentina: "Патагониски мраз, танго и пространи винарии.", brazil: "Прашума, ритам и бескрајно крајбрежје.", colombia: "Колонијална боја, кафени ридови и Карибско крајбрежје.", peru: "Мачу Пикчу, Андите и Амазон.", chile: "Од небото на Атакама до кулите на Патагонија.", bolivia: "Огледални солени рамнини и висинско чудо.",
+  cuba: "Класични автомобили, стара Хавана и застанато време.", mexico: "Мајански урнатини, ценоти и Пацифичко крајбрежје.", "dominican-republic": "Палмово крајбрежје и зелена планинска внатрешност.", panama: "Два океана, облачна шума и шарм на стариот град.", "costa-rica": "Облачна шума, вулкани и pura vida.",
+  israel: "Древни камења и спокојот на Мртвото Море.", jordan: "Петра на свеќи и црвените песоци на Вади Рум.", oman: "Вадиња, дини и една љубезна стара Арабија.", qatar: "Пустинска модерност и блескава корница.", "united-arab-emirates": "Дубаи и Абу Даби — од хоризонт до пустина.",
+  canada: "Карпести Планини, големи езера и диво крајбрежје.", "united-states": "Национални паркови, патувања по пат и големи градови.",
+  italy: "Уметнички градови, езера и крајбрежје создадено за задржување.", spain: "Маварски палати, тапас и сончеви плоштади.", france: "Париз, винарии и лавандин југ.", turkey: "Истанбулски пазари и кулите на Кападокија.", greece: "Белнати острови и древна светлина.", netherlands: "Канали, велосипедизам и уметност од Златниот век.", iceland: "Водопади, вулкани и северна светлина.", germany: "Бајковити замоци, шуми и големи градови.", portugal: "Плочести гратчиња, диво крајбрежје и порто ридови.", russia: "Златни куполи и империјална величественост.", cyprus: "Древни урнатини и лежерни медитерански денови.", malta: "Медено-камени градови и тиркизни заливи.",
+};
+
+const mkBadge: Record<string, string> = {
+  Culture: "Култура", Safari: "Сафари", Islands: "Острови", Adventure: "Авантура", City: "Град",
+};
+const mkMonth: Record<string, string> = {
+  Jan: "Јан", Feb: "Феб", Mar: "Мар", Apr: "Апр", May: "Мај", Jun: "Јун", Jul: "Јул", Aug: "Авг", Sep: "Сеп", Oct: "Окт", Nov: "Ное", Dec: "Дек",
+};
+
 let gi = 0;
-export const destinations: Destination[] = regions.flatMap(({ region, places }) =>
-  places.map((p): Destination => {
+export const destinations: DestinationSeed[] = regions.flatMap(({ region, places }) =>
+  places.map((p): DestinationSeed => {
     const slug = slugify(p.title);
     const grad = grads[gi++ % grads.length];
+    const tMk = mkTitle[slug] ?? p.title;
+    const teMk = mkTeaser[slug] ?? p.teaser;
+    const monthsMk = p.months.map((m) => mkMonth[m] ?? m);
     return {
       slug,
       region,
@@ -137,6 +178,16 @@ export const destinations: Destination[] = regions.flatMap(({ region, places }) 
         `The essentials of ${p.title}, seen without the crowds`,
         "A meal and a story with people who call it home",
         "One remarkable day you'll only find here",
+      ],
+      titleMk: tMk,
+      teaserMk: teMk,
+      badgeMk: mkBadge[p.badge] ?? p.badge,
+      whenToGoMk: `Најдобро од ${monthsMk.join(", ")} — вистинскиот момент за ${tMk}.`,
+      introMk: `${teMk} ${tMk} го планираме според тоа како сакате да се чувствувате — и познатите места и тивките катчиња, од првата идеја до мигот кога сте дома. Без шаблони, без надомест за планирање.`,
+      highlightsMk: [
+        `Најважното од ${tMk}, без толпите`,
+        "Оброк и приказна со луѓе што тука се дома",
+        "Едно извонредно доживување што ќе го најдете само тука",
       ],
     };
   }),

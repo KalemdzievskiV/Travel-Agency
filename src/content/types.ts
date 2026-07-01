@@ -6,6 +6,8 @@
 export type Destination = {
   slug: string;
   region: string;
+  /** Slug of the destination's region (stable key for grouping). */
+  regionSlug?: string;
   title: string;
   /** One-line card teaser. */
   teaser: string;

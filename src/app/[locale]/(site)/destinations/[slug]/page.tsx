@@ -34,7 +34,7 @@ export default async function DestinationPage(
   const region = await getRegionBySlug(slug);
   if (region) {
     const all = await getDestinations();
-    const items = all.filter((x) => x.region === region.label);
+    const items = all.filter((x) => x.regionSlug === region.slug);
     return <RegionLanding region={region} destinations={items} />;
   }
 

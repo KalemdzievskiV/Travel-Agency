@@ -1,8 +1,17 @@
 import "server-only";
 import { and, asc, eq } from "drizzle-orm";
+import { getLocale } from "next-intl/server";
 import { db } from "@/db";
 import { regions as regionsTable, destinations as destinationsTable } from "@/db/schema";
 import type { Region } from "@/db/schema";
+
+async function isMk(): Promise<boolean> {
+  try {
+    return (await getLocale()) === "mk";
+  } catch {
+    return false;
+  }
+}
 
 export type RegionNavItem = {
   id: number;
@@ -18,24 +27,30 @@ export type RegionNavItem = {
  * if the regions table isn't present yet. */
 export async function getRegionsWithDestinations(): Promise<RegionNavItem[]> {
   try {
-    const rows = await db.query.regions.findMany({
-      where: eq(regionsTable.published, true),
-      orderBy: [asc(regionsTable.sortOrder), asc(regionsTable.id)],
-      with: {
-        destinations: {
-          where: eq(destinationsTable.published, true),
-          orderBy: [asc(destinationsTable.title)],
-          columns: { slug: true, title: true },
+    const [mk, rows] = await Promise.all([
+      isMk(),
+      db.query.regions.findMany({
+        where: eq(regionsTable.published, true),
+        orderBy: [asc(regionsTable.sortOrder), asc(regionsTable.id)],
+        with: {
+          destinations: {
+            where: eq(destinationsTable.published, true),
+            orderBy: [asc(destinationsTable.title)],
+            columns: { slug: true, title: true, titleMk: true },
+          },
         },
-      },
-    });
+      }),
+    ]);
     return rows.map((r) => ({
       id: r.id,
       slug: r.slug,
-      label: r.label,
+      label: mk && r.labelMk ? r.labelMk : r.label,
       image: r.image,
       grad: r.grad,
-      destinations: r.destinations,
+      destinations: r.destinations.map((d) => ({
+        slug: d.slug,
+        title: mk && d.titleMk ? d.titleMk : d.title,
+      })),
     }));
   } catch {
     return [];
@@ -62,12 +77,17 @@ export async function getRegion(id: number): Promise<Region | undefined> {
 /** A published region by slug — for the region landing page. */
 export async function getRegionBySlug(slug: string): Promise<Region | undefined> {
   try {
-    const [r] = await db
-      .select()
-      .from(regionsTable)
-      .where(and(eq(regionsTable.slug, slug), eq(regionsTable.published, true)))
-      .limit(1);
-    return r;
+    const [mk, [r]] = await Promise.all([
+      isMk(),
+      db
+        .select()
+        .from(regionsTable)
+        .where(and(eq(regionsTable.slug, slug), eq(regionsTable.published, true)))
+        .limit(1),
+    ]);
+    if (!r) return undefined;
+    // Resolve the display label for the active locale.
+    return { ...r, label: mk && r.labelMk ? r.labelMk : r.label };
   } catch {
     return undefined;
   }
