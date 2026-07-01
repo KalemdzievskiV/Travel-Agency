@@ -6,16 +6,20 @@ import { SectionHead } from "@/components/sections/SectionHead";
 import { DestinationGrid } from "@/components/sections/DestinationGrid";
 import { TripGrid } from "@/components/sections/TripGrid";
 import { EnquireButton } from "@/components/site/EnquireButton";
+import { RegionLanding } from "@/components/sections/RegionLanding";
 import {
   getDestinationBySlug,
   getDestinations,
   getTripsForDestination,
 } from "@/lib/queries/public";
+import { getRegionBySlug } from "@/lib/queries/regions";
 
 export async function generateMetadata(
   props: PageProps<"/[locale]/destinations/[slug]">,
 ): Promise<Metadata> {
   const { slug } = await props.params;
+  const region = await getRegionBySlug(slug);
+  if (region) return { title: region.label };
   const d = await getDestinationBySlug(slug);
   if (!d) return { title: "Destination not found" };
   return { title: d.title, description: d.teaser };
@@ -25,6 +29,15 @@ export default async function DestinationPage(
   props: PageProps<"/[locale]/destinations/[slug]">,
 ) {
   const { slug } = await props.params;
+
+  // A region slug (e.g. /destinations/africa) renders the region landing page.
+  const region = await getRegionBySlug(slug);
+  if (region) {
+    const all = await getDestinations();
+    const items = all.filter((x) => x.region === region.label);
+    return <RegionLanding region={region} destinations={items} />;
+  }
+
   const d = await getDestinationBySlug(slug);
   if (!d) notFound();
 

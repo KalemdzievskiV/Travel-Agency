@@ -96,7 +96,7 @@ export function DestinationsMegaMenu({
                   return (
                     <li key={r.id} onMouseEnter={() => setActive(i)}>
                       <Link
-                        href={`/destinations#${r.slug}`}
+                        href={`/destinations/${r.slug}`}
                         className="wf-destmenu__region"
                         aria-current={on ? "true" : undefined}
                         style={{ color: on ? "var(--wf-coral-500)" : "var(--wf-ink-900)" }}
@@ -122,7 +122,7 @@ export function DestinationsMegaMenu({
                   </Link>
                 ))}
               </div>
-              <Link href={`/destinations#${region.slug}`} className="wf-destmenu__browse">
+              <Link href={`/destinations/${region.slug}`} className="wf-destmenu__browse">
                 Browse all {region.label}
               </Link>
             </div>

@@ -2,6 +2,7 @@
 
 import React from "react";
 import { ChevronRight } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 import type { RegionNavItem } from "@/lib/queries/regions";
 
 /**
@@ -21,14 +22,14 @@ export function RegionBrowser({ regions }: { regions: RegionNavItem[] }) {
           const on = i === active;
           return (
             <li key={reg.id} onMouseEnter={() => setActive(i)}>
-              <a
-                href={`#${reg.slug}`}
+              <Link
+                href={`/destinations/${reg.slug}`}
                 className="wf-region-browser__item"
                 style={{ color: on ? "var(--wf-coral-500)" : "var(--wf-ink-900)" }}
               >
                 <span>{reg.label}</span>
                 <ChevronRight size={20} aria-hidden style={{ opacity: on ? 1 : 0.3 }} />
-              </a>
+              </Link>
             </li>
           );
         })}

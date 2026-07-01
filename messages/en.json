@@ -147,6 +147,15 @@
     "Jan": "Jan", "Feb": "Feb", "Mar": "Mar", "Apr": "Apr", "May": "May", "Jun": "Jun",
     "Jul": "Jul", "Aug": "Aug", "Sep": "Sep", "Oct": "Oct", "Nov": "Nov", "Dec": "Dec"
   },
+  "regionPage": {
+    "home": "Home",
+    "overview": "Overview",
+    "countries": "Countries",
+    "introHeading": "Tailor-made travel in {region}",
+    "introBody": "No two countries in {region} feel the same — and no two trips here should either. We design every journey around how you want to feel, from the first idea to the moment you're home. No templates, no planning fees.",
+    "whereWeGo": "Where we go",
+    "empty": "Countries are on the way."
+  },
   "filters": {
     "title": "Filters",
     "clearAll": "Clear all",

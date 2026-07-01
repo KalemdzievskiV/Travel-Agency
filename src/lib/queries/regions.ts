@@ -1,5 +1,5 @@
 import "server-only";
-import { asc, eq } from "drizzle-orm";
+import { and, asc, eq } from "drizzle-orm";
 import { db } from "@/db";
 import { regions as regionsTable, destinations as destinationsTable } from "@/db/schema";
 import type { Region } from "@/db/schema";
@@ -57,4 +57,18 @@ export async function listRegions(): Promise<Region[]> {
 export async function getRegion(id: number): Promise<Region | undefined> {
   const [r] = await db.select().from(regionsTable).where(eq(regionsTable.id, id)).limit(1);
   return r;
+}
+
+/** A published region by slug — for the region landing page. */
+export async function getRegionBySlug(slug: string): Promise<Region | undefined> {
+  try {
+    const [r] = await db
+      .select()
+      .from(regionsTable)
+      .where(and(eq(regionsTable.slug, slug), eq(regionsTable.published, true)))
+      .limit(1);
+    return r;
+  } catch {
+    return undefined;
+  }
 }

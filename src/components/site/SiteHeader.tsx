@@ -39,7 +39,8 @@ export function SiteHeader({ regionsNav = [] }: { regionsNav?: RegionNavItem[] }
 
   // Full-bleed hero pages — the header floats transparent over the hero until
   // the user scrolls, then becomes solid cream. The open mobile menu is solid.
-  const overHero = pathname === "/" || pathname === "/trip-finder";
+  const isRegionPage = regionsNav.some((r) => pathname === `/destinations/${r.slug}`);
+  const overHero = pathname === "/" || pathname === "/trip-finder" || isRegionPage;
   const dark = overHero && !scrolled && !menuOpen;
 
   React.useEffect(() => {
