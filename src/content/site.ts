@@ -22,26 +22,33 @@ export const nav: { label: string; href: string }[] = [
 // The "About" mega-menu — two groups, each opening its own pages. Mirrors the
 // client brief (Who we are / Why book with us). Drives both the desktop dropdown
 // and the mobile accordion in SiteHeader.
-export const aboutMenu: { group: string; href: string; items: { label: string; href: string }[] }[] = [
+export const aboutMenu: {
+  group: string;
+  key: string;
+  href: string;
+  items: { label: string; key: string; href: string }[];
+}[] = [
   {
     group: "Who we are",
+    key: "whoWeAre",
     href: "/about",
     items: [
-      { label: "Our purpose", href: "/about" },
-      { label: "Our team", href: "/about/team" },
-      { label: "Our awards", href: "/about/awards" },
-      { label: "Client testimonials", href: "/about/testimonials" },
-      { label: "In the press", href: "/about/press" },
+      { label: "Our purpose", key: "purpose", href: "/about" },
+      { label: "Our team", key: "team", href: "/about/team" },
+      { label: "Our awards", key: "awards", href: "/about/awards" },
+      { label: "Client testimonials", key: "testimonials", href: "/about/testimonials" },
+      { label: "In the press", key: "press", href: "/about/press" },
     ],
   },
   {
     group: "Why book with us",
+    key: "whyBookWithUs",
     href: "/about/5-reasons",
     items: [
-      { label: "5 reasons to book with us", href: "/about/5-reasons" },
-      { label: "Why not just do it yourself?", href: "/about/why-not-diy" },
-      { label: "How it all works", href: "/about/how-it-works" },
-      { label: "Regenerative travel", href: "/about/regenerative-travel" },
+      { label: "5 reasons to book with us", key: "fiveReasons", href: "/about/5-reasons" },
+      { label: "Why not just do it yourself?", key: "whyNotDiy", href: "/about/why-not-diy" },
+      { label: "How it all works", key: "howItWorks", href: "/about/how-it-works" },
+      { label: "Regenerative travel", key: "regenerative", href: "/about/regenerative-travel" },
     ],
   },
 ];
@@ -67,11 +74,12 @@ export const months: string[] = [
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
 ];
 
-export const footerColumns: Record<string, string[]> = {
-  "Who we are": ["Our purpose", "Our team", "Awards", "Press"],
-  Experiences: ["Family", "Couples", "Honeymoons", "Adventure", "Slow travel"],
-  Useful: ["How it works", "FAQ", "Booking conditions", "Careers"],
-};
+// Column + item keys map to the `footer` namespace in the message dictionaries.
+export const footerColumns: { key: string; items: string[] }[] = [
+  { key: "whoWeAre", items: ["purpose", "team", "awards", "press"] },
+  { key: "experiences", items: ["family", "couples", "honeymoons", "adventure", "slowTravel"] },
+  { key: "useful", items: ["howItWorks", "faq", "bookingConditions", "careers"] },
+];
 
 export const whyPoints: { icon: "award" | "globe" | "phone" | "pin"; label: string }[] = [
   { icon: "award", label: "Award-winning planners" },

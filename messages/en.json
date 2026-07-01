@@ -1,0 +1,221 @@
+{
+  "nav": {
+    "destinations": "Destinations",
+    "trips": "Trips",
+    "experiences": "Experiences",
+    "tripFinder": "Trip finder",
+    "about": "About"
+  },
+  "language": {
+    "label": "Language",
+    "en": "English",
+    "mk": "Македонски"
+  },
+  "common": {
+    "enquireNow": "Enquire now",
+    "getInTouch": "Get in touch",
+    "planMyTrip": "Plan my trip",
+    "exploreOurTrips": "Explore our trips",
+    "viewMore": "View more",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "aboutMenu": {
+    "groups": {
+      "whoWeAre": "Who we are",
+      "whyBookWithUs": "Why book with us"
+    },
+    "items": {
+      "purpose": "Our purpose",
+      "team": "Our team",
+      "awards": "Our awards",
+      "testimonials": "Client testimonials",
+      "press": "In the press",
+      "fiveReasons": "5 reasons to book with us",
+      "whyNotDiy": "Why not just do it yourself?",
+      "howItWorks": "How it all works",
+      "regenerative": "Regenerative travel"
+    }
+  },
+  "hero": {
+    "eyebrow": "Tailor-made · Est. 2014",
+    "title": "Every journey starts<br></br>with a <i>feeling</i>.",
+    "intro": "Fully personalised itineraries for couples, families and solo travellers — designed around how you want to feel, not where the crowds go.",
+    "scroll": "Scroll"
+  },
+  "intro": {
+    "heading": "Every journey starts with a feeling",
+    "p1": "The world is vast, full of wonder. But information engulfs us — see this, do that, don’t miss this. It seems the more choice there is, the more overwhelmed we feel. And you’re never once asked the only question that matters: <i>how do you want to feel?</i>",
+    "p2": "That’s where we come in. bookit is a tailor-made travel studio in North Macedonia that designs fully personalised itineraries — not templates, not off-the-shelf tours. Whether you’re a couple seeking adventure, a family exploring together, or a solo traveller chasing something extraordinary, we craft every detail around you.",
+    "p3": "Since {year} we’ve planned journeys across the Balkans, the Mediterranean and beyond — trusted to get the details right, from the first idea to the moment you’re home. No planning fees, no crowds, no compromises.",
+    "p4": "So let’s begin. Let’s do something remarkable."
+  },
+  "journey": {
+    "heading": "Start your journey",
+    "tabs": {
+      "traveller": "By traveller",
+      "popular": "Most popular",
+      "month": "By month"
+    }
+  },
+  "explore": {
+    "title": "Explore our trips",
+    "subtitle": "Remarkable journeys to inspire the mind.",
+    "exploreTrip": "Explore trip",
+    "nights": "{count, plural, one {# night} other {# nights}}"
+  },
+  "why": {
+    "heading": "Why bookit?",
+    "reasons": {
+      "award": "Award-winning planners",
+      "quote": "No-obligation quotes",
+      "map": "No planning fees",
+      "support": "24/7 on-the-ground support",
+      "guide": "Expert private guides"
+    },
+    "ctaHeading": "So, ready to start?"
+  },
+  "about": {
+    "word": "About us",
+    "valuesEyebrow": "What we stand for",
+    "valuesTitle": "Three things we never travel without",
+    "ctaReadyNew": "Ready to feel something new?",
+    "startJourney": "Start your journey",
+    "ctaReadyWhen": "Ready when you are",
+    "whyNotCta": "Let us take it from here",
+    "howTitle": "How it all works",
+    "howCta": "It starts with a single conversation",
+    "regenP1": "A fuller account of our commitments is on its way.",
+    "regenP2": "In the meantime, we’d be glad to talk through how we work with local hosts, guides and communities on every journey.",
+    "regenCta": "Plan a journey with us",
+    "trustLabel": "Trusted by travellers and partners across the Balkans",
+    "whoWeAre": "Who we are",
+    "teamTitle": "The people who plan your journey",
+    "teamIntro": "A small studio of wanderers and planners. Final names, photos and stories will live here soon.",
+    "memberName": "Your planner",
+    "roleFounder": "Founder & travel designer",
+    "roleBalkans": "Balkans specialist",
+    "roleExperience": "Experience designer",
+    "roleConcierge": "On-the-ground concierge",
+    "awardsTitle": "A little recognition along the way",
+    "awardsIntro": "The awards and accreditations we're proud of will be listed here.",
+    "awardLabel": "Award",
+    "awardPlaceholder": "Recognition to be confirmed",
+    "pressTitle": "In the press",
+    "pressIntro": "Selected places our work has been written about. Full coverage and links to follow.",
+    "testimonialsTitle": "In their own words",
+    "testimonialsIntro": "The trips we are proudest of are the ones our travellers can't stop talking about."
+  },
+  "tripFinder": {
+    "eyebrow": "The Feelings Engine",
+    "title": "How do you want to feel?",
+    "feelingStep": "The feeling",
+    "whenStep": "When",
+    "show": "Show me {feeling} in {month}",
+    "choose": "Choose a feeling & month"
+  },
+  "destinations": {
+    "eyebrow": "Destinations",
+    "title": "Find your next horizon",
+    "intro": "From the lakes and highlands of North Macedonia to the wider Balkans and Mediterranean — every journey planned from scratch around you."
+  },
+  "trips": {
+    "eyebrow": "Trips",
+    "title": "Journeys, start to finish",
+    "intro": "Complete itineraries we design and run end to end — every transfer, guide and long lunch arranged around you.",
+    "empty": "New itineraries are on the way. Tell us how you want to feel and we'll craft one."
+  },
+  "browser": {
+    "all": "All",
+    "empty": "No journeys match that feeling yet — tell us what you have in mind and we'll craft one."
+  },
+  "cards": {
+    "best": "Best {months}",
+    "itinerary": "Itinerary",
+    "from": "from",
+    "days": "{count, plural, one {# day} other {# days}}"
+  },
+  "feelings": {
+    "Contentment": "Contentment",
+    "Revitalised": "Revitalised",
+    "Freedom": "Freedom",
+    "Wonder": "Wonder",
+    "Challenged": "Challenged"
+  },
+  "months": {
+    "Jan": "Jan", "Feb": "Feb", "Mar": "Mar", "Apr": "Apr", "May": "May", "Jun": "Jun",
+    "Jul": "Jul", "Aug": "Aug", "Sep": "Sep", "Oct": "Oct", "Nov": "Nov", "Dec": "Dec"
+  },
+  "footer": {
+    "description": "Tailor-made luxury travel from North Macedonia, designed entirely around how you want to feel. No templates. No planning fees.",
+    "startJourney": "Start your journey",
+    "columns": {
+      "whoWeAre": "Who we are",
+      "experiences": "Experiences",
+      "useful": "Useful"
+    },
+    "items": {
+      "purpose": "Our purpose",
+      "team": "Our team",
+      "awards": "Awards",
+      "press": "Press",
+      "family": "Family",
+      "couples": "Couples",
+      "honeymoons": "Honeymoons",
+      "adventure": "Adventure",
+      "slowTravel": "Slow travel",
+      "howItWorks": "How it works",
+      "faq": "FAQ",
+      "bookingConditions": "Booking conditions",
+      "careers": "Careers"
+    },
+    "copyright": "© {year} {name}. Tailor-made travel from North Macedonia.",
+    "legal": {
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "sitemap": "Sitemap"
+    }
+  },
+  "enquiry": {
+    "dialogLabel": "Make an enquiry",
+    "close": "Close",
+    "thankYou": "Thank you",
+    "sentTitle": "Your enquiry is on its way",
+    "sentBody": "We’ll match you with a bookit travel expert and be in touch within 24 hours to set up a time to talk — over email, phone or video, whatever suits you. In the meantime, you can reach us any time on <phone></phone>.",
+    "eyebrow": "Make an enquiry",
+    "title": "Let’s plan something <i>remarkable</i>",
+    "intro": "Tell us a little about the trip you have in mind. There are no planning fees and no obligation — just the start of a conversation.",
+    "assurance1": "Matched with a bookit travel expert who knows the ground",
+    "assurance2": "We’ll talk it through — email, phone or video call",
+    "assurance3": "A considered reply within 24 hours",
+    "preferToTalk": "Prefer to talk now?",
+    "hours": "Mon–Fri, 9am–6pm CET",
+    "yourTrip": "Your trip",
+    "whereLabel": "Where would you like to go?",
+    "wherePlaceholder": "A place, or “still deciding”",
+    "whenLabel": "When",
+    "whenPlaceholder": "e.g. May 2026, or flexible",
+    "durationLabel": "How long",
+    "durationPlaceholder": "e.g. 7–10 nights",
+    "travellersLabel": "Who’s travelling",
+    "travellersPlaceholder": "e.g. 2 adults",
+    "budgetLabel": "Budget per person",
+    "budgetSelect": "Select a range",
+    "budgetNotSure": "Not sure yet",
+    "budgetUnder2": "Under €2,000",
+    "budget2to5": "€2,000–5,000",
+    "budget5to10": "€5,000–10,000",
+    "budget10plus": "€10,000+",
+    "notesLabel": "Tell us about your trip",
+    "notesPlaceholder": "How do you want to feel? Who’s it for? Anything that would make it yours…",
+    "yourDetails": "Your details",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "phoneLabel": "Phone",
+    "phonePlaceholder": "Optional",
+    "newsletter": "Keep me posted with occasional travel inspiration. No spam, unsubscribe any time.",
+    "send": "Send enquiry",
+    "finePrint": "No planning fees · no obligation · reply within 24 hours"
+  }
+}

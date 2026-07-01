@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { DestinationCard } from "@/components/ui";
 import type { Trip } from "@/content/types";
 
@@ -18,19 +19,20 @@ export function TripGrid({
   columns?: 2 | 3 | 4;
 }) {
   const router = useRouter();
+  const tr = useTranslations("cards");
   return (
     <div className={`wf-grid wf-grid-${columns}`}>
-      {items.map((t) => (
+      {items.map((trip) => (
         <DestinationCard
-          key={t.slug}
-          grad={t.grad}
-          image={t.image}
-          region="Itinerary"
-          title={t.title}
-          price={t.priceFrom}
-          badge={t.durationDays ? `${t.durationDays} days` : undefined}
+          key={trip.slug}
+          grad={trip.grad}
+          image={trip.image}
+          region={tr("itinerary")}
+          title={trip.title}
+          price={trip.priceFrom}
+          badge={trip.durationDays ? tr("days", { count: trip.durationDays }) : undefined}
           height={height}
-          onClick={() => router.push(`/trips/${t.slug}`)}
+          onClick={() => router.push(`/trips/${trip.slug}`)}
         />
       ))}
     </div>

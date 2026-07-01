@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useTranslations } from "next-intl";
 
 /**
  * DestinationCard — the signature bookit card. Full-bleed image with a
@@ -33,6 +34,7 @@ export function DestinationCard({
   height = 420,
   onClick,
 }: DestinationCardProps) {
+  const t = useTranslations("cards");
   const [hover, setHover] = React.useState(false);
   const fill = image
     ? `url(${image}) center/cover no-repeat`
@@ -188,7 +190,7 @@ export function DestinationCard({
           >
             {price && (
               <span>
-                <span style={{ color: "rgba(255,255,255,0.75)" }}>from </span>
+                <span style={{ color: "rgba(255,255,255,0.75)" }}>{t("from")} </span>
                 <b style={{ fontWeight: 600 }}>{price}</b>
               </span>
             )}

@@ -1,12 +1,16 @@
 "use client";
 
 import React from "react";
+import { useTranslations } from "next-intl";
 import { Button, Eyebrow } from "@/components/ui";
 import { DestinationGrid } from "@/components/sections/DestinationGrid";
 import { feelings, months } from "@/content/site";
 import type { Destination } from "@/content/types";
 
 export function TripFinder({ destinations }: { destinations: Destination[] }) {
+  const t = useTranslations("tripFinder");
+  const tf = useTranslations("feelings");
+  const tm = useTranslations("months");
   const [feeling, setFeeling] = React.useState<string | null>(null);
   const [month, setMonth] = React.useState<string | null>(null);
   const ready = Boolean(feeling && month);
@@ -31,7 +35,7 @@ export function TripFinder({ destinations }: { destinations: Destination[] }) {
     >
       <div className="wf-wrap" style={{ maxWidth: 980 }}>
         <div style={{ textAlign: "center" }}>
-          <Eyebrow tone="light">The Feelings Engine</Eyebrow>
+          <Eyebrow tone="light">{t("eyebrow")}</Eyebrow>
           <h1
             style={{
               fontFamily: "var(--wf-font-display)",
@@ -41,13 +45,13 @@ export function TripFinder({ destinations }: { destinations: Destination[] }) {
               margin: "18px 0 0",
             }}
           >
-            How do you want to feel?
+            {t("title")}
           </h1>
         </div>
 
         {/* 01 — feeling */}
         <div style={{ marginTop: 56 }}>
-          <Step n="01" label="The feeling" />
+          <Step n="01" label={t("feelingStep")} />
           <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
             {feelings.map((f) => (
               <button
@@ -66,7 +70,7 @@ export function TripFinder({ destinations }: { destinations: Destination[] }) {
                   transition: "all .2s",
                 }}
               >
-                {f}
+                {tf(f)}
               </button>
             ))}
           </div>
@@ -74,7 +78,7 @@ export function TripFinder({ destinations }: { destinations: Destination[] }) {
 
         {/* 02 — when */}
         <div style={{ marginTop: 48 }}>
-          <Step n="02" label="When" />
+          <Step n="02" label={t("whenStep")} />
           <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
             {months.map((m) => (
               <button
@@ -94,7 +98,7 @@ export function TripFinder({ destinations }: { destinations: Destination[] }) {
                   transition: "all .2s",
                 }}
               >
-                {m}
+                {tm(m)}
               </button>
             ))}
           </div>
@@ -111,7 +115,9 @@ export function TripFinder({ destinations }: { destinations: Destination[] }) {
           }}
         >
           <Button variant="primary" size="lg" disabled={!ready}>
-            {ready ? `Show me ${feeling} in ${month}` : "Choose a feeling & month"}
+            {ready
+              ? t("show", { feeling: tf(feeling as string), month: tm(month as string) })
+              : t("choose")}
           </Button>
           {ready && matches.length > 0 && (
             <div style={{ width: "100%", marginTop: 12 }}>

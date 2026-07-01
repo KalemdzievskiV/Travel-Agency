@@ -1,9 +1,10 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import { motion } from "motion/react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui";
+import { Link } from "@/i18n/navigation";
 import type { JourneyTab } from "@/content/site";
 
 /**
@@ -13,8 +14,22 @@ import type { JourneyTab } from "@/content/site";
  * /destinations until the destinations backend is wired to real filters.
  */
 export function StartYourJourney({ tabs }: { tabs: JourneyTab[] }) {
+  const tr = useTranslations();
   const [active, setActive] = React.useState(tabs[0]?.key ?? "");
-  const current = tabs.find((t) => t.key === active) ?? tabs[0];
+  const current = tabs.find((tab) => tab.key === active) ?? tabs[0];
+
+  const tabLabel = (key: string) => {
+    switch (key) {
+      case "traveller":
+        return tr("journey.tabs.traveller");
+      case "popular":
+        return tr("journey.tabs.popular");
+      case "month":
+        return tr("journey.tabs.month");
+      default:
+        return key;
+    }
+  };
 
   return (
     <section style={{ background: "var(--wf-sand)", padding: "clamp(64px, 9vw, 104px) 0" }}>
@@ -31,13 +46,13 @@ export function StartYourJourney({ tabs }: { tabs: JourneyTab[] }) {
             margin: 0,
           }}
         >
-          Start your journey
+          {tr("journey.heading")}
         </h2>
 
         {/* Tabs */}
         <div
           role="tablist"
-          aria-label="Start your journey"
+          aria-label={tr("journey.heading")}
           style={{
             display: "flex",
             flexWrap: "wrap",
@@ -46,14 +61,14 @@ export function StartYourJourney({ tabs }: { tabs: JourneyTab[] }) {
             margin: "clamp(24px, 4vw, 36px) 0 clamp(32px, 5vw, 48px)",
           }}
         >
-          {tabs.map((t) => {
-            const on = t.key === active;
+          {tabs.map((tab) => {
+            const on = tab.key === active;
             return (
               <button
-                key={t.key}
+                key={tab.key}
                 role="tab"
                 aria-selected={on}
-                onClick={() => setActive(t.key)}
+                onClick={() => setActive(tab.key)}
                 style={{
                   background: "none",
                   border: "none",
@@ -69,7 +84,7 @@ export function StartYourJourney({ tabs }: { tabs: JourneyTab[] }) {
                   transition: "color .2s var(--wf-ease-out)",
                 }}
               >
-                {t.label}
+                {tabLabel(tab.key)}
               </button>
             );
           })}
@@ -95,7 +110,7 @@ export function StartYourJourney({ tabs }: { tabs: JourneyTab[] }) {
 
         <div style={{ display: "flex", justifyContent: "center", marginTop: "clamp(36px, 5vw, 52px)" }}>
           <Button as="a" href="/destinations" variant="dark" size="lg">
-            View more
+            {tr("common.viewMore")}
           </Button>
         </div>
       </div>

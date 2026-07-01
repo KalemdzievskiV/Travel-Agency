@@ -1,19 +1,39 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Button, Icon } from "@/components/ui";
+import { Link, usePathname } from "@/i18n/navigation";
 import { Logo } from "./Logo";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 import { useEnquiry } from "./EnquiryProvider";
 import { nav, aboutMenu, site } from "@/content/site";
 
 export function SiteHeader() {
   const pathname = usePathname();
+  const t = useTranslations();
   const { open } = useEnquiry();
   const [scrolled, setScrolled] = React.useState(false);
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [aboutOpen, setAboutOpen] = React.useState(false);
+
+  // Top-level nav labels are translated; the About submenu stays English for now.
+  const navLabel = (href: string) => {
+    switch (href) {
+      case "/destinations":
+        return t("nav.destinations");
+      case "/trips":
+        return t("nav.trips");
+      case "/experiences":
+        return t("nav.experiences");
+      case "/trip-finder":
+        return t("nav.tripFinder");
+      case "/about":
+        return t("nav.about");
+      default:
+        return href;
+    }
+  };
 
   // Home has a full-bleed hero — the header floats transparent over it until
   // the user scrolls, then becomes solid cream. The open mobile menu is solid.
@@ -77,8 +97,8 @@ export function SiteHeader() {
 
         <nav className="wf-header-nav">
           {nav.map((l) =>
-            l.label === "About" ? (
-              <div className="wf-megamenu" key={l.label}>
+            l.href === "/about" ? (
+              <div className="wf-megamenu" key={l.href}>
                 <Link
                   href={l.href}
                   style={{
@@ -88,7 +108,7 @@ export function SiteHeader() {
                     gap: 5,
                   }}
                 >
-                  {l.label}
+                  {navLabel(l.href)}
                   <Icon
                     name="chevron"
                     size={14}
@@ -97,15 +117,15 @@ export function SiteHeader() {
                 </Link>
                 <div className="wf-megamenu__panel">
                   {aboutMenu.map((group) => (
-                    <div key={group.group}>
-                      <div className="wf-megamenu__col-title">{group.group}</div>
+                    <div key={t(`aboutMenu.groups.${group.key}`)}>
+                      <div className="wf-megamenu__col-title">{t(`aboutMenu.groups.${group.key}`)}</div>
                       {group.items.map((item) => (
                         <Link
-                          key={item.href + item.label}
+                          key={item.key}
                           href={item.href}
                           className="wf-megamenu__link"
                         >
-                          {item.label}
+                          {t(`aboutMenu.items.${item.key}`)}
                         </Link>
                       ))}
                     </div>
@@ -113,8 +133,8 @@ export function SiteHeader() {
                 </div>
               </div>
             ) : (
-              <Link key={l.label} href={l.href} style={navLinkStyle(l.href)}>
-                {l.label}
+              <Link key={l.href} href={l.href} style={navLinkStyle(l.href)}>
+                {navLabel(l.href)}
               </Link>
             )
           )}
@@ -138,19 +158,22 @@ export function SiteHeader() {
             {site.phone}
           </a>
           <span className="wf-header-enquire">
+            <LanguageSwitcher dark={dark} />
+          </span>
+          <span className="wf-header-enquire">
             <Button
               variant={dark ? "primary" : "dark"}
               size="sm"
               onClick={() => open()}
             >
-              Enquire now
+              {t("common.enquireNow")}
             </Button>
           </span>
 
           {/* Mobile menu toggle */}
           <button
             className="wf-nav-toggle"
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-label={menuOpen ? t("common.closeMenu") : t("common.openMenu")}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen((v) => !v)}
           >
@@ -167,14 +190,14 @@ export function SiteHeader() {
       {menuOpen && (
         <div className="wf-mobile-menu">
           {nav.map((l) =>
-            l.label === "About" ? (
-              <div key={l.label}>
+            l.href === "/about" ? (
+              <div key={l.href}>
                 <button
                   className="wf-mobile-about__toggle"
                   aria-expanded={aboutOpen}
                   onClick={() => setAboutOpen((v) => !v)}
                 >
-                  About
+                  {navLabel(l.href)}
                   <span
                     style={{
                       display: "inline-flex",
@@ -188,11 +211,11 @@ export function SiteHeader() {
                 {aboutOpen && (
                   <div className="wf-mobile-about__panel">
                     {aboutMenu.map((group) => (
-                      <React.Fragment key={group.group}>
-                        <div className="wf-mobile-about__group">{group.group}</div>
+                      <React.Fragment key={t(`aboutMenu.groups.${group.key}`)}>
+                        <div className="wf-mobile-about__group">{t(`aboutMenu.groups.${group.key}`)}</div>
                         {group.items.map((item) => (
-                          <Link key={item.href + item.label} href={item.href}>
-                            {item.label}
+                          <Link key={item.key} href={item.href}>
+                            {t(`aboutMenu.items.${item.key}`)}
                           </Link>
                         ))}
                       </React.Fragment>
@@ -201,12 +224,15 @@ export function SiteHeader() {
                 )}
               </div>
             ) : (
-              <Link key={l.label} href={l.href}>
-                {l.label}
+              <Link key={l.href} href={l.href}>
+                {navLabel(l.href)}
               </Link>
             )
           )}
           <a href={`tel:${site.phone.replace(/\s+/g, "")}`}>{site.phone}</a>
+          <div style={{ marginTop: 16, display: "flex", justifyContent: "center" }}>
+            <LanguageSwitcher />
+          </div>
           <div style={{ marginTop: 16 }}>
             <Button
               variant="primary"
@@ -217,7 +243,7 @@ export function SiteHeader() {
                 open();
               }}
             >
-              Enquire now
+              {t("common.enquireNow")}
             </Button>
           </div>
         </div>

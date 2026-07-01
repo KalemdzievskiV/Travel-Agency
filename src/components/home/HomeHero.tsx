@@ -1,12 +1,14 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import { ChevronDown } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button, Eyebrow } from "@/components/ui";
-import { site } from "@/content/site";
+import { Link } from "@/i18n/navigation";
 
 export function HomeHero() {
+  const t = useTranslations();
+
   // Play the background film unless the visitor prefers reduced motion.
   // Starts false so SSR and first client render match (the photo shows until then).
   const [playVideo, setPlayVideo] = React.useState(false);
@@ -83,7 +85,7 @@ export function HomeHero() {
           textAlign: "center",
         }}
       >
-        <Eyebrow tone="light">Tailor-made · {site.established}</Eyebrow>
+        <Eyebrow tone="light">{t("hero.eyebrow")}</Eyebrow>
         <h1
           style={{
             fontFamily: "var(--wf-font-display)",
@@ -94,9 +96,10 @@ export function HomeHero() {
             margin: "18px 0 0",
           }}
         >
-          Every journey starts
-          <br />
-          with a <span style={{ fontStyle: "italic" }}>feeling</span>.
+          {t.rich("hero.title", {
+            i: (chunks) => <span style={{ fontStyle: "italic" }}>{chunks}</span>,
+            br: () => <br />,
+          })}
         </h1>
         <p
           style={{
@@ -107,9 +110,7 @@ export function HomeHero() {
             maxWidth: 560,
           }}
         >
-          Fully personalised itineraries for couples, families and solo
-          travellers — designed around how you want to feel, not where the
-          crowds go.
+          {t("hero.intro")}
         </p>
         <div
           style={{
@@ -121,17 +122,17 @@ export function HomeHero() {
           }}
         >
           <Link className="wf-btn-ghost-light" href="/trips">
-            Explore our trips
+            {t("common.exploreOurTrips")}
           </Link>
           <Button as="a" href="/trip-finder" variant="dark" size="lg">
-            Plan my trip
+            {t("common.planMyTrip")}
           </Button>
         </div>
       </div>
 
       {/* Scroll cue — jumps to the intro section */}
-      <button type="button" onClick={scrollToContent} className="wf-scroll-cue" aria-label="Scroll to content">
-        <span>Scroll</span>
+      <button type="button" onClick={scrollToContent} className="wf-scroll-cue" aria-label={t("hero.scroll")}>
+        <span>{t("hero.scroll")}</span>
         <ChevronDown size={22} strokeWidth={1.5} aria-hidden className="wf-scroll-cue__icon" />
       </button>
     </section>

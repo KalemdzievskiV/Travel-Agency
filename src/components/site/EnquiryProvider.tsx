@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useTranslations } from "next-intl";
 import { Button, Eyebrow, Input, Icon, type IconName } from "@/components/ui";
 import { site } from "@/content/site";
 
@@ -132,6 +133,7 @@ function Assurance({
 }
 
 export function EnquiryProvider({ children }: { children: React.ReactNode }) {
+  const t = useTranslations("enquiry");
   const [isOpen, setIsOpen] = React.useState(false);
   const [destination, setDestination] = React.useState("");
   const [sent, setSent] = React.useState(false);
@@ -166,7 +168,7 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
           onClick={close}
           role="dialog"
           aria-modal="true"
-          aria-label="Make an enquiry"
+          aria-label={t("dialogLabel")}
           style={{
             position: "fixed",
             inset: 0,
@@ -193,7 +195,7 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
           >
             <button
               onClick={close}
-              aria-label="Close"
+              aria-label={t("close")}
               style={{
                 position: "absolute",
                 top: 18,
@@ -214,7 +216,7 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
 
             {sent ? (
               <div style={{ padding: "clamp(32px, 6vw, 48px)" }}>
-                <Eyebrow>Thank you</Eyebrow>
+                <Eyebrow>{t("thankYou")}</Eyebrow>
                 <h2
                   style={{
                     fontFamily: "var(--wf-font-display)",
@@ -225,21 +227,20 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
                     color: "var(--wf-ink-900)",
                   }}
                 >
-                  Your enquiry is on its way
+                  {t("sentTitle")}
                 </h2>
                 <p style={{ fontSize: 15.5, color: "var(--wf-ink-700)", lineHeight: 1.65, margin: 0 }}>
-                  We&apos;ll match you with a bookit travel expert and be in touch
-                  within 24 hours to set up a time to talk — over email, phone or
-                  video, whatever suits you. In the meantime, you can reach us any
-                  time on{" "}
-                  <a href={`tel:${site.phone.replace(/\s+/g, "")}`} style={{ color: "var(--wf-coral-600)" }}>
-                    {site.phone}
-                  </a>
-                  .
+                  {t.rich("sentBody", {
+                    phone: () => (
+                      <a href={`tel:${site.phone.replace(/\s+/g, "")}`} style={{ color: "var(--wf-coral-600)" }}>
+                        {site.phone}
+                      </a>
+                    ),
+                  })}
                 </p>
                 <div style={{ marginTop: 28 }}>
                   <Button variant="dark" size="md" onClick={close}>
-                    Close
+                    {t("close")}
                   </Button>
                 </div>
               </div>
@@ -257,7 +258,7 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
                   }}
                 >
                   <div>
-                    <Eyebrow tone="light">Make an enquiry</Eyebrow>
+                    <Eyebrow tone="light">{t("eyebrow")}</Eyebrow>
                     <h2
                       style={{
                         fontFamily: "var(--wf-font-display)",
@@ -268,7 +269,9 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
                         margin: "14px 0 0",
                       }}
                     >
-                      Let&apos;s plan something <span style={{ fontStyle: "italic" }}>remarkable</span>
+                      {t.rich("title", {
+                        i: (chunks) => <span style={{ fontStyle: "italic" }}>{chunks}</span>,
+                      })}
                     </h2>
                     <p
                       style={{
@@ -278,27 +281,19 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
                         margin: "16px 0 0",
                       }}
                     >
-                      Tell us a little about the trip you have in mind. There are no
-                      planning fees and no obligation — just the start of a
-                      conversation.
+                      {t("intro")}
                     </p>
                   </div>
 
                   <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 16 }}>
-                    <Assurance icon="award">
-                      Matched with a bookit travel expert who knows the ground
-                    </Assurance>
-                    <Assurance icon="phone">
-                      We&apos;ll talk it through — email, phone or video call
-                    </Assurance>
-                    <Assurance icon="calendar">
-                      A considered reply within 24 hours
-                    </Assurance>
+                    <Assurance icon="award">{t("assurance1")}</Assurance>
+                    <Assurance icon="phone">{t("assurance2")}</Assurance>
+                    <Assurance icon="calendar">{t("assurance3")}</Assurance>
                   </ul>
 
                   <div style={{ marginTop: "auto", paddingTop: 12, borderTop: "1px solid rgba(255,255,255,0.14)" }}>
                     <div style={{ fontSize: 12, letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(244,239,231,0.55)", marginBottom: 8 }}>
-                      Prefer to talk now?
+                      {t("preferToTalk")}
                     </div>
                     <a
                       href={`tel:${site.phone.replace(/\s+/g, "")}`}
@@ -308,7 +303,7 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
                       {site.phone}
                     </a>
                     <div style={{ fontSize: 13, color: "rgba(244,239,231,0.6)", marginTop: 6 }}>
-                      Mon–Fri, 9am–6pm CET
+                      {t("hours")}
                     </div>
                   </div>
                 </div>
@@ -322,46 +317,46 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
                   }}
                   style={{ padding: "clamp(28px, 4vw, 44px)", display: "grid", gap: 18 }}
                 >
-                  <SectionLabel>Your trip</SectionLabel>
+                  <SectionLabel>{t("yourTrip")}</SectionLabel>
                   <Input
-                    label="Where would you like to go?"
+                    label={t("whereLabel")}
                     name="destination"
-                    placeholder="A place, or “still deciding”"
+                    placeholder={t("wherePlaceholder")}
                     value={destination}
                     onChange={(e) => setDestination(e.target.value)}
                   />
                   <div className="wf-form-grid">
-                    <Input label="When" name="when" placeholder="e.g. May 2026, or flexible" />
-                    <Input label="How long" name="duration" placeholder="e.g. 7–10 nights" />
+                    <Input label={t("whenLabel")} name="when" placeholder={t("whenPlaceholder")} />
+                    <Input label={t("durationLabel")} name="duration" placeholder={t("durationPlaceholder")} />
                   </div>
                   <div className="wf-form-grid">
-                    <Input label="Who's travelling" name="travellers" placeholder="e.g. 2 adults" />
-                    <SelectField label="Budget per person" name="budget">
+                    <Input label={t("travellersLabel")} name="travellers" placeholder={t("travellersPlaceholder")} />
+                    <SelectField label={t("budgetLabel")} name="budget">
                       <option value="" disabled>
-                        Select a range
+                        {t("budgetSelect")}
                       </option>
-                      <option>Not sure yet</option>
-                      <option>Under €2,000</option>
-                      <option>€2,000–5,000</option>
-                      <option>€5,000–10,000</option>
-                      <option>€10,000+</option>
+                      <option>{t("budgetNotSure")}</option>
+                      <option>{t("budgetUnder2")}</option>
+                      <option>{t("budget2to5")}</option>
+                      <option>{t("budget5to10")}</option>
+                      <option>{t("budget10plus")}</option>
                     </SelectField>
                   </div>
                   <TextareaField
-                    label="Tell us about your trip"
+                    label={t("notesLabel")}
                     name="notes"
                     rows={3}
-                    placeholder="How do you want to feel? Who's it for? Anything that would make it yours…"
+                    placeholder={t("notesPlaceholder")}
                   />
 
-                  <SectionLabel>Your details</SectionLabel>
+                  <SectionLabel>{t("yourDetails")}</SectionLabel>
                   <div className="wf-form-grid">
-                    <Input label="First name" name="firstName" placeholder="Jane" required />
-                    <Input label="Last name" name="lastName" placeholder="Appleseed" required />
+                    <Input label={t("firstName")} name="firstName" placeholder="Jane" required />
+                    <Input label={t("lastName")} name="lastName" placeholder="Appleseed" required />
                   </div>
                   <div className="wf-form-grid">
-                    <Input label="Email" name="email" type="email" placeholder="you@email.com" required />
-                    <Input label="Phone" name="phone" type="tel" placeholder="Optional" />
+                    <Input label={t("email")} name="email" type="email" placeholder="you@email.com" required />
+                    <Input label={t("phoneLabel")} name="phone" type="tel" placeholder={t("phonePlaceholder")} />
                   </div>
 
                   <label
@@ -381,15 +376,15 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
                       name="newsletter"
                       style={{ width: 17, height: 17, marginTop: 2, accentColor: "var(--wf-coral-500)" }}
                     />
-                    Keep me posted with occasional travel inspiration. No spam, unsubscribe any time.
+                    {t("newsletter")}
                   </label>
 
                   <div style={{ marginTop: 6 }}>
                     <Button type="submit" variant="primary" size="lg" fullWidth>
-                      Send enquiry
+                      {t("send")}
                     </Button>
                     <p style={{ fontSize: 12.5, color: "var(--wf-ink-500)", textAlign: "center", margin: "12px 0 0" }}>
-                      No planning fees · no obligation · reply within 24 hours
+                      {t("finePrint")}
                     </p>
                   </div>
                 </form>

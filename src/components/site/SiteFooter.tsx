@@ -1,11 +1,13 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui";
 import { Logo } from "./Logo";
 import { useEnquiry } from "./EnquiryProvider";
 import { footerColumns, site } from "@/content/site";
 
 export function SiteFooter() {
+  const t = useTranslations();
   const { open } = useEnquiry();
   const year = new Date().getFullYear();
 
@@ -36,14 +38,14 @@ export function SiteFooter() {
                 margin: "18px 0 22px",
               }}
             >
-              {site.description}
+              {t("footer.description")}
             </p>
             <Button variant="primary" size="md" onClick={() => open()}>
-              Start your journey
+              {t("footer.startJourney")}
             </Button>
           </div>
-          {Object.entries(footerColumns).map(([heading, items]) => (
-            <div key={heading}>
+          {footerColumns.map((col) => (
+            <div key={col.key}>
               <div
                 style={{
                   fontSize: 12,
@@ -54,7 +56,7 @@ export function SiteFooter() {
                   marginBottom: 16,
                 }}
               >
-                {heading}
+                {t(`footer.columns.${col.key}`)}
               </div>
               <ul
                 style={{
@@ -66,16 +68,16 @@ export function SiteFooter() {
                   gap: 11,
                 }}
               >
-                {items.map((i) => (
+                {col.items.map((item) => (
                   <li
-                    key={i}
+                    key={item}
                     style={{
                       fontSize: 14.5,
                       color: "rgba(244,239,231,0.85)",
                       cursor: "pointer",
                     }}
                   >
-                    {i}
+                    {t(`footer.items.${item}`)}
                   </li>
                 ))}
               </ul>
@@ -94,13 +96,11 @@ export function SiteFooter() {
             color: "rgba(244,239,231,0.5)",
           }}
         >
-          <span>
-            © {year} {site.name}. Tailor-made travel from North Macedonia.
-          </span>
+          <span>{t("footer.copyright", { year, name: site.name })}</span>
           <span style={{ display: "flex", gap: 22 }}>
-            <span>Privacy</span>
-            <span>Terms</span>
-            <span>Sitemap</span>
+            <span>{t("footer.legal.privacy")}</span>
+            <span>{t("footer.legal.terms")}</span>
+            <span>{t("footer.legal.sitemap")}</span>
           </span>
         </div>
       </div>

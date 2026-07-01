@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { DestinationCard } from "@/components/ui";
 import type { Destination } from "@/content/types";
 
@@ -18,6 +19,8 @@ export function DestinationGrid({
   columns?: 2 | 3 | 4;
 }) {
   const router = useRouter();
+  const t = useTranslations("cards");
+  const tm = useTranslations("months");
   return (
     <div className={`wf-grid wf-grid-${columns}`}>
       {items.map((d) => (
@@ -28,7 +31,11 @@ export function DestinationGrid({
           region={d.region}
           title={d.title}
           badge={d.badge}
-          meta={d.bestMonths.length ? `Best ${d.bestMonths.join(", ")}` : undefined}
+          meta={
+            d.bestMonths.length
+              ? t("best", { months: d.bestMonths.map((m) => tm(m)).join(", ") })
+              : undefined
+          }
           height={height}
           onClick={() => router.push(`/destinations/${d.slug}`)}
         />

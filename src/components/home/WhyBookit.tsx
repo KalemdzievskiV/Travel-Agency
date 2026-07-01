@@ -1,5 +1,6 @@
 import React from "react";
 import { Award, Lightbulb, Map, PhoneCall, UserRound } from "lucide-react";
+import { getTranslations } from "next-intl/server";
 import { EnquireButton } from "@/components/site/EnquireButton";
 import { whyBookit } from "@/content/site";
 
@@ -16,7 +17,8 @@ const ICONS = {
   guide: UserRound,
 } as const;
 
-export function WhyBookit() {
+export async function WhyBookit() {
+  const t = await getTranslations();
   return (
     <>
       <section style={{ background: "var(--wf-cream)", padding: "clamp(64px, 9vw, 104px) 0" }}>
@@ -33,7 +35,7 @@ export function WhyBookit() {
               margin: 0,
             }}
           >
-            Why bookit?
+            {t("why.heading")}
           </h2>
           <div
             aria-hidden
@@ -59,7 +61,7 @@ export function WhyBookit() {
                       color: "var(--wf-ink-700)",
                     }}
                   >
-                    {w.label}
+                    {t(`why.reasons.${w.icon}`)}
                   </span>
                 </div>
               );
@@ -88,11 +90,11 @@ export function WhyBookit() {
               margin: 0,
             }}
           >
-            So, ready to start?
+            {t("why.ctaHeading")}
           </h2>
           <div style={{ marginTop: "clamp(24px, 4vw, 34px)" }}>
             <EnquireButton variant="dark" size="lg">
-              Get in touch
+              {t("common.getInTouch")}
             </EnquireButton>
           </div>
         </div>
