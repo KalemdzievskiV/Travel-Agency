@@ -3,15 +3,17 @@
  * (see the "build" script) so every Vercel deploy migrates the database before
  * Next.js prerenders. Idempotent — already-applied migrations are skipped.
  *
- * Skips gracefully if DATABASE_URL isn't set (e.g. a build without a database).
+ * Uses MIGRATE_DATABASE_URL when set (a direct, non-pooled connection — Neon's
+ * pooler can reject the DDL/locks a migration needs), else DATABASE_URL. Skips
+ * gracefully if neither is set (e.g. a build without a database).
  */
 import { config } from "dotenv";
 config({ path: ".env.local" }); // harmless if absent (Vercel injects env vars)
 
 async function main() {
-  const url = process.env.DATABASE_URL;
+  const url = process.env.MIGRATE_DATABASE_URL || process.env.DATABASE_URL;
   if (!url) {
-    console.log("[migrate] DATABASE_URL not set — skipping migrations.");
+    console.log("[migrate] no MIGRATE_DATABASE_URL / DATABASE_URL — skipping migrations.");
     return;
   }
 
