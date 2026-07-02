@@ -137,13 +137,25 @@
   gap: clamp(24px, 4vw, 56px);
   align-items: center;
 }
+/* Row viewport — lets the trips row bleed off the right edge of the page,
+   past the container gutter and centring margin, like the reference. */
+.wf-explore__viewport {
+  position: relative;
+  min-width: 0;
+  margin-right: calc(-1 * (max((100vw - var(--wf-container-wide)) / 2, 0px) + clamp(20px, 5vw, 32px)));
+}
 .wf-explore__row {
   display: flex;
   gap: clamp(14px, 1.6vw, 20px);
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  padding-bottom: 10px;
   -webkit-overflow-scrolling: touch;
+  /* Hide the horizontal scrollbar — paging is via the arrows. */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.wf-explore__row::-webkit-scrollbar {
+  display: none;
 }
 @media (max-width: 860px) {
   .wf-explore { grid-template-columns: 1fr; gap: 28px; }
@@ -246,6 +258,146 @@
 .wf-trip-card:hover .wf-trip-card__btn { background: #fff; color: var(--wf-ink-900); }
 @media (prefers-reduced-motion: reduce) {
   .wf-trip-card__reveal { grid-template-rows: 1fr; }
+}
+
+/* Circular pager arrows over the trips row */
+.wf-carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  color: var(--wf-ink-900);
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: var(--wf-shadow-md);
+  transition: background 0.2s var(--wf-ease-out), transform 0.2s var(--wf-ease-out);
+}
+.wf-carousel-arrow:hover { background: #fff; }
+.wf-carousel-arrow--next { right: clamp(20px, 5vw, 32px); }
+.wf-carousel-arrow--prev { left: -12px; }
+
+/* ── Trip header facts (When / Price / How long) ─────────────── */
+.wf-trip-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(20px, 4vw, 48px);
+}
+@media (max-width: 560px) {
+  .wf-trip-facts { grid-template-columns: 1fr; gap: 20px; }
+}
+
+/* ── Trip itinerary — static fallback (image + day list) ─────── */
+.wf-trip-static {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(28px, 4vw, 56px);
+  align-items: start;
+}
+.wf-trip-static__media {
+  position: sticky;
+  top: calc(var(--wf-header-h) + 24px);
+  aspect-ratio: 4 / 5;
+  border-radius: var(--wf-radius-md);
+  overflow: hidden;
+  border: 1px solid var(--wf-border);
+}
+@media (max-width: 860px) {
+  .wf-trip-static { grid-template-columns: 1fr; gap: 24px; }
+  .wf-trip-static__media { position: static; aspect-ratio: 16 / 10; }
+}
+
+/* ── Trip route map + itinerary (pinned; days advance on scroll) ── */
+.wf-trip-scrolly {
+  position: relative;
+}
+.wf-trip-scrolly__pin {
+  position: sticky;
+  top: var(--wf-header-h);
+  height: calc(100svh - var(--wf-header-h));
+  display: flex;
+  padding-block: clamp(16px, 3vh, 36px);
+}
+.wf-trip-scrolly__grid {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(20px, 3vw, 48px);
+  align-items: stretch;
+}
+.wf-trip-scrolly__map {
+  min-width: 0;
+  min-height: 0;
+}
+.wf-trip-map__canvas {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--wf-radius-md);
+  overflow: hidden;
+  border: 1px solid var(--wf-border);
+  background: var(--wf-cream);
+  z-index: 0;
+}
+.wf-trip-scrolly__days {
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
+}
+.wf-trip-scrolly__day {
+  padding: 16px 0;
+}
+.wf-trip-scrolly__progress {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  font-family: var(--wf-font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--wf-ink-500);
+  background: var(--wf-cream);
+  padding: 6px 2px 0 14px;
+}
+@media (max-width: 860px) {
+  .wf-trip-scrolly__grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: 42% 58%;
+    gap: 14px;
+  }
+}
+.wf-route-line { stroke: var(--wf-coral-500); }
+.wf-mappin {
+  display: block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--wf-paper);
+  border: 3px solid var(--wf-ink-500);
+  box-shadow: var(--wf-shadow-sm);
+}
+.wf-mappin--active {
+  width: 20px;
+  height: 20px;
+  border-color: var(--wf-coral-500);
+  background: var(--wf-coral-500);
+  box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.08);
+}
+@media (max-width: 860px) {
+  .wf-trip-map { grid-template-columns: 1fr; }
+  .wf-trip-map__aside {
+    position: sticky;
+    top: var(--wf-header-h);
+    z-index: 1;
+    background: var(--wf-cream);
+    padding-block: 8px;
+  }
+  .wf-trip-map__canvas { height: clamp(280px, 40vh, 360px); }
 }
 
 /* ── Region browser (destinations page: list + hover image) ─── */

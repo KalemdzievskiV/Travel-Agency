@@ -124,7 +124,7 @@ export function HomeHero() {
           <Link className="wf-btn-ghost-light" href="/trips">
             {t("common.exploreOurTrips")}
           </Link>
-          <Button as="a" href="/trip-finder" variant="dark" size="lg">
+          <Button as="a" href="/make-an-enquiry" variant="dark" size="lg">
             {t("common.planMyTrip")}
           </Button>
         </div>

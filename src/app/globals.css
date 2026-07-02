@@ -12,8 +12,8 @@
 /* Wire the design-system font tokens to the self-hosted next/font faces
    (loaded in app/layout.tsx). The literal family names remain as fallbacks. */
 :root {
-  --wf-font-display: var(--font-display), "Bodoni Moda", "Times New Roman", Georgia, serif;
-  --wf-font-sans: var(--font-sans), "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --wf-font-display: var(--font-display), "Fraunces", "Bodoni Moda", Georgia, serif;
+  --wf-font-sans: var(--font-sans), "Brandon Grotesque", "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
 /* ── Tailwind v4 theme bridge ────────────────────────────────────────────

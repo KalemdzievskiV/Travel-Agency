@@ -64,6 +64,11 @@ export function DestinationForm({
         <TextAreaField label="Don't miss" name="highlights" defaultValue={d?.highlights.join("\n")} rows={4} hint="One per line." />
         <TextAreaField label="Best months" name="bestMonths" defaultValue={d?.bestMonths.join("\n")} rows={4} hint="One per line (e.g. May)." />
 
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+          <TextField label="Latitude" name="lat" defaultValue={d?.lat ?? ""} placeholder="-8.34" hint="For the trip route map. Decimal degrees." />
+          <TextField label="Longitude" name="lng" defaultValue={d?.lng ?? ""} placeholder="115.09" hint="From Google Maps: right-click a place → copy coords." />
+        </div>
+
         <div
           style={{
             marginTop: 8,

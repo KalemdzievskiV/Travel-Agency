@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
-import { TripFinder } from "@/components/sections/TripFinder";
-import { getDestinations } from "@/lib/queries/public";
+import { TripFinderLanding } from "@/components/sections/TripFinderLanding";
 
 export const metadata: Metadata = {
   title: "Trip finder",
   description:
-    "Tell us how you want to feel and when you want to travel — the Feelings Engine finds the journeys that fit.",
+    "Tell us how you want to feel and when you want to travel — the trip finder points you to the journeys that fit.",
 };
 
 export default async function TripFinderPage({
@@ -16,6 +15,5 @@ export default async function TripFinderPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const destinations = await getDestinations();
-  return <TripFinder destinations={destinations} />;
+  return <TripFinderLanding />;
 }

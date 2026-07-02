@@ -66,6 +66,8 @@ function toDestination(r: DestinationRow, mk: boolean, regionMap: Map<number, Re
     teaser: pick(r.teaser, r.teaserMk),
     grad: r.grad ?? "",
     image: r.image ?? undefined,
+    lat: r.lat ?? undefined,
+    lng: r.lng ?? undefined,
     badge: pick(r.badge, r.badgeMk),
     whenToGo: pick(r.whenToGo, r.whenToGoMk),
     bestMonths: r.bestMonths,
@@ -102,6 +104,7 @@ function toTrip(r: TripRow): Trip {
     priceFrom: r.priceFrom,
     grad: r.grad ?? "",
     image: r.image ?? undefined,
+    images: r.images,
     feelings: r.feelings,
     itinerary: r.itinerary,
     departures: r.departures,
@@ -200,7 +203,10 @@ export async function getTripsWithFacets(): Promise<TripWithFacets[]> {
 
   return rows.map((r) => ({
     ...toTrip(r),
-    facets: [...(byTrip.get(r.id) ?? []), ...deriveTripFacets(r.durationDays, r.priceFrom)],
+    facets: [
+      ...(byTrip.get(r.id) ?? []),
+      ...deriveTripFacets(r.durationDays, r.priceFrom, r.feelings, r.departures),
+    ],
   }));
 }
 

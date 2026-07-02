@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import React from "react";
 import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import { Eyebrow, Icon } from "@/components/ui";
+import { Link } from "@/i18n/navigation";
 import { SectionHead } from "@/components/sections/SectionHead";
 import { DestinationGrid } from "@/components/sections/DestinationGrid";
-import { TripGrid } from "@/components/sections/TripGrid";
+import { TripsCarousel } from "@/components/sections/TripsCarousel";
 import { EnquireButton } from "@/components/site/EnquireButton";
 import { RegionLanding } from "@/components/sections/RegionLanding";
 import {
@@ -41,11 +43,34 @@ export default async function DestinationPage(
   const d = await getDestinationBySlug(slug);
   if (!d) notFound();
 
-  const [trips, all] = await Promise.all([
+  const [trips, all, td, tn, tr, tf, tm] = await Promise.all([
     getTripsForDestination(slug),
     getDestinations(),
+    getTranslations("destinationPage"),
+    getTranslations("nav"),
+    getTranslations("regionPage"),
+    getTranslations("feelings"),
+    getTranslations("months"),
   ]);
   const more = all.filter((x) => x.slug !== d.slug).slice(0, 3);
+
+  const feelingLabel = (f: string) => (tf.has(f) ? tf(f) : f);
+  const monthLabel = (m: string) => (tm.has(m) ? tm(m) : m);
+
+  const subLink: React.CSSProperties = {
+    textDecoration: "none",
+    fontFamily: "var(--wf-font-sans)",
+    fontSize: 13,
+    fontWeight: 600,
+    letterSpacing: "0.14em",
+    textTransform: "uppercase",
+    color: "var(--wf-ink-700)",
+  };
+  const crumbLink: React.CSSProperties = {
+    color: "var(--wf-ink-500)",
+    textDecoration: "underline",
+    textUnderlineOffset: "2px",
+  };
 
   return (
     <>
@@ -53,25 +78,25 @@ export default async function DestinationPage(
       <section
         style={{
           position: "relative",
-          minHeight: 520,
+          minHeight: "clamp(360px, 56vh, 560px)",
           display: "flex",
-          alignItems: "flex-end",
+          alignItems: "center",
+          justifyContent: "center",
           overflow: "hidden",
           marginTop: "calc(-1 * var(--wf-header-h))",
+          textAlign: "center",
         }}
       >
         <div
+          aria-hidden
           style={{
             position: "absolute",
             inset: 0,
             background: d.image ? `url(${d.image}) center/cover no-repeat` : d.grad,
           }}
         />
-        <div style={{ position: "absolute", inset: 0, background: "var(--wf-overlay-bottom)" }} />
-        <div
-          className="wf-wrap wf-wrap--default"
-          style={{ position: "relative", paddingBottom: "clamp(36px, 6vw, 56px)", color: "#fff" }}
-        >
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: "rgba(14,42,51,0.45)" }} />
+        <div className="wf-wrap wf-wrap--default" style={{ position: "relative", color: "#fff" }}>
           <Eyebrow tone="light">{d.region}</Eyebrow>
           <h1
             style={{
@@ -80,125 +105,142 @@ export default async function DestinationPage(
               fontSize: "clamp(38px, 8vw, 68px)",
               lineHeight: 1.04,
               letterSpacing: "-0.02em",
-              margin: "16px 0 0",
+              margin: "14px 0 0",
             }}
           >
             {d.title}
           </h1>
-          <p style={{ fontSize: 18, color: "rgba(255,255,255,0.85)", maxWidth: 560, margin: "16px 0 0", lineHeight: 1.55 }}>
-            {d.teaser}
+          {d.teaser && (
+            <p style={{ fontSize: 18, color: "rgba(255,255,255,0.85)", maxWidth: 560, margin: "16px auto 0", lineHeight: 1.55 }}>
+              {d.teaser}
+            </p>
+          )}
+        </div>
+      </section>
+
+      {/* Section nav (centred), sticky under the header */}
+      <div
+        style={{
+          position: "sticky",
+          top: "var(--wf-header-h)",
+          zIndex: 40,
+          background: "var(--wf-cream)",
+          borderBottom: "1px solid var(--wf-border)",
+        }}
+      >
+        <nav
+          className="wf-wrap wf-wrap--wide"
+          style={{ display: "flex", justifyContent: "center", gap: "clamp(20px, 4vw, 44px)", flexWrap: "wrap", paddingBlock: 18 }}
+        >
+          <a href="#overview" style={{ ...subLink, color: "var(--wf-coral-500)", borderBottom: "2px solid var(--wf-coral-500)", paddingBottom: 4 }}>
+            {td("overview")}
+          </a>
+          {trips.length > 0 && <a href="#trips" style={subLink}>{td("trips")}</a>}
+          <Link href="/trip-finder" style={subLink}>{tn("tripFinder")}</Link>
+        </nav>
+      </div>
+
+      {/* Breadcrumb */}
+      <div className="wf-wrap wf-wrap--wide" style={{ paddingTop: 16, fontSize: 12.5, color: "var(--wf-ink-500)" }}>
+        <Link href="/" style={crumbLink}>{tr("home")}</Link>
+        {" / "}
+        <Link href="/destinations" style={crumbLink}>{tn("destinations")}</Link>
+        {" / "}
+        {d.regionSlug ? (
+          <>
+            <Link href={`/destinations/${d.regionSlug}`} style={crumbLink}>{d.region}</Link>
+            {" / "}
+          </>
+        ) : null}
+        <span style={{ color: "var(--wf-ink-700)" }}>{d.title}</span>
+      </div>
+
+      {/* Overview — guide body + sidebar */}
+      <section id="overview" style={{ background: "var(--wf-cream)", padding: "clamp(40px, 6vw, 72px) 0 clamp(56px, 8vw, 80px)", scrollMarginTop: "calc(var(--wf-header-h) + 66px)" }}>
+        <div className="wf-wrap" style={{ maxWidth: 760, marginInline: "auto", textAlign: "center" }}>
+          <Eyebrow>{td("thePlace")}</Eyebrow>
+          <p
+            style={{
+              fontFamily: "var(--wf-font-display)",
+              fontWeight: 500,
+              lineHeight: 1.3,
+              letterSpacing: "-0.01em",
+              color: "var(--wf-ink-900)",
+              margin: "16px 0 0",
+              fontSize: "clamp(24px, 3.8vw, 32px)",
+            }}
+          >
+            {d.intro}
+          </p>
+
+          {(d.whenToGo || d.bestMonths.length > 0) && (
+            <div style={{ marginTop: 44 }}>
+              <SubHead>{td("whenToGo")}</SubHead>
+              {d.whenToGo && (
+                <p style={{ fontSize: 16.5, lineHeight: 1.65, color: "var(--wf-ink-700)", margin: "0 0 16px" }}>
+                  {d.whenToGo}
+                </p>
+              )}
+              <Chips items={d.bestMonths.map(monthLabel)} center />
+            </div>
+          )}
+
+          {d.feelings.length > 0 && (
+            <div style={{ marginTop: 36 }}>
+              <SubHead>{td("whatItFeels")}</SubHead>
+              <Chips items={d.feelings.map(feelingLabel)} center />
+            </div>
+          )}
+
+          {d.highlights.length > 0 && (
+            <div style={{ marginTop: 36 }}>
+              <SubHead>{td("dontMiss")}</SubHead>
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
+                {d.highlights.map((h) => (
+                  <li key={h} style={{ display: "flex", gap: 12, alignItems: "flex-start", textAlign: "left", maxWidth: 460 }}>
+                    <span style={{ marginTop: 2 }}>
+                      <Icon name="star" size={16} color="var(--wf-coral-500)" />
+                    </span>
+                    <span style={{ fontSize: 16.5, lineHeight: 1.55, color: "var(--wf-ink-700)" }}>{h}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <div style={{ marginTop: 44, display: "flex", justifyContent: "center" }}>
+            <EnquireButton destination={d.title} size="lg">
+              {td("planTripHere")}
+            </EnquireButton>
+          </div>
+          <p style={{ fontSize: 13, color: "var(--wf-ink-500)", margin: "14px 0 0" }}>
+            {td("reassure")}
           </p>
         </div>
       </section>
 
-      {/* Guide body + sidebar */}
-      <section style={{ background: "var(--wf-cream)", padding: "clamp(56px, 8vw, 80px) 0" }}>
-        <div className="wf-wrap wf-wrap--default wf-split">
-          <div>
-            <Eyebrow>The place</Eyebrow>
-            <p
-              style={{
-                fontFamily: "var(--wf-font-display)",
-                fontWeight: 500,
-                lineHeight: 1.3,
-                letterSpacing: "-0.01em",
-                color: "var(--wf-ink-900)",
-                margin: "16px 0 0",
-                fontSize: "clamp(22px, 3.5vw, 28px)",
-              }}
-            >
-              {d.intro}
-            </p>
-
-            {/* When to go */}
-            {(d.whenToGo || d.bestMonths.length > 0) && (
-              <div style={{ marginTop: 36 }}>
-                <SubHead>When to go</SubHead>
-                {d.whenToGo && (
-                  <p style={{ fontSize: 16.5, lineHeight: 1.65, color: "var(--wf-ink-700)", margin: "0 0 14px" }}>
-                    {d.whenToGo}
-                  </p>
-                )}
-                <Chips items={d.bestMonths} />
-              </div>
-            )}
-
-            {/* What it feels like */}
-            {d.feelings.length > 0 && (
-              <div style={{ marginTop: 32 }}>
-                <SubHead>What it feels like</SubHead>
-                <Chips items={d.feelings} />
-              </div>
-            )}
-
-            {/* Don't miss */}
-            {d.highlights.length > 0 && (
-              <div style={{ marginTop: 32 }}>
-                <SubHead>Don&apos;t miss</SubHead>
-                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 14 }}>
-                  {d.highlights.map((h) => (
-                    <li key={h} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                      <span style={{ marginTop: 2 }}>
-                        <Icon name="star" size={16} color="var(--wf-coral-500)" />
-                      </span>
-                      <span style={{ fontSize: 16.5, lineHeight: 1.55, color: "var(--wf-ink-700)" }}>{h}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-
-          {/* Sidebar */}
-          <aside
-            className="wf-split__aside"
-            style={{
-              background: "var(--wf-paper)",
-              border: "1px solid var(--wf-border)",
-              borderRadius: "var(--wf-radius-md)",
-              padding: "28px 28px 32px",
-              boxShadow: "var(--wf-shadow-sm)",
-            }}
-          >
-            <Fact label="Region" value={d.region} />
-            {d.bestMonths.length > 0 && (
-              <Fact label="Best season" value={d.bestMonths.join(", ")} />
-            )}
-            <Fact label="Style" value={d.badge || "Tailor-made"} last />
-            <div style={{ marginTop: 24 }}>
-              <EnquireButton destination={d.title} fullWidth size="lg">
-                Plan a trip here
-              </EnquireButton>
-            </div>
-            <p style={{ fontSize: 13, color: "var(--wf-ink-500)", margin: "14px 0 0", textAlign: "center" }}>
-              No planning fees · reply within 24 hours
-            </p>
-          </aside>
-        </div>
-      </section>
-
-      {/* Trips that visit here (guide → product) */}
+      {/* Example trips (guide → product) */}
       {trips.length > 0 && (
-        <section style={{ background: "var(--wf-cream)", padding: "0 0 clamp(64px, 9vw, 104px)" }}>
-          <div className="wf-wrap wf-wrap--wide">
-            <div style={{ marginBottom: 36 }}>
-              <SectionHead eyebrow="Ready to book" title={`Trips that visit ${d.title}`} />
-            </div>
-            <TripGrid items={trips} height={380} />
-          </div>
-        </section>
+        <div id="trips" style={{ scrollMarginTop: "calc(var(--wf-header-h) + 66px)" }}>
+          <TripsCarousel
+            trips={trips}
+            eyebrow={td("tripsEyebrow")}
+            title={td("tripsTitle", { title: d.title })}
+            description={td("tripsIntro")}
+          />
+        </div>
       )}
 
       {/* More places */}
-      <section style={{ background: "var(--wf-cream)", padding: "0 0 clamp(64px, 9vw, 104px)" }}>
+      <section style={{ background: "var(--wf-cream)", padding: "clamp(56px, 8vw, 88px) 0 clamp(64px, 9vw, 104px)" }}>
         <div className="wf-wrap wf-wrap--wide">
           <div style={{ marginBottom: 36 }}>
-            <SectionHead eyebrow="Keep exploring" title="More places" />
+            <SectionHead eyebrow={td("keepExploring")} title={td("morePlaces")} />
           </div>
           <DestinationGrid items={more} height={380} />
           <div style={{ marginTop: 40 }}>
             <Link href="/destinations" style={{ textDecoration: "none", color: "var(--wf-ink-900)", fontSize: 13, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", borderBottom: "1px solid var(--wf-ink-900)", paddingBottom: 4 }}>
-              View all destinations
+              {td("viewAll")}
             </Link>
           </div>
         </div>
@@ -225,10 +267,10 @@ function SubHead({ children }: { children: React.ReactNode }) {
   );
 }
 
-function Chips({ items }: { items: string[] }) {
+function Chips({ items, center = false }: { items: string[]; center?: boolean }) {
   if (items.length === 0) return null;
   return (
-    <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+    <div style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: center ? "center" : "flex-start" }}>
       {items.map((i) => (
         <span
           key={i}
@@ -249,23 +291,3 @@ function Chips({ items }: { items: string[] }) {
   );
 }
 
-function Fact({ label, value, last = false }: { label: string; value: string; last?: boolean }) {
-  return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        gap: 16,
-        padding: "12px 0",
-        borderBottom: last ? "none" : "1px solid var(--wf-divider)",
-      }}
-    >
-      <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--wf-ink-500)" }}>
-        {label}
-      </span>
-      <span style={{ fontSize: 14.5, fontWeight: 600, color: "var(--wf-ink-900)", textAlign: "right" }}>
-        {value}
-      </span>
-    </div>
-  );
-}

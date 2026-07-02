@@ -47,8 +47,8 @@ export function TripForm({
           label="Itinerary"
           name="itinerary"
           defaultValue={t?.itinerary.join("\n")}
-          rows={6}
-          hint="One day/stage per line, e.g. 'Days 1–2 · Lake Ohrid — settle in'."
+          rows={7}
+          hint="One stop per line — 'Place | notes'. Coordinates are looked up automatically from the place name on save (type it like you'd search it, e.g. 'Cusco, Peru | The old Inca capital'). Optionally prefix a day label to show as-is, e.g. 'Days 1–5 Lima, Peru | ...' renders 'Days 1–5' (otherwise days auto-number). Saving may take a moment while it looks up new places; you can tweak the filled-in coordinates afterwards."
         />
         <TextAreaField
           label="Departures"
@@ -99,6 +99,13 @@ export function TripForm({
         </Field>
 
         <ImageField currentUrl={t?.image} />
+        <TextAreaField
+          label="Gallery images"
+          name="images"
+          defaultValue={t?.images.join("\n")}
+          rows={5}
+          hint="One image URL per line — shown in the trip's carousel. The hero image above stays the card image."
+        />
         <TextField label="Gradient (fallback)" name="grad" defaultValue={t?.grad} hint="CSS gradient shown when no image is set." />
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, alignItems: "end" }}>

@@ -15,6 +15,9 @@ export type Destination = {
   grad: string;
   /** Real photo URL (preferred over `grad` when present). */
   image?: string;
+  /** Geo coordinates, for plotting on trip route maps. */
+  lat?: number;
+  lng?: number;
   /** Category tag, e.g. "Lakeside". */
   badge: string;
   /** Editorial "when to go" note. */
@@ -53,6 +56,8 @@ export type Trip = {
   priceFrom: string;
   grad: string;
   image?: string;
+  /** Gallery images (URLs) for the trip carousel. */
+  images: string[];
   feelings: string[];
   /** Day-by-day plan, one entry per day/stage. */
   itinerary: string[];

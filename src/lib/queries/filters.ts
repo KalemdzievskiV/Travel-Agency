@@ -7,6 +7,7 @@ import {
   tripFilterOptions,
   destinationFilterOptions,
 } from "@/db/schema";
+import { months } from "@/content/site";
 
 export type FilterOptionLite = { id: number; key: string; label: string };
 export type FilterGroupWithOptions = {
@@ -42,8 +43,15 @@ export const derivedGroups: { key: string; label: string; options: FilterOptionL
   },
 ];
 
-/** Which derived facet keys a trip matches, given its duration/price. */
-export function deriveTripFacets(durationDays: number | null, priceFrom: string): string[] {
+/** Which derived facet keys a trip matches, given its own fields. Covers
+ * duration/price bands plus the finder facets (feeling, and the months its
+ * departures fall in) so the finder's ?feeling=&when= params filter here. */
+export function deriveTripFacets(
+  durationDays: number | null,
+  priceFrom: string,
+  feelings: string[] = [],
+  departures: string[] = [],
+): string[] {
   const out: string[] = [];
   if (durationDays != null) {
     if (durationDays <= 3) out.push("duration:1-3");
@@ -57,6 +65,15 @@ export function deriveTripFacets(durationDays: number | null, priceFrom: string)
     else if (n < 10000) out.push("price:5000-10000");
     else out.push("price:10000-plus");
   }
+  for (const f of feelings) out.push(`feeling:${f}`);
+  // Derive the months a trip runs from its free-text departure dates.
+  const monthsHit = new Set<string>();
+  for (const dep of departures) {
+    for (const m of months) {
+      if (new RegExp(`\\b${m}`, "i").test(dep)) monthsHit.add(m);
+    }
+  }
+  for (const m of monthsHit) out.push(`when:${m}`);
   return out;
 }
 

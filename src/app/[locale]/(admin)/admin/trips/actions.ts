@@ -8,6 +8,7 @@ import { trips, tripDestinations, tripFilterOptions, filterOptions, filterGroups
 import { requireUser } from "@/lib/session";
 import { slugify, linesToArray } from "@/lib/slug";
 import { uploadImage } from "@/lib/uploads";
+import { enrichItineraryLines } from "@/lib/geocode";
 
 
 function str(formData: FormData, key: string): string {
@@ -49,6 +50,9 @@ export async function saveTrip(formData: FormData) {
       ).map((r) => r.label)
     : [];
 
+  // Geocode itinerary places typed as "City | notes" into "City | lat | lng | notes".
+  const itinerary = await enrichItineraryLines(linesToArray(formData.get("itinerary")));
+
   const durationDays = Number(formData.get("durationDays"));
   const values = {
     slug,
@@ -58,8 +62,9 @@ export async function saveTrip(formData: FormData) {
     durationDays: Number.isFinite(durationDays) && durationDays > 0 ? durationDays : null,
     priceFrom: str(formData, "priceFrom"),
     grad: str(formData, "grad") || null,
+    images: linesToArray(formData.get("images")),
     feelings: feelingLabels,
-    itinerary: linesToArray(formData.get("itinerary")),
+    itinerary,
     departures: linesToArray(formData.get("departures")),
     published: formData.get("published") === "on",
     sortOrder: Number(formData.get("sortOrder") ?? 0) || 0,

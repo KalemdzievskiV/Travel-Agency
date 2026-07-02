@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Bodoni_Moda, Hanken_Grotesk } from "next/font/google";
+import { Fraunces } from "next/font/google";
+import localFont from "next/font/local";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import "../globals.css";
 
-// Display serif — substitute for Saol Display (swap licensed face later).
-const display = Bodoni_Moda({
+// Display serif — Fraunces, the closest free (OFL) stand-in for Black Tomato's
+// Saol Display. Swap for the licensed face later by dropping files into
+// next/font/local and repointing --wf-font-display.
+const display = Fraunces({
   variable: "--font-display",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -15,12 +18,23 @@ const display = Bodoni_Moda({
   display: "swap",
 });
 
-// Body grotesk — substitute for Founders Grotesk.
-const sans = Hanken_Grotesk({
+// Body / UI sans — Brandon Grotesque (HVD Fonts), Black Tomato's brand sans.
+// Licensed woff2 files live outside /public so they aren't publicly
+// downloadable; next/font/local bundles them hashed. Brandon has no 600
+// weight, so 600 requests resolve to Bold (700) — the classic Brandon caps look.
+const sans = localFont({
   variable: "--font-sans",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
+  src: [
+    { path: "../../fonts/brandon-grotesque/Brandon-Grotesque-Light.woff2", weight: "300", style: "normal" },
+    { path: "../../fonts/brandon-grotesque/Brandon-Grotesque-Light-Italic.woff2", weight: "300", style: "italic" },
+    { path: "../../fonts/brandon-grotesque/Brandon-Grotesque-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../../fonts/brandon-grotesque/Brandon-Grotesque-Regular-Italic.woff2", weight: "400", style: "italic" },
+    { path: "../../fonts/brandon-grotesque/Brandon-Grotesque-Medium.woff2", weight: "500", style: "normal" },
+    { path: "../../fonts/brandon-grotesque/Brandon-Grotesque-Medium-Italic.woff2", weight: "500", style: "italic" },
+    { path: "../../fonts/brandon-grotesque/Brandon-Grotesque-Bold.woff2", weight: "700", style: "normal" },
+    { path: "../../fonts/brandon-grotesque/Brandon-Grotesque-Bold-Italic.woff2", weight: "700", style: "italic" },
+  ],
 });
 
 // Canonical site URL for metadata (OG/canonical). Set NEXT_PUBLIC_SITE_URL in

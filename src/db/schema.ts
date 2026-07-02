@@ -4,6 +4,7 @@ import {
   serial,
   text,
   integer,
+  doublePrecision,
   boolean,
   timestamp,
   uniqueIndex,
@@ -40,6 +41,9 @@ export const destinations = pgTable(
     whenToGo: text("when_to_go").notNull().default(""),
     image: text("image"),
     grad: text("grad"),
+    // Geo coordinates — used to plot the destination on trip route maps.
+    lat: doublePrecision("lat"),
+    lng: doublePrecision("lng"),
     highlights: text("highlights").array().notNull().default([]),
     bestMonths: text("best_months").array().notNull().default([]),
     feelings: text("feelings").array().notNull().default([]),
@@ -102,6 +106,9 @@ export const trips = pgTable(
     priceFrom: text("price_from").notNull().default(""),
     image: text("image"),
     grad: text("grad"),
+    // Gallery images for the trip carousel (URLs). The single `image` above
+    // stays the hero/card image; this is the additional set.
+    images: text("images").array().notNull().default([]),
     feelings: text("feelings").array().notNull().default([]),
     // The sellable product: a day-by-day plan and fixed departure dates.
     itinerary: text("itinerary").array().notNull().default([]),

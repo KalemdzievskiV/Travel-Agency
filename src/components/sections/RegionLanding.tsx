@@ -2,7 +2,8 @@ import React from "react";
 import { getTranslations } from "next-intl/server";
 import { Eyebrow } from "@/components/ui";
 import { Link } from "@/i18n/navigation";
-import { DestinationGrid } from "@/components/sections/DestinationGrid";
+import { CountryGrid } from "@/components/sections/CountryGrid";
+import { RegionExperienceFinder } from "@/components/sections/RegionExperienceFinder";
 import type { Region } from "@/db/schema";
 import type { Destination } from "@/content/types";
 
@@ -168,12 +169,21 @@ export async function RegionLanding({
             {t("countries")}
           </h2>
           {destinations.length > 0 ? (
-            <DestinationGrid items={destinations} />
+            <CountryGrid items={destinations} initialCount={6} />
           ) : (
             <p style={{ color: "var(--wf-ink-500)" }}>{t("empty")}</p>
           )}
         </div>
       </section>
+
+      {/* Find your experience — region-scoped trip finder */}
+      {destinations.length > 0 && (
+        <RegionExperienceFinder
+          regionLabel={region.label}
+          image={region.image}
+          grad={region.grad}
+        />
+      )}
     </>
   );
 }

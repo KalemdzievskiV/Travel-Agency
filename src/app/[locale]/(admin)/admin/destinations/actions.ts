@@ -20,6 +20,13 @@ function str(formData: FormData, key: string): string {
   return String(formData.get(key) ?? "").trim();
 }
 
+function numOrNull(formData: FormData, key: string): number | null {
+  const v = str(formData, key);
+  if (!v) return null;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : null;
+}
+
 function revalidateDestinations(slug?: string) {
   revalidatePath("/admin/destinations");
   revalidatePath("/");
@@ -72,6 +79,8 @@ export async function saveDestination(formData: FormData) {
     badge: str(formData, "badge"),
     whenToGo: str(formData, "whenToGo"),
     grad: str(formData, "grad") || null,
+    lat: numOrNull(formData, "lat"),
+    lng: numOrNull(formData, "lng"),
     highlights: linesToArray(formData.get("highlights")),
     bestMonths: linesToArray(formData.get("bestMonths")),
     feelings: feelingLabels,
