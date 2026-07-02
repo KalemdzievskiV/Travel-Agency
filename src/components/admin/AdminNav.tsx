@@ -8,6 +8,7 @@ const links: [string, string][] = [
   ["Regions", "/admin/regions"],
   ["Destinations", "/admin/destinations"],
   ["Experiences", "/admin/experiences"],
+  ["Exp. categories", "/admin/experience-categories"],
   ["Testimonials", "/admin/testimonials"],
   ["Trips", "/admin/trips"],
   ["Filters", "/admin/filters"],

@@ -39,6 +39,25 @@ export type Experience = {
   image?: string;
 };
 
+// A "WHO" experience category — Families, Couples, Groups, Honeymoon, Solo.
+export type ExperienceCategory = {
+  slug: string;
+  title: string;
+  subtitle: string;
+  heroText: string;
+  grad: string;
+  image?: string;
+};
+
+export type Faq = { q: string; a: string };
+
+export type ExperienceCategoryDetail = ExperienceCategory & {
+  concept: string;
+  recommendations: string;
+  faqs: Faq[];
+  trips: Trip[];
+};
+
 export type Testimonial = {
   quote: string;
   who: string;

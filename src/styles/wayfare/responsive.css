@@ -292,6 +292,58 @@
   .wf-trip-facts { grid-template-columns: 1fr; gap: 20px; }
 }
 
+/* ── Experiences hub tiles (WHO categories) ──────────────────── */
+.wf-exp-tile {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 3.6;
+  border-radius: var(--wf-radius-md);
+  overflow: hidden;
+  text-decoration: none;
+}
+.wf-exp-tile__img {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.6s var(--wf-ease-out);
+}
+.wf-exp-tile:hover .wf-exp-tile__img { transform: scale(1.06); }
+.wf-exp-tile__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(14, 42, 51, 0.8) 0%, rgba(14, 42, 51, 0.15) 55%, rgba(14, 42, 51, 0.25) 100%);
+}
+.wf-exp-tile__body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: clamp(18px, 2vw, 26px);
+  color: #fff;
+}
+.wf-exp-tile__title {
+  font-family: var(--wf-font-display);
+  font-weight: 500;
+  font-size: clamp(22px, 2vw, 28px);
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+.wf-exp-tile__sub {
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 8px 0 0;
+  max-width: 34ch;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s var(--wf-ease-out), transform 0.3s var(--wf-ease-out);
+}
+.wf-exp-tile:hover .wf-exp-tile__sub { opacity: 1; transform: none; }
+@media (hover: none) {
+  .wf-exp-tile__sub { opacity: 1; transform: none; }
+}
+
 /* ── Trip itinerary — static fallback (image + day list) ─────── */
 .wf-trip-static {
   display: grid;

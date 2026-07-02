@@ -13,7 +13,7 @@ export const site = {
 
 export const nav: { label: string; href: string }[] = [
   { label: "Destinations", href: "/destinations" },
-  { label: "Experiences", href: "/#experiences" },
+  { label: "Experiences", href: "/experiences" },
   { label: "Trip finder", href: "/trip-finder" },
   { label: "About", href: "/about" },
 ];

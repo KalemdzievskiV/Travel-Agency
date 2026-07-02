@@ -4,6 +4,7 @@ import { db } from "@/db";
 import {
   destinations,
   experiences,
+  experienceCategories,
   testimonials,
   trips,
   tripDestinations,
@@ -39,6 +40,22 @@ export async function getExperience(id: number) {
     .select()
     .from(experiences)
     .where(eq(experiences.id, id))
+    .limit(1);
+  return row;
+}
+
+export function listExperienceCategories() {
+  return db
+    .select()
+    .from(experienceCategories)
+    .orderBy(asc(experienceCategories.sortOrder), asc(experienceCategories.id));
+}
+
+export async function getExperienceCategory(id: number) {
+  const [row] = await db
+    .select()
+    .from(experienceCategories)
+    .where(eq(experienceCategories.id, id))
     .limit(1);
   return row;
 }

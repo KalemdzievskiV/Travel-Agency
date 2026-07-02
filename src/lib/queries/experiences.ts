@@ -1,0 +1,105 @@
+import "server-only";
+import { and, asc, eq } from "drizzle-orm";
+import { getLocale } from "next-intl/server";
+import { db } from "@/db";
+import {
+  experienceCategories as categoriesTable,
+  trips as tripsTable,
+  tripFilterOptions,
+  filterOptions,
+  filterGroups,
+} from "@/db/schema";
+import { toTrip } from "./public";
+import type { ExperienceCategory, ExperienceCategoryDetail, Faq } from "@/content/types";
+
+type CategoryRow = typeof categoriesTable.$inferSelect;
+
+async function localeIsMk(): Promise<boolean> {
+  try {
+    return (await getLocale()) === "mk";
+  } catch {
+    return false;
+  }
+}
+
+function parseFaqs(lines: string[]): Faq[] {
+  return lines
+    .map((l) => {
+      const i = l.indexOf("|");
+      return i >= 0 ? { q: l.slice(0, i).trim(), a: l.slice(i + 1).trim() } : { q: l.trim(), a: "" };
+    })
+    .filter((f) => f.q);
+}
+
+function toCategory(r: CategoryRow, mk: boolean): ExperienceCategory {
+  const pick = (en: string, mkVal: string | null | undefined) => (mk && mkVal ? mkVal : en);
+  return {
+    slug: r.slug,
+    title: pick(r.title, r.titleMk),
+    subtitle: pick(r.subtitle, r.subtitleMk),
+    heroText: pick(r.heroText, r.heroTextMk),
+    grad: r.grad ?? "",
+    image: r.image ?? undefined,
+  };
+}
+
+/** Published categories, in order — for the hub grid and the nav. */
+export async function getExperienceCategories(): Promise<ExperienceCategory[]> {
+  const mk = await localeIsMk();
+  const rows = await db
+    .select()
+    .from(categoriesTable)
+    .where(eq(categoriesTable.published, true))
+    .orderBy(asc(categoriesTable.sortOrder), asc(categoriesTable.id));
+  return rows.map((r) => toCategory(r, mk));
+}
+
+// Trips tagged with a given "who" filter option; falls back to recent trips.
+async function tripsForWho(whoOptionKey: string) {
+  if (whoOptionKey) {
+    try {
+      const rows = await db
+        .select({ trip: tripsTable })
+        .from(tripFilterOptions)
+        .innerJoin(filterOptions, eq(tripFilterOptions.optionId, filterOptions.id))
+        .innerJoin(filterGroups, eq(filterOptions.groupId, filterGroups.id))
+        .innerJoin(tripsTable, eq(tripFilterOptions.tripId, tripsTable.id))
+        .where(and(eq(filterGroups.key, "who"), eq(filterOptions.key, whoOptionKey), eq(tripsTable.published, true)))
+        .orderBy(asc(tripsTable.sortOrder), asc(tripsTable.id));
+      if (rows.length) return rows.map((r) => toTrip(r.trip));
+    } catch {
+      // taxonomy tables may not exist yet — fall through to defaults
+    }
+  }
+  const fb = await db
+    .select()
+    .from(tripsTable)
+    .where(eq(tripsTable.published, true))
+    .orderBy(asc(tripsTable.sortOrder), asc(tripsTable.id))
+    .limit(6);
+  return fb.map(toTrip);
+}
+
+export async function getExperienceCategoryBySlug(
+  slug: string,
+): Promise<ExperienceCategoryDetail | undefined> {
+  const [row] = await db
+    .select()
+    .from(categoriesTable)
+    .where(and(eq(categoriesTable.slug, slug), eq(categoriesTable.published, true)))
+    .limit(1);
+  if (!row) return undefined;
+
+  const mk = await localeIsMk();
+  const pick = (en: string, mkVal: string | null | undefined) => (mk && mkVal ? mkVal : en);
+  const faqSource = mk && row.faqsMk && row.faqsMk.length ? row.faqsMk : row.faqs;
+  const trips = await tripsForWho(row.whoOptionKey || row.slug);
+
+  return {
+    ...toCategory(row, mk),
+    concept: pick(row.concept, row.conceptMk),
+    recommendations: pick(row.recommendations, row.recommendationsMk),
+    faqs: parseFaqs(faqSource),
+    trips,
+  };
+}

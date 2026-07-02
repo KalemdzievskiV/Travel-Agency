@@ -94,7 +94,7 @@ function toTestimonial(r: TestimonialRow): Testimonial {
 
 type TripRow = typeof tripsTable.$inferSelect;
 
-function toTrip(r: TripRow): Trip {
+export function toTrip(r: TripRow): Trip {
   return {
     slug: r.slug,
     title: r.title,

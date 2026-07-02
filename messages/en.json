@@ -180,6 +180,18 @@
     "morePlaces": "More places",
     "viewAll": "View all destinations"
   },
+  "experiencesPage": {
+    "eyebrow": "Experiences",
+    "title": "Who's travelling?",
+    "intro": "Every journey is shaped around the people on it. Choose who you're travelling with — we design the rest around how you want to feel.",
+    "home": "Home",
+    "concept": "Concept",
+    "recommendations": "Our recommendations",
+    "faqs": "FAQs",
+    "tripsHeading": "Trips we love",
+    "tripsIntro": "A few journeys to spark ideas — each tailored, altered and refined until it's yours.",
+    "empty": "Experiences are on the way."
+  },
   "tripPage": {
     "when": "When",
     "price": "Price",

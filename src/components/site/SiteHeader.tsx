@@ -42,7 +42,8 @@ export function SiteHeader({ regionsNav = [] }: { regionsNav?: RegionNavItem[] }
   // Region landing pages and destination detail pages both open on a full-bleed
   // image hero (matched as /destinations/<slug>, not the /destinations listing).
   const isDestinationHero = /^\/destinations\/[^/]+$/.test(pathname);
-  const overHero = pathname === "/" || pathname === "/trip-finder" || isDestinationHero;
+  const isExperienceHero = /^\/experiences\/[^/]+$/.test(pathname);
+  const overHero = pathname === "/" || pathname === "/trip-finder" || isDestinationHero || isExperienceHero;
   const dark = overHero && !scrolled && !menuOpen;
 
   React.useEffect(() => {

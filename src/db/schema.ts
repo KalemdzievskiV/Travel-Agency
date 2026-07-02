@@ -81,6 +81,42 @@ export const experiences = pgTable(
   (t) => [uniqueIndex("experiences_slug_idx").on(t.slug)],
 );
 
+// ── Experience categories ("WHO" — Families, Couples, Groups, …) ───
+// Each is an editorial landing page with Concept / Our recommendations / FAQs
+// tabs and a carousel of trips tagged with the matching "who" filter option.
+export const experienceCategories = pgTable(
+  "experience_categories",
+  {
+    id: serial("id").primaryKey(),
+    slug: text("slug").notNull(),
+    title: text("title").notNull(),
+    subtitle: text("subtitle").notNull().default(""),
+    // Short intro shown under the hero.
+    heroText: text("hero_text").notNull().default(""),
+    image: text("image"),
+    grad: text("grad"),
+    // Tab content.
+    concept: text("concept").notNull().default(""),
+    recommendations: text("recommendations").notNull().default(""),
+    // FAQs — one "Question | Answer" per array item.
+    faqs: text("faqs").array().notNull().default([]),
+    // Key of the "who" filter option whose tagged trips fill the carousel.
+    whoOptionKey: text("who_option_key").notNull().default(""),
+    // Macedonian copy (nullable — falls back to English).
+    titleMk: text("title_mk"),
+    subtitleMk: text("subtitle_mk"),
+    heroTextMk: text("hero_text_mk"),
+    conceptMk: text("concept_mk"),
+    recommendationsMk: text("recommendations_mk"),
+    faqsMk: text("faqs_mk").array(),
+    published: boolean("published").notNull().default(true),
+    sortOrder: integer("sort_order").notNull().default(0),
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+    updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  },
+  (t) => [uniqueIndex("experience_categories_slug_idx").on(t.slug)],
+);
+
 // ── Testimonials ──────────────────────────────────────────────────
 export const testimonials = pgTable("testimonials", {
   id: serial("id").primaryKey(),
@@ -281,6 +317,7 @@ export const destinationFilterOptionsRelations = relations(destinationFilterOpti
 export type User = typeof users.$inferSelect;
 export type Destination = typeof destinations.$inferSelect;
 export type Experience = typeof experiences.$inferSelect;
+export type ExperienceCategoryRow = typeof experienceCategories.$inferSelect;
 export type Testimonial = typeof testimonials.$inferSelect;
 export type Trip = typeof trips.$inferSelect;
 export type FilterGroup = typeof filterGroups.$inferSelect;
