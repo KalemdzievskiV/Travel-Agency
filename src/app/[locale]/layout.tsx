@@ -1,20 +1,18 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Fraunces } from "next/font/google";
+import { Oswald } from "next/font/google";
 import localFont from "next/font/local";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import "../globals.css";
 
-// Display serif — Fraunces, the closest free (OFL) stand-in for Black Tomato's
-// Saol Display. Swap for the licensed face later by dropping files into
-// next/font/local and repointing --wf-font-display.
-const display = Fraunces({
+// Display headline font — Oswald (Google Fonts), a condensed grotesque. Drives
+// every headline via --wf-font-display; body/UI stays Brandon Grotesque.
+const display = Oswald({
   variable: "--font-display",
-  subsets: ["latin"],
+  subsets: ["latin", "cyrillic"],
   weight: ["400", "500", "600", "700"],
-  style: ["normal", "italic"],
   display: "swap",
 });
 
