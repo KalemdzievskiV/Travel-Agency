@@ -58,6 +58,23 @@ export type ExperienceCategoryDetail = ExperienceCategory & {
   trips: Trip[];
 };
 
+// A curated place to stay, tied to a destination.
+export type Hotel = {
+  slug: string;
+  name: string;
+  teaser: string;
+  grad: string;
+  image?: string;
+  images: string[];
+  priceFrom: string;
+  stars?: number;
+  style: string[];
+  lat?: number;
+  lng?: number;
+  destinationSlug?: string;
+  destinationTitle?: string;
+};
+
 export type Testimonial = {
   quote: string;
   who: string;

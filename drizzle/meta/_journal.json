@@ -43,6 +43,13 @@
       "when": 1783002135145,
       "tag": "0005_nasty_frog_thor",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1783427940718,
+      "tag": "0006_romantic_juggernaut",
+      "breakpoints": true
     }
   ]
 }

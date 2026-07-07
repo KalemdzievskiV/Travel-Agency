@@ -5,6 +5,7 @@ import {
   destinations,
   experiences,
   experienceCategories,
+  hotels,
   testimonials,
   trips,
   tripDestinations,
@@ -57,6 +58,15 @@ export async function getExperienceCategory(id: number) {
     .from(experienceCategories)
     .where(eq(experienceCategories.id, id))
     .limit(1);
+  return row;
+}
+
+export function listHotels() {
+  return db.select().from(hotels).orderBy(asc(hotels.sortOrder), asc(hotels.id));
+}
+
+export async function getHotel(id: number) {
+  const [row] = await db.select().from(hotels).where(eq(hotels.id, id)).limit(1);
   return row;
 }
 

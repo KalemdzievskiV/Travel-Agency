@@ -184,7 +184,9 @@
     "tripsIntro": "These sample itineraries are simply suggestions for the kind of holiday you might have. Yours will be tailored, altered, and refined until it matches you completely.",
     "keepExploring": "Keep exploring",
     "morePlaces": "More places",
-    "viewAll": "View all destinations"
+    "viewAll": "View all destinations",
+    "stays": "Stays",
+    "whereToStay": "Where to stay"
   },
   "experiencesPage": {
     "eyebrow": "Experiences",

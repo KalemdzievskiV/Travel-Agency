@@ -117,6 +117,39 @@ export const experienceCategories = pgTable(
   (t) => [uniqueIndex("experience_categories_slug_idx").on(t.slug)],
 );
 
+// ── Hotels / stays ────────────────────────────────────────────────
+// Curated places to stay, each tied to a destination. Browsable on their own
+// (later) and shown under "Where to stay" on destination pages.
+export const hotels = pgTable(
+  "hotels",
+  {
+    id: serial("id").primaryKey(),
+    slug: text("slug").notNull(),
+    name: text("name").notNull(),
+    teaser: text("teaser").notNull().default(""),
+    description: text("description").notNull().default(""),
+    destinationId: integer("destination_id").references(() => destinations.id, { onDelete: "set null" }),
+    lat: doublePrecision("lat"),
+    lng: doublePrecision("lng"),
+    image: text("image"),
+    grad: text("grad"),
+    images: text("images").array().notNull().default([]),
+    priceFrom: text("price_from").notNull().default(""),
+    stars: integer("stars"),
+    // Free-form style tags — e.g. beachfront, boutique, adults-only.
+    style: text("style").array().notNull().default([]),
+    // Macedonian copy (nullable — falls back to English).
+    nameMk: text("name_mk"),
+    teaserMk: text("teaser_mk"),
+    descriptionMk: text("description_mk"),
+    published: boolean("published").notNull().default(true),
+    sortOrder: integer("sort_order").notNull().default(0),
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+    updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  },
+  (t) => [uniqueIndex("hotels_slug_idx").on(t.slug)],
+);
+
 // ── Testimonials ──────────────────────────────────────────────────
 export const testimonials = pgTable("testimonials", {
   id: serial("id").primaryKey(),
@@ -318,6 +351,7 @@ export type User = typeof users.$inferSelect;
 export type Destination = typeof destinations.$inferSelect;
 export type Experience = typeof experiences.$inferSelect;
 export type ExperienceCategoryRow = typeof experienceCategories.$inferSelect;
+export type HotelRow = typeof hotels.$inferSelect;
 export type Testimonial = typeof testimonials.$inferSelect;
 export type Trip = typeof trips.$inferSelect;
 export type FilterGroup = typeof filterGroups.$inferSelect;

@@ -7,6 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { SectionHead } from "@/components/sections/SectionHead";
 import { DestinationGrid } from "@/components/sections/DestinationGrid";
 import { TripsCarousel } from "@/components/sections/TripsCarousel";
+import { HotelGrid } from "@/components/sections/HotelGrid";
 import { EnquireButton } from "@/components/site/EnquireButton";
 import { RegionLanding } from "@/components/sections/RegionLanding";
 import {
@@ -15,6 +16,7 @@ import {
   getTripsForDestination,
 } from "@/lib/queries/public";
 import { getRegionBySlug } from "@/lib/queries/regions";
+import { getHotelsForDestination } from "@/lib/queries/hotels";
 
 export async function generateMetadata(
   props: PageProps<"/[locale]/destinations/[slug]">,
@@ -43,9 +45,10 @@ export default async function DestinationPage(
   const d = await getDestinationBySlug(slug);
   if (!d) notFound();
 
-  const [trips, all, td, tn, tr, tf, tm] = await Promise.all([
+  const [trips, all, hotels, td, tn, tr, tf, tm] = await Promise.all([
     getTripsForDestination(slug),
     getDestinations(),
+    getHotelsForDestination(slug),
     getTranslations("destinationPage"),
     getTranslations("nav"),
     getTranslations("regionPage"),
@@ -229,6 +232,18 @@ export default async function DestinationPage(
             description={td("tripsIntro")}
           />
         </div>
+      )}
+
+      {/* Where to stay */}
+      {hotels.length > 0 && (
+        <section style={{ background: "var(--wf-cream)", padding: "clamp(48px, 7vw, 72px) 0 0" }}>
+          <div className="wf-wrap wf-wrap--wide">
+            <div style={{ marginBottom: 36 }}>
+              <SectionHead eyebrow={td("stays")} title={td("whereToStay")} />
+            </div>
+            <HotelGrid items={hotels} />
+          </div>
+        </section>
       )}
 
       {/* More places */}

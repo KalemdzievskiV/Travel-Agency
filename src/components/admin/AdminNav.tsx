@@ -11,6 +11,7 @@ const links: [string, string][] = [
   ["Exp. categories", "/admin/experience-categories"],
   ["Testimonials", "/admin/testimonials"],
   ["Trips", "/admin/trips"],
+  ["Hotels", "/admin/hotels"],
   ["Filters", "/admin/filters"],
 ];
 
