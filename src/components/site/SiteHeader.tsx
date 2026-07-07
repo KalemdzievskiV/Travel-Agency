@@ -140,7 +140,9 @@ export function SiteHeader({ regionsNav = [] }: { regionsNav?: RegionNavItem[] }
                 <div className="wf-megamenu__panel">
                   {aboutMenu.map((group) => (
                     <div key={t(`aboutMenu.groups.${group.key}`)}>
-                      <div className="wf-megamenu__col-title">{t(`aboutMenu.groups.${group.key}`)}</div>
+                      <Link href={group.href} className="wf-megamenu__col-title" style={{ textDecoration: "none", display: "block" }}>
+                        {t(`aboutMenu.groups.${group.key}`)}
+                      </Link>
                       {group.items.map((item) => (
                         <Link
                           key={item.key}
@@ -219,7 +221,9 @@ export function SiteHeader({ regionsNav = [] }: { regionsNav?: RegionNavItem[] }
                   <div className="wf-mobile-about__panel">
                     {aboutMenu.map((group) => (
                       <React.Fragment key={t(`aboutMenu.groups.${group.key}`)}>
-                        <div className="wf-mobile-about__group">{t(`aboutMenu.groups.${group.key}`)}</div>
+                        <Link href={group.href} className="wf-mobile-about__group">
+                          {t(`aboutMenu.groups.${group.key}`)}
+                        </Link>
                         {group.items.map((item) => (
                           <Link key={item.key} href={item.href}>
                             {t(`aboutMenu.items.${item.key}`)}

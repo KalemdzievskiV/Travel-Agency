@@ -32,23 +32,16 @@ export const aboutMenu: {
     group: "Who we are",
     key: "whoWeAre",
     href: "/about",
-    items: [
-      { label: "Our purpose", key: "purpose", href: "/about" },
-      { label: "Our team", key: "team", href: "/about/team" },
-      { label: "Our awards", key: "awards", href: "/about/awards" },
-      { label: "Client testimonials", key: "testimonials", href: "/about/testimonials" },
-      { label: "In the press", key: "press", href: "/about/press" },
-    ],
+    items: [],
   },
   {
-    group: "Why book with us",
+    group: "Why travel with us",
     key: "whyBookWithUs",
     href: "/about/5-reasons",
     items: [
-      { label: "5 reasons to book with us", key: "fiveReasons", href: "/about/5-reasons" },
-      { label: "Why not just do it yourself?", key: "whyNotDiy", href: "/about/why-not-diy" },
-      { label: "How it all works", key: "howItWorks", href: "/about/how-it-works" },
-      { label: "Regenerative travel", key: "regenerative", href: "/about/regenerative-travel" },
+      { label: "5 reasons to travel with us", key: "fiveReasons", href: "/about/5-reasons" },
+      { label: "Why not do it yourself?", key: "whyNotDiy", href: "/about/why-not-diy" },
+      { label: "How the whole process works", key: "howItWorks", href: "/about/how-it-works" },
     ],
   },
 ];

@@ -34,6 +34,12 @@ export default async function TripFinderPage({
   ]);
   const sp = await searchParams;
 
+  // Translate DB/derived filter labels where a translation exists, else keep the
+  // stored English label.
+  const groupLabel = (key: string, fallback: string) => (tf.has(`groups.${key}`) ? tf(`groups.${key}`) : fallback);
+  const optionLabel = (groupKey: string, optKey: string, fallback: string) =>
+    tf.has(`${groupKey}.${optKey}`) ? tf(`${groupKey}.${optKey}`) : fallback;
+
   // Finder facets (feeling, when) first, then editorial taxonomy, then the
   // derived duration/price bands.
   const groups: FilterGroupUI[] = [
@@ -52,8 +58,8 @@ export default async function TripFinderPage({
     // we build above (e.g. the taxonomy also ships a "feeling" group).
     ...taxonomy
       .filter((g) => g.options.length > 0 && g.key !== "feeling" && g.key !== "when")
-      .map((g) => ({ key: g.key, label: g.label, options: g.options.map((o) => ({ key: o.key, label: o.label })) })),
-    ...derivedGroups.map((g) => ({ key: g.key, label: g.label, options: g.options.map((o) => ({ key: o.key, label: o.label })) })),
+      .map((g) => ({ key: g.key, label: groupLabel(g.key, g.label), options: g.options.map((o) => ({ key: o.key, label: optionLabel(g.key, o.key, o.label) })) })),
+    ...derivedGroups.map((g) => ({ key: g.key, label: groupLabel(g.key, g.label), options: g.options.map((o) => ({ key: o.key, label: optionLabel(g.key, o.key, o.label) })) })),
   ];
 
   // Selected options per group from the URL (comma-separated), then filter:

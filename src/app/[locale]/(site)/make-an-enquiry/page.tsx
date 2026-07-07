@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { EnquiryPanels } from "@/components/site/EnquiryPanels";
+import { getDestinations } from "@/lib/queries/public";
 
 export const metadata: Metadata = {
   title: "Make an enquiry",
@@ -19,6 +20,8 @@ export default async function EnquiryPage({
   setRequestLocale(locale);
   const sp = await searchParams;
   const to = typeof sp.to === "string" ? sp.to : "";
+  const destinations = await getDestinations();
+  const destinationNames = [...new Set(destinations.map((d) => d.title))].sort((a, b) => a.localeCompare(b));
 
   return (
     <section
@@ -29,7 +32,7 @@ export default async function EnquiryPage({
       }}
     >
       <div className="wf-wrap wf-wrap--wide">
-        <EnquiryPanels presetDestination={to} />
+        <EnquiryPanels presetDestination={to} destinations={destinationNames} />
       </div>
     </section>
   );

@@ -15,6 +15,12 @@ import { site } from "@/content/site";
 
 const MONTH_KEYS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"] as const;
 
+// International dialling codes for the phone field (North Macedonia first).
+const COUNTRY_CODES = ["+389", "+1", "+44", "+30", "+39", "+49", "+33", "+41", "+43", "+31", "+32", "+34", "+351", "+385", "+381", "+382", "+355", "+359", "+40", "+90", "+971", "+61"];
+const ADULT_COUNTS = ["1", "2", "3", "4", "5", "6", "7", "8"];
+const CHILD_COUNTS = ["0", "1", "2", "3", "4", "5", "6"];
+const CHILD_AGES = Array.from({ length: 11 }, (_, i) => String(i + 2).padStart(2, "0")); // 02–12
+
 const controlStyle: React.CSSProperties = {
   width: "100%",
   fontFamily: "var(--wf-font-sans)",
@@ -26,11 +32,20 @@ const controlStyle: React.CSSProperties = {
   padding: "12px 14px",
 };
 
-function Field({ label, htmlFor, children }: { label: string; htmlFor?: string; children: React.ReactNode }) {
+const subLabelStyle: React.CSSProperties = {
+  display: "block",
+  fontSize: 12,
+  fontWeight: 500,
+  color: "var(--wf-ink-500)",
+  marginBottom: 6,
+};
+
+function Field({ label, htmlFor, required = false, children }: { label: string; htmlFor?: string; required?: boolean; children: React.ReactNode }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
       <label htmlFor={htmlFor} style={{ fontSize: 13, fontWeight: 500, color: "var(--wf-ink-700)" }}>
         {label}
+        {required && <span aria-hidden style={{ color: "var(--wf-coral-500)", marginLeft: 3 }}>*</span>}
       </label>
       {children}
     </div>
@@ -53,7 +68,7 @@ function TextField({
   defaultValue?: string;
 }) {
   return (
-    <Field label={label} htmlFor={name}>
+    <Field label={label} htmlFor={name} required={required}>
       <input
         id={name}
         name={name}
@@ -84,10 +99,21 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function EnquiryPanels({ presetDestination = "" }: { presetDestination?: string }) {
+export function EnquiryPanels({ presetDestination = "", destinations = [] }: { presetDestination?: string; destinations?: string[] }) {
   const t = useTranslations("enquiry");
   const tMonth = useTranslations("months");
   const [sent, setSent] = React.useState(false);
+  const [childCount, setChildCount] = React.useState(0);
+  const [childAges, setChildAges] = React.useState<string[]>([]);
+
+  const setChildren = (c: number) => {
+    setChildCount(c);
+    setChildAges((prev) => {
+      const next = prev.slice(0, c);
+      while (next.length < c) next.push("");
+      return next;
+    });
+  };
 
   const phoneLink = (
     <a href={`tel:${site.phone.replace(/\s+/g, "")}`} style={{ color: "var(--wf-coral-600)" }}>
@@ -188,60 +214,94 @@ export function EnquiryPanels({ presetDestination = "" }: { presetDestination?: 
           }}
         >
           <SectionLabel>{t("yourTrip")}</SectionLabel>
-          <TextField
-            label={t("whereLabel")}
-            name="destination"
-            placeholder={t("wherePlaceholder")}
-            defaultValue={presetDestination || undefined}
-          />
 
-          <div className="wf-form-grid">
-            <Field label={t("whenLabel")} htmlFor="month">
-              <div style={{ display: "flex", gap: 10 }}>
-                <select id="month" name="month" defaultValue="" style={controlStyle}>
-                  <option value="" disabled>
-                    {t("monthSelect")}
-                  </option>
-                  {MONTH_KEYS.map((m) => (
-                    <option key={m}>{tMonth(m)}</option>
-                  ))}
-                </select>
-                <select name="year" defaultValue="" style={controlStyle}>
-                  <option value="" disabled>
-                    {t("yearSelect")}
-                  </option>
-                  {years.map((y) => (
-                    <option key={y}>{y}</option>
+          {/* Where — destination dropdown */}
+          <Field label={t("whereLabel")} htmlFor="destination" required>
+            <select id="destination" name="destination" defaultValue={presetDestination || ""} required style={controlStyle}>
+              <option value="" disabled>{t("whereSelect")}</option>
+              {presetDestination && !destinations.includes(presetDestination) && (
+                <option value={presetDestination}>{presetDestination}</option>
+              )}
+              {destinations.map((d) => (
+                <option key={d} value={d}>{d}</option>
+              ))}
+              <option value="__undecided">{t("whereUndecided")}</option>
+            </select>
+          </Field>
+
+          {/* When — month + year */}
+          <Field label={t("whenLabel")} htmlFor="month" required>
+            <div style={{ display: "flex", gap: 10 }}>
+              <select id="month" name="month" defaultValue="" required style={controlStyle}>
+                <option value="" disabled>{t("monthSelect")}</option>
+                {MONTH_KEYS.map((m) => (
+                  <option key={m}>{tMonth(m)}</option>
+                ))}
+              </select>
+              <select name="year" defaultValue="" required style={controlStyle}>
+                <option value="" disabled>{t("yearSelect")}</option>
+                {years.map((y) => (
+                  <option key={y}>{y}</option>
+                ))}
+              </select>
+            </div>
+          </Field>
+
+          {/* How long — free text */}
+          <TextField label={t("durationLabel")} name="duration" placeholder={t("durationPlaceholder")} required />
+
+          {/* People — adults + children (with each child's age) */}
+          <Field label={t("peopleLabel")} htmlFor="adults" required>
+            <div className="wf-form-grid">
+              <div>
+                <label htmlFor="adults" style={subLabelStyle}>{t("adultsLabel")}</label>
+                <select id="adults" name="adults" defaultValue="2" required style={controlStyle}>
+                  {ADULT_COUNTS.map((n) => (
+                    <option key={n}>{n}</option>
                   ))}
                 </select>
               </div>
-            </Field>
-            <TextField label={t("durationLabel")} name="duration" placeholder={t("durationPlaceholder")} />
-          </div>
-
-          <Field label={t("peopleLabel")} htmlFor="people">
-            <select id="people" name="people" defaultValue="" style={controlStyle}>
-              <option value="" disabled>
-                {t("peopleSelect")}
-              </option>
-              {["1", "2", "3", "4", "5", "6", "7+"].map((n) => (
-                <option key={n}>{n}</option>
-              ))}
-            </select>
+              <div>
+                <label htmlFor="children" style={subLabelStyle}>{t("childrenLabel")}</label>
+                <select
+                  id="children"
+                  name="children"
+                  value={String(childCount)}
+                  onChange={(e) => setChildren(Number(e.target.value))}
+                  style={controlStyle}
+                >
+                  {CHILD_COUNTS.map((n) => (
+                    <option key={n} value={n}>{n}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            {childCount > 0 && (
+              <div style={{ marginTop: 12, display: "grid", gap: 10 }}>
+                {Array.from({ length: childCount }).map((_, i) => (
+                  <div key={i}>
+                    <label htmlFor={`childAge${i + 1}`} style={subLabelStyle}>{t("childAge", { n: i + 1 })}</label>
+                    <select
+                      id={`childAge${i + 1}`}
+                      name={`childAge${i + 1}`}
+                      required
+                      value={childAges[i] ?? ""}
+                      onChange={(e) => setChildAges((prev) => { const next = [...prev]; next[i] = e.target.value; return next; })}
+                      style={controlStyle}
+                    >
+                      <option value="" disabled>{t("ageSelect")}</option>
+                      {CHILD_AGES.map((a) => (
+                        <option key={a} value={a}>{a}</option>
+                      ))}
+                    </select>
+                  </div>
+                ))}
+              </div>
+            )}
           </Field>
 
-          <Field label={t("budgetLabel")} htmlFor="budget">
-            <select id="budget" name="budget" defaultValue="" style={controlStyle}>
-              <option value="" disabled>
-                {t("budgetSelect")}
-              </option>
-              <option>{t("budgetNotSure")}</option>
-              <option>{t("budgetUnder2")}</option>
-              <option>{t("budget2to5")}</option>
-              <option>{t("budget5to10")}</option>
-              <option>{t("budget10plus")}</option>
-            </select>
-          </Field>
+          {/* Budget — free amount */}
+          <TextField label={t("budgetLabel")} name="budget" placeholder={t("budgetPlaceholder")} required />
 
           <Field label={t("commentsLabel")} htmlFor="notes">
             <textarea
@@ -268,37 +328,21 @@ export function EnquiryPanels({ presetDestination = "" }: { presetDestination?: 
               required
             />
           </div>
-          <div className="wf-form-grid">
-            <Field label={t("telephoneLabel")} htmlFor="phone">
-              <div style={{ display: "flex", gap: 8 }}>
-                <span
-                  style={{
-                    ...controlStyle,
-                    width: "auto",
-                    flex: "none",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    color: "var(--wf-ink-700)",
-                  }}
-                >
-                  +389
-                </span>
-                <input id="phone" name="phone" type="tel" placeholder={t("phonePlaceholder")} style={controlStyle} />
-              </div>
-            </Field>
-            <Field label={t("hearLabel")} htmlFor="hear">
-              <select id="hear" name="hear" defaultValue="" style={controlStyle}>
-                <option value="" disabled>
-                  {t("hearSelect")}
-                </option>
-                <option>{t("hearSearch")}</option>
-                <option>{t("hearSocial")}</option>
-                <option>{t("hearFriend")}</option>
-                <option>{t("hearPress")}</option>
-                <option>{t("hearOther")}</option>
+          <Field label={t("telephoneLabel")} htmlFor="phone" required>
+            <div style={{ display: "flex", gap: 8 }}>
+              <select
+                name="phoneCountry"
+                aria-label={t("countryCode")}
+                defaultValue="+389"
+                style={{ ...controlStyle, width: "auto", flex: "none" }}
+              >
+                {COUNTRY_CODES.map((c) => (
+                  <option key={c}>{c}</option>
+                ))}
               </select>
-            </Field>
-          </div>
+              <input id="phone" name="phone" type="tel" required placeholder={t("phonePlaceholder")} style={controlStyle} />
+            </div>
+          </Field>
 
           <label
             style={{
