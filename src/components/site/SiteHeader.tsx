@@ -7,6 +7,7 @@ import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { Logo } from "./Logo";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { DestinationsMegaMenu } from "./DestinationsMegaMenu";
+import { PhoneWithHours } from "./PhoneWithHours";
 import type { RegionNavItem } from "@/lib/queries/regions";
 import { nav, aboutMenu, site } from "@/content/site";
 
@@ -102,6 +103,13 @@ export function SiteHeader({ regionsNav = [] }: { regionsNav?: RegionNavItem[] }
         <Logo light={dark} />
 
         <nav className="wf-header-nav">
+          <Link
+            href="/trip-finder"
+            aria-label={t("nav.search")}
+            style={{ display: "inline-flex", alignItems: "center", color: dark ? "rgba(255,255,255,0.9)" : "var(--wf-ink-700)" }}
+          >
+            <Icon name="search" size={18} color={dark ? "rgba(255,255,255,0.9)" : "var(--wf-ink-700)"} />
+          </Link>
           {nav.map((l) =>
             l.href === "/destinations" ? (
               <DestinationsMegaMenu
@@ -155,22 +163,7 @@ export function SiteHeader({ regionsNav = [] }: { regionsNav?: RegionNavItem[] }
         </nav>
 
         <div className="wf-header-actions">
-          <a
-            className="wf-header-phone"
-            href={`tel:${site.phone.replace(/\s+/g, "")}`}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 7,
-              textDecoration: "none",
-              fontSize: 13.5,
-              fontWeight: 500,
-              color: dark ? "rgba(255,255,255,0.9)" : "var(--wf-ink-700)",
-            }}
-          >
-            <Icon name="phone" size={15} color={dark ? "#fff" : "var(--wf-ink-700)"} />
-            {site.phone}
-          </a>
+          <PhoneWithHours dark={dark} />
           <span className="wf-header-enquire">
             <LanguageSwitcher dark={dark} />
           </span>

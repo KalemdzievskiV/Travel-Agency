@@ -292,6 +292,46 @@
   .wf-trip-facts { grid-template-columns: 1fr; gap: 20px; }
 }
 
+/* ── Header phone opening-hours tooltip ──────────────────────── */
+.wf-phone-wrap {
+  position: relative;
+}
+.wf-phone-tip {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  white-space: nowrap;
+  background: #ebe9ec;
+  color: var(--wf-ink-900);
+  font-family: var(--wf-font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 20px;
+  border-radius: 16px;
+  box-shadow: var(--wf-shadow-md);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s var(--wf-ease-out), transform 0.2s var(--wf-ease-out);
+  z-index: 60;
+}
+.wf-phone-tip::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 7px solid transparent;
+  border-bottom-color: #ebe9ec;
+}
+.wf-phone-wrap:hover .wf-phone-tip,
+.wf-phone-wrap:focus-within .wf-phone-tip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
 /* ── Experiences hub tiles (WHO categories) ──────────────────── */
 .wf-exp-tile {
   position: relative;
@@ -548,7 +588,7 @@
 .wf-footer-grid {
   display: grid;
   gap: 40px;
-  grid-template-columns: 1.6fr 1fr 1fr 1fr;
+  grid-template-columns: 1.6fr 1fr 1fr;
 }
 @media (max-width: 860px) {
   .wf-footer-grid { grid-template-columns: 1fr 1fr; gap: 40px 32px; }

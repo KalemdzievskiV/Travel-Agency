@@ -6,6 +6,7 @@ export const site = {
   tagline: "Every journey starts with a feeling.",
   phone: "+389 2 312 1212",
   email: "hello@bookit.mk",
+  address: "Skopje, North Macedonia",
   established: "Est. 2014",
   description:
     "Tailor-made luxury travel from North Macedonia, designed entirely around how you want to feel. No templates. No planning fees.",
@@ -73,11 +74,29 @@ export const months: string[] = [
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
 ];
 
-// Column + item keys map to the `footer` namespace in the message dictionaries.
-export const footerColumns: { key: string; items: string[] }[] = [
-  { key: "whoWeAre", items: ["purpose", "team", "awards", "press"] },
-  { key: "experiences", items: ["family", "couples", "honeymoons", "adventure", "slowTravel"] },
-  { key: "useful", items: ["howItWorks", "faq", "bookingConditions", "careers"] },
+// Footer navigation. Keys map to the `footer` namespace in the dictionaries.
+export const footerNav: {
+  bookit: { key: string; href: string }[];
+  legal: { key: string; href: string }[];
+} = {
+  bookit: [
+    { key: "about", href: "/about" },
+    { key: "contact", href: "/contact" },
+  ],
+  legal: [
+    { key: "terms", href: "/legal/terms" },
+    { key: "cookies", href: "/legal/cookies" },
+    { key: "privacy", href: "/legal/privacy" },
+  ],
+};
+
+// Social profiles for the footer "Follow us" column. Replace the "#" hrefs
+// with the client's official profile URLs.
+export const socials: { key: "facebook" | "instagram" | "linkedin" | "youtube"; href: string }[] = [
+  { key: "facebook", href: "#" },
+  { key: "instagram", href: "#" },
+  { key: "linkedin", href: "#" },
+  { key: "youtube", href: "#" },
 ];
 
 export const whyPoints: { icon: "award" | "globe" | "phone" | "pin"; label: string }[] = [

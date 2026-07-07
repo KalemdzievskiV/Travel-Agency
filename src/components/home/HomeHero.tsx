@@ -3,7 +3,7 @@
 import React from "react";
 import { ChevronDown } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { Button, Eyebrow } from "@/components/ui";
+import { Button } from "@/components/ui";
 import { Link } from "@/i18n/navigation";
 
 export function HomeHero() {
@@ -85,7 +85,6 @@ export function HomeHero() {
           textAlign: "center",
         }}
       >
-        <Eyebrow tone="light">{t("hero.eyebrow")}</Eyebrow>
         <h1
           style={{
             fontFamily: "var(--wf-font-display)",
@@ -121,7 +120,7 @@ export function HomeHero() {
             flexWrap: "wrap",
           }}
         >
-          <Link className="wf-btn-ghost-light" href="/trips">
+          <Link className="wf-btn-ghost-light" href="/destinations">
             {t("common.exploreOurTrips")}
           </Link>
           <Button as="a" href="/make-an-enquiry" variant="dark" size="lg">

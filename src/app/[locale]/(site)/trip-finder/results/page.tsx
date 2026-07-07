@@ -3,7 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { TripGrid } from "@/components/sections/TripGrid";
 import { TripFinderResults } from "@/components/sections/TripFinderResults";
 import { type FilterGroupUI } from "@/components/sections/TripFilters";
-import { getTripsWithFacets } from "@/lib/queries/public";
+import { getTripsWithFacets, getTripDestinationOptions } from "@/lib/queries/public";
 import { getFilterGroups, derivedGroups } from "@/lib/queries/filters";
 import { feelings as feelingKeys, months as monthKeys } from "@/content/site";
 
@@ -24,9 +24,10 @@ export default async function TripFinderPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const [trips, taxonomy, tf, tFeel, tMonth] = await Promise.all([
+  const [trips, taxonomy, destOptions, tf, tFeel, tMonth] = await Promise.all([
     getTripsWithFacets(),
     getFilterGroups(),
+    getTripDestinationOptions(),
     getTranslations("filters"),
     getTranslations("feelings"),
     getTranslations("months"),
@@ -46,6 +47,7 @@ export default async function TripFinderPage({
       label: tf("when"),
       options: monthKeys.map((m) => ({ key: m, label: tMonth.has(m) ? tMonth(m) : m })),
     },
+    ...(destOptions.length > 0 ? [{ key: "destination", label: tf("destination"), options: destOptions }] : []),
     // Editorial taxonomy groups, minus any that duplicate the finder facets
     // we build above (e.g. the taxonomy also ships a "feeling" group).
     ...taxonomy

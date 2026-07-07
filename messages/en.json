@@ -4,7 +4,13 @@
     "trips": "Trips",
     "experiences": "Experiences",
     "tripFinder": "Trip finder",
-    "about": "About"
+    "about": "About",
+    "search": "Search"
+  },
+  "hours": {
+    "openUntil": "We are open today until {time}",
+    "opensToday": "We open today at {time}",
+    "closed": "We are closed — we open {day} at {time}"
   },
   "language": {
     "label": "Language",
@@ -12,10 +18,10 @@
     "mk": "Македонски"
   },
   "common": {
-    "enquireNow": "Enquire now",
+    "enquireNow": "START HERE",
     "getInTouch": "Get in touch",
-    "planMyTrip": "Plan my trip",
-    "exploreOurTrips": "Explore our trips",
+    "planMyTrip": "CREATE TOGETHER",
+    "exploreOurTrips": "EXPLORE DESTINATIONS",
     "viewMore": "View more",
     "openMenu": "Open menu",
     "closeMenu": "Close menu"
@@ -39,16 +45,16 @@
   },
   "hero": {
     "eyebrow": "Tailor-made · Est. 2014",
-    "title": "Every journey starts<br></br>with a <i>feeling</i>.",
-    "intro": "Fully personalised itineraries for couples, families and solo travellers — designed around how you want to feel, not where the crowds go.",
+    "title": "The world on your terms",
+    "intro": "Where wishes become destinations.",
     "scroll": "Scroll"
   },
   "intro": {
     "heading": "Every journey starts with a feeling",
-    "p1": "The world is vast, full of wonder. But information engulfs us — see this, do that, don’t miss this. It seems the more choice there is, the more overwhelmed we feel. And you’re never once asked the only question that matters: <i>how do you want to feel?</i>",
-    "p2": "That’s where we come in. bookit is a tailor-made travel studio in North Macedonia that designs fully personalised itineraries — not templates, not off-the-shelf tours. Whether you’re a couple seeking adventure, a family exploring together, or a solo traveller chasing something extraordinary, we craft every detail around you.",
-    "p3": "Since {year} we’ve planned journeys across the Balkans, the Mediterranean and beyond — trusted to get the details right, from the first idea to the moment you’re home. No planning fees, no crowds, no compromises.",
-    "p4": "So let’s begin. Let’s do something remarkable."
+    "p1": "The world is vast, full of wonders. But we are overwhelmed with information — see this, do that, don’t miss this. It seems the greater the choice, the more lost we feel. And the thing that matters most, no one ever asks you: <i>how do you want to feel?</i>",
+    "p2": "We’re not like that. We’re a tailor-made travel company that designs fully personalised experiences — no ready-made templates, no off-the-shelf packages. Whether you’re a couple seeking adventure, a multi-generational family exploring together, or a solo traveller chasing something extraordinary, we craft every detail around you.",
+    "p3": "As the creators of your next journey, we’re here to turn your vision into reality — with complete devotion to the details and flawless organisation in every destination.",
+    "p4": "So, let’s begin. Let’s create something different, something yours."
   },
   "journey": {
     "heading": "Start your journey",
@@ -60,20 +66,20 @@
   },
   "explore": {
     "title": "Explore our trips",
-    "subtitle": "Remarkable journeys to inspire the mind.",
+    "subtitle": "Uncommon experiences that inspire the mind.",
     "exploreTrip": "Explore trip",
     "nights": "{count, plural, one {# night} other {# nights}}"
   },
   "why": {
     "heading": "Why bookit?",
     "reasons": {
-      "award": "Award-winning planners",
-      "quote": "No-obligation quotes",
-      "map": "No planning fees",
-      "support": "24/7 on-the-ground support",
-      "guide": "Expert private guides"
+      "award": "Made by professionals",
+      "quote": "We create for free",
+      "map": "Made to your wishes",
+      "support": "24/7 support",
+      "guide": "Experts in every destination"
     },
-    "ctaHeading": "So, ready to start?"
+    "ctaHeading": "Ready to start?"
   },
   "about": {
     "word": "About us",
@@ -224,37 +230,44 @@
     "sortDurationShort": "Duration: short to long",
     "sortDurationLong": "Duration: long to short",
     "feeling": "Feeling",
-    "when": "When to travel"
+    "when": "When to travel",
+    "destination": "Destination"
   },
   "footer": {
-    "description": "Tailor-made luxury travel from North Macedonia, designed entirely around how you want to feel. No templates. No planning fees.",
-    "startJourney": "Start your journey",
     "columns": {
-      "whoWeAre": "Who we are",
-      "experiences": "Experiences",
-      "useful": "Useful"
+      "legal": "Legal",
+      "follow": "Follow us"
     },
-    "items": {
-      "purpose": "Our purpose",
-      "team": "Our team",
-      "awards": "Awards",
-      "press": "Press",
-      "family": "Family",
-      "couples": "Couples",
-      "honeymoons": "Honeymoons",
-      "adventure": "Adventure",
-      "slowTravel": "Slow travel",
-      "howItWorks": "How it works",
-      "faq": "FAQ",
-      "bookingConditions": "Booking conditions",
-      "careers": "Careers"
+    "nav": {
+      "about": "About us",
+      "contact": "Contact"
     },
-    "copyright": "© {year} {name}. Tailor-made travel from North Macedonia.",
     "legal": {
-      "privacy": "Privacy",
-      "terms": "Terms",
-      "sitemap": "Sitemap"
-    }
+      "terms": "General travel terms",
+      "cookies": "Cookie policy",
+      "privacy": "Privacy policy"
+    },
+    "newsletter": {
+      "heading": "Be the first to know",
+      "placeholder": "Your email",
+      "cta": "Subscribe",
+      "done": "Thank you — you’re on the list."
+    },
+    "copyright": "© {year} {name}. Tailor-made travel from North Macedonia."
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Get in touch",
+    "intro": "We’re a small studio and we answer personally. Reach us however suits you — we’ll reply within 24 hours.",
+    "phoneLabel": "Phone",
+    "emailLabel": "Email",
+    "addressLabel": "Address",
+    "hoursLabel": "Opening hours",
+    "hoursValue": "Monday–Friday, 10:00–18:00"
+  },
+  "legalPage": {
+    "eyebrow": "Legal",
+    "comingSoon": "This content is being prepared and will be published here soon."
   },
   "enquiry": {
     "close": "Back to home",

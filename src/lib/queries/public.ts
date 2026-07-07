@@ -201,6 +201,19 @@ export async function getTripsWithFacets(): Promise<TripWithFacets[]> {
     byTrip.set(r.tripId, arr);
   }
 
+  // Add a "destination:<slug>" facet per linked destination, so trips can be
+  // filtered by the places they visit.
+  const destLinks = await db
+    .select({ tripId: tripDestinationsTable.tripId, slug: destinationsTable.slug })
+    .from(tripDestinationsTable)
+    .innerJoin(destinationsTable, eq(tripDestinationsTable.destinationId, destinationsTable.id))
+    .where(eq(destinationsTable.published, true));
+  for (const l of destLinks) {
+    const arr = byTrip.get(l.tripId) ?? [];
+    arr.push(`destination:${l.slug}`);
+    byTrip.set(l.tripId, arr);
+  }
+
   return rows.map((r) => ({
     ...toTrip(r),
     facets: [
@@ -208,6 +221,24 @@ export async function getTripsWithFacets(): Promise<TripWithFacets[]> {
       ...deriveTripFacets(r.durationDays, r.priceFrom, r.feelings, r.departures),
     ],
   }));
+}
+
+// Destinations that at least one published trip visits — options for the
+// trip-finder's "destination" filter. Localised labels; keyed by slug.
+export async function getTripDestinationOptions(): Promise<{ key: string; label: string }[]> {
+  const mk = await localeIsMk();
+  const rows = await db
+    .selectDistinct({
+      slug: destinationsTable.slug,
+      title: destinationsTable.title,
+      titleMk: destinationsTable.titleMk,
+    })
+    .from(tripDestinationsTable)
+    .innerJoin(destinationsTable, eq(tripDestinationsTable.destinationId, destinationsTable.id))
+    .innerJoin(tripsTable, eq(tripDestinationsTable.tripId, tripsTable.id))
+    .where(and(eq(destinationsTable.published, true), eq(tripsTable.published, true)))
+    .orderBy(asc(destinationsTable.title));
+  return rows.map((r) => ({ key: r.slug, label: mk && r.titleMk ? r.titleMk : r.title }));
 }
 
 export async function getTripWithDestinations(
