@@ -8,19 +8,22 @@
    accent — so every component reskins from this one file.)
    ============================================================ */
 :root {
-  /* — Brand accent: turquoise (the unifying blue/green) ——————— */
-  --wf-coral-700: #0A5C66;   /* pressed / deep accent */
-  --wf-coral-600: #0C747E;   /* hover */
-  --wf-coral-500: #11919B;   /* primary accent — the turquoise */
-  --wf-coral-400: #35B3BC;   /* lighter accent, hover-on-dark */
-  --wf-coral-200: #BCE6E9;   /* tint / focus ring backing */
-  --wf-coral-050: #E9F7F8;   /* faint wash, hover surfaces */
+  /* — Brand accent: turquoise → green (from the brand palette) ——— */
+  --wf-coral-700: #2E9491;   /* pressed / deep accent */
+  --wf-coral-600: #3FAEAB;   /* hover */
+  --wf-coral-500: #50C9C6;   /* primary accent — turquoise */
+  --wf-coral-400: #74D4D1;   /* lighter accent, hover-on-dark */
+  --wf-coral-200: #C7EEED;   /* tint / focus ring backing */
+  --wf-coral-050: #ECF9F8;   /* faint wash, hover surfaces */
 
-  /* — Logo brand hues (for gradients & accents) ——————————————— */
-  --wf-brand-blue:  #2E9FD8; /* logo top — sky blue */
-  --wf-brand-green: #6FB52C; /* logo foot — leaf green */
-  --wf-brand-gradient:      linear-gradient(135deg, var(--wf-brand-blue), var(--wf-brand-green));
-  --wf-brand-gradient-deep: linear-gradient(140deg, #14729F, #4A8E2A); /* legible behind light text */
+  /* — Brand palette hues (for gradients & accents) ———————————— */
+  --wf-brand-teal:  #50C9C6; /* turquoise */
+  --wf-brand-aqua:  #4FB698; /* teal-green */
+  --wf-brand-green: #74B776; /* green */
+  --wf-brand-lime:  #B0C765; /* lime */
+  --wf-brand-blue:  var(--wf-brand-teal);  /* back-compat alias */
+  --wf-brand-gradient:      linear-gradient(135deg, #50C9C6, #4FB698, #74B776, #B0C765);
+  --wf-brand-gradient-deep: linear-gradient(140deg, #2E9491, #39836E, #538354, #7E8F48); /* legible behind light text */
 
   /* — Ink / neutrals (cool teal-navy) ——————————————————————— */
   --wf-ink-900: #0E2A33;     /* near-black, primary text & dark sections */
@@ -34,9 +37,9 @@
 
   /* — Surfaces (white + cool tints) ————————————————————————— */
   --wf-cream:    #FFFFFF;    /* page background */
-  --wf-cream-2:  #F3FAFB;    /* raised card on white */
+  --wf-cream-2:  #F2FBFA;    /* raised card on white */
   --wf-paper:    #FFFFFF;    /* pure white card */
-  --wf-sand:     #E9F4F5;    /* tonal block / alt section (light turquoise) */
+  --wf-sand:     #E7F5F1;    /* tonal block / alt section (light teal-green) */
 
   /* — Semantic ——————————————————————————————————— */
   --wf-success: #3F9E5A;
@@ -53,7 +56,7 @@
   --wf-text-secondary:  var(--wf-ink-700);
   --wf-text-muted:      var(--wf-ink-500);
   --wf-text-on-dark:    #E9F5F6;
-  --wf-text-on-accent:  #FFFFFF;
+  --wf-text-on-accent:  var(--wf-ink-900);  /* dark text — the bright teal accent needs it for contrast */
   --wf-accent:          var(--wf-coral-500);
   --wf-accent-hover:    var(--wf-coral-600);
   --wf-accent-press:    var(--wf-coral-700);

@@ -46,8 +46,10 @@ next-env.d.ts
 /preview/*.jpg
 /preview/*.webm
 
-# Large local hero video (swap/host as needed)
-/public/videos/
+# Large local hero source videos (keep out of git) — but commit the small,
+# web-optimised hero clip so it deploys to the live site.
+/public/videos/*
+!/public/videos/intro-hero.mp4
 
 # Admin image uploads (dev)
 /public/uploads/

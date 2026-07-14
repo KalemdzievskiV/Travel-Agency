@@ -54,6 +54,7 @@ export function HomeHero() {
           loop
           playsInline
           poster="/images/hero.jpg"
+          preload="auto"
           aria-hidden
           style={{
             position: "absolute",
@@ -63,7 +64,7 @@ export function HomeHero() {
             objectFit: "cover",
           }}
         >
-          <source src="/videos/hero2.mp4" type="video/mp4" />
+          <source src="/videos/intro-hero.mp4" type="video/mp4" />
         </video>
       )}
       {/* Even scrim so the centred text stays legible across the frame */}
