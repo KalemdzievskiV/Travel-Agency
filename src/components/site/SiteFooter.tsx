@@ -81,18 +81,29 @@ export function SiteFooter() {
               ) : (
                 <form
                   onSubmit={(e) => { e.preventDefault(); setSubscribed(true); }}
-                  style={{ display: "flex", alignItems: "center", gap: 8, borderBottom: "1px solid rgba(255,255,255,0.3)", paddingBottom: 8 }}
+                  style={{ display: "grid", gap: 12 }}
                 >
                   <input
-                    type="email"
+                    type="text"
+                    name="name"
                     required
-                    placeholder={t("footer.newsletter.placeholder")}
-                    aria-label={t("footer.newsletter.placeholder")}
-                    style={{ flex: 1, minWidth: 0, background: "transparent", border: "none", outline: "none", color: "#fff", fontSize: 14, fontFamily: "var(--wf-font-sans)" }}
+                    placeholder={t("footer.newsletter.namePlaceholder")}
+                    aria-label={t("footer.newsletter.namePlaceholder")}
+                    style={{ minWidth: 0, background: "transparent", border: "none", borderBottom: "1px solid rgba(255,255,255,0.3)", outline: "none", color: "#fff", fontSize: 14, fontFamily: "var(--wf-font-sans)", paddingBottom: 8 }}
                   />
-                  <button type="submit" aria-label={t("footer.newsletter.cta")} style={{ background: "none", border: "none", cursor: "pointer", color: "#fff", display: "grid", placeItems: "center", padding: 2 }}>
-                    <ArrowRight size={18} aria-hidden />
-                  </button>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, borderBottom: "1px solid rgba(255,255,255,0.3)", paddingBottom: 8 }}>
+                    <input
+                      type="email"
+                      name="email"
+                      required
+                      placeholder={t("footer.newsletter.placeholder")}
+                      aria-label={t("footer.newsletter.placeholder")}
+                      style={{ flex: 1, minWidth: 0, background: "transparent", border: "none", outline: "none", color: "#fff", fontSize: 14, fontFamily: "var(--wf-font-sans)" }}
+                    />
+                    <button type="submit" aria-label={t("footer.newsletter.cta")} style={{ background: "none", border: "none", cursor: "pointer", color: "#fff", display: "grid", placeItems: "center", padding: 2 }}>
+                      <ArrowRight size={18} aria-hidden />
+                    </button>
+                  </div>
                 </form>
               )}
             </div>

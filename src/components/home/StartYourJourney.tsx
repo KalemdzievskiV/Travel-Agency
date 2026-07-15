@@ -102,7 +102,9 @@ export function StartYourJourney({ tabs }: { tabs: JourneyTab[] }) {
               <Link href={c.href} className="wf-journey-card">
                 <div className="wf-journey-card__img" style={{ backgroundImage: `url(${c.image})` }} aria-hidden />
                 <div className="wf-journey-card__scrim" aria-hidden />
-                <span className="wf-journey-card__label">{c.label}</span>
+                <span className="wf-journey-card__label">
+                  {tr.has(`journey.who.${c.label}`) ? tr(`journey.who.${c.label}`) : c.label}
+                </span>
               </Link>
             </motion.div>
           ))}

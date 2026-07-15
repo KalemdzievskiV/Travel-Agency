@@ -1,14 +1,14 @@
 import { defineRouting } from "next-intl/routing";
 
 /**
- * i18n routing — English (default, unprefixed) + Macedonian (/mk/…).
- * `as-needed` keeps every English URL exactly where it was — including /admin,
- * /login and the auth flow — while Macedonian gets the /mk prefix. Locale
- * detection is off so we never auto-redirect; the language switcher is explicit.
+ * i18n routing — Macedonian (default, unprefixed) + English (/en/…).
+ * `as-needed` keeps Macedonian URLs unprefixed while English gets the /en
+ * prefix. Locale detection is off so we never auto-redirect; the language
+ * switcher is explicit and the site always opens in Macedonian.
  */
 export const routing = defineRouting({
-  locales: ["en", "mk"],
-  defaultLocale: "en",
+  locales: ["mk", "en"],
+  defaultLocale: "mk",
   localePrefix: "as-needed",
   localeDetection: false,
 });

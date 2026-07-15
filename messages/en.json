@@ -20,7 +20,7 @@
   "common": {
     "enquireNow": "START HERE",
     "getInTouch": "Get in touch",
-    "planMyTrip": "CREATE TOGETHER",
+    "planMyTrip": "PLAN A TRIP",
     "exploreOurTrips": "EXPLORE DESTINATIONS",
     "viewMore": "View more",
     "openMenu": "Open menu",
@@ -46,7 +46,7 @@
   "hero": {
     "eyebrow": "Tailor-made · Est. 2014",
     "title": "The world on your terms",
-    "intro": "Where wishes become destinations.",
+    "intro": "creators of your journeys for over 15 years",
     "scroll": "Scroll"
   },
   "intro": {
@@ -59,9 +59,16 @@
   "journey": {
     "heading": "Start your journey",
     "tabs": {
-      "traveller": "By traveller",
+      "traveller": "Who travels",
       "popular": "Most popular",
       "month": "By month"
+    },
+    "who": {
+      "Family": "Families",
+      "Couples": "Couples",
+      "Groups": "Groups",
+      "Honeymoon": "Honeymoon",
+      "Solo": "Solo"
     }
   },
   "explore": {
@@ -114,7 +121,7 @@
   },
   "tripFinder": {
     "title": "The trip finder",
-    "subtitle": "The world is wider than any list. Tell us how you want to feel and when — we'll point you somewhere remarkable.",
+    "subtitle": "They say the world has seven wonders. We think that's just the beginning.",
     "feelingPlaceholder": "How do you want to feel?",
     "whenPlaceholder": "When do you want to travel?",
     "takeMeThere": "Take me there",
@@ -150,8 +157,8 @@
     "Challenged": "Challenged"
   },
   "months": {
-    "Jan": "Jan", "Feb": "Feb", "Mar": "Mar", "Apr": "Apr", "May": "May", "Jun": "Jun",
-    "Jul": "Jul", "Aug": "Aug", "Sep": "Sep", "Oct": "Oct", "Nov": "Nov", "Dec": "Dec"
+    "Jan": "January", "Feb": "February", "Mar": "March", "Apr": "April", "May": "May", "Jun": "June",
+    "Jul": "July", "Aug": "August", "Sep": "September", "Oct": "October", "Nov": "November", "Dec": "December"
   },
   "regionPage": {
     "home": "Home",
@@ -275,6 +282,7 @@
     },
     "newsletter": {
       "heading": "Be the first to know",
+      "namePlaceholder": "Your name",
       "placeholder": "Your email",
       "cta": "Subscribe",
       "done": "Thank you — you’re on the list."

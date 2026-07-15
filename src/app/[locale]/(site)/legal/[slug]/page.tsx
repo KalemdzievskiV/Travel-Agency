@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Eyebrow } from "@/components/ui";
 
 const SLUGS = ["terms", "cookies", "privacy"] as const;
@@ -24,9 +24,10 @@ export async function generateMetadata({
 export default async function LegalPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }) {
-  const { slug } = await params;
+  const { locale, slug } = await params;
+  setRequestLocale(locale);
   if (!SLUGS.includes(slug as Slug)) notFound();
 
   const [tf, tl] = await Promise.all([getTranslations("footer"), getTranslations("legalPage")]);

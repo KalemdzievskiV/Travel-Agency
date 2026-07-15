@@ -631,7 +631,12 @@
 }
 
 /* ── Header ───────────────────────────────────────────────── */
-.wf-header-nav { display: flex; gap: 34px; }
+.wf-header-nav { display: flex; align-items: center; gap: 34px; }
+/* Accent underline on nav hover (text links only, not the search icon). */
+.wf-header-nav a:not([aria-label]):hover,
+.wf-header-nav .wf-megamenu:hover > a {
+  border-bottom-color: var(--wf-coral-500) !important;
+}
 .wf-header-actions { display: flex; align-items: center; gap: 18px; }
 .wf-nav-toggle {
   display: none;

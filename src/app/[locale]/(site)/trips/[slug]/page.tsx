@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import React from "react";
 import { notFound } from "next/navigation";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Eyebrow } from "@/components/ui";
 import { Link } from "@/i18n/navigation";
 import { SectionHead } from "@/components/sections/SectionHead";
@@ -30,9 +30,10 @@ export async function generateMetadata({
 export default async function TripPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }) {
-  const { slug } = await params;
+  const { locale, slug } = await params;
+  setRequestLocale(locale);
   const result = await getTripWithDestinations(slug);
   if (!result) notFound();
   const { trip, destinations } = result;

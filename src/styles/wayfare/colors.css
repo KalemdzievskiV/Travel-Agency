@@ -1,45 +1,41 @@
 /* ============================================================
    bookit — Colour tokens
-   Brand palette taken from the bookit logo: a sky-blue → leaf-green
-   gradient with a turquoise accent, on clean white. Cool teal-navy
-   neutrals keep text and dark sections on-brand. Imagery still carries
-   most of the colour; the UI stays quiet and airy around it.
-   (Token names are kept stable — `--wf-coral-*` now holds the turquoise
-   accent — so every component reskins from this one file.)
+   Brand palette (client corrections): a vivid orange-red accent (#E3400F)
+   on clean white, with near-black #222222 for dark buttons/sections and a
+   #F7F7F7 light frame. Neutral greys keep text quiet around the imagery.
+   (Token names are kept stable — `--wf-coral-*` now holds the accent — so
+   every component reskins from this one file.)
    ============================================================ */
 :root {
-  /* — Brand accent: turquoise → green (from the brand palette) ——— */
-  --wf-coral-700: #2E9491;   /* pressed / deep accent */
-  --wf-coral-600: #3FAEAB;   /* hover */
-  --wf-coral-500: #50C9C6;   /* primary accent — turquoise */
-  --wf-coral-400: #74D4D1;   /* lighter accent, hover-on-dark */
-  --wf-coral-200: #C7EEED;   /* tint / focus ring backing */
-  --wf-coral-050: #ECF9F8;   /* faint wash, hover surfaces */
+  /* — Brand accent: orange-red #E3400F ——————————————————————— */
+  --wf-coral-700: #A62D0B;   /* pressed / deep accent */
+  --wf-coral-600: #C6360D;   /* hover */
+  --wf-coral-500: #E3400F;   /* primary accent */
+  --wf-coral-400: #EC6A43;   /* lighter accent, hover-on-dark */
+  --wf-coral-200: #F7C9BC;   /* tint / focus ring backing */
+  --wf-coral-050: #FDEEE9;   /* faint wash, hover surfaces */
 
   /* — Brand palette hues (for gradients & accents) ———————————— */
-  --wf-brand-teal:  #50C9C6; /* turquoise */
-  --wf-brand-aqua:  #4FB698; /* teal-green */
-  --wf-brand-green: #74B776; /* green */
-  --wf-brand-lime:  #B0C765; /* lime */
-  --wf-brand-blue:  var(--wf-brand-teal);  /* back-compat alias */
-  --wf-brand-gradient:      linear-gradient(135deg, #50C9C6, #4FB698, #74B776, #B0C765);
-  --wf-brand-gradient-deep: linear-gradient(140deg, #2E9491, #39836E, #538354, #7E8F48); /* legible behind light text */
+  --wf-brand-blue:  #E3400F; /* back-compat alias → accent */
+  --wf-brand-green: #222222; /* back-compat alias → dark */
+  --wf-brand-gradient:      linear-gradient(135deg, #E3400F, #A62D0B);
+  --wf-brand-gradient-deep: linear-gradient(140deg, #A62D0B, #222222); /* legible behind light text */
 
-  /* — Ink / neutrals (cool teal-navy) ——————————————————————— */
-  --wf-ink-900: #0E2A33;     /* near-black, primary text & dark sections */
-  --wf-ink-800: #163A44;
-  --wf-ink-700: #284C56;     /* secondary text on light */
-  --wf-ink-500: #5C7079;     /* muted text, captions */
-  --wf-ink-400: #8AA1A8;     /* placeholder, disabled text */
-  --wf-ink-300: #BCD0D3;     /* borders on light */
-  --wf-ink-200: #DBE8EA;     /* dividers, hairlines */
-  --wf-ink-100: #ECF4F5;     /* subtle fill */
+  /* — Ink / neutrals (neutral greys) ———————————————————————— */
+  --wf-ink-900: #222222;     /* near-black, primary text & dark sections */
+  --wf-ink-800: #333333;
+  --wf-ink-700: #4A4A4A;     /* secondary text on light */
+  --wf-ink-500: #767676;     /* muted text, captions */
+  --wf-ink-400: #9B9B9B;     /* placeholder, disabled text */
+  --wf-ink-300: #CFCFCF;     /* borders on light */
+  --wf-ink-200: #E4E4E4;     /* dividers, hairlines */
+  --wf-ink-100: #F0F0F0;     /* subtle fill */
 
-  /* — Surfaces (white + cool tints) ————————————————————————— */
+  /* — Surfaces (white + light grey frames) —————————————————— */
   --wf-cream:    #FFFFFF;    /* page background */
-  --wf-cream-2:  #F2FBFA;    /* raised card on white */
+  --wf-cream-2:  #F7F7F7;    /* raised card / light frame */
   --wf-paper:    #FFFFFF;    /* pure white card */
-  --wf-sand:     #E7F5F1;    /* tonal block / alt section (light teal-green) */
+  --wf-sand:     #F7F7F7;    /* tonal block / alt section (light frame) */
 
   /* — Semantic ——————————————————————————————————— */
   --wf-success: #3F9E5A;
@@ -55,8 +51,8 @@
   --wf-text:            var(--wf-ink-900);
   --wf-text-secondary:  var(--wf-ink-700);
   --wf-text-muted:      var(--wf-ink-500);
-  --wf-text-on-dark:    #E9F5F6;
-  --wf-text-on-accent:  var(--wf-ink-900);  /* dark text — the bright teal accent needs it for contrast */
+  --wf-text-on-dark:    #F5F5F5;
+  --wf-text-on-accent:  #FFFFFF;  /* white text on the orange-red accent */
   --wf-accent:          var(--wf-coral-500);
   --wf-accent-hover:    var(--wf-coral-600);
   --wf-accent-press:    var(--wf-coral-700);

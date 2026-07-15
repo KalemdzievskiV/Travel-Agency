@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import React from "react";
 import { notFound } from "next/navigation";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Eyebrow } from "@/components/ui";
 import { Link } from "@/i18n/navigation";
 import { TripsCarousel } from "@/components/sections/TripsCarousel";
@@ -22,9 +22,10 @@ export async function generateMetadata({
 export default async function ExperienceCategoryPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }) {
-  const { slug } = await params;
+  const { locale, slug } = await params;
+  setRequestLocale(locale);
   const c = await getExperienceCategoryBySlug(slug);
   if (!c) notFound();
   const t = await getTranslations("experiencesPage");

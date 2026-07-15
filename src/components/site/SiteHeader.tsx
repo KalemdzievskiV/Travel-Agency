@@ -70,13 +70,14 @@ export function SiteHeader({ regionsNav = [] }: { regionsNav?: RegionNavItem[] }
   const navLinkStyle = (href: string): React.CSSProperties => ({
     textDecoration: "none",
     fontFamily: "var(--wf-font-sans)",
-    fontSize: 14,
-    fontWeight: 500,
-    letterSpacing: "0.01em",
-    color: dark ? "rgba(255,255,255,0.9)" : "var(--wf-ink-700)",
-    paddingBottom: 2,
-    borderBottom: `1.5px solid ${
-      isActive(href) ? (dark ? "#fff" : "var(--wf-coral-500)") : "transparent"
+    fontSize: 13,
+    fontWeight: 700,
+    letterSpacing: "0.08em",
+    textTransform: "uppercase",
+    color: dark ? "#fff" : "var(--wf-ink-900)",
+    paddingBottom: 3,
+    borderBottom: `2px solid ${
+      isActive(href) ? "var(--wf-coral-500)" : "transparent"
     }`,
   });
 

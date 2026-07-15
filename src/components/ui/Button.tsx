@@ -94,11 +94,17 @@ export function Button({
     ButtonVariant,
     (el: HTMLElement, on: boolean) => void
   > = {
+    // Invert on hover: white background, accent text + border.
     primary: (el, on) => {
-      el.style.background = on ? "var(--wf-accent-hover)" : "var(--wf-accent)";
+      el.style.background = on ? "#fff" : "var(--wf-accent)";
+      el.style.color = on ? "var(--wf-accent)" : "var(--wf-text-on-accent)";
+      el.style.borderColor = on ? "var(--wf-accent)" : "transparent";
     },
+    // Invert on hover: white background, dark text + border.
     dark: (el, on) => {
-      el.style.background = on ? "var(--wf-ink-700)" : "var(--wf-ink-900)";
+      el.style.background = on ? "#fff" : "var(--wf-ink-900)";
+      el.style.color = on ? "var(--wf-ink-900)" : "var(--wf-text-on-dark)";
+      el.style.borderColor = on ? "var(--wf-ink-900)" : "transparent";
     },
     outline: (el, on) => {
       el.style.background = on ? "var(--wf-ink-900)" : "transparent";

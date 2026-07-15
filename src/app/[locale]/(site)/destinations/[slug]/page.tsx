@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import React from "react";
 import { notFound } from "next/navigation";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Eyebrow, Icon } from "@/components/ui";
 import { Link } from "@/i18n/navigation";
 import { SectionHead } from "@/components/sections/SectionHead";
@@ -32,7 +32,8 @@ export async function generateMetadata(
 export default async function DestinationPage(
   props: PageProps<"/[locale]/destinations/[slug]">,
 ) {
-  const { slug } = await props.params;
+  const { locale, slug } = await props.params;
+  setRequestLocale(locale);
 
   // A region slug (e.g. /destinations/africa) renders the region landing page.
   const region = await getRegionBySlug(slug);
