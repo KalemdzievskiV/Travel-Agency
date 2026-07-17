@@ -7,12 +7,22 @@ import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { Logo } from "./Logo";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { DestinationsMegaMenu } from "./DestinationsMegaMenu";
+import { ExperiencesMegaMenu } from "./ExperiencesMegaMenu";
 import { SearchOverlay } from "./SearchOverlay";
 import { PhoneWithHours } from "./PhoneWithHours";
 import type { RegionNavItem } from "@/lib/queries/regions";
+import type { ExperienceCategory, RemarkableExperience } from "@/content/types";
 import { nav, aboutMenu, site } from "@/content/site";
 
-export function SiteHeader({ regionsNav = [] }: { regionsNav?: RegionNavItem[] }) {
+export function SiteHeader({
+  regionsNav = [],
+  experienceCategories = [],
+  remarkable = [],
+}: {
+  regionsNav?: RegionNavItem[];
+  experienceCategories?: ExperienceCategory[];
+  remarkable?: RemarkableExperience[];
+}) {
   const pathname = usePathname();
   const router = useRouter();
   const t = useTranslations();
@@ -70,7 +80,9 @@ export function SiteHeader({ regionsNav = [] }: { regionsNav?: RegionNavItem[] }
       href !== "/" &&
       pathname.startsWith(href));
 
-  const navLinkStyle = (href: string): React.CSSProperties => ({
+  // The underline itself lives in .wf-navlink::after (responsive.css) so it can
+  // animate — inline styles can't hold a pseudo-element.
+  const navLinkStyle = (): React.CSSProperties => ({
     textDecoration: "none",
     fontFamily: "var(--wf-font-sans)",
     fontSize: 13,
@@ -79,10 +91,10 @@ export function SiteHeader({ regionsNav = [] }: { regionsNav?: RegionNavItem[] }
     textTransform: "uppercase",
     color: dark ? "#fff" : "var(--wf-ink-900)",
     paddingBottom: 3,
-    borderBottom: `2px solid ${
-      isActive(href) ? "var(--wf-coral-500)" : "transparent"
-    }`,
   });
+
+  const navLinkClass = (href: string) =>
+    `wf-navlink${isActive(href) ? " wf-navlink--on" : ""}`;
 
   return (
     <header
@@ -114,15 +126,27 @@ export function SiteHeader({ regionsNav = [] }: { regionsNav?: RegionNavItem[] }
                 key={l.href}
                 regions={regionsNav}
                 label={navLabel(l.href)}
-                triggerStyle={navLinkStyle(l.href)}
+                triggerStyle={navLinkStyle()}
+                triggerClassName={navLinkClass(l.href)}
+                iconColor={dark ? "rgba(255,255,255,0.9)" : "var(--wf-ink-700)"}
+              />
+            ) : l.href === "/experiences" ? (
+              <ExperiencesMegaMenu
+                key={l.href}
+                categories={experienceCategories}
+                remarkable={remarkable}
+                label={navLabel(l.href)}
+                triggerStyle={navLinkStyle()}
+                triggerClassName={navLinkClass(l.href)}
                 iconColor={dark ? "rgba(255,255,255,0.9)" : "var(--wf-ink-700)"}
               />
             ) : l.href === "/about" ? (
               <div className="wf-megamenu" key={l.href}>
                 <Link
                   href={l.href}
+                  className={navLinkClass(l.href)}
                   style={{
-                    ...navLinkStyle(l.href),
+                    ...navLinkStyle(),
                     display: "inline-flex",
                     alignItems: "center",
                     gap: 5,
@@ -155,7 +179,12 @@ export function SiteHeader({ regionsNav = [] }: { regionsNav?: RegionNavItem[] }
                 </div>
               </div>
             ) : (
-              <Link key={l.href} href={l.href} style={navLinkStyle(l.href)}>
+              <Link
+                key={l.href}
+                href={l.href}
+                className={navLinkClass(l.href)}
+                style={navLinkStyle()}
+              >
                 {navLabel(l.href)}
               </Link>
             )

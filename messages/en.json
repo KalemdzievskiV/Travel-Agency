@@ -219,6 +219,12 @@
     "remarkableHeading": "Out of the ordinary",
     "remarkableIntro": "Singular moments we can weave into your journey — rare, quiet and unforgettable."
   },
+  "experiencesMenu": {
+    "who": "Who's travelling",
+    "remarkable": "Remarkable experiences",
+    "finder": "Trip finder",
+    "viewAll": "All experiences"
+  },
   "tripPage": {
     "when": "Month",
     "price": "Price",
@@ -365,6 +371,8 @@
     "title": "Let’s plan something <i>remarkable</i>",
     "pageIntro": "Send us the details below and we’ll be in touch shortly — pairing you with a bookit travel designer and arranging a time to talk, by email, phone or video. Prefer to speak now? Call us on <phone></phone>.",
     "yourTrip": "Your trip",
+    "idealLength": "Ideal length",
+    "priceFrom": "Price from",
     "whereSelect": "Select a destination",
     "whereUndecided": "Still deciding",
     "adultsLabel": "Adults",

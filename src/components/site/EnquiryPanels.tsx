@@ -99,7 +99,64 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function EnquiryPanels({ presetDestination = "", destinations = [] }: { presetDestination?: string; destinations?: string[] }) {
+/** What the enquiry page shows when you arrive from a trip's "Plan a trip". */
+export type EnquiryTripSummary = {
+  slug: string;
+  title: string;
+  image?: string;
+  grad: string;
+  durationDays: number | null;
+  priceFrom: string;
+};
+
+/**
+ * TripSummaryCard — "here's what you're enquiring about": the trip's photo
+ * beside its title, ideal length and price. Links back to the trip.
+ */
+function TripSummaryCard({ trip }: { trip: EnquiryTripSummary }) {
+  const t = useTranslations("enquiry");
+  const tCards = useTranslations("cards");
+  const tTrip = useTranslations("tripPage");
+
+  return (
+    <Link href={`/trips/${trip.slug}`} className="wf-enquiry-trip">
+      <div
+        className="wf-enquiry-trip__img"
+        // Longhands only — a `background` shorthand would reset the image on the
+        // client (this is a client component).
+        style={{
+          backgroundImage: trip.image ? `url(${trip.image})` : trip.grad || undefined,
+          backgroundColor: trip.image || trip.grad ? undefined : "var(--wf-ink-800)",
+        }}
+        aria-hidden
+      />
+      <div className="wf-enquiry-trip__body">
+        <div className="wf-enquiry-trip__title">{trip.title}</div>
+        <dl className="wf-enquiry-trip__facts">
+          {trip.durationDays && (
+            <div>
+              {t("idealLength")}{" "}
+              <strong>{tCards("days", { count: trip.durationDays })}</strong>
+            </div>
+          )}
+          <div>
+            {t("priceFrom")} <strong>{trip.priceFrom || tTrip("onEnquiry")}</strong>
+          </div>
+        </dl>
+      </div>
+    </Link>
+  );
+}
+
+export function EnquiryPanels({
+  presetDestination = "",
+  destinations = [],
+  trip,
+}: {
+  presetDestination?: string;
+  destinations?: string[];
+  trip?: EnquiryTripSummary;
+}) {
   const t = useTranslations("enquiry");
   const tMonth = useTranslations("months");
   const [sent, setSent] = React.useState(false);
@@ -371,15 +428,17 @@ export function EnquiryPanels({ presetDestination = "", destinations = [] }: { p
           </div>
         </form>
 
-        {/* Call / office hours aside */}
-        <aside
-          style={{
-            background: "var(--wf-sand)",
-            borderRadius: "var(--wf-radius-lg)",
-            padding: "clamp(24px, 4vw, 36px)",
-            textAlign: "center",
-          }}
-        >
+        {/* Trip summary + call / office hours — sticks as the form scrolls. */}
+        <div className="wf-enquiry__aside">
+          {trip && <TripSummaryCard trip={trip} />}
+          <aside
+            style={{
+              background: "var(--wf-sand)",
+              borderRadius: "var(--wf-radius-lg)",
+              padding: "clamp(24px, 4vw, 36px)",
+              textAlign: "center",
+            }}
+          >
           <Phone size={26} strokeWidth={1.5} color="var(--wf-ink-900)" aria-hidden style={{ margin: "0 auto" }} />
           <div
             style={{
@@ -430,7 +489,8 @@ export function EnquiryPanels({ presetDestination = "", destinations = [] }: { p
             })}
           </dl>
           <p style={{ fontSize: 13, color: "var(--wf-ink-500)", margin: "16px 0 0" }}>{t("excludingHolidays")}</p>
-        </aside>
+          </aside>
+        </div>
       </div>
     </div>
   );

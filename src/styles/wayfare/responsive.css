@@ -687,8 +687,77 @@
   gap: clamp(20px, 3vw, 32px);
   align-items: start;
 }
+/* The trip summary + office hours travel with the form as it scrolls. The
+   parent's `align-items: start` is what lets this stay sticky rather than
+   stretching to the form's height. */
+.wf-enquiry__aside {
+  position: sticky;
+  top: calc(var(--wf-header-h) + 24px);
+  display: grid;
+  gap: clamp(16px, 2vw, 24px);
+  align-content: start;
+  /* Taller than the viewport (long office hours + a trip card) would strand the
+     bottom off-screen with no way to reach it — scroll it internally instead. */
+  max-height: calc(100vh - var(--wf-header-h) - 48px);
+  overflow-y: auto;
+}
 @media (max-width: 860px) {
   .wf-enquiry { grid-template-columns: 1fr; }
+  /* Stacked: it's just the next block down, so no sticking or clipping. */
+  .wf-enquiry__aside {
+    position: static;
+    max-height: none;
+    overflow-y: visible;
+  }
+}
+
+/* Trip summary card — photo beside title/length/price, shown when the enquiry
+   came from a trip's "Plan a trip" button. */
+.wf-enquiry-trip {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+  border-radius: var(--wf-radius-lg);
+  overflow: hidden;
+  text-decoration: none;
+}
+.wf-enquiry-trip__img {
+  min-height: 100%;
+  aspect-ratio: 4 / 3;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.6s var(--wf-ease-out);
+}
+.wf-enquiry-trip:hover .wf-enquiry-trip__img { transform: scale(1.06); }
+.wf-enquiry-trip__body {
+  background: var(--wf-ink-900);
+  color: var(--wf-text-on-dark);
+  padding: clamp(16px, 2vw, 22px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+.wf-enquiry-trip__title {
+  font-family: var(--wf-font-sans);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.35;
+}
+.wf-enquiry-trip__facts {
+  margin: 0;
+  display: grid;
+  gap: 4px;
+  font-size: 14px;
+  font-style: italic;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+.wf-enquiry-trip__facts strong { font-style: normal; font-weight: 600; }
+@media (max-width: 420px) {
+  .wf-enquiry-trip { grid-template-columns: 1fr; }
+  .wf-enquiry-trip__img { aspect-ratio: 16 / 9; }
 }
 
 /* ── Search widget ────────────────────────────────────────── */
@@ -704,10 +773,33 @@
 
 /* ── Header ───────────────────────────────────────────────── */
 .wf-header-nav { display: flex; align-items: center; gap: 34px; }
-/* Accent underline on nav hover (text links only, not the search icon). */
-.wf-header-nav a:not([aria-label]):hover,
-.wf-header-nav .wf-megamenu:hover > a {
-  border-bottom-color: var(--wf-coral-500) !important;
+
+/* Accent underline on nav items — wipes in from the left on hover, and stays
+   put on the current section (--on). Applied to every nav item, links and
+   mega-menu triggers alike: the triggers are <button>s, so an `a`-only rule
+   would skip them. The search icon has no .wf-navlink and so stays bare. */
+.wf-navlink { position: relative; }
+.wf-navlink::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--wf-coral-500);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.24s var(--wf-ease-out);
+}
+.wf-navlink:hover::after,
+.wf-navlink:focus-visible::after,
+.wf-navlink--on::after {
+  transform: scaleX(1);
+}
+/* Hovering the About panel keeps its trigger underlined. */
+.wf-header-nav .wf-megamenu:hover > .wf-navlink::after { transform: scaleX(1); }
+@media (prefers-reduced-motion: reduce) {
+  .wf-navlink::after { transition: none; }
 }
 .wf-header-actions { display: flex; align-items: center; gap: 18px; }
 .wf-nav-toggle {
@@ -912,6 +1004,36 @@
   background-size: cover;
   background-position: center;
 }
+
+/* ── Experiences mega-menu (groups → cards) ───────────────────────
+   Reuses the .wf-destmenu panel/close/left-rail chrome; only the grid inside
+   differs — a group list on the left, .wf-exp-tile cards on the right. The
+   menu only exists above 860px (the nav collapses below that), so the card
+   grid steps 4 → 3 columns and no further. */
+.wf-expmenu__grid {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 64px);
+  /* padding-block, not the shorthand: .wf-wrap's padding-inline gutter is
+     declared earlier in this file, so a shorthand here would zero it out. */
+  padding-block: clamp(28px, 3vw, 44px) clamp(36px, 4vw, 56px);
+  align-items: start;
+}
+.wf-expmenu__cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(12px, 1.4vw, 20px);
+}
+@media (max-width: 1160px) {
+  .wf-expmenu__grid { grid-template-columns: 220px minmax(0, 1fr); }
+  .wf-expmenu__cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+/* Menu cards are smaller than the hub grid's — hold the title to match. */
+.wf-expmenu__title { font-size: clamp(17px, 1.4vw, 21px); }
+/* Rail items that just link out (Trip finder) — they never become "active", so
+   they get their accent on hover instead. */
+.wf-expmenu__link-only { color: var(--wf-ink-900); }
+.wf-expmenu__link-only:hover { color: var(--wf-coral-500); }
 
 /* ── About mega-menu (mobile accordion, inside .wf-mobile-menu) ── */
 .wf-mobile-about__toggle {

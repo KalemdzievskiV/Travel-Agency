@@ -49,15 +49,21 @@ function toCategory(r: CategoryRow, mk: boolean): ExperienceCategory {
   };
 }
 
-/** Published categories, in order — for the hub grid and the nav. */
+/** Published categories, in order — for the hub grid and the nav. Degrades to an
+ * empty list if the table isn't present yet: the header mega-menu renders on
+ * every page, so a missing table must not take the whole site down. */
 export async function getExperienceCategories(): Promise<ExperienceCategory[]> {
-  const mk = await localeIsMk();
-  const rows = await db
-    .select()
-    .from(categoriesTable)
-    .where(eq(categoriesTable.published, true))
-    .orderBy(asc(categoriesTable.sortOrder), asc(categoriesTable.id));
-  return rows.map((r) => toCategory(r, mk));
+  try {
+    const mk = await localeIsMk();
+    const rows = await db
+      .select()
+      .from(categoriesTable)
+      .where(eq(categoriesTable.published, true))
+      .orderBy(asc(categoriesTable.sortOrder), asc(categoriesTable.id));
+    return rows.map((r) => toCategory(r, mk));
+  } catch {
+    return [];
+  }
 }
 
 // Trips tagged with a given "who" filter option; falls back to recent trips.
@@ -112,25 +118,29 @@ export async function getExperienceCategoryBySlug(
 
 /** Published remarkable experiences, in order — for the hub's НЕОБИЧНИ ИСКУСТВА grid. */
 export async function getRemarkableExperiences(): Promise<RemarkableExperience[]> {
-  const mk = await localeIsMk();
-  const rows = await db
-    .select({
-      exp: remarkableTable,
-      tripSlug: tripsTable.slug,
-    })
-    .from(remarkableTable)
-    .leftJoin(tripsTable, eq(remarkableTable.tripId, tripsTable.id))
-    .where(eq(remarkableTable.published, true))
-    .orderBy(asc(remarkableTable.sortOrder), asc(remarkableTable.id));
+  try {
+    const mk = await localeIsMk();
+    const rows = await db
+      .select({
+        exp: remarkableTable,
+        tripSlug: tripsTable.slug,
+      })
+      .from(remarkableTable)
+      .leftJoin(tripsTable, eq(remarkableTable.tripId, tripsTable.id))
+      .where(eq(remarkableTable.published, true))
+      .orderBy(asc(remarkableTable.sortOrder), asc(remarkableTable.id));
 
-  const pick = (en: string, mkVal: string | null | undefined) => (mk && mkVal ? mkVal : en);
-  return rows.map(({ exp: r, tripSlug }) => ({
-    slug: r.slug,
-    title: pick(r.title, r.titleMk),
-    teaser: pick(r.teaser, r.teaserMk),
-    description: pick(r.description, r.descriptionMk),
-    grad: r.grad ?? "",
-    image: r.image ?? undefined,
-    tripSlug: tripSlug ?? undefined,
-  }));
+    const pick = (en: string, mkVal: string | null | undefined) => (mk && mkVal ? mkVal : en);
+    return rows.map(({ exp: r, tripSlug }) => ({
+      slug: r.slug,
+      title: pick(r.title, r.titleMk),
+      teaser: pick(r.teaser, r.teaserMk),
+      description: pick(r.description, r.descriptionMk),
+      grad: r.grad ?? "",
+      image: r.image ?? undefined,
+      tripSlug: tripSlug ?? undefined,
+    }));
+  } catch {
+    return [];
+  }
 }

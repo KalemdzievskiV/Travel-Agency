@@ -16,11 +16,13 @@ export function DestinationsMegaMenu({
   regions,
   label,
   triggerStyle,
+  triggerClassName,
   iconColor,
 }: {
   regions: RegionNavItem[];
   label: string;
   triggerStyle: React.CSSProperties;
+  triggerClassName?: string;
   iconColor: string;
 }) {
   const [open, setOpen] = React.useState(false);
@@ -60,6 +62,7 @@ export function DestinationsMegaMenu({
     <div className="wf-destmenu" ref={ref}>
       <button
         type="button"
+        className={`${triggerClassName ?? ""}${open ? " wf-navlink--on" : ""}`}
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
         style={{
