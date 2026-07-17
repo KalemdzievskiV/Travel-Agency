@@ -179,6 +179,7 @@ export const destinations: DestinationSeed[] = regions.flatMap(({ region, places
         "A meal and a story with people who call it home",
         "One remarkable day you'll only find here",
       ],
+      generalNotes: [],
       titleMk: tMk,
       teaserMk: teMk,
       badgeMk: mkBadge[p.badge] ?? p.badge,

@@ -1,5 +1,5 @@
 import "server-only";
-import { and, asc, eq } from "drizzle-orm";
+import { and, asc, eq, inArray, ne } from "drizzle-orm";
 import { getLocale } from "next-intl/server";
 import { db } from "@/db";
 import {
@@ -16,6 +16,7 @@ import {
 import type {
   Destination,
   Experience,
+  Faq,
   Testimonial,
   Trip,
 } from "@/content/types";
@@ -74,7 +75,18 @@ function toDestination(r: DestinationRow, mk: boolean, regionMap: Map<number, Re
     feelings: r.feelings,
     intro: pick(r.intro, r.introMk),
     highlights: mk && r.highlightsMk && r.highlightsMk.length ? r.highlightsMk : r.highlights,
+    generalNotes: parseFaqs(mk && r.generalNotesMk && r.generalNotesMk.length ? r.generalNotesMk : r.generalNotes),
   };
+}
+
+// Parse "Question | Answer" lines into FAQ objects.
+function parseFaqs(lines: string[]): Faq[] {
+  return lines
+    .map((l) => {
+      const i = l.indexOf("|");
+      return i >= 0 ? { q: l.slice(0, i).trim(), a: l.slice(i + 1).trim() } : { q: l.trim(), a: "" };
+    })
+    .filter((f) => f.q);
 }
 
 function toExperience(r: ExperienceRow): Experience {
@@ -94,7 +106,7 @@ function toTestimonial(r: TestimonialRow): Testimonial {
 
 type TripRow = typeof tripsTable.$inferSelect;
 
-export function toTrip(r: TripRow): Trip {
+export function toTrip(r: TripRow, mk = false): Trip {
   return {
     slug: r.slug,
     title: r.title,
@@ -108,6 +120,9 @@ export function toTrip(r: TripRow): Trip {
     feelings: r.feelings,
     itinerary: r.itinerary,
     departures: r.departures,
+    included: mk && r.includedMk && r.includedMk.length ? r.includedMk : r.included,
+    notIncluded: mk && r.notIncludedMk && r.notIncludedMk.length ? r.notIncludedMk : r.notIncluded,
+    visaNotes: mk && r.visaNotesMk ? r.visaNotesMk : r.visaNotes,
   };
 }
 
@@ -166,7 +181,7 @@ export async function getTrips(): Promise<Trip[]> {
     .from(tripsTable)
     .where(eq(tripsTable.published, true))
     .orderBy(asc(tripsTable.sortOrder), asc(tripsTable.id));
-  return rows.map(toTrip);
+  return rows.map((r) => toTrip(r));
 }
 
 // Trips with their facet keys attached (taxonomy tags + derived duration/price),
@@ -263,12 +278,65 @@ export async function getTripWithDestinations(
 
   const [mk, regionMap] = await Promise.all([localeIsMk(), getRegionMap()]);
   return {
-    trip: toTrip(row),
+    trip: toTrip(row, mk),
     destinations: linked
       .map((l) => l.destination)
       .filter((d) => d.published)
       .map((d) => toDestination(d, mk, regionMap)),
   };
+}
+
+// Trips "similar" to the given one — the trip page's closing band. Similarity is
+// sharing a destination: the strongest signal we have without a taxonomy join,
+// and it keeps the row relevant (a Japan trip suggests other Japan trips).
+// A trip with no shared destinations falls back to other published trips, so the
+// band is never empty on a page that has neighbours to show.
+export async function getSimilarTrips(slug: string, limit = 8): Promise<Trip[]> {
+  const [current] = await db
+    .select({ id: tripsTable.id })
+    .from(tripsTable)
+    .where(and(eq(tripsTable.slug, slug), eq(tripsTable.published, true)))
+    .limit(1);
+  if (!current) return [];
+
+  const destIds = (
+    await db
+      .select({ id: tripDestinationsTable.destinationId })
+      .from(tripDestinationsTable)
+      .where(eq(tripDestinationsTable.tripId, current.id))
+  ).map((d) => d.id);
+
+  // A trip visiting several shared destinations joins once per destination, so
+  // dedupe by slug while preserving sortOrder.
+  const bySlug = new Map<string, Trip>();
+
+  if (destIds.length > 0) {
+    const rows = await db
+      .select({ trip: tripsTable })
+      .from(tripDestinationsTable)
+      .innerJoin(tripsTable, eq(tripDestinationsTable.tripId, tripsTable.id))
+      .where(
+        and(
+          inArray(tripDestinationsTable.destinationId, destIds),
+          ne(tripsTable.id, current.id),
+          eq(tripsTable.published, true),
+        ),
+      )
+      .orderBy(asc(tripsTable.sortOrder), asc(tripsTable.id));
+    for (const r of rows) if (!bySlug.has(r.trip.slug)) bySlug.set(r.trip.slug, toTrip(r.trip));
+  }
+
+  if (bySlug.size === 0) {
+    const rows = await db
+      .select()
+      .from(tripsTable)
+      .where(and(ne(tripsTable.id, current.id), eq(tripsTable.published, true)))
+      .orderBy(asc(tripsTable.sortOrder), asc(tripsTable.id))
+      .limit(limit);
+    return rows.map((r) => toTrip(r));
+  }
+
+  return Array.from(bySlug.values()).slice(0, limit);
 }
 
 // Trips (products) that visit a given destination — bridges guide → product.

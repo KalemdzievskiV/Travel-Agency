@@ -70,10 +70,13 @@ export async function WhyBookit() {
         </div>
       </section>
 
-      {/* Full-bleed CTA band */}
+      {/* Full-bleed CTA band — photographic background under a dark scrim. */}
       <section
         style={{
-          background: "var(--wf-brand-gradient)",
+          backgroundImage:
+            "linear-gradient(180deg, rgba(34,34,34,0.62), rgba(34,34,34,0.72)), url(/images/amalfi-coast.jpg)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
           color: "#fff",
           padding: "clamp(64px, 10vw, 110px) 0",
           textAlign: "center",

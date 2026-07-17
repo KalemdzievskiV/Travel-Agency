@@ -282,6 +282,66 @@
 .wf-carousel-arrow--next { right: clamp(20px, 5vw, 32px); }
 .wf-carousel-arrow--prev { left: -12px; }
 
+/* ── Trip / hotel image gallery ───────────────────────────────
+   One centred slide with the previous and next images peeking in at the
+   edges, faded back so the eye stays on the middle one.
+
+   The whole thing is positioned from a single slide width (--wf-gal-w): the
+   track starts at the viewport's centre (margin-left: 50%) and is pulled left
+   by whole slides plus half of one, which lands slide --wf-gal-i dead centre.
+   Because the same value sets the width and the offset, centring is exact
+   whatever --wf-gal-w resolves to — no JS measurement, correct on first paint
+   and on resize. React only supplies --wf-gal-i.
+
+   Note --wf-gal-i counts *track* positions, not image indexes: the track is
+   [last, …images, first] so the ends always have a neighbour to show, which
+   means image n sits at position n+1.
+   ──────────────────────────────────────────────────────────── */
+.wf-gallery {
+  --wf-gal-w: min(1500px, 84vw);
+  --wf-gal-gap: clamp(10px, 1.6vw, 20px);
+  position: relative;
+  background: var(--wf-paper);
+  overflow: hidden;
+}
+.wf-gallery__track {
+  display: flex;
+  align-items: center;
+  gap: var(--wf-gal-gap);
+  margin-left: 50%;
+  transform: translateX(
+    calc(-1 * (var(--wf-gal-i, 0) * (var(--wf-gal-w) + var(--wf-gal-gap)) + var(--wf-gal-w) / 2))
+  );
+  transition: transform 600ms var(--wf-ease-out);
+  will-change: transform;
+}
+.wf-gallery__slide {
+  flex: 0 0 var(--wf-gal-w);
+  aspect-ratio: 16 / 8;
+  max-height: 78vh;
+  /* Neighbours wash out against the white section rather than dimming to grey. */
+  opacity: 0.16;
+  transition: opacity 600ms var(--wf-ease-out);
+}
+.wf-gallery__slide.is-active { opacity: 1; }
+.wf-gallery__slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Arrows sit just inside the centred slide, not at the viewport edge. */
+.wf-gallery__arrow--prev { left: calc(50% - var(--wf-gal-w) / 2 + clamp(8px, 1.4vw, 18px)); }
+.wf-gallery__arrow--next { right: calc(50% - var(--wf-gal-w) / 2 + clamp(8px, 1.4vw, 18px)); }
+@media (max-width: 640px) {
+  /* Less room to spare on phones: widen the slide, keep a thinner peek. */
+  .wf-gallery { --wf-gal-w: 88vw; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wf-gallery__track,
+  .wf-gallery__slide { transition: none; }
+}
+
 /* ── Trip header facts (When / Price / How long) ─────────────── */
 .wf-trip-facts {
   display: grid;
@@ -606,6 +666,18 @@
 }
 @media (max-width: 520px) {
   .wf-form-grid { grid-template-columns: 1fr; }
+}
+/* Flight-tickets: From / To / Departure / Return / Passengers */
+.wf-flight-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+@media (max-width: 860px) {
+  .wf-flight-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 520px) {
+  .wf-flight-grid { grid-template-columns: 1fr; }
 }
 
 /* ── Enquiry page: form (left) + call/hours aside (right) ──── */

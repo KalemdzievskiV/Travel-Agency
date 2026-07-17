@@ -47,6 +47,9 @@ export const destinations = pgTable(
     highlights: text("highlights").array().notNull().default([]),
     bestMonths: text("best_months").array().notNull().default([]),
     feelings: text("feelings").array().notNull().default([]),
+    // "General notes" (ОПШТИ НАПОМЕНИ) — editable FAQ per destination,
+    // one "Question | Answer" per array item.
+    generalNotes: text("general_notes").array().notNull().default([]),
     // Macedonian copy (nullable — falls back to the English fields).
     titleMk: text("title_mk"),
     teaserMk: text("teaser_mk"),
@@ -54,6 +57,7 @@ export const destinations = pgTable(
     whenToGoMk: text("when_to_go_mk"),
     badgeMk: text("badge_mk"),
     highlightsMk: text("highlights_mk").array(),
+    generalNotesMk: text("general_notes_mk").array(),
     published: boolean("published").notNull().default(true),
     sortOrder: integer("sort_order").notNull().default(0),
     createdAt: timestamp("created_at").notNull().defaultNow(),
@@ -150,6 +154,33 @@ export const hotels = pgTable(
   (t) => [uniqueIndex("hotels_slug_idx").on(t.slug)],
 );
 
+// ── Remarkable experiences (НЕОБИЧНИ ИСКУСТВА) ─────────────────────
+// Admin-curated "remarkable" moments shown on the Experiences hub. Each can
+// point at a trip so the card links through to it.
+export const remarkableExperiences = pgTable(
+  "remarkable_experiences",
+  {
+    id: serial("id").primaryKey(),
+    slug: text("slug").notNull(),
+    title: text("title").notNull(),
+    teaser: text("teaser").notNull().default(""),
+    description: text("description").notNull().default(""),
+    image: text("image"),
+    grad: text("grad"),
+    // Optional trip this experience showcases — the card links to it.
+    tripId: integer("trip_id").references(() => trips.id, { onDelete: "set null" }),
+    // Macedonian copy (nullable — falls back to English).
+    titleMk: text("title_mk"),
+    teaserMk: text("teaser_mk"),
+    descriptionMk: text("description_mk"),
+    published: boolean("published").notNull().default(true),
+    sortOrder: integer("sort_order").notNull().default(0),
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+    updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  },
+  (t) => [uniqueIndex("remarkable_experiences_slug_idx").on(t.slug)],
+);
+
 // ── Testimonials ──────────────────────────────────────────────────
 export const testimonials = pgTable("testimonials", {
   id: serial("id").primaryKey(),
@@ -182,6 +213,14 @@ export const trips = pgTable(
     // The sellable product: a day-by-day plan and fixed departure dates.
     itinerary: text("itinerary").array().notNull().default([]),
     departures: text("departures").array().notNull().default([]),
+    // "Important notes" (ВАЖНИ НАПОМЕНИ): what's included / not included (one
+    // item per line) and a free-text visa & entry note.
+    included: text("included").array().notNull().default([]),
+    notIncluded: text("not_included").array().notNull().default([]),
+    visaNotes: text("visa_notes").notNull().default(""),
+    includedMk: text("included_mk").array(),
+    notIncludedMk: text("not_included_mk").array(),
+    visaNotesMk: text("visa_notes_mk"),
     published: boolean("published").notNull().default(true),
     sortOrder: integer("sort_order").notNull().default(0),
     createdAt: timestamp("created_at").notNull().defaultNow(),
@@ -352,6 +391,7 @@ export type Destination = typeof destinations.$inferSelect;
 export type Experience = typeof experiences.$inferSelect;
 export type ExperienceCategoryRow = typeof experienceCategories.$inferSelect;
 export type HotelRow = typeof hotels.$inferSelect;
+export type RemarkableExperienceRow = typeof remarkableExperiences.$inferSelect;
 export type Testimonial = typeof testimonials.$inferSelect;
 export type Trip = typeof trips.$inferSelect;
 export type FilterGroup = typeof filterGroups.$inferSelect;

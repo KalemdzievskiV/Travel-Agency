@@ -18,6 +18,14 @@ export function StartYourJourney({ tabs }: { tabs: JourneyTab[] }) {
   const [active, setActive] = React.useState(tabs[0]?.key ?? "");
   const current = tabs.find((tab) => tab.key === active) ?? tabs[0];
 
+  // Translate a card label: traveller categories live under journey.who.*,
+  // month cards under months.* (short keys); otherwise show the raw label.
+  const cardLabel = (label: string) => {
+    if (tr.has(`journey.who.${label}`)) return tr(`journey.who.${label}`);
+    if (tr.has(`months.${label}`)) return tr(`months.${label}`);
+    return label;
+  };
+
   const tabLabel = (key: string) => {
     switch (key) {
       case "traveller":
@@ -103,7 +111,7 @@ export function StartYourJourney({ tabs }: { tabs: JourneyTab[] }) {
                 <div className="wf-journey-card__img" style={{ backgroundImage: `url(${c.image})` }} aria-hidden />
                 <div className="wf-journey-card__scrim" aria-hidden />
                 <span className="wf-journey-card__label">
-                  {tr.has(`journey.who.${c.label}`) ? tr(`journey.who.${c.label}`) : c.label}
+                  {cardLabel(c.label)}
                 </span>
               </Link>
             </motion.div>

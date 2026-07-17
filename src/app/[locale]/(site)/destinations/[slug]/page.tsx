@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import React from "react";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Eyebrow, Icon } from "@/components/ui";
+import { Eyebrow } from "@/components/ui";
 import { Link } from "@/i18n/navigation";
 import { SectionHead } from "@/components/sections/SectionHead";
 import { DestinationGrid } from "@/components/sections/DestinationGrid";
 import { TripsCarousel } from "@/components/sections/TripsCarousel";
 import { HotelGrid } from "@/components/sections/HotelGrid";
+import { FaqAccordion } from "@/components/sections/FaqAccordion";
 import { EnquireButton } from "@/components/site/EnquireButton";
 import { RegionLanding } from "@/components/sections/RegionLanding";
 import {
@@ -46,20 +47,15 @@ export default async function DestinationPage(
   const d = await getDestinationBySlug(slug);
   if (!d) notFound();
 
-  const [trips, all, hotels, td, tn, tr, tf, tm] = await Promise.all([
+  const [trips, all, hotels, td, tn, tr] = await Promise.all([
     getTripsForDestination(slug),
     getDestinations(),
     getHotelsForDestination(slug),
     getTranslations("destinationPage"),
     getTranslations("nav"),
     getTranslations("regionPage"),
-    getTranslations("feelings"),
-    getTranslations("months"),
   ]);
   const more = all.filter((x) => x.slug !== d.slug).slice(0, 3);
-
-  const feelingLabel = (f: string) => (tf.has(f) ? tf(f) : f);
-  const monthLabel = (m: string) => (tm.has(m) ? tm(m) : m);
 
   const subLink: React.CSSProperties = {
     textDecoration: "none",
@@ -139,8 +135,8 @@ export default async function DestinationPage(
           <a href="#overview" style={{ ...subLink, color: "var(--wf-coral-500)", borderBottom: "2px solid var(--wf-coral-500)", paddingBottom: 4 }}>
             {td("overview")}
           </a>
-          {trips.length > 0 && <a href="#trips" style={subLink}>{td("trips")}</a>}
-          <Link href="/trip-finder" style={subLink}>{tn("tripFinder")}</Link>
+          {trips.length > 0 && <a href="#trips" style={subLink}>{td("programs")}</a>}
+          {hotels.length > 0 && <a href="#stays" style={subLink}>{td("hotels")}</a>}
         </nav>
       </div>
 
@@ -177,41 +173,6 @@ export default async function DestinationPage(
             {d.intro}
           </p>
 
-          {(d.whenToGo || d.bestMonths.length > 0) && (
-            <div style={{ marginTop: 44 }}>
-              <SubHead>{td("whenToGo")}</SubHead>
-              {d.whenToGo && (
-                <p style={{ fontSize: 16.5, lineHeight: 1.65, color: "var(--wf-ink-700)", margin: "0 0 16px" }}>
-                  {d.whenToGo}
-                </p>
-              )}
-              <Chips items={d.bestMonths.map(monthLabel)} center />
-            </div>
-          )}
-
-          {d.feelings.length > 0 && (
-            <div style={{ marginTop: 36 }}>
-              <SubHead>{td("whatItFeels")}</SubHead>
-              <Chips items={d.feelings.map(feelingLabel)} center />
-            </div>
-          )}
-
-          {d.highlights.length > 0 && (
-            <div style={{ marginTop: 36 }}>
-              <SubHead>{td("dontMiss")}</SubHead>
-              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
-                {d.highlights.map((h) => (
-                  <li key={h} style={{ display: "flex", gap: 12, alignItems: "flex-start", textAlign: "left", maxWidth: 460 }}>
-                    <span style={{ marginTop: 2 }}>
-                      <Icon name="star" size={16} color="var(--wf-coral-500)" />
-                    </span>
-                    <span style={{ fontSize: 16.5, lineHeight: 1.55, color: "var(--wf-ink-700)" }}>{h}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
           <div style={{ marginTop: 44, display: "flex", justifyContent: "center" }}>
             <EnquireButton destination={d.title} size="lg">
               {td("planTripHere")}
@@ -235,14 +196,26 @@ export default async function DestinationPage(
         </div>
       )}
 
-      {/* Where to stay */}
+      {/* Where to stay (ХОТЕЛИ) */}
       {hotels.length > 0 && (
-        <section style={{ background: "var(--wf-cream)", padding: "clamp(48px, 7vw, 72px) 0 0" }}>
+        <section id="stays" style={{ background: "var(--wf-cream)", padding: "clamp(48px, 7vw, 72px) 0 0", scrollMarginTop: "calc(var(--wf-header-h) + 66px)" }}>
           <div className="wf-wrap wf-wrap--wide">
             <div style={{ marginBottom: 36 }}>
               <SectionHead eyebrow={td("stays")} title={td("whereToStay")} />
             </div>
             <HotelGrid items={hotels} />
+          </div>
+        </section>
+      )}
+
+      {/* General notes (ОПШТИ НАПОМЕНИ) */}
+      {d.generalNotes.length > 0 && (
+        <section style={{ background: "var(--wf-cream)", padding: "clamp(56px, 8vw, 88px) 0 0" }}>
+          <div className="wf-wrap" style={{ maxWidth: 820, marginInline: "auto" }}>
+            <div style={{ textAlign: "center", marginBottom: "clamp(24px, 4vw, 36px)" }}>
+              <SectionHead eyebrow={td("keepExploring")} title={td("generalNotes")} />
+            </div>
+            <FaqAccordion items={d.generalNotes} />
           </div>
         </section>
       )}
@@ -262,48 +235,6 @@ export default async function DestinationPage(
         </div>
       </section>
     </>
-  );
-}
-
-function SubHead({ children }: { children: React.ReactNode }) {
-  return (
-    <h2
-      style={{
-        fontFamily: "var(--wf-font-sans)",
-        fontSize: 12,
-        fontWeight: 600,
-        letterSpacing: "0.16em",
-        textTransform: "uppercase",
-        color: "var(--wf-ink-500)",
-        margin: "0 0 14px",
-      }}
-    >
-      {children}
-    </h2>
-  );
-}
-
-function Chips({ items, center = false }: { items: string[]; center?: boolean }) {
-  if (items.length === 0) return null;
-  return (
-    <div style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: center ? "center" : "flex-start" }}>
-      {items.map((i) => (
-        <span
-          key={i}
-          style={{
-            fontSize: 13,
-            fontWeight: 500,
-            color: "var(--wf-ink-700)",
-            background: "var(--wf-paper)",
-            border: "1px solid var(--wf-border-strong)",
-            borderRadius: "var(--wf-radius-pill)",
-            padding: "7px 16px",
-          }}
-        >
-          {i}
-        </span>
-      ))}
-    </div>
   );
 }
 

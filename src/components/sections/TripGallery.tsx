@@ -4,9 +4,12 @@ import React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 /**
- * TripGallery — full-width image carousel for a trip (modelled on Black Tomato).
- * One image at a time with prev/next arrows and an "n / total" counter. Falls
- * back to the trip's hero image when no gallery has been added.
+ * TripGallery — image carousel for a trip or hotel (modelled on Black Tomato).
+ * The current image is centred with the previous and next ones peeking in at
+ * the edges, faded back; prev/next arrows and an "n / total" counter drive it.
+ * Falls back to the hero image when no gallery has been added.
+ *
+ * Layout lives in .wf-gallery in responsive.css — this only tracks the index.
  */
 export function TripGallery({ images, title }: { images: string[]; title: string }) {
   const [i, setI] = React.useState(0);
@@ -15,33 +18,55 @@ export function TripGallery({ images, title }: { images: string[]; title: string
 
   const go = (dir: 1 | -1) => setI((v) => (v + dir + total) % total);
 
+  // Bookend the track with a copy of the last and first images, so the first
+  // and last slides still have something to peek at instead of white space.
+  // That shifts every real image one place right: image n lives at n + 1.
+  const looped = total > 1;
+  const slides = looped ? [images[total - 1], ...images, images[0]] : images;
+  const activePos = looped ? i + 1 : 0;
+
   return (
     <section style={{ background: "var(--wf-paper)" }}>
-      <div style={{ position: "relative", width: "100%", aspectRatio: "16 / 8", maxHeight: "78vh", overflow: "hidden", background: "var(--wf-ink-900)" }}>
-        {images.map((src, idx) => (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            key={idx}
-            src={src}
-            alt={`${title} — ${idx + 1} of ${total}`}
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              opacity: idx === i ? 1 : 0,
-              transition: "opacity 0.5s var(--wf-ease-out)",
-            }}
-          />
-        ))}
+      <div className="wf-gallery">
+        <div
+          className="wf-gallery__track"
+          style={{ "--wf-gal-i": activePos } as React.CSSProperties}
+        >
+          {slides.map((src, pos) => {
+            const isActive = pos === activePos;
+            // Map a track position back to the image it shows, for the alt text.
+            const idx = looped ? (pos - 1 + total) % total : pos;
+            return (
+              <div key={pos} className={`wf-gallery__slide${isActive ? " is-active" : ""}`}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={src}
+                  alt={`${title} — ${idx + 1} of ${total}`}
+                  // Only the centred slide is announced; the peeking neighbours
+                  // (and the duplicated bookends) are decorative.
+                  aria-hidden={!isActive}
+                />
+              </div>
+            );
+          })}
+        </div>
 
         {total > 1 && (
           <>
-            <button type="button" aria-label="Previous image" className="wf-carousel-arrow wf-carousel-arrow--prev" style={{ left: "clamp(12px, 3vw, 28px)" }} onClick={() => go(-1)}>
+            <button
+              type="button"
+              aria-label="Previous image"
+              className="wf-carousel-arrow wf-gallery__arrow--prev"
+              onClick={() => go(-1)}
+            >
               <ChevronLeft size={22} aria-hidden />
             </button>
-            <button type="button" aria-label="Next image" className="wf-carousel-arrow" style={{ right: "clamp(12px, 3vw, 28px)" }} onClick={() => go(1)}>
+            <button
+              type="button"
+              aria-label="Next image"
+              className="wf-carousel-arrow wf-gallery__arrow--next"
+              onClick={() => go(1)}
+            >
               <ChevronRight size={22} aria-hidden />
             </button>
           </>

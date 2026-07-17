@@ -19,7 +19,8 @@
     "db:backfill-coords": "tsx scripts/backfill-coords.ts",
     "db:seed-experiences": "tsx scripts/seed-experiences.ts",
     "db:seed-demo-trips": "tsx scripts/seed-demo-trips.ts",
-    "db:seed-hotels": "tsx scripts/seed-hotels.ts",
+    "db:seed-hotels": "tsx --env-file=.env.local scripts/seed-hotels.ts",
+    "db:seed-remarkable": "tsx scripts/seed-remarkable.ts",
     "db:create-admin": "tsx scripts/create-admin.ts"
   },
   "dependencies": {

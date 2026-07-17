@@ -83,6 +83,8 @@ export async function saveDestination(formData: FormData) {
     lng: numOrNull(formData, "lng"),
     highlights: linesToArray(formData.get("highlights")),
     bestMonths: linesToArray(formData.get("bestMonths")),
+    generalNotes: linesToArray(formData.get("generalNotes")),
+    generalNotesMk: linesToArray(formData.get("generalNotesMk")),
     feelings: feelingLabels,
     titleMk: str(formData, "titleMk") || null,
     teaserMk: str(formData, "teaserMk") || null,

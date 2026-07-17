@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Eyebrow } from "@/components/ui";
+import { Button, Eyebrow } from "@/components/ui";
 import { Link } from "@/i18n/navigation";
-import { getExperienceCategories } from "@/lib/queries/experiences";
+import { SectionHead } from "@/components/sections/SectionHead";
+import { getExperienceCategories, getRemarkableExperiences } from "@/lib/queries/experiences";
 
 export const metadata: Metadata = {
   title: "Experiences",
@@ -17,14 +18,16 @@ export default async function ExperiencesPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const [categories, t] = await Promise.all([
+  const [categories, remarkable, t] = await Promise.all([
     getExperienceCategories(),
+    getRemarkableExperiences(),
     getTranslations("experiencesPage"),
   ]);
 
   return (
     <section style={{ background: "var(--wf-cream)", padding: "calc(var(--wf-header-h) + clamp(40px, 6vw, 72px)) 0 clamp(64px, 9vw, 104px)" }}>
       <div className="wf-wrap wf-wrap--wide">
+        {/* Intro */}
         <div style={{ maxWidth: 720 }}>
           <Eyebrow>{t("eyebrow")}</Eyebrow>
           <h1
@@ -45,6 +48,7 @@ export default async function ExperiencesPage({
           </p>
         </div>
 
+        {/* КОЈ ПАТУВА — who's travelling */}
         {categories.length > 0 ? (
           <div className="wf-grid wf-grid-3" style={{ marginTop: "clamp(32px, 5vw, 56px)" }}>
             {categories.map((c) => (
@@ -60,6 +64,65 @@ export default async function ExperiencesPage({
           </div>
         ) : (
           <p style={{ color: "var(--wf-ink-500)", marginTop: 40 }}>{t("empty")}</p>
+        )}
+
+        {/* Trip finder — the feelings engine, moved here */}
+        <div
+          style={{
+            marginTop: "clamp(56px, 8vw, 96px)",
+            background: "var(--wf-ink-900)",
+            color: "var(--wf-text-on-dark)",
+            borderRadius: "var(--wf-radius-md)",
+            padding: "clamp(32px, 5vw, 56px)",
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "clamp(20px, 4vw, 40px)",
+          }}
+        >
+          <div style={{ maxWidth: 560 }}>
+            <Eyebrow tone="light">{t("finderEyebrow")}</Eyebrow>
+            <h2 style={{ fontFamily: "var(--wf-font-display)", fontWeight: 500, fontSize: "clamp(24px, 3.4vw, 36px)", letterSpacing: "-0.02em", lineHeight: 1.12, margin: "12px 0 0" }}>
+              {t("finderHeading")}
+            </h2>
+            <p style={{ fontSize: "clamp(15px, 1.7vw, 17px)", lineHeight: 1.65, opacity: 0.8, margin: "14px 0 0" }}>
+              {t("finderBody")}
+            </p>
+          </div>
+          <Button as="a" href="/trip-finder" variant="primary" size="lg">
+            {t("finderCta")}
+          </Button>
+        </div>
+
+        {/* НЕОБИЧНИ ИСКУСТВА — remarkable experiences */}
+        {remarkable.length > 0 && (
+          <div style={{ marginTop: "clamp(56px, 8vw, 96px)" }}>
+            <SectionHead eyebrow={t("remarkableEyebrow")} title={t("remarkableHeading")} intro={t("remarkableIntro")} />
+            <div className="wf-grid wf-grid-3" style={{ marginTop: "clamp(28px, 4vw, 44px)" }}>
+              {remarkable.map((e) => {
+                const inner = (
+                  <>
+                    <div className="wf-exp-tile__img" style={{ backgroundImage: e.image ? `url(${e.image})` : undefined, background: e.image ? undefined : e.grad || "var(--wf-ink-800)" }} aria-hidden />
+                    <div className="wf-exp-tile__scrim" aria-hidden />
+                    <div className="wf-exp-tile__body">
+                      <h3 className="wf-exp-tile__title">{e.title}</h3>
+                      {e.teaser && <p className="wf-exp-tile__sub">{e.teaser}</p>}
+                    </div>
+                  </>
+                );
+                return e.tripSlug ? (
+                  <Link key={e.slug} href={`/trips/${e.tripSlug}`} className="wf-exp-tile">
+                    {inner}
+                  </Link>
+                ) : (
+                  <div key={e.slug} className="wf-exp-tile">
+                    {inner}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         )}
       </div>
     </section>

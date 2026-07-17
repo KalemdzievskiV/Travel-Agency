@@ -28,6 +28,8 @@ export type Destination = {
   intro: string;
   /** Don't-miss experiences in this place. */
   highlights: string[];
+  /** "General notes" — an editable FAQ shown on the destination page. */
+  generalNotes: Faq[];
 };
 
 export type Experience = {
@@ -75,6 +77,19 @@ export type Hotel = {
   destinationTitle?: string;
 };
 
+export type HotelDetail = Hotel & { description: string };
+
+export type RemarkableExperience = {
+  slug: string;
+  title: string;
+  teaser: string;
+  description: string;
+  grad: string;
+  image?: string;
+  /** Slug of the trip this experience showcases, if any — the card links to it. */
+  tripSlug?: string;
+};
+
 export type Testimonial = {
   quote: string;
   who: string;
@@ -99,4 +114,8 @@ export type Trip = {
   itinerary: string[];
   /** Fixed departure dates. */
   departures: string[];
+  /** "Important notes" — what's included / not included, and visa & entry. */
+  included: string[];
+  notIncluded: string[];
+  visaNotes: string;
 };

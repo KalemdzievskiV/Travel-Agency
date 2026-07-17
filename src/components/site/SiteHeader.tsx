@@ -7,6 +7,7 @@ import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { Logo } from "./Logo";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { DestinationsMegaMenu } from "./DestinationsMegaMenu";
+import { SearchOverlay } from "./SearchOverlay";
 import { PhoneWithHours } from "./PhoneWithHours";
 import type { RegionNavItem } from "@/lib/queries/regions";
 import { nav, aboutMenu, site } from "@/content/site";
@@ -31,6 +32,8 @@ export function SiteHeader({ regionsNav = [] }: { regionsNav?: RegionNavItem[] }
         return t("nav.experiences");
       case "/trip-finder":
         return t("nav.tripFinder");
+      case "/flight-tickets":
+        return t("nav.flightTickets");
       case "/about":
         return t("nav.about");
       default:
@@ -104,13 +107,7 @@ export function SiteHeader({ regionsNav = [] }: { regionsNav?: RegionNavItem[] }
         <Logo light={dark} />
 
         <nav className="wf-header-nav">
-          <Link
-            href="/trip-finder"
-            aria-label={t("nav.search")}
-            style={{ display: "inline-flex", alignItems: "center", color: dark ? "rgba(255,255,255,0.9)" : "var(--wf-ink-700)" }}
-          >
-            <Icon name="search" size={18} color={dark ? "rgba(255,255,255,0.9)" : "var(--wf-ink-700)"} />
-          </Link>
+          <SearchOverlay regions={regionsNav} dark={dark} />
           {nav.map((l) =>
             l.href === "/destinations" ? (
               <DestinationsMegaMenu

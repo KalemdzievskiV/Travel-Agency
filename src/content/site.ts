@@ -15,7 +15,7 @@ export const site = {
 export const nav: { label: string; href: string }[] = [
   { label: "Destinations", href: "/destinations" },
   { label: "Experiences", href: "/experiences" },
-  { label: "Trip finder", href: "/trip-finder" },
+  { label: "Flight tickets", href: "/flight-tickets" },
   { label: "About", href: "/about" },
 ];
 
@@ -147,18 +147,18 @@ export const journeyTabs: JourneyTab[] = [
     key: "month",
     label: "By month",
     cards: [
-      { label: "January", image: "https://picsum.photos/seed/bookit-jr-jan/800/1100", href: "/destinations" },
-      { label: "February", image: "https://picsum.photos/seed/bookit-jr-feb/800/1100", href: "/destinations" },
-      { label: "March", image: "https://picsum.photos/seed/bookit-jr-mar/800/1100", href: "/destinations" },
-      { label: "April", image: "https://picsum.photos/seed/bookit-jr-apr/800/1100", href: "/destinations" },
+      { label: "Jan", image: "https://picsum.photos/seed/bookit-jr-jan/800/1100", href: "/destinations" },
+      { label: "Feb", image: "https://picsum.photos/seed/bookit-jr-feb/800/1100", href: "/destinations" },
+      { label: "Mar", image: "https://picsum.photos/seed/bookit-jr-mar/800/1100", href: "/destinations" },
+      { label: "Apr", image: "https://picsum.photos/seed/bookit-jr-apr/800/1100", href: "/destinations" },
       { label: "May", image: "https://picsum.photos/seed/bookit-jr-may/800/1100", href: "/destinations" },
-      { label: "June", image: "https://picsum.photos/seed/bookit-jr-jun/800/1100", href: "/destinations" },
-      { label: "July", image: "https://picsum.photos/seed/bookit-jr-jul/800/1100", href: "/destinations" },
-      { label: "August", image: "https://picsum.photos/seed/bookit-jr-aug/800/1100", href: "/destinations" },
-      { label: "September", image: "https://picsum.photos/seed/bookit-jr-sep/800/1100", href: "/destinations" },
-      { label: "October", image: "https://picsum.photos/seed/bookit-jr-oct/800/1100", href: "/destinations" },
-      { label: "November", image: "https://picsum.photos/seed/bookit-jr-nov/800/1100", href: "/destinations" },
-      { label: "December", image: "https://picsum.photos/seed/bookit-jr-dec/800/1100", href: "/destinations" },
+      { label: "Jun", image: "https://picsum.photos/seed/bookit-jr-jun/800/1100", href: "/destinations" },
+      { label: "Jul", image: "https://picsum.photos/seed/bookit-jr-jul/800/1100", href: "/destinations" },
+      { label: "Aug", image: "https://picsum.photos/seed/bookit-jr-aug/800/1100", href: "/destinations" },
+      { label: "Sep", image: "https://picsum.photos/seed/bookit-jr-sep/800/1100", href: "/destinations" },
+      { label: "Oct", image: "https://picsum.photos/seed/bookit-jr-oct/800/1100", href: "/destinations" },
+      { label: "Nov", image: "https://picsum.photos/seed/bookit-jr-nov/800/1100", href: "/destinations" },
+      { label: "Dec", image: "https://picsum.photos/seed/bookit-jr-dec/800/1100", href: "/destinations" },
     ],
   },
 ];

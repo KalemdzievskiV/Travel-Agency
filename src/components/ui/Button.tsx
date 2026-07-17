@@ -18,8 +18,16 @@ type ButtonProps = {
   disabled?: boolean;
   iconLeft?: React.ReactNode;
   iconRight?: React.ReactNode;
-  /** Render as a native button (default) or an anchor for links. */
-  as?: "button" | "a";
+  /**
+   * Render as a native button (default), an anchor, or a span.
+   *
+   * `span` is for a button-looking *link*: wrap it in the locale-aware `Link`
+   * from `@/i18n/navigation` so the anchor stays the interactive element (a
+   * <button> inside an <a> is invalid HTML). Note this stays a string union on
+   * purpose — a component like `Link` can't be passed as a prop from a server
+   * component to this client one, and doing so fails at runtime, not build.
+   */
+  as?: "button" | "a" | "span";
   href?: string;
   type?: "button" | "submit" | "reset";
 } & Omit<

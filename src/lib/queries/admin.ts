@@ -6,6 +6,7 @@ import {
   experiences,
   experienceCategories,
   hotels,
+  remarkableExperiences,
   testimonials,
   trips,
   tripDestinations,
@@ -67,6 +68,22 @@ export function listHotels() {
 
 export async function getHotel(id: number) {
   const [row] = await db.select().from(hotels).where(eq(hotels.id, id)).limit(1);
+  return row;
+}
+
+export function listRemarkableExperiences() {
+  return db
+    .select()
+    .from(remarkableExperiences)
+    .orderBy(asc(remarkableExperiences.sortOrder), asc(remarkableExperiences.id));
+}
+
+export async function getRemarkableExperience(id: number) {
+  const [row] = await db
+    .select()
+    .from(remarkableExperiences)
+    .where(eq(remarkableExperiences.id, id))
+    .limit(1);
   return row;
 }
 

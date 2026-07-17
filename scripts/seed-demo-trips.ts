@@ -13,6 +13,21 @@ import { trips, destinations, tripDestinations, filterGroups, filterOptions, tri
 const img = (s: string) => `https://picsum.photos/seed/${s}/1600/1100`;
 const DEP = ["12 Apr 2026", "10 May 2026", "13 Sep 2026", "11 Oct 2026"];
 
+// Generic "important notes" for the demo trips.
+const INCLUDED = [
+  "All accommodation and daily breakfast",
+  "Private transfers and internal flights",
+  "Expert local guides and entrance fees",
+  "24/7 on-the-ground support",
+];
+const NOT_INCLUDED = [
+  "International flights to and from your gateway",
+  "Travel insurance",
+  "Lunches, dinners and drinks unless noted",
+  "Personal expenses, tips and gratuities",
+];
+const VISA = "A valid passport with at least six months' validity is required. Visa requirements depend on your nationality — we'll confirm the details and any entry conditions for your specific itinerary.";
+
 type DemoTrip = {
   slug: string;
   title: string;
@@ -180,6 +195,9 @@ async function main() {
       feelings: t.feelings,
       itinerary: t.itinerary,
       departures: DEP,
+      included: INCLUDED,
+      notIncluded: NOT_INCLUDED,
+      visaNotes: VISA,
       published: true,
       sortOrder: order++,
       updatedAt: new Date(),

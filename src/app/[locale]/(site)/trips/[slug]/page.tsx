@@ -2,19 +2,22 @@ import type { Metadata } from "next";
 import React from "react";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Eyebrow } from "@/components/ui";
+import { Button, Eyebrow } from "@/components/ui";
 import { Link } from "@/i18n/navigation";
 import { SectionHead } from "@/components/sections/SectionHead";
-import { DestinationGrid } from "@/components/sections/DestinationGrid";
+import { TripsCarousel } from "@/components/sections/TripsCarousel";
+import { HotelGrid } from "@/components/sections/HotelGrid";
 import { TripGallery } from "@/components/sections/TripGallery";
 import { TripItineraryMap, type MapStop, type MapDay } from "@/components/sections/TripItineraryMap";
-import { getTripWithDestinations } from "@/lib/queries/public";
+import { EnquireButton } from "@/components/site/EnquireButton";
+import { getTripWithDestinations, getSimilarTrips } from "@/lib/queries/public";
+import { getHotelsForDestination } from "@/lib/queries/hotels";
 import { splitDayPrefix } from "@/lib/itinerary";
 import { months as MONTHS } from "@/content/site";
 
-// The interactive route map is finished but hidden from clients for now. Flip
-// to `true` to show it; otherwise a static image + itinerary list is shown.
-const SHOW_TRIP_MAP = false;
+// Show the interactive route map (map + scroll-synced day descriptions). Trips
+// without any coordinates fall back to a static image + itinerary list.
+const SHOW_TRIP_MAP = true;
 
 export async function generateMetadata({
   params,
@@ -38,10 +41,20 @@ export default async function TripPage({
   if (!result) notFound();
   const { trip, destinations } = result;
 
-  const [t, tc, tm] = await Promise.all([
+  const [t, tc, tm, tCommon] = await Promise.all([
     getTranslations("tripPage"),
     getTranslations("cards"),
     getTranslations("months"),
+    getTranslations("common"),
+  ]);
+
+  // Suggested accommodation — hotels for the trip's first destination — and the
+  // closing "similar experiences" band. Independent, so fetch them together.
+  const [suggestedHotels, similarTrips] = await Promise.all([
+    destinations[0]
+      ? getHotelsForDestination(destinations[0].slug).then((h) => h.slice(0, 3))
+      : Promise.resolve([]),
+    getSimilarTrips(slug),
   ]);
 
   // Facts row values.
@@ -157,9 +170,9 @@ export default async function TripPage({
           <div aria-hidden style={{ width: 64, height: 1, background: "var(--wf-border-strong)", margin: "clamp(24px, 4vw, 36px) auto" }} />
 
           <div className="wf-trip-facts">
-            <Fact label={t("when")} value={whenValue} />
-            <Fact label={t("price")} value={priceValue} />
-            <Fact label={t("howLong")} value={howLongValue} />
+            <Fact label={t("when")} value={whenValue} tone={1} />
+            <Fact label={t("price")} value={priceValue} tone={2} />
+            <Fact label={t("howLong")} value={howLongValue} tone={3} />
           </div>
         </div>
       </section>
@@ -207,34 +220,74 @@ export default async function TripPage({
         </section>
       ) : null}
 
-      {/* Where you'll go */}
-      {destinations.length > 0 && (
-        <section style={{ background: "var(--wf-cream)", padding: "0 0 clamp(64px, 9vw, 104px)" }}>
+      {/* Important notes (ВАЖНИ НАПОМЕНИ) */}
+      {(trip.included.length > 0 || trip.notIncluded.length > 0 || trip.visaNotes) && (
+        <section style={{ background: "var(--wf-cream)", padding: "clamp(40px, 6vw, 72px) 0 clamp(48px, 7vw, 72px)" }}>
           <div className="wf-wrap wf-wrap--wide">
-            <div style={{ marginBottom: 36 }}>
-              <SectionHead eyebrow={t("onThisJourney")} title={t("whereYouGo")} />
+            <div style={{ marginBottom: "clamp(24px, 4vw, 40px)" }}>
+              <SectionHead eyebrow={t("onThisJourney")} title={t("importantNotes")} />
             </div>
-            <DestinationGrid items={destinations} height={380} />
+            <div className="wf-grid wf-grid-3">
+              {trip.included.length > 0 && <NotesCol title={t("included")} items={trip.included} />}
+              {trip.notIncluded.length > 0 && <NotesCol title={t("notIncluded")} items={trip.notIncluded} />}
+              {trip.visaNotes && (
+                <div>
+                  <SubHead>{t("visaNotes")}</SubHead>
+                  <p style={{ margin: 0, fontSize: 15.5, lineHeight: 1.65, color: "var(--wf-ink-700)", whiteSpace: "pre-line" }}>{trip.visaNotes}</p>
+                </div>
+              )}
+            </div>
           </div>
         </section>
       )}
 
-      <section style={{ background: "var(--wf-cream)", padding: "0 0 clamp(64px, 9vw, 104px)" }}>
+      {/* Make this itinerary yours (enquire, pre-filled with this trip) */}
+      <section style={{ background: "var(--wf-cream)", padding: "0 0 clamp(48px, 7vw, 72px)" }}>
         <div className="wf-wrap wf-wrap--wide">
-          <Link
-            href="/trip-finder/results"
-            style={{
-              textDecoration: "none",
-              color: "var(--wf-ink-900)",
-              fontSize: 13,
-              fontWeight: 600,
-              letterSpacing: "0.16em",
-              textTransform: "uppercase",
-              borderBottom: "1px solid var(--wf-ink-900)",
-              paddingBottom: 4,
-            }}
-          >
-            {t("viewAll")}
+          <div style={{ background: "var(--wf-ink-900)", color: "var(--wf-text-on-dark)", borderRadius: "var(--wf-radius-md)", padding: "clamp(32px, 6vw, 56px)", textAlign: "center" }}>
+            <h2
+              style={{
+                fontFamily: "var(--wf-font-display)",
+                fontWeight: 500,
+                fontSize: "clamp(24px, 3.6vw, 36px)",
+                letterSpacing: "-0.01em",
+                textTransform: "uppercase",
+                margin: 0,
+              }}
+            >
+              {t("makeYoursTitle")}
+            </h2>
+            <p style={{ fontSize: "clamp(15px, 1.9vw, 17px)", lineHeight: 1.7, color: "rgba(245,245,245,0.85)", maxWidth: 620, margin: "16px auto clamp(24px, 4vw, 32px)" }}>
+              {t("makeYoursBody")}
+            </p>
+            <EnquireButton destination={trip.title} size="lg">{tCommon("planMyTrip")}</EnquireButton>
+          </div>
+        </div>
+      </section>
+
+      {/* Suggested accommodation (ПРЕДЛОГ СМЕСТУВАЊЕ) */}
+      {suggestedHotels.length > 0 && (
+        <section style={{ background: "var(--wf-cream)", padding: "0 0 clamp(56px, 8vw, 88px)" }}>
+          <div className="wf-wrap wf-wrap--wide">
+            <div style={{ marginBottom: 36 }}>
+              <SectionHead eyebrow={t("onThisJourney")} title={t("suggestedStay")} />
+            </div>
+            <HotelGrid items={suggestedHotels} />
+          </div>
+        </section>
+      )}
+
+      {/* Similar experiences — the dark carousel band, same as the home page. */}
+      <TripsCarousel trips={similarTrips} title={t("similarExperiences")} />
+
+      {/* Closing "view all trips" — secondary to the enquiry CTA above, so
+          outline rather than accent. */}
+      <section style={{ background: "var(--wf-cream)", padding: "clamp(44px, 6vw, 68px) 0 clamp(64px, 9vw, 104px)" }}>
+        <div className="wf-wrap wf-wrap--wide" style={{ textAlign: "center" }}>
+          <Link href="/trip-finder/results" style={{ textDecoration: "none", display: "inline-block" }}>
+            <Button as="span" variant="outline" size="lg">
+              {t("viewAll")}
+            </Button>
           </Link>
         </div>
       </section>
@@ -242,7 +295,30 @@ export default async function TripPage({
   );
 }
 
-function Fact({ label, value }: { label: string; value: string }) {
+function SubHead({ children }: { children: React.ReactNode }) {
+  return (
+    <h3 style={{ fontFamily: "var(--wf-font-sans)", fontSize: 12, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--wf-coral-600)", margin: "0 0 14px" }}>
+      {children}
+    </h3>
+  );
+}
+
+function NotesCol({ title, items }: { title: string; items: string[] }) {
+  return (
+    <div>
+      <SubHead>{title}</SubHead>
+      <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 10 }}>
+        {items.map((it) => (
+          <li key={it} style={{ fontSize: 15.5, lineHeight: 1.55, color: "var(--wf-ink-700)" }}>{it}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+type FactTone = 1 | 2 | 3;
+
+function Fact({ label, value, tone = 1 }: { label: string; value: string; tone?: FactTone }) {
   return (
     <div>
       <div
@@ -252,7 +328,7 @@ function Fact({ label, value }: { label: string; value: string }) {
           fontWeight: 600,
           letterSpacing: "0.16em",
           textTransform: "uppercase",
-          color: "var(--wf-coral-600)",
+          color: `var(--wf-fact-${tone})`,
         }}
       >
         {label}

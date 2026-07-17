@@ -43,6 +43,21 @@
   --wf-error:   #C0392B;
   --wf-info:    #2E7FB0;
 
+  /* — Facts row label tones ————————————————————————
+     The trip-page facts row (when / price / how long). Client asked for
+     Black Tomato's exact hues here, so these are lifted from their palette
+     rather than derived from ours: orange / turquoise / blue, matching the
+     first / middle / last steps of their `.list--steps-lg`.
+
+     Deliberate deviation, sanctioned by the client: this is the one place
+     the site carries a second and third hue, and it breaks the "one accent
+     per view" rule in the wayfare design system. Kept as tokens (not inline
+     hex) and scoped to this row so the exception stays contained — do not
+     reach for these elsewhere. */
+  --wf-fact-1: #CC5426;   /* Black Tomato orange  (.text--danger)    */
+  --wf-fact-2: #379C8A;   /* Black Tomato turquoise (.text--turquoise) */
+  --wf-fact-3: #1E6E9F;   /* Black Tomato blue    (.text--info)      */
+
   /* — Aliases (use these in components) ———————————— */
   --wf-bg:              var(--wf-cream);
   --wf-bg-raised:       var(--wf-cream-2);

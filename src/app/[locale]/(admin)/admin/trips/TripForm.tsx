@@ -58,6 +58,17 @@ export function TripForm({
           hint="One departure date per line, e.g. '12 May 2026'."
         />
 
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+          <TextAreaField label="What's included" name="included" defaultValue={t?.included.join("\n")} rows={5} hint="One item per line." />
+          <TextAreaField label="What's not included" name="notIncluded" defaultValue={t?.notIncluded.join("\n")} rows={5} hint="One item per line." />
+        </div>
+        <TextAreaField label="Visa & entry notes" name="visaNotes" defaultValue={t?.visaNotes} rows={3} hint="Important notes, entry conditions, visa." />
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+          <TextAreaField label="Included (MK)" name="includedMk" defaultValue={(t?.includedMk ?? []).join("\n")} rows={5} />
+          <TextAreaField label="Not included (MK)" name="notIncludedMk" defaultValue={(t?.notIncludedMk ?? []).join("\n")} rows={5} />
+        </div>
+        <TextAreaField label="Visa & entry notes (MK)" name="visaNotesMk" defaultValue={t?.visaNotesMk ?? ""} rows={3} />
+
         <Field label="Destinations" hint="Tick the destinations this trip visits.">
           <div
             style={{

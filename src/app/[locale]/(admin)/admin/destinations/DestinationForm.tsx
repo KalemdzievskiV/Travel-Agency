@@ -69,6 +69,8 @@ export function DestinationForm({
           <TextField label="Longitude" name="lng" defaultValue={d?.lng ?? ""} placeholder="115.09" hint="From Google Maps: right-click a place → copy coords." />
         </div>
 
+        <TextAreaField label="General notes (FAQ)" name="generalNotes" defaultValue={d?.generalNotes.join("\n")} rows={5} hint="One per line as 'Question | Answer'. Shown as an accordion on the destination page." />
+
         <div
           style={{
             marginTop: 8,
@@ -91,6 +93,7 @@ export function DestinationForm({
         <TextAreaField label="Intro (MK)" name="introMk" defaultValue={d?.introMk ?? ""} rows={4} />
         <TextAreaField label="When to go (MK)" name="whenToGoMk" defaultValue={d?.whenToGoMk ?? ""} rows={3} />
         <TextAreaField label="Don't miss (MK)" name="highlightsMk" defaultValue={(d?.highlightsMk ?? []).join("\n")} rows={4} hint="One per line." />
+        <TextAreaField label="General notes / FAQ (MK)" name="generalNotesMk" defaultValue={(d?.generalNotesMk ?? []).join("\n")} rows={5} hint="One per line as 'Question | Answer'." />
 
         <Field label="Filters" hint="Tag this destination so travellers can filter to it. Feeling tags also feed the trip finder.">
           <FilterTagPicker groups={filterGroups} selected={selectedOptionIds} />

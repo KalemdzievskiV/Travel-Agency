@@ -5,9 +5,8 @@ import { DestinationCard } from "@/components/ui";
 import type { Hotel } from "@/content/types";
 
 /**
- * HotelGrid — grid of hotels using the signature card. For now each card leads
- * to the enquiry pre-filled with the hotel (a dedicated /stays detail page comes
- * with the browsable hub in a later phase).
+ * HotelGrid — grid of hotels using the signature card. Each card opens the
+ * hotel's detail page.
  */
 export function HotelGrid({
   items,
@@ -32,7 +31,7 @@ export function HotelGrid({
           price={h.priceFrom || undefined}
           rating={h.stars ? String(h.stars) : undefined}
           height={height}
-          onClick={() => router.push(`/make-an-enquiry?to=${encodeURIComponent(h.name)}`)}
+          onClick={() => router.push(`/hotels/${h.slug}`)}
         />
       ))}
     </div>

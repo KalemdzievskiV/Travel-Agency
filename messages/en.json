@@ -4,6 +4,7 @@
     "trips": "Trips",
     "experiences": "Experiences",
     "tripFinder": "Trip finder",
+    "flightTickets": "Flight tickets",
     "about": "About",
     "search": "Search"
   },
@@ -176,6 +177,9 @@
   "destinationPage": {
     "overview": "Overview",
     "trips": "Trips",
+    "programs": "Programs",
+    "hotels": "Hotels",
+    "generalNotes": "General notes",
     "thePlace": "The place",
     "whenToGo": "When to go",
     "whatItFeels": "What it feels like",
@@ -184,7 +188,7 @@
     "bestSeason": "Best season",
     "style": "Style",
     "tailorMade": "Tailor-made",
-    "planTripHere": "Plan a trip here",
+    "planTripHere": "PLAN A TRIP",
     "reassure": "No planning fees · reply within 24 hours",
     "tripsEyebrow": "Example",
     "tripsTitle": "{title} trips",
@@ -205,12 +209,20 @@
     "faqs": "FAQs",
     "tripsHeading": "Trips we love",
     "tripsIntro": "A few journeys to spark ideas — each tailored, altered and refined until it's yours.",
-    "empty": "Experiences are on the way."
+    "empty": "Experiences are on the way.",
+    "whoHeading": "Who's travelling",
+    "finderEyebrow": "Trip finder",
+    "finderHeading": "Not sure where to begin? Start with a feeling.",
+    "finderBody": "Tell us how you want to feel and when — we'll point you to the journeys that fit.",
+    "finderCta": "Open the trip finder",
+    "remarkableEyebrow": "Remarkable experiences",
+    "remarkableHeading": "Out of the ordinary",
+    "remarkableIntro": "Singular moments we can weave into your journey — rare, quiet and unforgettable."
   },
   "tripPage": {
-    "when": "When",
+    "when": "Month",
     "price": "Price",
-    "howLong": "How long",
+    "howLong": "Duration",
     "flexible": "Flexible year-round",
     "onEnquiry": "On enquiry",
     "journey": "The journey",
@@ -218,10 +230,18 @@
     "day": "Day",
     "howYoullFeel": "How you'll feel",
     "whereYouGo": "Where you'll go",
+    "similarExperiences": "Similar experiences",
     "onThisJourney": "On this journey",
     "planThis": "Plan this trip",
+    "importantNotes": "Important notes",
+    "included": "What's included?",
+    "notIncluded": "What's not included?",
+    "visaNotes": "Notes, entry & visa",
+    "suggestedStay": "Suggested accommodation",
+    "makeYoursTitle": "Make this itinerary yours",
+    "makeYoursBody": "Every journey with Bookit is tailored precisely to who you are and what you want to do. So tell us a little more about yourself and we'll create something completely made to measure.",
     "reassure": "No planning fees · reply within 24 hours",
-    "viewAll": "View all trips"
+    "viewAll": "VIEW ALL TRIPS"
   },
   "filters": {
     "title": "Filters",
@@ -302,6 +322,40 @@
   "legalPage": {
     "eyebrow": "Legal",
     "comingSoon": "This content is being prepared and will be published here soon."
+  },
+  "search": {
+    "open": "Search",
+    "close": "Close",
+    "placeholder": "Search a continent or country…",
+    "continents": "Continents",
+    "countries": "Countries",
+    "noResults": "Nothing found. Try another continent or country."
+  },
+  "hotelPage": {
+    "eyebrow": "Stays",
+    "otherHotels": "Other hotels in {place}"
+  },
+  "flightTickets": {
+    "eyebrow": "Flight tickets",
+    "title": "Find your flight",
+    "intro": "Tell us where and when you'd like to fly and we'll send you our best offer.",
+    "from": "From",
+    "fromPlaceholder": "City or airport",
+    "to": "To",
+    "toPlaceholder": "City or airport",
+    "departure": "Departure",
+    "return": "Return",
+    "passengers": "Passengers",
+    "name": "Your name",
+    "phone": "Phone",
+    "email": "Email",
+    "note": "Note",
+    "notePlaceholder": "Special requests, preferences, questions…",
+    "submit": "Request an offer",
+    "finePrint": "The form sends your details straight to our team. We reply quickly.",
+    "sentTitle": "Your request is on its way",
+    "sentBody": "We'll send you our best offer as soon as possible.",
+    "backHome": "Back to home"
   },
   "enquiry": {
     "close": "Back to home",

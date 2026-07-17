@@ -12,6 +12,7 @@ const links: [string, string][] = [
   ["Testimonials", "/admin/testimonials"],
   ["Trips", "/admin/trips"],
   ["Hotels", "/admin/hotels"],
+  ["Remarkable", "/admin/remarkable"],
   ["Filters", "/admin/filters"],
 ];
 
