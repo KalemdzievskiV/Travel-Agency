@@ -907,6 +907,9 @@
   top: var(--wf-header-h);
   left: 0;
   right: 0;
+  /* Full-height sheet from the header to the viewport floor. Content inside is
+     top-aligned (see the grids' padding-block) so it opens directly under the
+     header rather than mid-screen. */
   bottom: 0;
   overflow-y: auto;
   background: var(--wf-cream);
@@ -999,7 +1002,8 @@
 }
 .wf-destmenu__browse:hover { color: var(--wf-coral-500); }
 .wf-destmenu__image {
-  height: clamp(420px, 46vw, 600px);
+  /* Kept short enough that it doesn't drive the panel past the fold. */
+  height: clamp(260px, 28vw, 400px);
   border-radius: 2px;
   background-size: cover;
   background-position: center;
@@ -1033,6 +1037,51 @@
 /* Rail items that just link out (Trip finder) — they never become "active", so
    they get their accent on hover instead. */
 .wf-expmenu__link-only { color: var(--wf-ink-900); }
+
+/* ── Footer newsletter band ───────────────────────────────────────
+   A full-bleed strip across the very top of the footer: label, two fields and
+   the submit on one row, collapsing to a stack on narrow screens. */
+.wf-newsletter {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+.wf-newsletter__row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(12px, 1.6vw, 20px);
+  padding-block: clamp(20px, 2.6vw, 28px);
+}
+@media (max-width: 1080px) {
+  .wf-newsletter__row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+  }
+  /* Label takes its own line once the fields need the width. */
+  .wf-newsletter__label {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 620px) {
+  .wf-newsletter__row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .wf-newsletter__label {
+    grid-column: auto;
+  }
+}
+
+/* ── About mega-menu (stacked groups → pages) ─────────────────────
+   Same rail chrome again; the right-hand side is a plain page list, so the
+   grid is narrower than the Experiences card grid. */
+.wf-aboutmenu__grid {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 64px);
+  padding-block: clamp(28px, 3vw, 44px) clamp(36px, 4vw, 56px);
+  align-items: start;
+}
+@media (max-width: 1160px) {
+  .wf-aboutmenu__grid { grid-template-columns: 220px minmax(0, 1fr); }
+}
 .wf-expmenu__link-only:hover { color: var(--wf-coral-500); }
 
 /* ── About mega-menu (mobile accordion, inside .wf-mobile-menu) ── */

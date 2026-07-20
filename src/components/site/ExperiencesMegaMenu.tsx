@@ -5,7 +5,7 @@ import { ChevronRight, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Icon } from "@/components/ui";
 import { Link, usePathname } from "@/i18n/navigation";
-import type { ExperienceCategory, RemarkableExperience } from "@/content/types";
+import type { ExperienceCategory } from "@/content/types";
 
 /**
  * ExperiencesMegaMenu — header mega-menu (modelled on the reference): opens on
@@ -29,35 +29,51 @@ type Card = {
 
 export function ExperiencesMegaMenu({
   categories,
-  remarkable,
+  remarkableCategories,
   label,
   triggerStyle,
   triggerClassName,
   iconColor,
+  onOpenChange,
 }: {
   categories: ExperienceCategory[];
-  remarkable: RemarkableExperience[];
+  remarkableCategories: ExperienceCategory[];
   label: string;
   triggerStyle: React.CSSProperties;
   triggerClassName?: string;
   iconColor: string;
+  /** Notifies the header so it can go solid while the panel is open. */
+  onOpenChange?: (open: boolean) => void;
 }) {
   const [open, setOpen] = React.useState(false);
+  // Open state is mirrored to the header so it can go solid while a menu is
+  // showing — a transparent header over a hero leaves the panel looking detached.
+  // The callback is held in a ref so `change` stays referentially stable: it sits
+  // in the close-on-route-change effect's deps, and an inline parent handler
+  // would otherwise re-run that effect every render and slam the menu shut.
+  const onOpenChangeRef = React.useRef(onOpenChange);
+  React.useEffect(() => {
+    onOpenChangeRef.current = onOpenChange;
+  }, [onOpenChange]);
+  const change = React.useCallback((v: boolean) => {
+    setOpen(v);
+    onOpenChangeRef.current?.(v);
+  }, []);
   const [active, setActive] = React.useState(0);
   const ref = React.useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const t = useTranslations();
 
   // Close on route change.
-  React.useEffect(() => setOpen(false), [pathname]);
+  React.useEffect(() => change(false), [pathname, change]);
 
   // Close on outside click + Escape while open.
   React.useEffect(() => {
     if (!open) return;
     const onDown = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+      if (ref.current && !ref.current.contains(e.target as Node)) change(false);
     };
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && change(false);
     document.addEventListener("mousedown", onDown);
     document.addEventListener("keydown", onKey);
     return () => {
@@ -66,35 +82,30 @@ export function ExperiencesMegaMenu({
     };
   }, [open]);
 
-  // The card-bearing groups. Trip finder isn't one of them — it's a plain link
-  // in the rail (below), so hovering it leaves the current cards in place.
+  // Both card-bearing groups are experience categories now — they differ only by
+  // `kind`, so they render through the same tile grid.
+  const toCards = (list: ExperienceCategory[]): Card[] =>
+    list.map((c) => ({
+      key: c.slug,
+      title: c.title,
+      sub: c.subtitle,
+      href: `/experiences/${c.slug}`,
+      image: c.image,
+      grad: c.grad,
+    }));
+
   const groups: { key: string; label: string; href: string; cards: Card[] }[] = [
     {
       key: "who",
       label: t("experiencesMenu.who"),
       href: "/experiences",
-      cards: categories.map((c) => ({
-        key: c.slug,
-        title: c.title,
-        sub: c.subtitle,
-        href: `/experiences/${c.slug}`,
-        image: c.image,
-        grad: c.grad,
-      })),
+      cards: toCards(categories),
     },
     {
       key: "remarkable",
       label: t("experiencesMenu.remarkable"),
       href: "/experiences",
-      cards: remarkable.map((e) => ({
-        key: e.slug,
-        title: e.title,
-        sub: e.teaser,
-        // Only the ones tied to a trip link anywhere — the rest are display-only.
-        href: e.tripSlug ? `/trips/${e.tripSlug}` : undefined,
-        image: e.image,
-        grad: e.grad,
-      })),
+      cards: toCards(remarkableCategories),
     },
   ];
 
@@ -116,7 +127,7 @@ export function ExperiencesMegaMenu({
       <button
         type="button"
         className={`${triggerClassName ?? ""}${open ? " wf-navlink--on" : ""}`}
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => change(!open)}
         aria-expanded={open}
         style={{
           background: "none",
@@ -138,7 +149,7 @@ export function ExperiencesMegaMenu({
           <button
             type="button"
             className="wf-destmenu__close"
-            onClick={() => setOpen(false)}
+            onClick={() => change(false)}
             aria-label={t("common.closeMenu")}
           >
             <X size={22} aria-hidden />
@@ -147,32 +158,40 @@ export function ExperiencesMegaMenu({
             {/* Groups */}
             <div>
               <ul className="wf-destmenu__regions">
-                {shown.map((g, i) => {
-                  const on = g.key === group.key;
-                  return (
-                    <li key={g.key} onMouseEnter={() => setActive(i)}>
+                {shown.map((g, i) => (
+                  <React.Fragment key={g.key}>
+                    <li onMouseEnter={() => setActive(i)}>
                       <Link
                         href={g.href}
                         className="wf-destmenu__region"
-                        aria-current={on ? "true" : undefined}
-                        style={{ color: on ? "var(--wf-coral-500)" : "var(--wf-ink-900)" }}
+                        aria-current={g.key === group.key ? "true" : undefined}
+                        style={{
+                          color: g.key === group.key ? "var(--wf-coral-500)" : "var(--wf-ink-900)",
+                        }}
                       >
                         <span>{g.label}</span>
-                        <ChevronRight size={16} aria-hidden style={{ opacity: on ? 1 : 0.4 }} />
+                        <ChevronRight
+                          size={16}
+                          aria-hidden
+                          style={{ opacity: g.key === group.key ? 1 : 0.4 }}
+                        />
                       </Link>
                     </li>
-                  );
-                })}
-                {/* Trip finder — a straight link out, no cards of its own. */}
-                <li>
-                  <Link
-                    href="/trip-finder"
-                    className="wf-destmenu__region wf-expmenu__link-only"
-                  >
-                    <span>{t("experiencesMenu.finder")}</span>
-                    <ChevronRight size={16} aria-hidden style={{ opacity: 0.4 }} />
-                  </Link>
-                </li>
+                    {/* Trip finder sits between the two groups, per the brief. It's
+                        a straight link out, so hovering leaves the cards alone. */}
+                    {g.key === "who" && (
+                      <li>
+                        <Link
+                          href="/trip-finder"
+                          className="wf-destmenu__region wf-expmenu__link-only"
+                        >
+                          <span>{t("experiencesMenu.finder")}</span>
+                          <ChevronRight size={16} aria-hidden style={{ opacity: 0.4 }} />
+                        </Link>
+                      </li>
+                    )}
+                  </React.Fragment>
+                ))}
               </ul>
               <Link href="/experiences" className="wf-destmenu__all">
                 {t("experiencesMenu.viewAll")}

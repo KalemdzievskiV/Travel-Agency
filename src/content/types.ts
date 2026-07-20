@@ -42,8 +42,12 @@ export type Experience = {
 };
 
 // A "WHO" experience category — Families, Couples, Groups, Honeymoon, Solo.
+/** Which mega-menu group a category belongs to. */
+export type ExperienceKind = "who" | "remarkable";
+
 export type ExperienceCategory = {
   slug: string;
+  kind: ExperienceKind;
   title: string;
   subtitle: string;
   heroText: string;
@@ -58,6 +62,10 @@ export type ExperienceCategoryDetail = ExperienceCategory & {
   recommendations: string;
   faqs: Faq[];
   trips: Trip[];
+  /** "Our favourite … destinations" band; empty when the category has none. */
+  destinationsHeading: string;
+  destinationsIntro: string;
+  destinations: Destination[];
 };
 
 // A curated place to stay, tied to a destination.

@@ -29,6 +29,7 @@ async function ensureOption(groupId: number, key: string, label: string, sortOrd
 const cats = [
   {
     slug: "families", title: "Families", subtitle: "Luxury family travel, designed around you",
+    titleMk: "Семејства", subtitleMk: "Луксузни семејни патувања, создадени околу вас",
     heroText: "We can't wait to help you make more family memories.",
     concept: "The best family holidays don't feel organised — they feel effortless. We take care of every flight, transfer, guide and long lunch so you're free to be together. Whether that's a first safari through wide-eyes, a city discovered as a treasure hunt, or a beach where the days blur pleasantly into one, every itinerary is shaped around your family's pace, ages and appetites.",
     recommendations: "For younger children we lean towards shorter flights, private guides and flexible mornings. For teenagers we build in a little adventure and independence. And for multi-generational trips, we design in the moments everyone shares — and the ones each generation gets to themselves.",
@@ -41,6 +42,7 @@ const cats = [
   },
   {
     slug: "couples", title: "Couples", subtitle: "Time together, exactly as you like it",
+    titleMk: "Парови", subtitleMk: "Време заедно, токму како што сакате",
     heroText: "Slow mornings, remarkable dinners and just the two of you.",
     concept: "Whether it's a milestone or simply a chance to reconnect, a trip for two should feel personal from the first idea. We design around how you want to feel — adventurous, indulgent, quiet — and remove every friction so the time is entirely yours.",
     recommendations: "Think private dining in unlikely places, a guide who knows the back streets, and the freedom to change your mind. We'll weave in the surprises and leave room for nothing at all.",
@@ -51,6 +53,7 @@ const cats = [
   },
   {
     slug: "groups", title: "Groups", subtitle: "Travel well, together",
+    titleMk: "Групи", subtitleMk: "Патувајте добро, заедно",
     heroText: "The logistics handled, so the group can simply enjoy it.",
     concept: "Group travel lives and dies on the details. We coordinate flights, rooms, transfers and a rhythm that keeps everyone happy — with private guides and spaces that make a larger party feel effortless rather than herded.",
     recommendations: "We're happy to build in optional tracks — the energetic and the easy-going — so nobody feels rushed or held back.",
@@ -61,6 +64,7 @@ const cats = [
   },
   {
     slug: "honeymoon", title: "Honeymoon", subtitle: "A beginning worth remembering",
+    titleMk: "Меден месец", subtitleMk: "Почеток вреден за паметење",
     heroText: "The trip you'll talk about for the rest of your lives.",
     concept: "A honeymoon should feel like nothing else. We design journeys that balance indulgence and discovery — barefoot luxury, a little adventure, and the quiet moments that make it yours.",
     recommendations: "Combine two contrasting stays — a safari then an island, a city then a coast — for a honeymoon with light and shade.",
@@ -71,6 +75,7 @@ const cats = [
   },
   {
     slug: "solo", title: "Solo", subtitle: "The world, on your own terms",
+    titleMk: "Соло патувања", subtitleMk: "Светот, под ваши услови",
     heroText: "Freedom, safety and remarkable company when you want it.",
     concept: "Travelling solo should feel liberating, not lonely. We design trips with the right balance of independence and connection — trusted guides, considered logistics and the confidence to explore.",
     recommendations: "We're glad to build in group moments — a cooking class, a guided walk — alongside long stretches of time that are entirely your own.",
@@ -89,6 +94,7 @@ async function main() {
     await ensureOption(who.id, c.slug, c.title, i);
     const values = {
       slug: c.slug, title: c.title, subtitle: c.subtitle, heroText: c.heroText,
+      titleMk: c.titleMk, subtitleMk: c.subtitleMk,
       image: img(`exp-${c.slug}`), grad: null as string | null,
       concept: c.concept, recommendations: c.recommendations, faqs: c.faqs,
       whoOptionKey: c.slug, published: true, sortOrder: i, updatedAt: new Date(),

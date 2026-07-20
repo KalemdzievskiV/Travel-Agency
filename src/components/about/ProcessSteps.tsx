@@ -245,6 +245,7 @@ function ProcessPinned({ steps, title }: { steps: ProcessStep[]; title: string }
                   lineHeight: 1.7,
                   color: "rgba(244,239,231,0.82)",
                   margin: "16px 0 0",
+                  whiteSpace: "pre-line",
                 }}
               >
                 {step.body}
@@ -325,6 +326,7 @@ function ProcessStack({ steps }: { steps: ProcessStep[] }) {
                   color: "var(--wf-ink-700)",
                   margin: "12px 0 0",
                   maxWidth: 600,
+                  whiteSpace: "pre-line",
                 }}
               >
                 {s.body}

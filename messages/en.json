@@ -200,6 +200,7 @@
     "whereToStay": "Where to stay"
   },
   "experiencesPage": {
+    "favouriteDestinations": "Our favourite destinations",
     "eyebrow": "Experiences",
     "title": "Who's travelling?",
     "intro": "Every journey is shaped around the people on it. Choose who you're travelling with — we design the rest around how you want to feel.",
@@ -417,7 +418,6 @@
     "hearOther": "Other",
     "newsletter": "Sign up for occasional travel inspiration from our team. No spam, unsubscribe any time.",
     "send": "Submit enquiry",
-    "finePrint": "No planning fees · no obligation · reply within 24 hours",
     "callUsToday": "Call us today",
     "openNote": "We’re here Monday to Friday, 10am–6pm.",
     "officeHours": "Office hours",

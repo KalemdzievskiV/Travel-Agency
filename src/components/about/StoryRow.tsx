@@ -38,6 +38,7 @@ export function StoryRow({ eyebrow, title, body, grad, image, align }: StoryRowD
             color: "var(--wf-ink-700)",
             margin: "16px 0 0",
             maxWidth: 520,
+            whiteSpace: "pre-line",
           }}
         >
           {body}

@@ -55,6 +55,7 @@ export function AboutMasthead({
                   color: "rgba(244,239,231,0.82)",
                   margin: "18px 0 0",
                   maxWidth: 460,
+                  whiteSpace: "pre-line",
                 }}
               >
                 {intro}

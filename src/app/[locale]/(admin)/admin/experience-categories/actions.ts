@@ -30,10 +30,22 @@ export async function saveExperienceCategory(formData: FormData) {
   const slug = str(formData, "slug") || slugify(title);
   const uploaded = await uploadImage(formData.get("image"));
 
+  // Checkbox group — the browser posts one entry per ticked box.
+  const destinationIds = formData
+    .getAll("destinationIds")
+    .map((v) => Number(v))
+    .filter((n) => Number.isFinite(n) && n > 0);
+
   const values = {
     slug,
+    kind: str(formData, "kind") === "remarkable" ? "remarkable" : "who",
     title,
     subtitle: str(formData, "subtitle"),
+    destinationIds,
+    destinationsHeading: str(formData, "destinationsHeading"),
+    destinationsIntro: str(formData, "destinationsIntro"),
+    destinationsHeadingMk: str(formData, "destinationsHeadingMk") || null,
+    destinationsIntroMk: str(formData, "destinationsIntroMk") || null,
     heroText: str(formData, "heroText"),
     concept: str(formData, "concept"),
     recommendations: str(formData, "recommendations"),

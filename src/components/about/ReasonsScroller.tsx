@@ -10,34 +10,48 @@ import {
 } from "motion/react";
 import { Eyebrow } from "@/components/ui";
 import { useIsDesktop } from "./useIsDesktop";
-import type { Reason } from "@/content/about";
+import type { Reason, ReasonsIntro } from "@/content/about";
 
 /**
  * ReasonsScroller — the pinned, scroll-driven sequence (modelled on Black
- * Tomato's 5-reasons page, rebuilt in the bookit design): a sticky two-panel
- * stage where the left image and right copy swap per reason as you scroll, with
- * a 01–0n index tracking the active step.
+ * Tomato's 5-reasons page, rebuilt in the bookit design): a sticky stage that
+ * opens on a full-width title panel, then steps through the reasons with the
+ * photo and the copy swapping sides each time, a 01–0n index tracking progress.
+ *
+ * Alternating sides is a client requirement — the reference alternates left/right
+ * rather than pinning the image to one half — so each reason's image is rendered
+ * into the half its position dictates and only the active one is opaque.
  *
  * Progressive enhancement: server-render + small screens + reduced-motion all
  * get an accessible stacked layout; wide screens with motion get the pin.
  */
-export function ReasonsScroller({ reasons }: { reasons: Reason[] }) {
+export function ReasonsScroller({
+  reasons,
+  intro,
+}: {
+  reasons: Reason[];
+  intro: ReasonsIntro;
+}) {
   const isDesktop = useIsDesktop();
   const reduced = useReducedMotion();
 
   // SSR and first client paint render the stacked layout (isDesktop === null),
   // so hydration matches; wide+motion screens upgrade to the pinned stage.
   if (!isDesktop || reduced) {
-    return <ReasonsStack reasons={reasons} />;
+    return <ReasonsStack reasons={reasons} intro={intro} />;
   }
-  return <ReasonsPinned reasons={reasons} />;
+  return <ReasonsPinned reasons={reasons} intro={intro} />;
 }
 
+/** Which half a reason's photo occupies — first left, then right, alternating. */
+const imageSideFor = (i: number) => (i % 2 === 0 ? "left" : "right");
+
 /* ── Desktop: pinned sticky stage ─────────────────────────────────── */
-function ReasonsPinned({ reasons }: { reasons: Reason[] }) {
+function ReasonsPinned({ reasons, intro }: { reasons: Reason[]; intro: ReasonsIntro }) {
   const trackRef = React.useRef<HTMLDivElement>(null);
   const [active, setActive] = React.useState(0);
-  const n = reasons.length;
+  // Slide 0 is the title panel; slides 1..n are the reasons.
+  const n = reasons.length + 1;
 
   const { scrollYProgress } = useScroll({
     target: trackRef,
@@ -49,209 +63,334 @@ function ReasonsPinned({ reasons }: { reasons: Reason[] }) {
     setActive((prev) => (prev === i ? prev : i));
   });
 
-  const reason = reasons[active];
+  const reasonIndex = active - 1;
+  const reason = reasonIndex >= 0 ? reasons[reasonIndex] : null;
+  // The copy sits opposite the photo. The title slide spans the stage, so it has
+  // no side of its own — park it right, where the reference keeps the index.
+  const copySide: "left" | "right" = !reason
+    ? "right"
+    : imageSideFor(reasonIndex) === "left"
+      ? "right"
+      : "left";
 
   return (
     <section
       ref={trackRef}
-      aria-label="Five reasons to book with us"
-      style={{ height: `${n * 100}vh`, position: "relative" }}
+      aria-label={intro.title}
+      style={{
+        height: `${n * 100}vh`,
+        position: "relative",
+        // Pull the stage up under the header so the photography and copy run
+        // full-bleed behind it (the header floats transparent on this route).
+        marginTop: "calc(-1 * var(--wf-header-h))",
+      }}
     >
       <div
         style={{
           position: "sticky",
-          top: "var(--wf-header-h)",
-          height: "calc(100vh - var(--wf-header-h))",
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
+          top: 0,
+          height: "100vh",
           overflow: "hidden",
+          background: "var(--wf-ink-900)",
+          color: "var(--wf-text-on-dark)",
         }}
       >
-        {/* Left — cross-fading image stack */}
-        <div style={{ position: "relative", overflow: "hidden" }}>
-          {reasons.map((r, i) => (
+        {/* Photos — each pinned to its own half, only the active one opaque. */}
+        {reasons.map((r, i) => (
+          <motion.div
+            key={r.no}
+            aria-hidden={i !== reasonIndex}
+            initial={false}
+            animate={{ opacity: i === reasonIndex ? 1 : 0, scale: i === reasonIndex ? 1 : 1.06 }}
+            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+            style={{
+              position: "absolute",
+              top: 0,
+              bottom: 0,
+              width: "50%",
+              left: imageSideFor(i) === "left" ? 0 : "50%",
+              background: r.grad,
+              backgroundImage: `linear-gradient(to right, rgba(22,19,15,0) 60%, rgba(22,19,15,0.25)), url(${r.image})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          />
+        ))}
+
+        {/* Title panel — full width, holds the stage until the first reason. */}
+        <AnimatePresence>
+          {active === 0 && (
             <motion.div
-              key={r.no}
-              aria-hidden={i !== active}
-              initial={false}
-              animate={{ opacity: i === active ? 1 : 0, scale: i === active ? 1 : 1.06 }}
-              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
               style={{
                 position: "absolute",
                 inset: 0,
-                background: `${r.grad}`,
-                backgroundImage: `linear-gradient(to right, rgba(22,19,15,0) 60%, rgba(22,19,15,0.25)), url(${r.image})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
+                background: "var(--wf-ink-900)",
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                alignItems: "center",
+                padding: "0 clamp(40px, 7vw, 112px)",
+                gap: "clamp(24px, 4vw, 64px)",
               }}
-            />
-          ))}
-        </div>
+            >
+              <h1
+                style={{
+                  fontFamily: "var(--wf-font-display)",
+                  fontWeight: 500,
+                  fontSize: "clamp(48px, 8vw, 118px)",
+                  lineHeight: 0.95,
+                  letterSpacing: "-0.03em",
+                  color: "var(--wf-coral-400)",
+                  margin: 0,
+                }}
+              >
+                {intro.big}
+              </h1>
+              <div style={{ maxWidth: 420, justifySelf: "end", textAlign: "right" }}>
+                <Eyebrow tone="light">{intro.eyebrow}</Eyebrow>
+                <p
+                  style={{
+                    fontFamily: "var(--wf-font-display)",
+                    fontWeight: 500,
+                    fontSize: "clamp(24px, 2.8vw, 38px)",
+                    lineHeight: 1.12,
+                    letterSpacing: "-0.02em",
+                    margin: "16px 0 0",
+                  }}
+                >
+                  {intro.title}
+                </p>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-        {/* Right — dark copy panel + numbered index */}
-        <div
-          style={{
-            position: "relative",
-            background: "var(--wf-ink-900)",
-            color: "var(--wf-text-on-dark)",
-            display: "flex",
-            alignItems: "center",
-            padding: "0 clamp(40px, 7vw, 112px)",
-          }}
-        >
-          <AnimatePresence mode="wait">
+        {/* Copy panel — occupies the half the photo isn't using. */}
+        <AnimatePresence mode="wait">
+          {reason && (
             <motion.div
               key={reason.no}
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -16 }}
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              style={{ maxWidth: 460 }}
+              style={{
+                position: "absolute",
+                top: 0,
+                bottom: 0,
+                width: "50%",
+                left: copySide === "left" ? 0 : "50%",
+                background: "var(--wf-ink-900)",
+                display: "flex",
+                alignItems: "center",
+                // Extra room on whichever edge the index rail occupies, so the
+                // numbers never crowd the copy.
+                paddingBlock: 0,
+                paddingLeft: copySide === "left" ? "clamp(72px, 7vw, 120px)" : "clamp(40px, 5vw, 96px)",
+                paddingRight: copySide === "right" ? "clamp(72px, 7vw, 120px)" : "clamp(40px, 5vw, 96px)",
+              }}
             >
-              <Eyebrow tone="light">Reason {reason.no}</Eyebrow>
-              <h2
-                style={{
-                  fontFamily: "var(--wf-font-display)",
-                  fontWeight: 500,
-                  fontSize: "clamp(30px, 3.4vw, 46px)",
-                  lineHeight: 1.08,
-                  letterSpacing: "-0.02em",
-                  margin: "16px 0 0",
-                }}
-              >
-                {reason.title}
-              </h2>
-              <p
-                style={{
-                  fontSize: 17,
-                  lineHeight: 1.7,
-                  color: "rgba(244,239,231,0.82)",
-                  margin: "20px 0 0",
-                }}
-              >
-                {reason.body}
-              </p>
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Index 01–0n */}
-          <ol
-            style={{
-              position: "absolute",
-              right: "clamp(20px, 3vw, 44px)",
-              top: "50%",
-              transform: "translateY(-50%)",
-              listStyle: "none",
-              margin: 0,
-              padding: 0,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: 18,
-            }}
-          >
-            {reasons.map((r, i) => (
-              <li
-                key={r.no}
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  gap: 18,
-                }}
-              >
-                <span
+              <div style={{ maxWidth: 460 }}>
+                <Eyebrow tone="light">{intro.eyebrow}</Eyebrow>
+                <h2
                   style={{
                     fontFamily: "var(--wf-font-display)",
-                    fontSize: 20,
                     fontWeight: 500,
-                    color: i === active ? "var(--wf-coral-400)" : "rgba(244,239,231,0.4)",
-                    transition: "color .3s var(--wf-ease-out)",
+                    fontSize: "clamp(30px, 3.4vw, 46px)",
+                    lineHeight: 1.08,
+                    letterSpacing: "-0.02em",
+                    margin: "16px 0 0",
                   }}
                 >
-                  {r.no}
-                </span>
-                {i < reasons.length - 1 && (
-                  <span
-                    aria-hidden
-                    style={{
-                      width: 1,
-                      height: 26,
-                      background: "rgba(244,239,231,0.25)",
-                    }}
-                  />
-                )}
-              </li>
-            ))}
-          </ol>
-        </div>
+                  {reason.title}
+                </h2>
+                <p
+                  style={{
+                    fontSize: 17,
+                    lineHeight: 1.7,
+                    color: "rgba(244,239,231,0.82)",
+                    margin: "20px 0 0",
+                    whiteSpace: "pre-line",
+                  }}
+                >
+                  {reason.body}
+                </p>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Index 01–0n — tracks the copy panel from side to side, so it always
+            sits on the dark half. Over a photo the dim numbers wash out. */}
+        <ol
+          style={{
+            position: "absolute",
+            [copySide === "left" ? "left" : "right"]: "clamp(16px, 2vw, 30px)",
+            top: "50%",
+            transform: "translateY(-50%)",
+            listStyle: "none",
+            margin: 0,
+            padding: 0,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 18,
+            zIndex: 2,
+            pointerEvents: "none",
+          }}
+        >
+          {reasons.map((r, i) => (
+            <li
+              key={r.no}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 18,
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: "var(--wf-font-display)",
+                  fontSize: 20,
+                  fontWeight: 500,
+                  color: i === reasonIndex ? "var(--wf-coral-400)" : "rgba(244,239,231,0.4)",
+                  transition: "color .3s var(--wf-ease-out)",
+                }}
+              >
+                {r.no}
+              </span>
+              {i < reasons.length - 1 && (
+                <span
+                  aria-hidden
+                  style={{
+                    width: 1,
+                    height: 26,
+                    background: "rgba(244,239,231,0.25)",
+                  }}
+                />
+              )}
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );
 }
 
 /* ── Mobile / SSR / reduced-motion: accessible stacked layout ─────── */
-function ReasonsStack({ reasons }: { reasons: Reason[] }) {
+function ReasonsStack({ reasons, intro }: { reasons: Reason[]; intro: ReasonsIntro }) {
   return (
-    <section style={{ background: "var(--wf-cream)", padding: "clamp(48px, 8vw, 80px) 0" }}>
-      <div
-        className="wf-wrap wf-wrap--wide"
-        style={{ display: "grid", gap: "clamp(40px, 8vw, 64px)" }}
+    <>
+      <section
+        style={{
+          background: "var(--wf-ink-900)",
+          color: "var(--wf-text-on-dark)",
+          padding: "calc(var(--wf-header-h) + clamp(40px, 8vw, 72px)) 0 clamp(40px, 8vw, 64px)",
+        }}
       >
-        {reasons.map((r) => (
-          <article key={r.no}>
-            <div
-              style={{
-                aspectRatio: "4 / 3",
-                borderRadius: "var(--wf-radius-md)",
-                background: `${r.grad}`,
-                backgroundImage: `url(${r.image})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            />
-            <span
-              style={{
-                fontFamily: "var(--wf-font-display)",
-                fontWeight: 500,
-                fontSize: "clamp(36px, 11vw, 48px)",
-                lineHeight: 1,
-                letterSpacing: "-0.02em",
-                color: "transparent",
-                WebkitTextStroke: "1px var(--wf-ink-300)",
-                display: "block",
-                margin: "18px 0 0",
-              }}
-            >
-              {r.no}
-            </span>
-            <h2
-              style={{
-                fontFamily: "var(--wf-font-display)",
-                fontWeight: 500,
-                fontSize: "clamp(24px, 6vw, 32px)",
-                lineHeight: 1.1,
-                letterSpacing: "-0.02em",
-                margin: "8px 0 0",
-                color: "var(--wf-ink-900)",
-              }}
-            >
-              {r.title}
-            </h2>
+        <div className="wf-wrap wf-wrap--wide">
+          <h1
+            style={{
+              fontFamily: "var(--wf-font-display)",
+              fontWeight: 500,
+              fontSize: "clamp(44px, 15vw, 88px)",
+              lineHeight: 0.95,
+              letterSpacing: "-0.03em",
+              color: "var(--wf-coral-400)",
+              margin: 0,
+            }}
+          >
+            {intro.big}
+          </h1>
+          <div style={{ marginTop: "clamp(20px, 5vw, 32px)" }}>
+            <Eyebrow tone="light">{intro.eyebrow}</Eyebrow>
             <p
               style={{
-                fontSize: 17,
-                lineHeight: 1.65,
-                color: "var(--wf-ink-700)",
+                fontFamily: "var(--wf-font-display)",
+                fontWeight: 500,
+                fontSize: "clamp(22px, 5.5vw, 30px)",
+                lineHeight: 1.15,
+                letterSpacing: "-0.02em",
                 margin: "12px 0 0",
               }}
             >
-              {r.body}
+              {intro.title}
             </p>
-          </article>
-        ))}
-      </div>
-    </section>
+          </div>
+        </div>
+      </section>
+
+      {/* Dark like the pinned stage, so the whole route stays dark end to end and
+          the floating header keeps its light-on-dark treatment throughout. */}
+      <section
+        style={{
+          background: "var(--wf-ink-900)",
+          color: "var(--wf-text-on-dark)",
+          padding: "clamp(48px, 8vw, 80px) 0",
+        }}
+      >
+        <div
+          className="wf-wrap wf-wrap--wide"
+          style={{ display: "grid", gap: "clamp(40px, 8vw, 64px)" }}
+        >
+          {reasons.map((r) => (
+            <article key={r.no}>
+              <div
+                style={{
+                  aspectRatio: "4 / 3",
+                  borderRadius: "var(--wf-radius-md)",
+                  background: `${r.grad}`,
+                  backgroundImage: `url(${r.image})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              />
+              <span
+                style={{
+                  fontFamily: "var(--wf-font-display)",
+                  fontWeight: 500,
+                  fontSize: "clamp(36px, 11vw, 48px)",
+                  lineHeight: 1,
+                  letterSpacing: "-0.02em",
+                  color: "transparent",
+                  WebkitTextStroke: "1px rgba(244,239,231,0.45)",
+                  display: "block",
+                  margin: "18px 0 0",
+                }}
+              >
+                {r.no}
+              </span>
+              <h2
+                style={{
+                  fontFamily: "var(--wf-font-display)",
+                  fontWeight: 500,
+                  fontSize: "clamp(24px, 6vw, 32px)",
+                  lineHeight: 1.1,
+                  letterSpacing: "-0.02em",
+                  margin: "8px 0 0",
+                }}
+              >
+                {r.title}
+              </h2>
+              <p
+                style={{
+                  fontSize: 17,
+                  lineHeight: 1.65,
+                  color: "rgba(244,239,231,0.82)",
+                  margin: "12px 0 0",
+                  whiteSpace: "pre-line",
+                }}
+              >
+                {r.body}
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+    </>
   );
 }
-

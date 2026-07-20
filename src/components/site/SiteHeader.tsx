@@ -8,20 +8,21 @@ import { Logo } from "./Logo";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { DestinationsMegaMenu } from "./DestinationsMegaMenu";
 import { ExperiencesMegaMenu } from "./ExperiencesMegaMenu";
+import { AboutMegaMenu } from "./AboutMegaMenu";
 import { SearchOverlay } from "./SearchOverlay";
 import { PhoneWithHours } from "./PhoneWithHours";
 import type { RegionNavItem } from "@/lib/queries/regions";
-import type { ExperienceCategory, RemarkableExperience } from "@/content/types";
+import type { ExperienceCategory } from "@/content/types";
 import { nav, aboutMenu, site } from "@/content/site";
 
 export function SiteHeader({
   regionsNav = [],
   experienceCategories = [],
-  remarkable = [],
+  remarkableCategories = [],
 }: {
   regionsNav?: RegionNavItem[];
   experienceCategories?: ExperienceCategory[];
-  remarkable?: RemarkableExperience[];
+  remarkableCategories?: ExperienceCategory[];
 }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -30,6 +31,14 @@ export function SiteHeader({
   const [scrolled, setScrolled] = React.useState(false);
   const [menuOpen, setMenuOpen] = React.useState(false);
   const [aboutOpen, setAboutOpen] = React.useState(false);
+  // Which mega-menu is showing, if any. Tracked by key rather than a boolean so
+  // one menu closing can't clear the flag another has just set.
+  const [openMega, setOpenMega] = React.useState<string | null>(null);
+  const megaHandler = React.useCallback(
+    (key: string) => (isOpen: boolean) =>
+      setOpenMega((prev) => (isOpen ? key : prev === key ? null : prev)),
+    [],
+  );
 
   // Top-level nav labels are translated; the About submenu stays English for now.
   const navLabel = (href: string) => {
@@ -58,7 +67,13 @@ export function SiteHeader({
   const isDestinationHero = /^\/destinations\/[^/]+$/.test(pathname);
   const isExperienceHero = /^\/experiences\/[^/]+$/.test(pathname);
   const overHero = pathname === "/" || pathname === "/trip-finder" || isDestinationHero || isExperienceHero;
-  const dark = overHero && !scrolled && !menuOpen;
+  // Routes that are dark from top to bottom. Unlike a hero, these never hand over
+  // to a light background, so the header stays transparent past the scroll point —
+  // letting the pinned imagery and copy run behind it the whole way down.
+  const darkThroughout = pathname === "/about/5-reasons";
+  // An open mega-menu makes the header solid regardless: the panel is white, so a
+  // transparent header left the two reading as separate surfaces.
+  const dark = (darkThroughout || (overHero && !scrolled)) && !menuOpen && !openMega;
 
   React.useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -102,9 +117,26 @@ export function SiteHeader({
         position: "sticky",
         top: 0,
         zIndex: 50,
-        background: dark ? "transparent" : "var(--wf-cream)",
+        // Longhands only — mixing the `background` shorthand with the
+        // backgroundOrigin/Repeat longhands below lets React reset one when it
+        // reapplies the other on re-render.
+        //
+        // Floating over imagery, the header carries a soft top-down scrim rather
+        // than being fully transparent: white nav on a pale sky (or a bright
+        // video frame) drops below a readable contrast otherwise. It fades to
+        // nothing, so the content still reads as running behind the header.
+        backgroundColor: dark ? "transparent" : "var(--wf-cream)",
+        backgroundImage: dark
+          ? "linear-gradient(180deg, rgba(20,18,16,0.55) 0%, rgba(20,18,16,0.28) 55%, rgba(20,18,16,0) 100%)"
+          : "none",
+        // The gradient must span the border box. Background images are sized to
+        // the padding box by default but painted to the border box, so the
+        // transparent 1px bottom border was filled by a repeat of the gradient's
+        // first stop — a dark hairline under the header.
+        backgroundOrigin: "border-box",
+        backgroundRepeat: "no-repeat",
         borderBottom: `1px solid ${dark ? "transparent" : "var(--wf-border)"}`,
-        transition: "background .3s, border-color .3s",
+        transition: "background-color .3s, border-color .3s",
       }}
     >
       <div
@@ -125,6 +157,7 @@ export function SiteHeader({
               <DestinationsMegaMenu
                 key={l.href}
                 regions={regionsNav}
+                onOpenChange={megaHandler("destinations")}
                 label={navLabel(l.href)}
                 triggerStyle={navLinkStyle()}
                 triggerClassName={navLinkClass(l.href)}
@@ -134,50 +167,22 @@ export function SiteHeader({
               <ExperiencesMegaMenu
                 key={l.href}
                 categories={experienceCategories}
-                remarkable={remarkable}
+                remarkableCategories={remarkableCategories}
+                onOpenChange={megaHandler("experiences")}
                 label={navLabel(l.href)}
                 triggerStyle={navLinkStyle()}
                 triggerClassName={navLinkClass(l.href)}
                 iconColor={dark ? "rgba(255,255,255,0.9)" : "var(--wf-ink-700)"}
               />
             ) : l.href === "/about" ? (
-              <div className="wf-megamenu" key={l.href}>
-                <Link
-                  href={l.href}
-                  className={navLinkClass(l.href)}
-                  style={{
-                    ...navLinkStyle(),
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 5,
-                  }}
-                >
-                  {navLabel(l.href)}
-                  <Icon
-                    name="chevron"
-                    size={14}
-                    color={dark ? "rgba(255,255,255,0.9)" : "var(--wf-ink-700)"}
-                  />
-                </Link>
-                <div className="wf-megamenu__panel">
-                  {aboutMenu.map((group) => (
-                    <div key={t(`aboutMenu.groups.${group.key}`)}>
-                      <Link href={group.href} className="wf-megamenu__col-title" style={{ textDecoration: "none", display: "block" }}>
-                        {t(`aboutMenu.groups.${group.key}`)}
-                      </Link>
-                      {group.items.map((item) => (
-                        <Link
-                          key={item.key}
-                          href={item.href}
-                          className="wf-megamenu__link"
-                        >
-                          {t(`aboutMenu.items.${item.key}`)}
-                        </Link>
-                      ))}
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <AboutMegaMenu
+                key={l.href}
+                onOpenChange={megaHandler("about")}
+                label={navLabel(l.href)}
+                triggerStyle={navLinkStyle()}
+                triggerClassName={navLinkClass(l.href)}
+                iconColor={dark ? "rgba(255,255,255,0.9)" : "var(--wf-ink-700)"}
+              />
             ) : (
               <Link
                 key={l.href}

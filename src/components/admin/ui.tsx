@@ -76,6 +76,83 @@ export function TextField({
   );
 }
 
+export function SelectField({
+  label,
+  name,
+  defaultValue,
+  options,
+  hint,
+}: {
+  label: string;
+  name: string;
+  defaultValue?: string | null;
+  options: { value: string; label: string }[];
+  hint?: string;
+}) {
+  return (
+    <Field label={label} htmlFor={name} hint={hint}>
+      <select id={name} name={name} defaultValue={defaultValue ?? undefined} style={inputStyle}>
+        {options.map((o) => (
+          <option key={o.value} value={o.value}>
+            {o.label}
+          </option>
+        ))}
+      </select>
+    </Field>
+  );
+}
+
+/**
+ * A scrollable list of checkboxes sharing one field name, so the action reads
+ * them with `formData.getAll(name)`. Used where the admin picks several rows
+ * (e.g. a category's favourite destinations) and a native multi-select would be
+ * fiddly to operate.
+ */
+export function CheckboxGroupField({
+  label,
+  name,
+  options,
+  selected = [],
+  hint,
+}: {
+  label: string;
+  name: string;
+  options: { value: string; label: string }[];
+  selected?: string[];
+  hint?: string;
+}) {
+  const on = new Set(selected);
+  return (
+    <Field label={label} hint={hint}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+          gap: 8,
+          maxHeight: 260,
+          overflowY: "auto",
+          padding: 12,
+          border: "1px solid var(--wf-border)",
+          borderRadius: "var(--wf-radius-sm)",
+        }}
+      >
+        {options.length === 0 && (
+          <span style={{ fontSize: 13, color: "var(--wf-ink-400)" }}>Nothing to choose from yet.</span>
+        )}
+        {options.map((o) => (
+          <label
+            key={o.value}
+            style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 14, cursor: "pointer" }}
+          >
+            <input type="checkbox" name={name} value={o.value} defaultChecked={on.has(o.value)} />
+            <span>{o.label}</span>
+          </label>
+        ))}
+      </div>
+    </Field>
+  );
+}
+
 export function TextAreaField({
   label,
   name,

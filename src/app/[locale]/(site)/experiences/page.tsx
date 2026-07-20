@@ -3,7 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Button, Eyebrow } from "@/components/ui";
 import { Link } from "@/i18n/navigation";
 import { SectionHead } from "@/components/sections/SectionHead";
-import { getExperienceCategories, getRemarkableExperiences } from "@/lib/queries/experiences";
+import { getExperienceCategories } from "@/lib/queries/experiences";
 
 export const metadata: Metadata = {
   title: "Experiences",
@@ -19,8 +19,8 @@ export default async function ExperiencesPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const [categories, remarkable, t] = await Promise.all([
-    getExperienceCategories(),
-    getRemarkableExperiences(),
+    getExperienceCategories("who"),
+    getExperienceCategories("remarkable"),
     getTranslations("experiencesPage"),
   ]);
 
@@ -100,27 +100,16 @@ export default async function ExperiencesPage({
           <div style={{ marginTop: "clamp(56px, 8vw, 96px)" }}>
             <SectionHead eyebrow={t("remarkableEyebrow")} title={t("remarkableHeading")} intro={t("remarkableIntro")} />
             <div className="wf-grid wf-grid-3" style={{ marginTop: "clamp(28px, 4vw, 44px)" }}>
-              {remarkable.map((e) => {
-                const inner = (
-                  <>
-                    <div className="wf-exp-tile__img" style={{ backgroundImage: e.image ? `url(${e.image})` : undefined, background: e.image ? undefined : e.grad || "var(--wf-ink-800)" }} aria-hidden />
-                    <div className="wf-exp-tile__scrim" aria-hidden />
-                    <div className="wf-exp-tile__body">
-                      <h3 className="wf-exp-tile__title">{e.title}</h3>
-                      {e.teaser && <p className="wf-exp-tile__sub">{e.teaser}</p>}
-                    </div>
-                  </>
-                );
-                return e.tripSlug ? (
-                  <Link key={e.slug} href={`/trips/${e.tripSlug}`} className="wf-exp-tile">
-                    {inner}
-                  </Link>
-                ) : (
-                  <div key={e.slug} className="wf-exp-tile">
-                    {inner}
+              {remarkable.map((e) => (
+                <Link key={e.slug} href={`/experiences/${e.slug}`} className="wf-exp-tile">
+                  <div className="wf-exp-tile__img" style={{ backgroundImage: e.image ? `url(${e.image})` : undefined, background: e.image ? undefined : e.grad || "var(--wf-ink-800)" }} aria-hidden />
+                  <div className="wf-exp-tile__scrim" aria-hidden />
+                  <div className="wf-exp-tile__body">
+                    <h3 className="wf-exp-tile__title">{e.title}</h3>
+                    {e.subtitle && <p className="wf-exp-tile__sub">{e.subtitle}</p>}
                   </div>
-                );
-              })}
+                </Link>
+              ))}
             </div>
           </div>
         )}

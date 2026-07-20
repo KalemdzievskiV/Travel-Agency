@@ -139,6 +139,25 @@ export async function getDestinations(): Promise<Destination[]> {
   return rows.map((r) => toDestination(r, mk, regionMap));
 }
 
+/**
+ * Destinations for an explicit list of ids, returned in the order given — the
+ * admin's chosen order for a category's "favourite destinations" band, which a
+ * plain `inArray` query would not preserve.
+ */
+export async function getDestinationsByIds(ids: number[]): Promise<Destination[]> {
+  if (!ids.length) return [];
+  const [rows, mk, regionMap] = await Promise.all([
+    db
+      .select()
+      .from(destinationsTable)
+      .where(and(inArray(destinationsTable.id, ids), eq(destinationsTable.published, true))),
+    localeIsMk(),
+    getRegionMap(),
+  ]);
+  const byId = new Map(rows.map((r) => [r.id, toDestination(r, mk, regionMap)]));
+  return ids.map((id) => byId.get(id)).filter((d): d is Destination => d != null);
+}
+
 export async function getDestinationBySlug(
   slug: string,
 ): Promise<Destination | undefined> {

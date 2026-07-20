@@ -1,9 +1,22 @@
-import { TextField, TextAreaField, CheckboxField, FormCard } from "@/components/admin/ui";
+import {
+  TextField,
+  TextAreaField,
+  CheckboxField,
+  CheckboxGroupField,
+  SelectField,
+  FormCard,
+} from "@/components/admin/ui";
 import { SubmitButton, ImageField } from "@/components/admin/controls";
 import type { ExperienceCategoryRow } from "@/db/schema";
 import { saveExperienceCategory } from "./actions";
 
-export function ExperienceCategoryForm({ category }: { category?: ExperienceCategoryRow }) {
+export function ExperienceCategoryForm({
+  category,
+  destinations,
+}: {
+  category?: ExperienceCategoryRow;
+  destinations: { id: number; title: string }[];
+}) {
   const c = category;
   return (
     <form action={saveExperienceCategory}>
@@ -13,6 +26,16 @@ export function ExperienceCategoryForm({ category }: { category?: ExperienceCate
           <TextField label="Title" name="title" defaultValue={c?.title} required placeholder="Families" />
           <TextField label="Slug" name="slug" defaultValue={c?.slug} hint="Leave blank to generate from the title." />
         </div>
+        <SelectField
+          label="Menu group"
+          name="kind"
+          defaultValue={c?.kind ?? "who"}
+          options={[
+            { value: "who", label: "Who's travelling (КОЈ ПАТУВА)" },
+            { value: "remarkable", label: "Remarkable experiences (НЕОБИЧНИ ИСКУСТВА)" },
+          ]}
+          hint="Which Experiences mega-menu group this category appears under."
+        />
         <TextField label="Subtitle" name="subtitle" defaultValue={c?.subtitle} placeholder="Luxury family travel, designed around you" />
         <TextAreaField label="Hero text" name="heroText" defaultValue={c?.heroText} rows={2} hint="Short intro shown at the top." />
 
@@ -30,6 +53,26 @@ export function ExperienceCategoryForm({ category }: { category?: ExperienceCate
           name="whoOptionKey"
           defaultValue={c?.whoOptionKey}
           hint="The 'who' filter option key whose tagged trips fill the carousel (e.g. families). Blank falls back to recent trips."
+        />
+
+        <TextField
+          label="Destinations heading"
+          name="destinationsHeading"
+          defaultValue={c?.destinationsHeading}
+          placeholder="Our favourite safari destinations"
+        />
+        <TextAreaField
+          label="Destinations intro"
+          name="destinationsIntro"
+          defaultValue={c?.destinationsIntro}
+          rows={3}
+        />
+        <CheckboxGroupField
+          label="Favourite destinations"
+          name="destinationIds"
+          options={destinations.map((d) => ({ value: String(d.id), label: d.title }))}
+          selected={(c?.destinationIds ?? []).map(String)}
+          hint="Tiles shown under the heading above. Leave all unticked to hide the whole section."
         />
 
         <ImageField currentUrl={c?.image} />
@@ -57,6 +100,8 @@ export function ExperienceCategoryForm({ category }: { category?: ExperienceCate
         <TextAreaField label="Concept (MK)" name="conceptMk" defaultValue={c?.conceptMk ?? ""} rows={6} />
         <TextAreaField label="Our recommendations (MK)" name="recommendationsMk" defaultValue={c?.recommendationsMk ?? ""} rows={5} />
         <TextAreaField label="FAQs (MK)" name="faqsMk" defaultValue={(c?.faqsMk ?? []).join("\n")} rows={6} hint="One per line as 'Question | Answer'." />
+        <TextField label="Destinations heading (MK)" name="destinationsHeadingMk" defaultValue={c?.destinationsHeadingMk ?? ""} />
+        <TextAreaField label="Destinations intro (MK)" name="destinationsIntroMk" defaultValue={c?.destinationsIntroMk ?? ""} rows={3} />
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, alignItems: "end" }}>
           <TextField label="Sort order" name="sortOrder" type="number" defaultValue={c?.sortOrder ?? 0} />

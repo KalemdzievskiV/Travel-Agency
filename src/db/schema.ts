@@ -93,6 +93,10 @@ export const experienceCategories = pgTable(
   {
     id: serial("id").primaryKey(),
     slug: text("slug").notNull(),
+    // Which mega-menu group this category belongs to: "who" (КОЈ ПАТУВА —
+    // families, couples, …) or "remarkable" (НЕОБИЧНИ ИСКУСТВА — safari,
+    // cruises, …). Both render the same landing template.
+    kind: text("kind").notNull().default("who"),
     title: text("title").notNull(),
     subtitle: text("subtitle").notNull().default(""),
     // Short intro shown under the hero.
@@ -104,6 +108,11 @@ export const experienceCategories = pgTable(
     recommendations: text("recommendations").notNull().default(""),
     // FAQs — one "Question | Answer" per array item.
     faqs: text("faqs").array().notNull().default([]),
+    // "Our favourite … destinations" band. Empty ids collapse the whole
+    // section, which is what gives the lighter categories their shorter page.
+    destinationIds: integer("destination_ids").array().notNull().default([]),
+    destinationsHeading: text("destinations_heading").notNull().default(""),
+    destinationsIntro: text("destinations_intro").notNull().default(""),
     // Key of the "who" filter option whose tagged trips fill the carousel.
     whoOptionKey: text("who_option_key").notNull().default(""),
     // Macedonian copy (nullable — falls back to English).
@@ -113,6 +122,8 @@ export const experienceCategories = pgTable(
     conceptMk: text("concept_mk"),
     recommendationsMk: text("recommendations_mk"),
     faqsMk: text("faqs_mk").array(),
+    destinationsHeadingMk: text("destinations_heading_mk"),
+    destinationsIntroMk: text("destinations_intro_mk"),
     published: boolean("published").notNull().default(true),
     sortOrder: integer("sort_order").notNull().default(0),
     createdAt: timestamp("created_at").notNull().defaultNow(),

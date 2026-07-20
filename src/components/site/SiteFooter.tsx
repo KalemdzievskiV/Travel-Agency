@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { ArrowRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Logo } from "./Logo";
 import { Link } from "@/i18n/navigation";
@@ -53,6 +52,17 @@ const linkStyle: React.CSSProperties = {
   color: "rgba(244,239,231,0.85)",
   textDecoration: "none",
 };
+// White field on the dark band — square, per the reference.
+const fieldStyle: React.CSSProperties = {
+  minWidth: 0,
+  background: "var(--wf-paper)",
+  border: "1px solid var(--wf-paper)",
+  outline: "none",
+  color: "var(--wf-ink-900)",
+  fontSize: 14,
+  fontFamily: "var(--wf-font-sans)",
+  padding: "14px 16px",
+};
 
 export function SiteFooter() {
   const t = useTranslations();
@@ -60,8 +70,72 @@ export function SiteFooter() {
   const [subscribed, setSubscribed] = React.useState(false);
 
   return (
-    <footer style={{ background: "var(--wf-ink-900)", color: "var(--wf-text-on-dark)", padding: "clamp(56px, 8vw, 72px) 0 36px" }}>
-      <div className="wf-wrap wf-wrap--wide">
+    <footer style={{ background: "var(--wf-ink-900)", color: "var(--wf-text-on-dark)", paddingBottom: 36 }}>
+      {/* Newsletter — a full-bleed band above everything else in the footer. */}
+      <div className="wf-newsletter">
+        <div className="wf-wrap wf-wrap--wide wf-newsletter__row">
+          <div className="wf-newsletter__label" style={{ ...colTitle, marginBottom: 0, whiteSpace: "nowrap" }}>
+            {t("footer.newsletter.heading")}
+          </div>
+          {subscribed ? (
+            <p style={{ fontSize: 14, color: "rgba(244,239,231,0.85)", margin: 0, gridColumn: "2 / -1" }}>
+              {t("footer.newsletter.done")}
+            </p>
+          ) : (
+            <>
+              <input
+                form="wf-newsletter-form"
+                type="text"
+                name="name"
+                required
+                placeholder={t("footer.newsletter.namePlaceholder")}
+                aria-label={t("footer.newsletter.namePlaceholder")}
+                style={fieldStyle}
+              />
+              <input
+                form="wf-newsletter-form"
+                type="email"
+                name="email"
+                required
+                placeholder={t("footer.newsletter.placeholder")}
+                aria-label={t("footer.newsletter.placeholder")}
+                style={fieldStyle}
+              />
+              <button
+                form="wf-newsletter-form"
+                type="submit"
+                style={{
+                  background: "transparent",
+                  border: "1px solid rgba(255,255,255,0.6)",
+                  color: "var(--wf-text-on-dark)",
+                  cursor: "pointer",
+                  fontFamily: "var(--wf-font-sans)",
+                  fontSize: 12,
+                  fontWeight: 600,
+                  letterSpacing: "0.16em",
+                  textTransform: "uppercase",
+                  padding: "15px clamp(20px, 2.4vw, 32px)",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {t("footer.newsletter.cta")}
+              </button>
+              {/* The form owns submission; the controls above associate by id so
+                  they can sit as direct grid children rather than being boxed. */}
+              <form
+                id="wf-newsletter-form"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  setSubscribed(true);
+                }}
+                hidden
+              />
+            </>
+          )}
+        </div>
+      </div>
+
+      <div className="wf-wrap wf-wrap--wide" style={{ paddingTop: "clamp(56px, 8vw, 72px)" }}>
         <div className="wf-footer-grid" style={{ paddingBottom: 48, borderBottom: "1px solid rgba(255,255,255,0.14)" }}>
           {/* Bookit — brand, primary links, newsletter */}
           <div>
@@ -74,39 +148,6 @@ export function SiteFooter() {
               ))}
             </ul>
 
-            <div style={{ marginTop: 30, maxWidth: 320 }}>
-              <div style={colTitle}>{t("footer.newsletter.heading")}</div>
-              {subscribed ? (
-                <p style={{ fontSize: 14, color: "rgba(244,239,231,0.85)", margin: 0 }}>{t("footer.newsletter.done")}</p>
-              ) : (
-                <form
-                  onSubmit={(e) => { e.preventDefault(); setSubscribed(true); }}
-                  style={{ display: "grid", gap: 12 }}
-                >
-                  <input
-                    type="text"
-                    name="name"
-                    required
-                    placeholder={t("footer.newsletter.namePlaceholder")}
-                    aria-label={t("footer.newsletter.namePlaceholder")}
-                    style={{ minWidth: 0, background: "transparent", border: "none", borderBottom: "1px solid rgba(255,255,255,0.3)", outline: "none", color: "#fff", fontSize: 14, fontFamily: "var(--wf-font-sans)", paddingBottom: 8 }}
-                  />
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, borderBottom: "1px solid rgba(255,255,255,0.3)", paddingBottom: 8 }}>
-                    <input
-                      type="email"
-                      name="email"
-                      required
-                      placeholder={t("footer.newsletter.placeholder")}
-                      aria-label={t("footer.newsletter.placeholder")}
-                      style={{ flex: 1, minWidth: 0, background: "transparent", border: "none", outline: "none", color: "#fff", fontSize: 14, fontFamily: "var(--wf-font-sans)" }}
-                    />
-                    <button type="submit" aria-label={t("footer.newsletter.cta")} style={{ background: "none", border: "none", cursor: "pointer", color: "#fff", display: "grid", placeItems: "center", padding: 2 }}>
-                      <ArrowRight size={18} aria-hidden />
-                    </button>
-                  </div>
-                </form>
-              )}
-            </div>
           </div>
 
           {/* Legal */}

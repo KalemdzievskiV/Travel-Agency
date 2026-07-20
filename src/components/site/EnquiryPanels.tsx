@@ -424,7 +424,6 @@ export function EnquiryPanels({
             <Button type="submit" variant="primary" size="lg">
               {t("send")}
             </Button>
-            <p style={{ fontSize: 12.5, color: "var(--wf-ink-500)", margin: "12px 0 0" }}>{t("finePrint")}</p>
           </div>
         </form>
 

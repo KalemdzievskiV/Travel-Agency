@@ -124,7 +124,7 @@ function WhyPinned({ eyebrow, title, intro, topics }: { eyebrow: string; title: 
           <div style={{ maxWidth: 460 }}>
             <Eyebrow>{eyebrow}</Eyebrow>
             <h1 style={headingStyle}>{title}</h1>
-            <p style={{ fontSize: 17, lineHeight: 1.65, color: "var(--wf-ink-500)", margin: "18px 0 0" }}>
+            <p style={{ fontSize: 17, lineHeight: 1.65, color: "var(--wf-ink-500)", margin: "18px 0 0", whiteSpace: "pre-line" }}>
               {intro}
             </p>
 
@@ -232,7 +232,7 @@ function WhyPinned({ eyebrow, title, intro, topics }: { eyebrow: string; title: 
               >
                 {topic.title}
               </h2>
-              <p style={{ fontSize: 18, lineHeight: 1.7, margin: "16px 0 0", opacity: 0.92 }}>
+              <p style={{ fontSize: 18, lineHeight: 1.7, margin: "16px 0 0", opacity: 0.92, whiteSpace: "pre-line" }}>
                 {topic.body}
               </p>
             </motion.div>
@@ -251,7 +251,7 @@ function WhyStack({ eyebrow, title, intro, topics }: { eyebrow: string; title: s
         <div style={{ maxWidth: 460 }}>
           <Eyebrow>{eyebrow}</Eyebrow>
           <h1 style={headingStyle}>{title}</h1>
-          <p style={{ fontSize: 17, lineHeight: 1.65, color: "var(--wf-ink-500)", margin: "18px 0 0" }}>
+          <p style={{ fontSize: 17, lineHeight: 1.65, color: "var(--wf-ink-500)", margin: "18px 0 0", whiteSpace: "pre-line" }}>
             {intro}
           </p>
         </div>
@@ -282,7 +282,7 @@ function WhyStack({ eyebrow, title, intro, topics }: { eyebrow: string; title: s
                 >
                   {t.title}
                 </h2>
-                <p style={{ fontSize: 17, lineHeight: 1.7, margin: "12px 0 0", opacity: 0.92 }}>
+                <p style={{ fontSize: 17, lineHeight: 1.7, margin: "12px 0 0", opacity: 0.92, whiteSpace: "pre-line" }}>
                   {t.body}
                 </p>
               </article>

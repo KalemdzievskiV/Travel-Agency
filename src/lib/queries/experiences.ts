@@ -10,10 +10,11 @@ import {
   filterOptions,
   filterGroups,
 } from "@/db/schema";
-import { toTrip } from "./public";
+import { toTrip, getDestinationsByIds } from "./public";
 import type {
   ExperienceCategory,
   ExperienceCategoryDetail,
+  ExperienceKind,
   Faq,
   RemarkableExperience,
 } from "@/content/types";
@@ -41,6 +42,7 @@ function toCategory(r: CategoryRow, mk: boolean): ExperienceCategory {
   const pick = (en: string, mkVal: string | null | undefined) => (mk && mkVal ? mkVal : en);
   return {
     slug: r.slug,
+    kind: r.kind === "remarkable" ? "remarkable" : "who",
     title: pick(r.title, r.titleMk),
     subtitle: pick(r.subtitle, r.subtitleMk),
     heroText: pick(r.heroText, r.heroTextMk),
@@ -49,16 +51,23 @@ function toCategory(r: CategoryRow, mk: boolean): ExperienceCategory {
   };
 }
 
-/** Published categories, in order — for the hub grid and the nav. Degrades to an
- * empty list if the table isn't present yet: the header mega-menu renders on
- * every page, so a missing table must not take the whole site down. */
-export async function getExperienceCategories(): Promise<ExperienceCategory[]> {
+/** Published categories, in order — for the hub grid and the nav. Pass a `kind`
+ * to get just one mega-menu group. Degrades to an empty list if the table isn't
+ * present yet: the header mega-menu renders on every page, so a missing table
+ * must not take the whole site down. */
+export async function getExperienceCategories(
+  kind?: ExperienceKind,
+): Promise<ExperienceCategory[]> {
   try {
     const mk = await localeIsMk();
     const rows = await db
       .select()
       .from(categoriesTable)
-      .where(eq(categoriesTable.published, true))
+      .where(
+        kind
+          ? and(eq(categoriesTable.published, true), eq(categoriesTable.kind, kind))
+          : eq(categoriesTable.published, true),
+      )
       .orderBy(asc(categoriesTable.sortOrder), asc(categoriesTable.id));
     return rows.map((r) => toCategory(r, mk));
   } catch {
@@ -105,7 +114,10 @@ export async function getExperienceCategoryBySlug(
   const mk = await localeIsMk();
   const pick = (en: string, mkVal: string | null | undefined) => (mk && mkVal ? mkVal : en);
   const faqSource = mk && row.faqsMk && row.faqsMk.length ? row.faqsMk : row.faqs;
-  const trips = await tripsForWho(row.whoOptionKey || row.slug);
+  const [trips, destinations] = await Promise.all([
+    tripsForWho(row.whoOptionKey || row.slug),
+    getDestinationsByIds(row.destinationIds),
+  ]);
 
   return {
     ...toCategory(row, mk),
@@ -113,6 +125,9 @@ export async function getExperienceCategoryBySlug(
     recommendations: pick(row.recommendations, row.recommendationsMk),
     faqs: parseFaqs(faqSource),
     trips,
+    destinationsHeading: pick(row.destinationsHeading, row.destinationsHeadingMk),
+    destinationsIntro: pick(row.destinationsIntro, row.destinationsIntroMk),
+    destinations,
   };
 }
 

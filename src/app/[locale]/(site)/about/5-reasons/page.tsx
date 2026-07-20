@@ -18,11 +18,11 @@ export default async function FiveReasonsPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("about");
-  const { reasons } = getAbout(locale);
+  const { reasons, reasonsIntro } = getAbout(locale);
 
   return (
     <>
-      <ReasonsScroller reasons={reasons} />
+      <ReasonsScroller reasons={reasons} intro={reasonsIntro} />
 
       <section style={{ background: "var(--wf-ink-900)", color: "var(--wf-text-on-dark)", padding: "clamp(64px, 9vw, 96px) 0" }}>
         <div className="wf-wrap wf-wrap--default" style={{ textAlign: "center" }}>

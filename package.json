@@ -17,10 +17,11 @@
     "db:studio": "drizzle-kit studio",
     "db:seed": "tsx scripts/seed.ts",
     "db:backfill-coords": "tsx scripts/backfill-coords.ts",
-    "db:seed-experiences": "tsx scripts/seed-experiences.ts",
+    "db:seed-experiences": "tsx --env-file=.env.local scripts/seed-experiences.ts",
     "db:seed-demo-trips": "tsx scripts/seed-demo-trips.ts",
     "db:seed-hotels": "tsx --env-file=.env.local scripts/seed-hotels.ts",
     "db:seed-remarkable": "tsx scripts/seed-remarkable.ts",
+    "db:seed-remarkable-categories": "tsx --env-file=.env.local scripts/seed-remarkable-categories.ts",
     "db:create-admin": "tsx scripts/create-admin.ts"
   },
   "dependencies": {

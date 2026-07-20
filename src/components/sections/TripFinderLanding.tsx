@@ -60,7 +60,9 @@ export function TripFinderLanding() {
         style={{
           position: "absolute",
           inset: 0,
-          background: "url(/images/hero.jpg) center/cover no-repeat, linear-gradient(135deg,#0e2a33,#0a1a20)",
+          // Its own backdrop rather than the home hero's, so the two pages don't
+          // open on the same photograph.
+          background: "url(/images/pelister-prespa.jpg) center/cover no-repeat, linear-gradient(135deg,#0e2a33,#0a1a20)",
         }}
       />
       <div

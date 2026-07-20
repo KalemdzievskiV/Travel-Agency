@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { PageHeader } from "@/components/admin/ui";
-import { getExperienceCategory } from "@/lib/queries/admin";
+import { getExperienceCategory, listDestinations } from "@/lib/queries/admin";
 import { ExperienceCategoryForm } from "../ExperienceCategoryForm";
 
 export default async function EditExperienceCategoryPage({
@@ -9,7 +9,10 @@ export default async function EditExperienceCategoryPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const category = await getExperienceCategory(Number(id));
+  const [category, destinations] = await Promise.all([
+    getExperienceCategory(Number(id)),
+    listDestinations(),
+  ]);
   if (!category) notFound();
 
   return (
@@ -18,7 +21,7 @@ export default async function EditExperienceCategoryPage({
         title={category.title}
         back={{ href: "/admin/experience-categories", label: "Experience categories" }}
       />
-      <ExperienceCategoryForm category={category} />
+      <ExperienceCategoryForm category={category} destinations={destinations} />
     </>
   );
 }

@@ -60,6 +60,7 @@ export function AboutHero({
               color: "rgba(244,239,231,0.86)",
               maxWidth: 620,
               margin: "20px 0 0",
+              whiteSpace: "pre-line",
             }}
           >
             {intro}

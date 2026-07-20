@@ -14,7 +14,10 @@ export default async function AdminExperienceCategoriesPage() {
       rows={rows.map((c) => ({
         id: c.id,
         primary: c.title,
-        secondary: c.subtitle,
+        // Lead with the menu group, so the two sets are tellable apart at a glance.
+        secondary: [c.kind === "remarkable" ? "Remarkable" : "Who", c.subtitle]
+          .filter(Boolean)
+          .join(" · "),
         published: c.published,
         editHref: `/admin/experience-categories/${c.id}`,
       }))}

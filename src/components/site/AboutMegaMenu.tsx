@@ -2,25 +2,28 @@
 
 import React from "react";
 import { ChevronRight, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Icon } from "@/components/ui";
 import { Link, usePathname } from "@/i18n/navigation";
-import type { RegionNavItem } from "@/lib/queries/regions";
+import { aboutMenu } from "@/content/site";
 
 /**
- * DestinationsMegaMenu — header mega-menu (modelled on the reference): opens on
- * click, with a region list on the left; hovering a region shows its countries
- * in columns and a feature image on the right. Closes on outside click, Escape,
- * route change, or the ✕. Falls back to a plain link if there are no regions.
+ * AboutMegaMenu — the За нас menu as a stacked left rail (the client asked for
+ * the reference's layout: group headings one under another, the active group's
+ * pages listed beside them, rather than the columns-side-by-side panel it used
+ * to be).
+ *
+ * Shares the panel/close/rail chrome with Destinations and Experiences
+ * (`wf-destmenu__*`); only the right-hand content differs. Groups with no pages
+ * of their own (Who we are) act as plain links in the rail.
  */
-export function DestinationsMegaMenu({
-  regions,
+export function AboutMegaMenu({
   label,
   triggerStyle,
   triggerClassName,
   iconColor,
   onOpenChange,
 }: {
-  regions: RegionNavItem[];
   label: string;
   triggerStyle: React.CSSProperties;
   triggerClassName?: string;
@@ -45,11 +48,10 @@ export function DestinationsMegaMenu({
   const [active, setActive] = React.useState(0);
   const ref = React.useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const t = useTranslations();
 
-  // Close on route change.
   React.useEffect(() => change(false), [pathname, change]);
 
-  // Close on outside click + Escape while open.
   React.useEffect(() => {
     if (!open) return;
     const onDown = (e: MouseEvent) => {
@@ -64,15 +66,9 @@ export function DestinationsMegaMenu({
     };
   }, [open]);
 
-  const region = regions[active];
-
-  if (regions.length === 0) {
-    return (
-      <Link href="/destinations" style={triggerStyle}>
-        {label}
-      </Link>
-    );
-  }
+  // Only groups that actually have pages can own the right-hand column.
+  const withItems = aboutMenu.filter((g) => g.items.length > 0);
+  const group = withItems[Math.min(active, withItems.length - 1)];
 
   return (
     <div className="wf-destmenu" ref={ref}>
@@ -102,59 +98,45 @@ export function DestinationsMegaMenu({
             type="button"
             className="wf-destmenu__close"
             onClick={() => change(false)}
-            aria-label="Close"
+            aria-label={t("common.closeMenu")}
           >
             <X size={22} aria-hidden />
           </button>
-          <div className="wf-wrap wf-wrap--wide wf-destmenu__grid">
-            {/* Regions */}
+          <div className="wf-wrap wf-wrap--wide wf-aboutmenu__grid">
+            {/* Groups, stacked */}
             <div>
               <ul className="wf-destmenu__regions">
-                {regions.map((r, i) => {
-                  const on = i === active;
+                {aboutMenu.map((g) => {
+                  const i = withItems.indexOf(g);
+                  const on = i >= 0 && i === active;
                   return (
-                    <li key={r.id} onMouseEnter={() => setActive(i)}>
+                    <li
+                      key={g.key}
+                      onMouseEnter={() => i >= 0 && setActive(i)}
+                    >
                       <Link
-                        href={`/destinations/${r.slug}`}
-                        className="wf-destmenu__region"
+                        href={g.href}
+                        className={`wf-destmenu__region${i < 0 ? " wf-expmenu__link-only" : ""}`}
                         aria-current={on ? "true" : undefined}
-                        style={{ color: on ? "var(--wf-coral-500)" : "var(--wf-ink-900)" }}
+                        style={i >= 0 ? { color: on ? "var(--wf-coral-500)" : "var(--wf-ink-900)" } : undefined}
                       >
-                        <span>{r.label}</span>
+                        <span>{t(`aboutMenu.groups.${g.key}`)}</span>
                         <ChevronRight size={16} aria-hidden style={{ opacity: on ? 1 : 0.4 }} />
                       </Link>
                     </li>
                   );
                 })}
               </ul>
-              <Link href="/destinations" className="wf-destmenu__all">
-                All destinations
-              </Link>
             </div>
 
-            {/* Countries in the active region */}
-            <div className="wf-destmenu__countries">
-              <div className="wf-destmenu__cols">
-                {region.destinations.map((d) => (
-                  <Link key={d.slug} href={`/destinations/${d.slug}`} className="wf-destmenu__country">
-                    {d.title}
-                  </Link>
-                ))}
-              </div>
-              <Link href={`/destinations/${region.slug}`} className="wf-destmenu__browse">
-                Browse all {region.label}
-              </Link>
+            {/* Pages in the active group */}
+            <div>
+              {group?.items.map((item) => (
+                <Link key={item.key} href={item.href} className="wf-destmenu__country">
+                  {t(`aboutMenu.items.${item.key}`)}
+                </Link>
+              ))}
             </div>
-
-            {/* Feature image */}
-            <div
-              className="wf-destmenu__image"
-              style={{
-                background: region.grad ?? "var(--wf-ink-800)",
-                backgroundImage: region.image ? `url(${region.image})` : undefined,
-              }}
-              aria-hidden
-            />
           </div>
         </div>
       )}
