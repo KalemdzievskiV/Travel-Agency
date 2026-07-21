@@ -24,7 +24,13 @@ export default async function HomePage({
       <section
         id="about"
         style={{
-          background: "var(--wf-cream)",
+          // Longhands only: the white base stays underneath the line-art
+          // backdrop, which is itself an opaque white PNG.
+          backgroundColor: "var(--wf-cream)",
+          backgroundImage: "url(/images/Landing2.png)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
           padding: "clamp(64px, 9vw, 104px) 0",
           scrollMarginTop: "var(--wf-header-h)",
         }}

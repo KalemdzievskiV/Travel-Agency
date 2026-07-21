@@ -10,5 +10,12 @@ export async function ExploreTrips({ trips }: { trips: Trip[] }) {
   if (trips.length === 0) return null;
   const t = await getTranslations("explore");
 
-  return <TripsCarousel trips={trips} title={t("title")} description={t("subtitle")} />;
+  return (
+    <TripsCarousel
+      trips={trips}
+      title={t("title")}
+      description={t("subtitle")}
+      backgroundImage="/images/Landing1.png"
+    />
+  );
 }

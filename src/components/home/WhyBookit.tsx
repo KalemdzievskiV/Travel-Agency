@@ -21,7 +21,16 @@ export async function WhyBookit() {
   const t = await getTranslations();
   return (
     <>
-      <section style={{ background: "var(--wf-cream)", padding: "clamp(64px, 9vw, 104px) 0" }}>
+      <section
+        style={{
+          backgroundColor: "var(--wf-cream)",
+          backgroundImage: "url(/images/Landing4.png)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          padding: "clamp(64px, 9vw, 104px) 0",
+        }}
+      >
         <div className="wf-wrap wf-wrap--wide">
           <h2
             style={{
@@ -70,11 +79,14 @@ export async function WhyBookit() {
         </div>
       </section>
 
-      {/* Full-bleed CTA band — photographic background under a dark scrim. */}
+      {/* Full-bleed CTA band. The terracotta backdrop already clears AA against
+          white text on its own (5.65:1), so it carries only a light scrim to
+          hold the lighter parts of the texture — heavier would mute the colour
+          to brown, which was the reason the previous photo needed one. */}
       <section
         style={{
           backgroundImage:
-            "linear-gradient(180deg, rgba(34,34,34,0.62), rgba(34,34,34,0.72)), url(/images/amalfi-coast.jpg)",
+            "linear-gradient(180deg, rgba(20,18,16,0.18), rgba(20,18,16,0.26)), url(/images/Landing5.png)",
           backgroundSize: "cover",
           backgroundPosition: "center",
           color: "#fff",

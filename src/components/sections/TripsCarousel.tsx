@@ -19,11 +19,15 @@ export function TripsCarousel({
   eyebrow,
   title,
   description,
+  backgroundImage,
 }: {
   trips: Trip[];
   eyebrow?: string;
   title: string;
   description?: string;
+  /** Optional backdrop behind the band. Opt-in, so the reuses on destination
+   *  and experience pages keep the plain ink field. */
+  backgroundImage?: string;
 }) {
   const t = useTranslations("explore");
   const rowRef = React.useRef<HTMLDivElement>(null);
@@ -67,7 +71,20 @@ export function TripsCarousel({
   if (trips.length === 0) return null;
 
   return (
-    <section style={{ background: "var(--wf-ink-900)", color: "var(--wf-text-on-dark)", padding: "clamp(64px, 9vw, 104px) 0", overflowX: "clip" }}>
+    <section
+      style={{
+        // Longhands only — the ink field stays as the base colour so the band
+        // still reads correctly if the backdrop is absent or fails to load.
+        backgroundColor: "var(--wf-ink-900)",
+        backgroundImage: backgroundImage ? `url(${backgroundImage})` : undefined,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        color: "var(--wf-text-on-dark)",
+        padding: "clamp(64px, 9vw, 104px) 0",
+        overflowX: "clip",
+      }}
+    >
       <div className="wf-wrap wf-wrap--wide">
         <div className="wf-explore">
           <div className="wf-explore__intro">
