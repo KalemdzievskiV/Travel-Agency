@@ -58,9 +58,17 @@ function ReasonsPinned({ reasons, intro }: { reasons: Reason[]; intro: ReasonsIn
     offset: ["start start", "end end"],
   });
 
+  // Photos wipe in the first time they are shown, then simply cross-fade — so
+  // scrubbing back up through the sequence doesn't replay the reveal. Recorded
+  // here rather than in an effect: this handler already runs on every scroll
+  // tick, and the identity-preserving update means no extra renders.
+  const [revealed, setRevealed] = React.useState<number[]>([]);
+
   useMotionValueEvent(scrollYProgress, "change", (p) => {
     const i = Math.min(n - 1, Math.max(0, Math.floor(p * n)));
     setActive((prev) => (prev === i ? prev : i));
+    const ri = i - 1;
+    if (ri >= 0) setRevealed((prev) => (prev.includes(ri) ? prev : [...prev, ri]));
   });
 
   const reasonIndex = active - 1;
@@ -96,26 +104,43 @@ function ReasonsPinned({ reasons, intro }: { reasons: Reason[]; intro: ReasonsIn
         }}
       >
         {/* Photos — each pinned to its own half, only the active one opaque. */}
-        {reasons.map((r, i) => (
-          <motion.div
-            key={r.no}
-            aria-hidden={i !== reasonIndex}
-            initial={false}
-            animate={{ opacity: i === reasonIndex ? 1 : 0, scale: i === reasonIndex ? 1 : 1.06 }}
-            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            style={{
-              position: "absolute",
-              top: 0,
-              bottom: 0,
-              width: "50%",
-              left: imageSideFor(i) === "left" ? 0 : "50%",
-              background: r.grad,
-              backgroundImage: `linear-gradient(to right, rgba(22,19,15,0) 60%, rgba(22,19,15,0.25)), url(${r.image})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          />
-        ))}
+        {reasons.map((r, i) => {
+          const on = i === reasonIndex;
+          // Left-half photos wipe down from the top, right-half ones up from the
+          // bottom. A clip-path wipe rather than a translate: the photo fills its
+          // half exactly, so shifting it would expose the panel behind it.
+          const closed =
+            imageSideFor(i) === "left" ? "inset(0% 0% 100% 0%)" : "inset(100% 0% 0% 0%)";
+          // Once a photo has been shown its clip stays open, so leaving the slide
+          // just fades it out instead of wiping it shut.
+          const clipPath = on || revealed.includes(i) ? "inset(0% 0% 0% 0%)" : closed;
+          return (
+            <motion.div
+              key={r.no}
+              aria-hidden={!on}
+              initial={{ opacity: 0, scale: 1.06, clipPath: closed }}
+              animate={{ opacity: on ? 1 : 0, scale: on ? 1 : 1.06, clipPath }}
+              transition={{
+                duration: 0.9,
+                ease: [0.22, 1, 0.36, 1],
+                clipPath: { duration: 1.1, ease: [0.22, 1, 0.36, 1] },
+              }}
+              style={{
+                position: "absolute",
+                top: 0,
+                bottom: 0,
+                width: "50%",
+                left: imageSideFor(i) === "left" ? 0 : "50%",
+                // Longhand only — a `background` shorthand here would reset
+                // background-image when React reapplies styles on re-render.
+                // The gradient sits underneath as the fallback if the photo 404s.
+                backgroundImage: `linear-gradient(to right, rgba(22,19,15,0) 60%, rgba(22,19,15,0.25)), url(${r.image})${r.grad ? `, ${r.grad}` : ""}`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            />
+          );
+        })}
 
         {/* Title panel — full width, holds the stage until the first reason. */}
         <AnimatePresence>
