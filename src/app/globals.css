@@ -13,7 +13,14 @@
    (loaded in app/layout.tsx). The literal family names remain as fallbacks. */
 :root {
   --wf-font-display: var(--font-display), "Oswald", "Arial Narrow", sans-serif;
-  --wf-font-sans: var(--font-sans), "Brandon Grotesque", "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --wf-font-sans: var(--font-sans), "Nunito Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Nunito Sans variable axes, per the client's type spec. `wght` is set through
+     the normal font-weight property so it still cascades; only the axes with no
+     CSS equivalent live here. Note font-variation-settings does NOT merge — any
+     rule that re-declares it must repeat the whole list, which is why this pair
+     is kept in one token. */
+  --wf-axes: "wdth" 75, "YTLC" 540;
 }
 
 /* ── Tailwind v4 theme bridge ────────────────────────────────────────────
@@ -92,8 +99,18 @@ body {
   background: var(--wf-bg);
   color: var(--wf-text);
   font-family: var(--wf-font-sans);
-  font-size: var(--wf-body-size);
+  /* Body copy, per spec: 18px / wdth 75 / wght 400 / YTLC 540. Inherited, so
+     every text node picks it up unless it opts out. */
+  font-size: 18px;
+  font-weight: 400;
+  font-variation-settings: var(--wf-axes);
   line-height: var(--wf-body-leading);
+}
+
+/* Headings keep the display face, so they must not inherit the body's axes —
+   Oswald has none of them and the declaration would be dead weight. */
+h1, h2, h3, h4, h5, h6 {
+  font-variation-settings: normal;
 }
 
 ::selection {
@@ -113,6 +130,35 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: var(--wf-eyebrow-tracking);
+}
+
+/* ── Nunito Sans type styles (client spec) ─────────────────────────────
+   Three named styles, all sharing wdth 75 / YTLC 540 and differing only in
+   weight and size. Applied as classes so the axes stay in one place — a rule
+   that re-declares font-variation-settings replaces the whole list, so these
+   must always carry --wf-axes rather than adding to it. */
+
+/* "Континенти" — the heavier label. */
+.wf-nun-label {
+  font-family: var(--wf-font-sans);
+  font-weight: 817;
+  font-variation-settings: var(--wf-axes);
+}
+
+/* "Земји" — subheadings. Same axes, regular weight. */
+.wf-nun-subhead {
+  font-family: var(--wf-font-sans);
+  font-weight: 400;
+  font-variation-settings: var(--wf-axes);
+}
+
+/* Body copy we write — 18px, regular. Matches the <body> default; use the class
+   where an element would otherwise inherit something else. */
+.wf-nun-body {
+  font-family: var(--wf-font-sans);
+  font-size: 18px;
+  font-weight: 400;
+  font-variation-settings: var(--wf-axes);
 }
 
 @media (prefers-reduced-motion: reduce) {

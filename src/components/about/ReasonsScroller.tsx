@@ -178,11 +178,11 @@ function ReasonsPinned({ reasons, intro }: { reasons: Reason[]; intro: ReasonsIn
                 <Eyebrow tone="light">{intro.eyebrow}</Eyebrow>
                 <p
                   style={{
-                    fontFamily: "var(--wf-font-display)",
+                    fontFamily: "var(--wf-font-sans)",
                     fontWeight: 500,
                     fontSize: "clamp(24px, 2.8vw, 38px)",
                     lineHeight: 1.12,
-                    letterSpacing: "-0.02em",
+                    letterSpacing: "-0.01em",
                     margin: "16px 0 0",
                   }}
                 >
@@ -335,11 +335,11 @@ function ReasonsStack({ reasons, intro }: { reasons: Reason[]; intro: ReasonsInt
             <Eyebrow tone="light">{intro.eyebrow}</Eyebrow>
             <p
               style={{
-                fontFamily: "var(--wf-font-display)",
+                fontFamily: "var(--wf-font-sans)",
                 fontWeight: 500,
                 fontSize: "clamp(22px, 5.5vw, 30px)",
                 lineHeight: 1.15,
-                letterSpacing: "-0.02em",
+                letterSpacing: "-0.01em",
                 margin: "12px 0 0",
               }}
             >

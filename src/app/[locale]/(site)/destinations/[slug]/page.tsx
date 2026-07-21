@@ -161,10 +161,10 @@ export default async function DestinationPage(
           <Eyebrow>{td("thePlace")}</Eyebrow>
           <p
             style={{
-              fontFamily: "var(--wf-font-display)",
+              fontFamily: "var(--wf-font-sans)",
               fontWeight: 500,
               lineHeight: 1.3,
-              letterSpacing: "-0.01em",
+              letterSpacing: "-0.005em",
               color: "var(--wf-ink-900)",
               margin: "16px 0 0",
               fontSize: "clamp(24px, 3.8vw, 32px)",

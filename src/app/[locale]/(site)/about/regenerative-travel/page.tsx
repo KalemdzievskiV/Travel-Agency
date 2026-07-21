@@ -38,11 +38,11 @@ export default async function RegenerativeTravelPage({
             <div>
               <p
                 style={{
-                  fontFamily: "var(--wf-font-display)",
+                  fontFamily: "var(--wf-font-sans)",
                   fontWeight: 500,
                   fontSize: "clamp(24px, 3.4vw, 34px)",
                   lineHeight: 1.2,
-                  letterSpacing: "-0.01em",
+                  letterSpacing: "-0.005em",
                   color: "var(--wf-ink-900)",
                   margin: 0,
                 }}

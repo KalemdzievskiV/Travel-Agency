@@ -33,11 +33,11 @@ export default async function WhyNotDiyPage({
         <div className="wf-wrap wf-wrap--default" style={{ textAlign: "center" }}>
           <p
             style={{
-              fontFamily: "var(--wf-font-display)",
+              fontFamily: "var(--wf-font-sans)",
               fontWeight: 500,
               fontSize: "clamp(24px, 3.6vw, 36px)",
               lineHeight: 1.2,
-              letterSpacing: "-0.01em",
+              letterSpacing: "-0.005em",
               maxWidth: 640,
               margin: "0 auto",
             }}

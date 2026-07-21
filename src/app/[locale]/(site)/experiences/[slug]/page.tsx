@@ -123,7 +123,7 @@ export default async function ExperienceCategoryPage({
         <div className="wf-wrap" style={{ maxWidth: 760, marginInline: "auto", textAlign: "center" }}>
           <Eyebrow>{t("concept")}</Eyebrow>
           {c.heroText && (
-            <p style={{ fontFamily: "var(--wf-font-display)", fontWeight: 500, lineHeight: 1.3, letterSpacing: "-0.01em", color: "var(--wf-ink-900)", margin: "16px 0 0", fontSize: "clamp(22px, 3.4vw, 30px)" }}>
+            <p style={{ fontFamily: "var(--wf-font-sans)", fontWeight: 500, lineHeight: 1.3, letterSpacing: "-0.005em", color: "var(--wf-ink-900)", margin: "16px 0 0", fontSize: "clamp(22px, 3.4vw, 30px)" }}>
               {c.heroText}
             </p>
           )}

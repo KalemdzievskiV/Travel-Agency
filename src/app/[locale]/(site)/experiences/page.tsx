@@ -127,11 +127,11 @@ export default async function ExperiencesPage({
           <div style={{ maxWidth: 720, marginInline: "auto", textAlign: "center" }}>
             <p
               style={{
-                fontFamily: "var(--wf-font-display)",
+                fontFamily: "var(--wf-font-sans)",
                 fontWeight: 500,
                 fontSize: "clamp(22px, 2.8vw, 32px)",
                 lineHeight: 1.2,
-                letterSpacing: "-0.01em",
+                letterSpacing: "-0.005em",
                 color: "var(--wf-ink-900)",
                 margin: 0,
               }}
