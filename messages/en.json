@@ -158,8 +158,18 @@
     "Challenged": "Challenged"
   },
   "months": {
-    "Jan": "January", "Feb": "February", "Mar": "March", "Apr": "April", "May": "May", "Jun": "June",
-    "Jul": "July", "Aug": "August", "Sep": "September", "Oct": "October", "Nov": "November", "Dec": "December"
+    "Jan": "January",
+    "Feb": "February",
+    "Mar": "March",
+    "Apr": "April",
+    "May": "May",
+    "Jun": "June",
+    "Jul": "July",
+    "Aug": "August",
+    "Sep": "September",
+    "Oct": "October",
+    "Nov": "November",
+    "Dec": "December"
   },
   "regionPage": {
     "home": "Home",
@@ -202,23 +212,20 @@
   "experiencesPage": {
     "favouriteDestinations": "Our favourite destinations",
     "eyebrow": "Experiences",
-    "title": "Who's travelling?",
-    "intro": "Every journey is shaped around the people on it. Choose who you're travelling with — we design the rest around how you want to feel.",
     "home": "Home",
     "concept": "Concept",
     "recommendations": "Our recommendations",
     "faqs": "FAQs",
     "tripsHeading": "Trips we love",
     "tripsIntro": "A few journeys to spark ideas — each tailored, altered and refined until it's yours.",
-    "empty": "Experiences are on the way.",
-    "whoHeading": "Who's travelling",
-    "finderEyebrow": "Trip finder",
-    "finderHeading": "Not sure where to begin? Start with a feeling.",
-    "finderBody": "Tell us how you want to feel and when — we'll point you to the journeys that fit.",
-    "finderCta": "Open the trip finder",
-    "remarkableEyebrow": "Remarkable experiences",
-    "remarkableHeading": "Out of the ordinary",
-    "remarkableIntro": "Singular moments we can weave into your journey — rare, quiet and unforgettable."
+    "heroTitle": "Find your perfect experience",
+    "heroSub": "Tell us about your perfect journey. Everything else is ours to take care of.",
+    "heroCta": "Describe your journey",
+    "introLead": "A journey is more than a destination.",
+    "introBody": "Whether you're planning a family safari, a romantic honeymoon or a solo adventure, our team builds a wholly personalised programme around what you're after — to satisfy your urge to explore. To follow your passions. To push your own limits.",
+    "introClose": "We are experts in the art of travel and we know every corner of the world, which makes us the right partner for the journey you've been dreaming of.",
+    "whoQuestion": "Not where, but who's travelling?",
+    "howQuestion": "Not where, but how?"
   },
   "experiencesMenu": {
     "who": "Who's travelling",

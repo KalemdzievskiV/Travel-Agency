@@ -12,6 +12,11 @@ export const site = {
     "Tailor-made luxury travel from North Macedonia, designed entirely around how you want to feel. No templates. No planning fees.",
 };
 
+// Masthead photo for the Experiences hub. Page-level rather than per-category,
+// so it lives here rather than in the categories table — swap the path to
+// change it.
+export const experiencesHeroImage = "/images/exp-feeling.jpg";
+
 export const nav: { label: string; href: string }[] = [
   { label: "Destinations", href: "/destinations" },
   { label: "Experiences", href: "/experiences" },

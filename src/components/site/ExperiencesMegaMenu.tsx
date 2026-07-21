@@ -94,17 +94,19 @@ export function ExperiencesMegaMenu({
       grad: c.grad,
     }));
 
+  // Both rail groups land on the one shared hub (/experiences), anchored to
+  // their own band — the client asked for a single page rather than two.
   const groups: { key: string; label: string; href: string; cards: Card[] }[] = [
     {
       key: "who",
       label: t("experiencesMenu.who"),
-      href: "/experiences",
+      href: "/experiences#who",
       cards: toCards(categories),
     },
     {
       key: "remarkable",
       label: t("experiencesMenu.remarkable"),
-      href: "/experiences",
+      href: "/experiences#how",
       cards: toCards(remarkableCategories),
     },
   ];
@@ -223,11 +225,11 @@ export function ExperiencesMegaMenu({
                   </>
                 );
                 return c.href ? (
-                  <Link key={c.key} href={c.href} className="wf-exp-tile">
+                  <Link key={c.key} href={c.href} className="wf-exp-tile wf-exp-tile--tall">
                     {inner}
                   </Link>
                 ) : (
-                  <div key={c.key} className="wf-exp-tile">
+                  <div key={c.key} className="wf-exp-tile wf-exp-tile--tall">
                     {inner}
                   </div>
                 );

@@ -66,7 +66,12 @@ export function SiteHeader({
   // image hero (matched as /destinations/<slug>, not the /destinations listing).
   const isDestinationHero = /^\/destinations\/[^/]+$/.test(pathname);
   const isExperienceHero = /^\/experiences\/[^/]+$/.test(pathname);
-  const overHero = pathname === "/" || pathname === "/trip-finder" || isDestinationHero || isExperienceHero;
+  const overHero =
+    pathname === "/" ||
+    pathname === "/trip-finder" ||
+    pathname === "/experiences" ||
+    isDestinationHero ||
+    isExperienceHero;
   // Routes that are dark from top to bottom. Unlike a hero, these never hand over
   // to a light background, so the header stays transparent past the scroll point —
   // letting the pinned imagery and copy run behind it the whole way down.
@@ -135,7 +140,10 @@ export function SiteHeader({
         // first stop — a dark hairline under the header.
         backgroundOrigin: "border-box",
         backgroundRepeat: "no-repeat",
-        borderBottom: `1px solid ${dark ? "transparent" : "var(--wf-border)"}`,
+        // With a mega-menu open the header and the panel are one continuous
+        // white surface, so the hairline is dropped — otherwise the two read as
+        // stacked bars rather than a single sheet.
+        borderBottom: `1px solid ${dark || openMega ? "transparent" : "var(--wf-border)"}`,
         transition: "background-color .3s, border-color .3s",
       }}
     >

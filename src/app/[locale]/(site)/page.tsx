@@ -29,7 +29,7 @@ export default async function HomePage({
           scrollMarginTop: "var(--wf-header-h)",
         }}
       >
-        <div className="wf-wrap" style={{ maxWidth: 820, textAlign: "center" }}>
+        <div className="wf-wrap" style={{ maxWidth: 1040, textAlign: "center" }}>
           <h2
             style={{
               fontFamily: "var(--wf-font-sans)",

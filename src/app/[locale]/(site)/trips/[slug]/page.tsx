@@ -225,7 +225,7 @@ export default async function TripPage({
         <section style={{ background: "var(--wf-cream)", padding: "clamp(40px, 6vw, 72px) 0 clamp(48px, 7vw, 72px)" }}>
           <div className="wf-wrap wf-wrap--wide">
             <div style={{ marginBottom: "clamp(24px, 4vw, 40px)" }}>
-              <SectionHead eyebrow={t("onThisJourney")} title={t("importantNotes")} />
+              <SectionHead eyebrow={t("onThisJourney")} title={t("importantNotes")} align="center" />
             </div>
             <div className="wf-grid wf-grid-3">
               {trip.included.length > 0 && <NotesCol title={t("included")} items={trip.included} />}

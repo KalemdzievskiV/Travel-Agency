@@ -443,6 +443,26 @@
 @media (hover: none) {
   .wf-exp-tile__sub { opacity: 1; transform: none; }
 }
+/* Tall variant — narrow, square-cornered portrait rectangles with the label
+   centred rather than bottom-left. Used by the Experiences mega-menu and the
+   hub carousels so both read as the same card. */
+.wf-exp-tile--tall {
+  aspect-ratio: 3 / 5.2;
+  border-radius: 0;
+}
+.wf-exp-tile--tall .wf-exp-tile__body {
+  inset: 0;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+  padding: clamp(14px, 1.4vw, 20px);
+}
+.wf-exp-tile--tall .wf-exp-tile__sub { max-width: 24ch; }
+/* Even scrim rather than the bottom-weighted one — the label sits mid-card. */
+.wf-exp-tile--tall .wf-exp-tile__scrim {
+  background: linear-gradient(to top, rgba(14, 42, 51, 0.55) 0%, rgba(14, 42, 51, 0.4) 50%, rgba(14, 42, 51, 0.5) 100%);
+}
 
 /* ── Trip itinerary — static fallback (image + day list) ─────── */
 .wf-trip-static {
@@ -913,8 +933,9 @@
   bottom: 0;
   overflow-y: auto;
   background: var(--wf-cream);
-  border-top: 1px solid var(--wf-border);
-  box-shadow: var(--wf-shadow-lg);
+  /* No top border and no shadow: the panel is the same white as the header and
+     runs to the viewport floor, so any edge treatment here just draws a seam
+     across what should read as one continuous sheet. */
   z-index: 55;
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -1025,8 +1046,11 @@
 }
 .wf-expmenu__cards {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: clamp(12px, 1.4vw, 20px);
+}
+@media (max-width: 1380px) {
+  .wf-expmenu__cards { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 @media (max-width: 1160px) {
   .wf-expmenu__grid { grid-template-columns: 220px minmax(0, 1fr); }
@@ -1037,6 +1061,84 @@
 /* Rail items that just link out (Trip finder) — they never become "active", so
    they get their accent on hover instead. */
 .wf-expmenu__link-only { color: var(--wf-ink-900); }
+
+/* ── Experiences hub in-page toolbar ──────────────────────────────
+   A sticky tab rail under the site header carrying the same three entries as
+   the Experiences mega-menu. Scrolls horizontally on narrow screens rather
+   than wrapping, so it stays one line at every width. */
+.wf-exptabs {
+  position: sticky;
+  top: var(--wf-header-h);
+  z-index: 20;
+  background: var(--wf-cream);
+  border-bottom: 1px solid var(--wf-border);
+}
+.wf-exptabs__row {
+  display: flex;
+  justify-content: center;
+  gap: clamp(18px, 3vw, 44px);
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.wf-exptabs__row::-webkit-scrollbar { display: none; }
+/* Below this the rail overflows and has to scroll — centring a scroll
+   container makes its leading item unreachable, so fall back to the start. */
+@media (max-width: 720px) {
+  .wf-exptabs__row { justify-content: flex-start; }
+}
+.wf-exptabs__link {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  padding: 17px 0;
+  /* Pull the indicator onto the rail's own bottom border. */
+  margin-bottom: -1px;
+  border-bottom: 2px solid transparent;
+  text-decoration: none;
+  font-family: var(--wf-font-sans);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--wf-ink-500);
+  transition: color 0.2s var(--wf-ease-out), border-color 0.2s var(--wf-ease-out);
+}
+.wf-exptabs__link:hover { color: var(--wf-ink-900); }
+.wf-exptabs__link--on {
+  color: var(--wf-ink-900);
+  border-bottom-color: var(--wf-ink-900);
+}
+
+/* ── Experience carousels ("not where, but who / how") ────────────
+   Centred heading over a horizontally scrolling row of tall tiles. The row sits
+   inside the container gutter rather than bleeding off the right edge, so a
+   part-full row centres under its heading instead of hanging left. */
+.wf-expcar__viewport {
+  position: relative;
+  min-width: 0;
+}
+.wf-expcar__row {
+  display: flex;
+  /* `safe` is doing the work: it centres while the cards fit, then falls back
+     to flex-start once they overflow — plain `center` would push the first
+     card off the left edge of the scroll container, out of reach. */
+  justify-content: safe center;
+  gap: clamp(12px, 1.4vw, 18px);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+/* The row no longer bleeds, so the pager sits just outside each edge. */
+.wf-expcar__viewport .wf-carousel-arrow--next { right: -12px; }
+.wf-expcar__row::-webkit-scrollbar { display: none; }
+.wf-expcar__row > .wf-exp-tile {
+  flex: 0 0 clamp(178px, 19vw, 240px);
+  scroll-snap-align: start;
+}
+.wf-expcar__title { font-size: clamp(17px, 1.5vw, 22px); }
 
 /* ── Footer newsletter band ───────────────────────────────────────
    A full-bleed strip across the very top of the footer: label, two fields and
