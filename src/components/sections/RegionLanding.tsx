@@ -32,7 +32,7 @@ export async function RegionLanding({
     textDecoration: "none",
     fontFamily: "var(--wf-font-sans)",
     fontSize: 13,
-    fontWeight: 600,
+    fontWeight: 700,
     letterSpacing: "0.14em",
     textTransform: "uppercase",
     color: "var(--wf-ink-700)",
@@ -123,7 +123,7 @@ export async function RegionLanding({
           <h2
             style={{
               fontFamily: "var(--wf-font-sans)",
-              fontWeight: 600,
+              fontWeight: 700,
               fontSize: "clamp(15px, 2vw, 20px)",
               textTransform: "uppercase",
               letterSpacing: "0.14em",

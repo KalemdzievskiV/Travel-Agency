@@ -35,7 +35,7 @@ export async function WhyBookit() {
           <h2
             style={{
               fontFamily: "var(--wf-font-sans)",
-              fontWeight: 600,
+              fontWeight: 700,
               fontSize: "clamp(18px, 2.6vw, 28px)",
               textTransform: "uppercase",
               letterSpacing: "0.14em",
@@ -98,7 +98,7 @@ export async function WhyBookit() {
           <h2
             style={{
               fontFamily: "var(--wf-font-sans)",
-              fontWeight: 600,
+              fontWeight: 700,
               fontSize: "clamp(24px, 4vw, 40px)",
               textTransform: "uppercase",
               letterSpacing: "0.1em",

@@ -72,7 +72,7 @@ export default async function AdminDashboardPage() {
               style={{
                 marginTop: 10,
                 fontSize: 12,
-                fontWeight: 600,
+                fontWeight: 700,
                 letterSpacing: "0.14em",
                 textTransform: "uppercase",
                 color: "var(--wf-ink-500)",

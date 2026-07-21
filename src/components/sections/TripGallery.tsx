@@ -78,7 +78,7 @@ export function TripGallery({ images, title }: { images: string[]; title: string
           <button type="button" aria-label="Previous image" onClick={() => go(-1)} style={arrowBtn}>
             <ChevronLeft size={16} aria-hidden />
           </button>
-          <span style={{ fontFamily: "var(--wf-font-sans)", fontSize: 13, fontWeight: 600, letterSpacing: "0.1em" }}>
+          <span style={{ fontFamily: "var(--wf-font-sans)", fontSize: 13, fontWeight: 700, letterSpacing: "0.1em" }}>
             {i + 1} / {total}
           </span>
           <button type="button" aria-label="Next image" onClick={() => go(1)} style={arrowBtn}>

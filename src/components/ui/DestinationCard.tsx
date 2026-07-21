@@ -105,7 +105,7 @@ export function DestinationCard({
             <span
               style={{
                 fontSize: 11,
-                fontWeight: 600,
+                fontWeight: 700,
                 letterSpacing: "0.06em",
                 textTransform: "uppercase",
                 background: "rgba(255,255,255,0.92)",
@@ -157,7 +157,7 @@ export function DestinationCard({
           <div
             style={{
               fontSize: 11,
-              fontWeight: 600,
+              fontWeight: 700,
               letterSpacing: "0.16em",
               textTransform: "uppercase",
               color: "var(--wf-coral-400)",
@@ -191,7 +191,7 @@ export function DestinationCard({
             {price && (
               <span>
                 <span style={{ color: "rgba(255,255,255,0.75)" }}>{t("from")} </span>
-                <b style={{ fontWeight: 600 }}>{price}</b>
+                <b style={{ fontWeight: 700 }}>{price}</b>
               </span>
             )}
             {rating && (

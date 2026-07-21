@@ -81,7 +81,7 @@ export function RegionExperienceFinder({
         <h2
           style={{
             fontFamily: "var(--wf-font-sans)",
-            fontWeight: 600,
+            fontWeight: 700,
             fontSize: "clamp(18px, 3vw, 26px)",
             textTransform: "uppercase",
             letterSpacing: "0.14em",

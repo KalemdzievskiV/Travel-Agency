@@ -41,7 +41,7 @@ function SocialGlyph({ name }: { name: "facebook" | "instagram" | "linkedin" | "
 
 const colTitle: React.CSSProperties = {
   fontSize: 12,
-  fontWeight: 600,
+  fontWeight: 700,
   letterSpacing: "0.16em",
   textTransform: "uppercase",
   color: "rgba(244,239,231,0.55)",
@@ -111,7 +111,7 @@ export function SiteFooter() {
                   cursor: "pointer",
                   fontFamily: "var(--wf-font-sans)",
                   fontSize: 12,
-                  fontWeight: 600,
+                  fontWeight: 700,
                   letterSpacing: "0.16em",
                   textTransform: "uppercase",
                   padding: "15px clamp(20px, 2.4vw, 32px)",

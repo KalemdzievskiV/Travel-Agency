@@ -45,7 +45,7 @@ export function StartYourJourney({ tabs }: { tabs: JourneyTab[] }) {
         <h2
           style={{
             fontFamily: "var(--wf-font-sans)",
-            fontWeight: 600,
+            fontWeight: 700,
             fontSize: "clamp(18px, 2.6vw, 28px)",
             textTransform: "uppercase",
             letterSpacing: "0.14em",
@@ -84,7 +84,7 @@ export function StartYourJourney({ tabs }: { tabs: JourneyTab[] }) {
                   padding: "6px 0",
                   fontFamily: "var(--wf-font-sans)",
                   fontSize: 13,
-                  fontWeight: 600,
+                  fontWeight: 700,
                   textTransform: "uppercase",
                   letterSpacing: "0.14em",
                   color: on ? "var(--wf-ink-900)" : "var(--wf-ink-500)",

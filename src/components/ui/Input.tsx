@@ -39,7 +39,7 @@ export function Input({
   };
   const labelStyle: React.CSSProperties = {
     fontSize: "11px",
-    fontWeight: 600,
+    fontWeight: 700,
     letterSpacing: "0.14em",
     textTransform: "uppercase",
     color: error ? "var(--wf-error)" : "var(--wf-ink-500)",

@@ -41,7 +41,7 @@ export function FlightTicketsForm() {
         <h2 style={{ fontFamily: "var(--wf-font-display)", fontWeight: 500, fontSize: "clamp(24px, 4vw, 34px)", margin: "12px 0 12px", color: "var(--wf-ink-900)" }}>{t("sentTitle")}</h2>
         <p style={{ fontSize: 16, color: "var(--wf-ink-700)", lineHeight: 1.65, margin: "0 auto", maxWidth: 460 }}>{t("sentBody")}</p>
         <div style={{ marginTop: 26 }}>
-          <Link href="/" style={{ display: "inline-flex", padding: "13px 26px", borderRadius: "var(--wf-radius-md)", background: "var(--wf-ink-900)", color: "var(--wf-text-on-dark)", fontFamily: "var(--wf-font-sans)", fontWeight: 600, fontSize: 14, textDecoration: "none" }}>{t("backHome")}</Link>
+          <Link href="/" style={{ display: "inline-flex", padding: "13px 26px", borderRadius: "var(--wf-radius-md)", background: "var(--wf-ink-900)", color: "var(--wf-text-on-dark)", fontFamily: "var(--wf-font-sans)", fontWeight: 700, fontSize: 14, textDecoration: "none" }}>{t("backHome")}</Link>
         </div>
       </div>
     );

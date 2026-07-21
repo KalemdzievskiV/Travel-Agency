@@ -49,7 +49,7 @@ export function TripFilters({ groups }: { groups: FilterGroupUI[] }) {
           style={{
             fontFamily: "var(--wf-font-sans)",
             fontSize: 13,
-            fontWeight: 600,
+            fontWeight: 700,
             letterSpacing: "0.14em",
             textTransform: "uppercase",
             color: "var(--wf-ink-900)",
@@ -66,7 +66,7 @@ export function TripFilters({ groups }: { groups: FilterGroupUI[] }) {
               cursor: "pointer",
               color: "var(--wf-coral-600)",
               fontSize: 13,
-              fontWeight: 600,
+              fontWeight: 700,
             }}
           >
             {t("clearAll")}
@@ -94,7 +94,7 @@ export function TripFilters({ groups }: { groups: FilterGroupUI[] }) {
                 padding: "14px 2px",
                 fontFamily: "var(--wf-font-sans)",
                 fontSize: 13,
-                fontWeight: 600,
+                fontWeight: 700,
                 letterSpacing: "0.1em",
                 textTransform: "uppercase",
                 color: "var(--wf-ink-900)",

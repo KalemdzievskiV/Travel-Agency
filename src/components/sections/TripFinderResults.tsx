@@ -52,7 +52,7 @@ export function TripFinderResults({
     cursor: "pointer",
     fontFamily: "var(--wf-font-sans)",
     fontSize: 12,
-    fontWeight: 600,
+    fontWeight: 700,
     letterSpacing: "0.12em",
     textTransform: "uppercase",
     color: "var(--wf-ink-900)",
@@ -101,7 +101,7 @@ export function TripFinderResults({
               </button>
 
               <label style={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
-                <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--wf-ink-500)", marginRight: 10 }}>
+                <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--wf-ink-500)", marginRight: 10 }}>
                   {t("sortBy")}
                 </span>
                 <select
@@ -113,7 +113,7 @@ export function TripFinderResults({
                     border: "none",
                     fontFamily: "var(--wf-font-sans)",
                     fontSize: 14,
-                    fontWeight: 600,
+                    fontWeight: 700,
                     color: "var(--wf-ink-900)",
                     cursor: "pointer",
                     paddingRight: 22,
@@ -132,7 +132,7 @@ export function TripFinderResults({
             {hasSelection && (
               <button
                 onClick={clearAll}
-                style={{ background: "none", border: "none", cursor: "pointer", color: "var(--wf-coral-600)", fontSize: 12, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase" }}
+                style={{ background: "none", border: "none", cursor: "pointer", color: "var(--wf-coral-600)", fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase" }}
               >
                 {t("clearAll")}
               </button>

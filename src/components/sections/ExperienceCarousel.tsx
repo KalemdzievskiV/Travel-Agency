@@ -96,7 +96,7 @@ export function ExperienceCarousel({
                 display: "block",
                 fontFamily: "var(--wf-font-sans)",
                 fontSize: 12,
-                fontWeight: 600,
+                fontWeight: 700,
                 letterSpacing: "0.18em",
                 textTransform: "uppercase",
                 color: dark ? "var(--wf-coral-400)" : "var(--wf-ink-500)",

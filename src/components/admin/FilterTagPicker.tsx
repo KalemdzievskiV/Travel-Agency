@@ -28,7 +28,7 @@ export function FilterTagPicker({
           <div
             style={{
               fontSize: 12,
-              fontWeight: 600,
+              fontWeight: 700,
               letterSpacing: "0.12em",
               textTransform: "uppercase",
               color: "var(--wf-ink-500)",

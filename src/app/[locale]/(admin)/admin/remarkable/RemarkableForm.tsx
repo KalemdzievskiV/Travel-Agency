@@ -52,7 +52,7 @@ export function RemarkableForm({
             paddingTop: 20,
             borderTop: "1px solid var(--wf-border)",
             fontSize: 12,
-            fontWeight: 600,
+            fontWeight: 700,
             letterSpacing: "0.14em",
             textTransform: "uppercase",
             color: "var(--wf-ink-500)",

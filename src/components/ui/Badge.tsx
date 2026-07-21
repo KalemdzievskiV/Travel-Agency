@@ -40,7 +40,7 @@ export function Badge({ children, tone = "neutral", variant = "soft", ...rest }:
         gap: "5px",
         fontFamily: "var(--wf-font-sans)",
         fontSize: "11px",
-        fontWeight: 600,
+        fontWeight: 700,
         letterSpacing: "0.06em",
         textTransform: "uppercase",
         padding: "4px 9px",

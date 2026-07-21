@@ -87,7 +87,7 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
     <div
       style={{
         fontSize: 13,
-        fontWeight: 600,
+        fontWeight: 700,
         letterSpacing: "0.14em",
         textTransform: "uppercase",
         color: "var(--wf-ink-900)",
@@ -217,7 +217,7 @@ export function EnquiryPanels({
               background: "var(--wf-ink-900)",
               color: "var(--wf-text-on-dark)",
               fontFamily: "var(--wf-font-sans)",
-              fontWeight: 600,
+              fontWeight: 700,
               fontSize: 14,
               textDecoration: "none",
             }}
@@ -442,7 +442,7 @@ export function EnquiryPanels({
           <div
             style={{
               fontSize: 13,
-              fontWeight: 600,
+              fontWeight: 700,
               letterSpacing: "0.14em",
               textTransform: "uppercase",
               color: "var(--wf-ink-900)",
@@ -453,7 +453,7 @@ export function EnquiryPanels({
           </div>
           <a
             href={`tel:${site.phone.replace(/\s+/g, "")}`}
-            style={{ color: "var(--wf-coral-600)", fontSize: 18, fontWeight: 600, textDecoration: "none" }}
+            style={{ color: "var(--wf-coral-600)", fontSize: 18, fontWeight: 700, textDecoration: "none" }}
           >
             {site.phone}
           </a>
@@ -467,7 +467,7 @@ export function EnquiryPanels({
           <div
             style={{
               fontSize: 13,
-              fontWeight: 600,
+              fontWeight: 700,
               letterSpacing: "0.14em",
               textTransform: "uppercase",
               color: "var(--wf-ink-900)",

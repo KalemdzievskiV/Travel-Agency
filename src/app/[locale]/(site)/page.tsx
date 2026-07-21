@@ -39,7 +39,7 @@ export default async function HomePage({
           <h2
             style={{
               fontFamily: "var(--wf-font-sans)",
-              fontWeight: 600,
+              fontWeight: 700,
               fontSize: "clamp(15px, 2vw, 20px)",
               textTransform: "uppercase",
               letterSpacing: "0.14em",

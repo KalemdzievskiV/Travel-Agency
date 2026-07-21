@@ -89,7 +89,7 @@ export function FeatureBand({
                 borderRadius: "var(--wf-radius-md)",
                 color: "#fff",
                 fontFamily: "var(--wf-font-sans)",
-                fontWeight: 600,
+                fontWeight: 700,
                 fontSize: 14,
                 letterSpacing: "0.02em",
                 textDecoration: "none",

@@ -30,7 +30,7 @@ export function Testimonials({ items }: { items: Testimonial[] }) {
           style={{
             marginTop: 24,
             fontSize: 14,
-            fontWeight: 600,
+            fontWeight: 700,
             letterSpacing: "0.04em",
             color: "var(--wf-ink-700)",
           }}

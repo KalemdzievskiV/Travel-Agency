@@ -36,7 +36,7 @@ export function MediaPlaceholder({
           style={{
             fontFamily: "var(--wf-font-sans)",
             fontSize: 12,
-            fontWeight: 600,
+            fontWeight: 700,
             textTransform: "uppercase",
             letterSpacing: "0.18em",
             color: "rgba(255,255,255,0.66)",

@@ -63,7 +63,7 @@ export function SearchBar({
           <div
             style={{
               fontSize: "11px",
-              fontWeight: 600,
+              fontWeight: 700,
               letterSpacing: "0.14em",
               textTransform: "uppercase",
               color: "var(--wf-ink-500)",
@@ -74,7 +74,7 @@ export function SearchBar({
           <div
             style={{
               fontSize: "15px",
-              fontWeight: 600,
+              fontWeight: 700,
               color:
                 f.value && f.value !== "Add guests" && f.value !== "Anywhere"
                   ? "var(--wf-ink-900)"
@@ -102,7 +102,7 @@ export function SearchBar({
           border: "none",
           cursor: "pointer",
           fontFamily: "var(--wf-font-sans)",
-          fontWeight: 600,
+          fontWeight: 700,
           fontSize: "14px",
           letterSpacing: "0.02em",
           transition: "background var(--wf-dur-fast) var(--wf-ease-out)",

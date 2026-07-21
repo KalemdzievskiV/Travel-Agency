@@ -203,7 +203,7 @@ export default async function TripPage({
               <ol style={{ listStyle: "none", margin: 0, padding: 0 }}>
                 {days.map((d, idx) => (
                   <li key={idx} style={{ padding: "18px 0", borderTop: idx === 0 ? "none" : "1px solid var(--wf-divider)" }}>
-                    <span style={{ display: "block", fontFamily: "var(--wf-font-sans)", fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--wf-coral-600)" }}>
+                    <span style={{ display: "block", fontFamily: "var(--wf-font-sans)", fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--wf-coral-600)" }}>
                       {d.label || `${t("day")} ${d.n}`}
                     </span>
                     {stops[d.stopIndex]?.name && (
@@ -327,7 +327,7 @@ function Fact({ label, value, tone = 1 }: { label: string; value: string; tone?:
         style={{
           fontFamily: "var(--wf-font-sans)",
           fontSize: 13,
-          fontWeight: 600,
+          fontWeight: 700,
           letterSpacing: "0.16em",
           textTransform: "uppercase",
           color: `var(--wf-fact-${tone})`,

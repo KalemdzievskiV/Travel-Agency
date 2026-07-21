@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const labelStyle: React.CSSProperties = {
   fontSize: 11,
-  fontWeight: 600,
+  fontWeight: 700,
   letterSpacing: "0.14em",
   textTransform: "uppercase",
   color: "var(--wf-ink-500)",

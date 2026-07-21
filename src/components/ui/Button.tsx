@@ -60,7 +60,7 @@ export function Button({
     justifyContent: "center",
     gap: s.gap,
     fontFamily: "var(--wf-font-sans)",
-    fontWeight: 600,
+    fontWeight: 700,
     fontSize: s.font,
     letterSpacing: "0.02em",
     padding: s.padding,

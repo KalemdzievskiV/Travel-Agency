@@ -35,7 +35,7 @@ export default async function ExperienceCategoryPage({
     textDecoration: "none",
     fontFamily: "var(--wf-font-sans)",
     fontSize: 13,
-    fontWeight: 600,
+    fontWeight: 700,
     letterSpacing: "0.14em",
     textTransform: "uppercase",
     color: "var(--wf-ink-700)",

@@ -59,7 +59,7 @@ export default async function TestimonialsPage({
                       marginTop: 20,
                       fontFamily: "var(--wf-font-sans)",
                       fontSize: 12,
-                      fontWeight: 600,
+                      fontWeight: 700,
                       textTransform: "uppercase",
                       letterSpacing: "0.16em",
                       color: "var(--wf-ink-500)",

@@ -157,7 +157,7 @@ function WhyPinned({ eyebrow, title, intro, topics }: { eyebrow: string; title: 
                       padding: "12px 0",
                       fontFamily: "var(--wf-font-sans)",
                       fontSize: 15,
-                      fontWeight: 600,
+                      fontWeight: 700,
                       textTransform: "uppercase",
                       letterSpacing: "0.12em",
                       color: on ? "var(--wf-coral-500)" : "var(--wf-ink-700)",

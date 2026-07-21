@@ -53,11 +53,11 @@ export default async function ContactPage({
                 <Icon name={r.icon} size={18} color="var(--wf-coral-600)" />
               </span>
               <span>
-                <span style={{ display: "block", fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--wf-ink-500)" }}>{r.label}</span>
+                <span style={{ display: "block", fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--wf-ink-500)" }}>{r.label}</span>
                 {r.href ? (
-                  <a href={r.href} style={{ fontSize: 16.5, fontWeight: 600, color: "var(--wf-ink-900)", textDecoration: "none" }}>{r.value}</a>
+                  <a href={r.href} style={{ fontSize: 16.5, fontWeight: 700, color: "var(--wf-ink-900)", textDecoration: "none" }}>{r.value}</a>
                 ) : (
-                  <span style={{ fontSize: 16.5, fontWeight: 600, color: "var(--wf-ink-900)" }}>{r.value}</span>
+                  <span style={{ fontSize: 16.5, fontWeight: 700, color: "var(--wf-ink-900)" }}>{r.value}</span>
                 )}
               </span>
             </div>

@@ -34,7 +34,7 @@ export function FaqAccordion({ items }: { items: Faq[] }) {
                 textAlign: "left",
                 fontFamily: "var(--wf-font-sans)",
                 fontSize: "clamp(15px, 1.8vw, 17px)",
-                fontWeight: 600,
+                fontWeight: 700,
                 color: "var(--wf-ink-900)",
               }}
             >

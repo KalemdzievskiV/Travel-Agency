@@ -66,7 +66,7 @@ export function AdminList({
                     display: "flex",
                     alignItems: "center",
                     gap: 10,
-                    fontWeight: 600,
+                    fontWeight: 700,
                     color: "var(--wf-ink-900)",
                   }}
                 >
@@ -100,7 +100,7 @@ export function AdminList({
                   href={r.editHref}
                   style={{
                     fontSize: 13,
-                    fontWeight: 600,
+                    fontWeight: 700,
                     color: "var(--wf-ink-900)",
                     textDecoration: "none",
                   }}

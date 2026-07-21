@@ -44,7 +44,7 @@ export default async function AwardsPage({
                   style={{
                     fontFamily: "var(--wf-font-sans)",
                     fontSize: 12,
-                    fontWeight: 600,
+                    fontWeight: 700,
                     textTransform: "uppercase",
                     letterSpacing: "0.18em",
                     color: "var(--wf-coral-500)",

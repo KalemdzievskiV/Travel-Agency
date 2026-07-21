@@ -158,7 +158,7 @@ export function TripItineraryMap({
                     className="wf-trip-scrolly__day"
                     style={{ opacity: isActive ? 1 : 0.32, transition: "opacity 0.35s var(--wf-ease-out)" }}
                   >
-                    <span style={{ display: "block", fontFamily: "var(--wf-font-sans)", fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: isActive ? "var(--wf-coral-600)" : "var(--wf-ink-500)" }}>
+                    <span style={{ display: "block", fontFamily: "var(--wf-font-sans)", fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: isActive ? "var(--wf-coral-600)" : "var(--wf-ink-500)" }}>
                       {d.label || `${dayWord} ${d.n}`}
                     </span>
                     {stops[d.stopIndex]?.name && (

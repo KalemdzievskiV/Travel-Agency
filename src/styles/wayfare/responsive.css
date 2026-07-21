@@ -18,7 +18,7 @@
   background: transparent;
   color: #fff;
   font-family: var(--wf-font-sans);
-  font-weight: 600;
+  font-weight: 700;
   font-size: 15px;
   letter-spacing: 0.02em;
   line-height: 1;
@@ -44,7 +44,7 @@
   color: rgba(255, 255, 255, 0.85);
   font-family: var(--wf-font-sans);
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   transition: color 0.2s var(--wf-ease-out);
@@ -107,7 +107,7 @@
   padding: 16px;
   color: #fff;
   font-family: var(--wf-font-sans);
-  font-weight: 600;
+  font-weight: 700;
   font-size: clamp(15px, 1.5vw, 18px);
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -195,7 +195,7 @@
   color: #fff;
   font-family: var(--wf-font-sans);
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -211,7 +211,7 @@
   display: block;
   font-family: var(--wf-font-sans);
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--wf-coral-400);
@@ -250,7 +250,7 @@
   color: #fff;
   font-family: var(--wf-font-sans);
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   transition: background 0.2s var(--wf-ease-out), color 0.2s var(--wf-ease-out);
@@ -366,7 +366,7 @@
   color: var(--wf-ink-900);
   font-family: var(--wf-font-sans);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   padding: 12px 20px;
   border-radius: 16px;
   box-shadow: var(--wf-shadow-md);
@@ -530,7 +530,7 @@
   bottom: 0;
   font-family: var(--wf-font-sans);
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.1em;
   color: var(--wf-ink-500);
   background: var(--wf-cream);
@@ -774,7 +774,7 @@
   line-height: 1.5;
   opacity: 0.85;
 }
-.wf-enquiry-trip__facts strong { font-style: normal; font-weight: 600; }
+.wf-enquiry-trip__facts strong { font-style: normal; font-weight: 700; }
 @media (max-width: 420px) {
   .wf-enquiry-trip { grid-template-columns: 1fr; }
   .wf-enquiry-trip__img { aspect-ratio: 16 / 9; }
@@ -895,7 +895,7 @@
 .wf-megamenu__col-title {
   font-family: var(--wf-font-sans);
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.18em;
   color: var(--wf-coral-500);
@@ -981,7 +981,7 @@
   padding: 9px 0;
   font-family: var(--wf-font-sans);
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   transition: color 0.15s var(--wf-ease-out);
@@ -993,7 +993,7 @@
   text-decoration: none;
   font-family: var(--wf-font-sans);
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--wf-ink-900);
@@ -1016,7 +1016,7 @@
   margin-top: 20px;
   text-decoration: none;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--wf-ink-900);
@@ -1210,7 +1210,7 @@
 .wf-mobile-about__group {
   font-family: var(--wf-font-sans);
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.16em;
   color: var(--wf-coral-500);

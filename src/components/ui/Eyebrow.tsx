@@ -24,7 +24,7 @@ export function Eyebrow({ children, tone = "coral", as = "div", ...rest }: Eyebr
       style={{
         fontFamily: "var(--wf-font-sans)",
         fontSize: "12px",
-        fontWeight: 600,
+        fontWeight: 700,
         textTransform: "uppercase",
         letterSpacing: "0.18em",
         color: tones[tone] || tones.coral,

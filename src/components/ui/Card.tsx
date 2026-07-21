@@ -84,7 +84,7 @@ export function Card({
           <div
             style={{
               fontSize: 11,
-              fontWeight: 600,
+              fontWeight: 700,
               letterSpacing: "0.16em",
               textTransform: "uppercase",
               color: "var(--wf-coral-500)",

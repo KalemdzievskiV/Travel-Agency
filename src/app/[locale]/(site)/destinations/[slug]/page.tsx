@@ -61,7 +61,7 @@ export default async function DestinationPage(
     textDecoration: "none",
     fontFamily: "var(--wf-font-sans)",
     fontSize: 13,
-    fontWeight: 600,
+    fontWeight: 700,
     letterSpacing: "0.14em",
     textTransform: "uppercase",
     color: "var(--wf-ink-700)",
@@ -228,7 +228,7 @@ export default async function DestinationPage(
           </div>
           <DestinationGrid items={more} height={380} />
           <div style={{ marginTop: 40 }}>
-            <Link href="/destinations" style={{ textDecoration: "none", color: "var(--wf-ink-900)", fontSize: 13, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", borderBottom: "1px solid var(--wf-ink-900)", paddingBottom: 4 }}>
+            <Link href="/destinations" style={{ textDecoration: "none", color: "var(--wf-ink-900)", fontSize: 13, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", borderBottom: "1px solid var(--wf-ink-900)", paddingBottom: 4 }}>
               {td("viewAll")}
             </Link>
           </div>

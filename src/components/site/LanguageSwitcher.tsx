@@ -22,7 +22,7 @@ export function LanguageSwitcher({ dark = false }: { dark?: boolean }) {
         gap: 7,
         fontFamily: "var(--wf-font-sans)",
         fontSize: 13,
-        fontWeight: 600,
+        fontWeight: 700,
         letterSpacing: "0.06em",
       }}
     >

@@ -107,7 +107,7 @@ function ProcessPinned({ steps, title }: { steps: ProcessStep[]; title: string }
             margin: 0,
             fontFamily: "var(--wf-font-sans)",
             fontSize: "clamp(15px, 1.6vw, 20px)",
-            fontWeight: 600,
+            fontWeight: 700,
             textTransform: "uppercase",
             letterSpacing: "0.22em",
           }}
@@ -219,7 +219,7 @@ function ProcessPinned({ steps, title }: { steps: ProcessStep[]; title: string }
                 style={{
                   fontFamily: "var(--wf-font-sans)",
                   fontSize: 12,
-                  fontWeight: 600,
+                  fontWeight: 700,
                   letterSpacing: "0.2em",
                   textTransform: "uppercase",
                   color: "var(--wf-coral-400)",
@@ -299,7 +299,7 @@ function ProcessStack({ steps }: { steps: ProcessStep[] }) {
                 style={{
                   fontFamily: "var(--wf-font-sans)",
                   fontSize: 12,
-                  fontWeight: 600,
+                  fontWeight: 700,
                   letterSpacing: "0.18em",
                   color: "var(--wf-ink-500)",
                 }}
