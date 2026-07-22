@@ -1312,3 +1312,67 @@
    desktop layout is inline (desktop-only render) and its stacked fallback uses
    wf-wrap, so no dedicated class is needed here. */
 
+/* ── Destinations: map of regions ─────────────────────────────────
+   Dark field, grey landmasses, each region lighting up on hover — the
+   reference the client supplied. Geometry comes from
+   src/content/world-map.generated.ts. */
+.wf-worldmap {
+  position: relative;
+  width: 100%;
+}
+.wf-worldmap__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.wf-worldmap__inert {
+  fill: rgba(255, 255, 255, 0.09);
+}
+.wf-worldmap__region {
+  fill: rgba(255, 255, 255, 0.26);
+  cursor: pointer;
+  transition: fill 0.25s var(--wf-ease-out);
+}
+.wf-worldmap__region--on { fill: var(--wf-coral-500); }
+
+.wf-worldmap__labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.wf-worldmap__label {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  max-width: 9em;
+  text-align: center;
+  text-decoration: none;
+  font-family: var(--wf-font-sans);
+  font-size: clamp(9px, 0.85vw, 12px);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1.25;
+  color: #fff;
+  /* The labels sit over landmasses of varying tone; a soft shadow keeps them
+     legible without a plate behind each one. */
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.75);
+  transition: color 0.25s var(--wf-ease-out);
+}
+/* Active label sits on the coral fill, so it stays white — tinting it coral
+   too would drop it to roughly 1.3:1 against the region beneath. */
+.wf-worldmap__label--on {
+  color: #fff;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
+}
+.wf-worldmap__label:focus-visible {
+  outline: 2px solid var(--wf-coral-400);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Below the nav breakpoint the labels crowd; the region list under the map
+   remains the primary way in, so the map becomes decorative. */
+@media (max-width: 720px) {
+  .wf-worldmap__label { font-size: 8px; letter-spacing: 0.06em; }
+}

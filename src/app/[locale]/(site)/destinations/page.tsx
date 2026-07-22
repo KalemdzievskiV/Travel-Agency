@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Eyebrow } from "@/components/ui";
 import { DestinationGrid } from "@/components/sections/DestinationGrid";
-import { RegionBrowser } from "@/components/sections/RegionBrowser";
+import { WorldRegionMap } from "@/components/sections/WorldRegionMap";
 import { getDestinations } from "@/lib/queries/public";
 import { getRegionsWithDestinations } from "@/lib/queries/regions";
 
@@ -40,33 +39,16 @@ export default async function DestinationsPage({
         style={{
           background: "var(--wf-ink-900)",
           color: "#fff",
-          padding: "calc(var(--wf-header-h) + 56px) 0 56px",
+          padding: "calc(var(--wf-header-h) + 40px) 0 clamp(24px, 4vw, 48px)",
         }}
       >
-        <div className="wf-wrap wf-wrap--wide">
-          <Eyebrow tone="light">{t("eyebrow")}</Eyebrow>
-          <h1
-            style={{
-              fontFamily: "var(--wf-font-display)",
-              fontWeight: 500,
-              fontSize: "clamp(36px, 7vw, 56px)",
-              letterSpacing: "-0.02em",
-              margin: "16px 0 0",
-            }}
-          >
-            {t("title")}
-          </h1>
-          <p
-            style={{
-              fontSize: 17,
-              color: "rgba(244,239,231,0.75)",
-              maxWidth: 540,
-              margin: "16px 0 0",
-              lineHeight: 1.6,
-            }}
-          >
-            {t("intro")}
-          </p>
+        <div className="wf-wrap wf-wrap--wide" style={{ textAlign: "center" }}>
+          {/* The masthead copy is gone at the client's request — the map is the
+              header now. The h1 stays for screen readers and search engines,
+              which would otherwise meet a page with no heading at all. */}
+          <h1 className="sr-only">{t("title")}</h1>
+
+          {regions.length > 0 && <WorldRegionMap regions={regions} />}
         </div>
       </section>
 
@@ -74,8 +56,6 @@ export default async function DestinationsPage({
         <div className="wf-wrap wf-wrap--wide">
           {regions.length > 0 ? (
             <>
-              <RegionBrowser regions={regions} />
-
               {regions.map((reg) => {
                 const items = byRegion.get(reg.slug) ?? [];
                 if (items.length === 0) return null;
