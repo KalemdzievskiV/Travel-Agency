@@ -61,36 +61,36 @@ export const aboutPage = {
 
   purpose: {
     eyebrow: "Our purpose",
-    statement: "To move people through journeys they will never forget",
+    statement: "To take people on journeys they will remember for ever",
     grad: "var(--wf-brand-gradient-deep)",
     // Supporting facets that cross-fade as you scroll the pinned statement.
     facets: [
-      "For our travellers — journeys that change how they see a place, and themselves.",
-      "For our partners on the ground — work that is fair, lasting and shared.",
-      "For the corners of the world we are lucky to share — left better than we found them.",
+      "For our travellers, a journey is more than visiting somewhere new — it is an experience that changes how they see the world, and themselves.",
+      "With our partners on the ground we build fair, long-standing relationships that succeed together.",
+      "The places we are privileged to visit, we take care to protect and to leave better than we found them.",
     ],
   },
 
   values: [
     {
       title: "Curious",
-      body: "We ask one more question, take the longer road, and follow the detail others walk past. Curiosity is how the remarkable gets found.",
+      body: "We always ask one more question, dig a little deeper, and notice the details others walk past. It is how we find the places and experiences that make a journey genuinely special.",
     },
     {
       title: "Thoughtful",
-      body: "We sweat the things you will never see, so the things you do feel effortless. Care, not flash, is what makes a trip hold together.",
+      body: "We take care of every detail behind your journey, even the ones you will never notice. For us, the best organisation is the kind that lets you relax completely and enjoy it without a worry.",
     },
     {
       title: "Humble",
-      body: "We know the ground because we listen to the people who live on it. Every journey is shaped by local hands, and we never forget whose home it is.",
+      body: "We listen to the people who live in the places we visit, and we learn from them. Every journey is built with respect for the local culture, community and landscape.",
     },
   ] satisfies ValueColumn[],
 
   // "Why the name?" — the editorial split BT runs near the foot of the page.
   name: {
-    eyebrow: "Why the name",
-    title: "Why ‘bookit’",
-    body: "Booking a trip is the moment everything changes — the instant a daydream gets a date on it. We named ourselves for that moment: the quiet, decisive yes. Everything we do is built to make saying it feel effortless, and to make what follows worth it.",
+    eyebrow: "The idea behind the name",
+    title: "Why Bookit?",
+    body: "Every journey begins as an idea, but it becomes real the moment you say: “Book it.” That moment is exactly where the name Bookit comes from.\n\nBookit is the instant a daydream gets a date on it, a destination becomes a plan, and the plan becomes a journey. Our job is to make that decision easy, and to see that everything which follows is carefully considered, personal and worth remembering.",
     grad: "linear-gradient(135deg,#6a4f6a,#241a24)",
     image: "https://picsum.photos/seed/bookit-about-name/1400/1700",
     align: "left",
@@ -99,8 +99,8 @@ export const aboutPage = {
   // Full-bleed closing feeling band ("your world. your trips.").
   world: {
     eyebrow: "Your world",
-    title: "Your world, your journey",
-    body: "No two journeys we plan are ever quite alike. Like a suit cut to fit, each trip is shaped around you — your pace, your people, the feeling you’re chasing — so it could only ever be yours.",
+    title: "Your journey, made to your measure",
+    body: "No two journeys are alike, because no two travellers are. We build each experience around you — your pace, the people you travel with, and the feeling you want to come away with. From the first idea to the last detail, everything is shaped so the journey is singular and entirely yours.",
     grad: "linear-gradient(135deg,#3f6f7a,#16130f)",
     image: "https://picsum.photos/seed/bookit-about-world/2000/1200",
   },
@@ -162,8 +162,9 @@ export const whyNotDiy = {
       "If all you need is flights and a place to stay, you can book that online today in a few clicks.\n\nBut if you want your precious free time to genuinely be worth it — the journey to enrich you and leave a lasting impression — you need a trusted partner with real experience, knowledge and a feel for every detail.\n\nThat is where we come in.",
     grad: "linear-gradient(135deg,#5a6b86,#16130f)",
   },
-  closing:
-    "The trip is still yours. We just carry everything that would otherwise get in the way of enjoying it.",
+  closing: "The journey is yours. We take care of everything else.",
+  closingBody:
+    "From the planning to the last detail, we look after everything that might otherwise pull your attention away from what matters most — enjoying the journey completely.",
   // Five reasons not to go it alone — pinned, scroll-driven like the reference.
   topics: [
     {
@@ -302,38 +303,38 @@ const aboutPageMk: typeof aboutPage = {
   purpose: {
     ...aboutPage.purpose,
     eyebrow: "Нашата цел",
-    statement: "Да ги пренесеме луѓето низ патувања што никогаш нема да ги заборават",
+    statement: "Да ги однесеме луѓето на патувања што ќе ги паметат засекогаш",
     facets: [
-      "За нашите патници — патувања што менуваат како гледаат на едно место, и на себеси.",
-      "За нашите партнери на терен — работа што е праведна, трајна и споделена.",
-      "За катчињата од светот што имаме среќа да ги споделиме — оставени подобри отколку што ги најдовме.",
+      "За нашите патници, секое патување е повеќе од посета на ново место — тоа е искуство што го менува начинот на кој го гледаат светот и себеси.",
+      "Со нашите локални партнери создаваме фер и долгорочна соработка што носи заеднички успех.",
+      "За местата што имаме привилегија да ги посетуваме се грижиме да ги зачуваме и да ги оставиме подобри отколку што ги затекнавме.",
     ],
   },
   values: [
     {
       title: "Љубопитни",
-      body: "Поставуваме уште едно прашање, го одбираме подолгиот пат и го следиме детаљот што другите го одминуваат. Љубопитноста е начинот на кој се пронаоѓа извонредното.",
+      body: "Секогаш поставуваме уште едно прашање, истражуваме подлабоко и ги забележуваме деталите што другите ги пропуштаат. Така ги откриваме местата и искуствата што го прават секое патување навистина посебно.",
     },
     {
       title: "Внимателни",
-      body: "Се мачиме околу работите што никогаш нема да ги видите, за оние што ги гледате да делуваат без напор. Грижата, а не блескот, е она што држи едно патување на купче.",
+      body: "Се грижиме за секој детаљ зад вашето патување, дури и за оние што никогаш нема да ги забележите. За нас, најдобрата организација е онаа што ви овозможува целосно да се опуштите и да уживате без грижи.",
     },
     {
       title: "Скромни",
-      body: "Го познаваме теренот бидејќи ги слушаме луѓето што живеат на него. Секое патување е обликувано од локални раце и никогаш не забораваме чиј дом е тоа.",
+      body: "Ги слушаме луѓето што живеат на местата што ги посетуваме и учиме од нив. Секое патување го создаваме со почит кон локалната култура, заедница и природа.",
     },
   ],
   name: {
     ...aboutPage.name,
-    eyebrow: "Зошто името",
-    title: "Зошто „bookit“",
-    body: "Резервирањето патување е мигот кога сѐ се менува — трен кога сонот добива датум. Се именувавме по тој миг: тивкото, решително „да“. Сѐ што правиме е создадено за да го олесни изговарањето на тоа „да“ и да го направи вредно она што следува.",
+    eyebrow: "Идеја позади името",
+    title: "Зошто Bookit?",
+    body: "Секое патување започнува како идеја, но станува реалност во моментот кога ќе кажете: „Резервирај го.“ Токму од тој момент произлегува името Bookit.\n\nBookit е оној миг кога сонот добива датум, дестинацијата станува план, а планот — патување. Наша задача е да ви ја олесниме таа одлука и да се погрижиме сè што следува да биде внимателно осмислено, лично и вредно за паметење.",
   },
   world: {
     ...aboutPage.world,
     eyebrow: "Твојот свет",
-    title: "Твојот свет, твоето патување",
-    body: "Ниту едно патување што го планираме не е сосема исто. Како костум скроен по мерка, секое патување е обликувано околу вас — вашето темпо, вашите луѓе, чувството што го бркате — за да може да биде единствено ваше.",
+    title: "Твоето патување, создадено по твоја мерка",
+    body: "Не постојат две исти патувања, затоа што не постојат двајца исти патници. Секое искуство го создаваме според вас — вашето темпо, луѓето со кои патувате и чувството што сакате да го доживеете. Од првата идеја до последниот детаљ, сè е внимателно обликувано за патувањето да биде единствено и целосно ваше.",
   },
 };
 
@@ -379,7 +380,9 @@ const whyNotDiyMk: typeof whyNotDiy = {
     intro:
       "Доколку ви се потребни само авионски билети и сместување, денес лесно можете да ги резервирате онлајн — потребни се само неколку клика.\n\nНо, доколку сакате вашето драгоцено слободно време навистина да вреди, а патувањето да ве збогати и да остави траен впечаток, потребен ви е доверлив партнер со вистинско искуство, знаење и чувство за секој детаљ.\n\nЗатоа тука сме ние за вас.",
   },
-  closing: "Патувањето сепак е ваше. Ние само го носиме сето она што инаку би ви пречело да уживате во него.",
+  closing: "Патувањето е ваше. Ние се грижиме за сè останато.",
+  closingBody:
+    "Од планирањето до последниот детаљ, ние се грижиме за сè што би можело да ви го одземе вниманието од она што е најважно — целосно да уживате во патувањето.",
   topics: [
     {
       ...whyNotDiy.topics[0],

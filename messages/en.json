@@ -52,10 +52,8 @@
   },
   "intro": {
     "heading": "Every journey starts with a feeling",
-    "p1": "The world is vast, full of wonders. But we are overwhelmed with information — see this, do that, don’t miss this. It seems the greater the choice, the more lost we feel. And the thing that matters most, no one ever asks you: <i>how do you want to feel?</i>",
-    "p2": "We’re not like that. We’re a tailor-made travel company that designs fully personalised experiences — no ready-made templates, no off-the-shelf packages. Whether you’re a couple seeking adventure, a multi-generational family exploring together, or a solo traveller chasing something extraordinary, we craft every detail around you.",
-    "p3": "As the creators of your next journey, we’re here to turn your vision into reality — with complete devotion to the details and flawless organisation in every destination.",
-    "p4": "So, let’s begin. Let’s create something different, something yours."
+    "p1": "The world is vast and full of places worth experiencing. But we are surrounded by too much information: see this, do that, don’t miss this. The more choice we have, the more easily we feel lost. And rarely does anyone ask the question that matters most — <i>how do you want to feel while you travel?</i>",
+    "p2": "We create wholly personalised journeys, with no ready-made templates and no off-the-shelf packages. Whether you’re a couple in search of adventure, a family wanting to explore the world together or a solo traveller after something extraordinary, we shape every detail around you. So let’s begin. Let’s create something truly special."
   },
   "journey": {
     "heading": "Start your journey",
@@ -91,12 +89,12 @@
   },
   "about": {
     "word": "About us",
-    "valuesEyebrow": "What we stand for",
-    "valuesTitle": "Three things we never travel without",
+    "valuesEyebrow": "What we believe in",
+    "valuesTitle": "Three principles we never depart from",
     "ctaReadyNew": "Ready to feel something new?",
     "startJourney": "Start your journey",
     "ctaReadyWhen": "Ready when you are",
-    "whyNotCta": "Let us take it from here",
+    "whyNotCta": "Start your journey",
     "howTitle": "How it all works",
     "howCta": "It starts with a single conversation",
     "regenP1": "A fuller account of our commitments is on its way.",
@@ -202,12 +200,12 @@
     "reassure": "No planning fees · reply within 24 hours",
     "tripsEyebrow": "Example",
     "tripsTitle": "{title} trips",
-    "tripsIntro": "These sample itineraries are simply suggestions for the kind of holiday you might have. Yours will be tailored, altered, and refined until it matches you completely.",
+    "tripsIntro": "These journeys are only a starting point. Yours we will build around what you want, adjusting and refining it until it becomes exactly what you had in mind.",
     "keepExploring": "Keep exploring",
-    "morePlaces": "More places",
+    "morePlaces": "Popular destinations",
     "viewAll": "View all destinations",
     "stays": "Stays",
-    "whereToStay": "Where to stay"
+    "whereToStay": "Suggested accommodation"
   },
   "experiencesPage": {
     "favouriteDestinations": "Our favourite destinations",

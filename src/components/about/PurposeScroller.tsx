@@ -59,7 +59,7 @@ function PurposePinned({ eyebrow, statement, facets, grad }: { eyebrow: string; 
   });
 
   return (
-    <section ref={trackRef} aria-label={eyebrow} style={{ height: `${n * 100}vh`, position: "relative" }}>
+    <section ref={trackRef} aria-label={eyebrow} style={{ height: `${n * 65}vh`, position: "relative" }}>
       <div
         style={{
           position: "sticky",

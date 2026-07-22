@@ -44,6 +44,17 @@ export default async function WhyNotDiyPage({
           >
             {whyNotDiy.closing}
           </p>
+          <p
+            style={{
+              fontSize: "clamp(15px, 1.8vw, 17px)",
+              lineHeight: 1.7,
+              color: "rgba(233, 245, 246, 0.78)",
+              maxWidth: 640,
+              margin: "18px auto 0",
+            }}
+          >
+            {whyNotDiy.closingBody}
+          </p>
           <div style={{ marginTop: 28 }}>
             <Button variant="primary" size="lg" as="a" href="/trip-finder">
               {t("whyNotCta")}

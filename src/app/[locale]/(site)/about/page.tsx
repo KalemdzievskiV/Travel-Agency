@@ -7,7 +7,6 @@ import {
   FeatureBand,
   PurposeScroller,
   ValuesScroller,
-  TrustBadges,
 } from "@/components/about";
 import { getAbout } from "@/content/about";
 
@@ -40,10 +39,10 @@ export default async function AboutPage({
       />
 
       {/* What we're about / our story — editorial alternating rows */}
-      <section style={{ background: "var(--wf-cream)", padding: "clamp(48px, 8vw, 96px) 0 clamp(64px, 9vw, 112px)" }}>
+      <section style={{ background: "var(--wf-cream)", padding: "clamp(36px, 5.5vw, 64px) 0 clamp(40px, 6vw, 72px)" }}>
         <div
           className="wf-wrap wf-wrap--wide"
-          style={{ display: "grid", gap: "clamp(56px, 9vw, 104px)" }}
+          style={{ display: "grid", gap: "clamp(36px, 5.5vw, 64px)" }}
         >
           {aboutPage.story.map((row) => (
             <StoryRow key={row.title} {...row} />
@@ -106,12 +105,6 @@ export default async function AboutPage({
         </div>
       </section>
 
-      {/* Accreditation bar */}
-      <section style={{ background: "var(--wf-sand)", padding: "clamp(48px, 7vw, 72px) 0" }}>
-        <div className="wf-wrap wf-wrap--wide">
-          <TrustBadges label={t("trustLabel")} />
-        </div>
-      </section>
     </>
   );
 }

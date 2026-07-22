@@ -53,3 +53,10 @@ next-env.d.ts
 
 # Admin image uploads (dev)
 /public/uploads/
+
+# Raw design exports — most are photographs base64-wrapped in SVG (~104 MB).
+# The three genuine vectors are recoloured and committed as public/images/bg-lines-*.svg.
+public/images/Design Images svg/
+
+# Client correction documents — large Word files with embedded screenshots.
+*.docx

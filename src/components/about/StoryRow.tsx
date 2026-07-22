@@ -14,7 +14,7 @@ export function StoryRow({ eyebrow, title, body, grad, image, align }: StoryRowD
       className={`wf-about-row ${align === "right" ? "wf-about-row--right" : ""}`}
     >
       <div className="wf-about-row__media">
-        <ParallaxMedia grad={grad} image={image} ratio="4 / 5" />
+        <ParallaxMedia grad={grad} image={image} ratio="4 / 4.2" />
       </div>
       <div>
         <Eyebrow>{eyebrow}</Eyebrow>
