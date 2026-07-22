@@ -10,7 +10,7 @@ import type { Hotel } from "@/content/types";
  */
 export function HotelGrid({
   items,
-  columns = 3,
+  columns = 4,
   height = 380,
 }: {
   items: Hotel[];

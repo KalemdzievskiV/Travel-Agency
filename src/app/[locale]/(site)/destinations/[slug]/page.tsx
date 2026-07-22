@@ -156,7 +156,7 @@ export default async function DestinationPage(
       </div>
 
       {/* Overview — guide body + sidebar */}
-      <section id="overview" style={{ background: "var(--wf-cream)", padding: "clamp(40px, 6vw, 72px) 0 clamp(56px, 8vw, 80px)", scrollMarginTop: "calc(var(--wf-header-h) + 66px)" }}>
+      <section id="overview" style={{ background: "var(--wf-cream)", padding: "clamp(22px, 3.2vw, 40px) 0 clamp(56px, 8vw, 80px)", scrollMarginTop: "calc(var(--wf-header-h) + 66px)" }}>
         <div className="wf-wrap" style={{ maxWidth: 760, marginInline: "auto", textAlign: "center" }}>
           <Eyebrow>{td("thePlace")}</Eyebrow>
           <p
@@ -203,7 +203,9 @@ export default async function DestinationPage(
             <div style={{ marginBottom: 36 }}>
               <SectionHead eyebrow={td("stays")} title={td("whereToStay")} />
             </div>
-            <HotelGrid items={hotels} />
+            {/* Taller cards, per the client: the stay cards read as landscape
+                against the portrait ones everywhere else on the page. */}
+            <HotelGrid items={hotels} height={520} />
           </div>
         </section>
       )}
@@ -213,7 +215,7 @@ export default async function DestinationPage(
         <section style={{ background: "var(--wf-cream)", padding: "clamp(56px, 8vw, 88px) 0 0" }}>
           <div className="wf-wrap" style={{ maxWidth: 820, marginInline: "auto" }}>
             <div style={{ textAlign: "center", marginBottom: "clamp(24px, 4vw, 36px)" }}>
-              <SectionHead eyebrow={td("keepExploring")} title={td("generalNotes")} />
+              <SectionHead eyebrow={td("keepExploring")} title={td("generalNotes")} align="center" />
             </div>
             <FaqAccordion items={d.generalNotes} />
           </div>
@@ -226,7 +228,7 @@ export default async function DestinationPage(
           <div style={{ marginBottom: 36 }}>
             <SectionHead eyebrow={td("keepExploring")} title={td("morePlaces")} />
           </div>
-          <DestinationGrid items={more} height={380} />
+          <DestinationGrid items={more} height={470} />
           <div style={{ marginTop: 40 }}>
             <Link href="/destinations" style={{ textDecoration: "none", color: "var(--wf-ink-900)", fontSize: 13, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", borderBottom: "1px solid var(--wf-ink-900)", paddingBottom: 4 }}>
               {td("viewAll")}

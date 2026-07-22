@@ -19,7 +19,7 @@ const control: React.CSSProperties = {
 function Field({ label, htmlFor, children }: { label: string; htmlFor?: string; children: React.ReactNode }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
-      <label htmlFor={htmlFor} style={{ fontSize: 13, fontWeight: 500, color: "var(--wf-ink-700)" }}>{label}</label>
+      <label htmlFor={htmlFor} style={{ fontSize: 13, fontWeight: 700, color: "var(--wf-ink-900)" }}>{label}</label>
       {children}
     </div>
   );

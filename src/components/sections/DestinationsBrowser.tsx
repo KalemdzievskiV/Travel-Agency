@@ -42,7 +42,7 @@ export function DestinationsBrowser({ items }: { items: Destination[] }) {
         ))}
       </div>
       {list.length > 0 ? (
-        <DestinationGrid items={list} height={380} />
+        <DestinationGrid items={list} height={470} />
       ) : (
         <p
           style={{

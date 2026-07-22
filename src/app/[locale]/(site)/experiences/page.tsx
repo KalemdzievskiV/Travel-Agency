@@ -119,8 +119,13 @@ export default async function ExperiencesPage({
       {/* What we do */}
       <section
         style={{
-          background: "var(--wf-cream)",
-          padding: "clamp(40px, 6vw, 72px) 0 clamp(16px, 3vw, 32px)",
+          backgroundColor: "var(--wf-cream)",
+          backgroundImage: "url(/images/bg-lines-2.svg)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          // Pulled up: the client's arrow marked the gap under the tab rail.
+          padding: "clamp(22px, 3.2vw, 40px) 0 clamp(16px, 3vw, 32px)",
         }}
       >
         <div className="wf-wrap wf-wrap--wide">
@@ -147,6 +152,7 @@ export default async function ExperiencesPage({
       <ExperienceCarousel
         id="who"
         tone="dark"
+        backgroundImage="/images/Landing1.png"
         eyebrow={tMenu("who")}
         title={t("whoQuestion")}
         items={categories}
@@ -155,6 +161,7 @@ export default async function ExperiencesPage({
       <ExperienceCarousel
         id="how"
         tone="light"
+        backgroundImage="/images/bg-lines-1.svg"
         eyebrow={tMenu("remarkable")}
         title={t("howQuestion")}
         items={remarkable}

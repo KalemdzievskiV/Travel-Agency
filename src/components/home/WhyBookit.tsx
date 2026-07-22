@@ -24,7 +24,7 @@ export async function WhyBookit() {
       <section
         style={{
           backgroundColor: "var(--wf-cream)",
-          backgroundImage: "url(/images/Landing4.png)",
+          backgroundImage: "url(/images/bg-lines-3.svg)",
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -58,9 +58,9 @@ export async function WhyBookit() {
                 <div key={w.label} className="wf-why-point">
                   {w.src ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={w.src} alt="" width={46} height={46} aria-hidden style={{ display: "block" }} />
+                    <img src={w.src} alt="" width={62} height={62} aria-hidden style={{ display: "block" }} />
                   ) : (
-                    <Glyph size={34} strokeWidth={1.4} color="var(--wf-coral-500)" aria-hidden />
+                    <Glyph size={46} strokeWidth={1.4} color="var(--wf-coral-500)" aria-hidden />
                   )}
                   <span
                     style={{

@@ -11,8 +11,8 @@ import type { Trip } from "@/content/types";
  */
 export function TripGrid({
   items,
-  height = 420,
-  columns = 3,
+  height = 520,
+  columns = 4,
 }: {
   items: Trip[];
   height?: number;

@@ -18,7 +18,15 @@ export default async function FlightTicketsPage({
   const t = await getTranslations("flightTickets");
 
   return (
-    <section style={{ background: "var(--wf-cream)", padding: "calc(var(--wf-header-h) + clamp(28px, 5vw, 56px)) 0 clamp(48px, 8vw, 96px)", minHeight: "100vh" }}>
+    <section style={{
+        backgroundColor: "var(--wf-cream)",
+        backgroundImage: "url(/images/bg-lines-3.svg)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        padding: "calc(var(--wf-header-h) + clamp(28px, 5vw, 56px)) 0 clamp(48px, 8vw, 96px)",
+        minHeight: "100vh",
+      }}>
       <div className="wf-wrap wf-wrap--wide">
         <div style={{ maxWidth: 760, margin: "0 auto clamp(28px, 4vw, 44px)", textAlign: "center" }}>
           <Eyebrow>{t("eyebrow")}</Eyebrow>

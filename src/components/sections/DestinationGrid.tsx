@@ -11,8 +11,8 @@ import type { Destination } from "@/content/types";
  */
 export function DestinationGrid({
   items,
-  height = 420,
-  columns = 3,
+  height = 520,
+  columns = 4,
 }: {
   items: Destination[];
   height?: number;

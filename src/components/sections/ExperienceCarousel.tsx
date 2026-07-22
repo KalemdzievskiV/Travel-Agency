@@ -27,6 +27,7 @@ export function ExperienceCarousel({
   title,
   items,
   tone = "light",
+  backgroundImage,
 }: {
   id: string;
   eyebrow?: string;
@@ -34,6 +35,8 @@ export function ExperienceCarousel({
   items: ExperienceCarouselItem[];
   /** `dark` puts the band on ink-900; `light` keeps it on the white canvas. */
   tone?: "light" | "dark";
+  /** Optional backdrop art behind the band. */
+  backgroundImage?: string;
 }) {
   const rowRef = React.useRef<HTMLDivElement>(null);
   const [atStart, setAtStart] = React.useState(true);
@@ -80,9 +83,17 @@ export function ExperienceCarousel({
     <section
       id={id}
       style={{
-        background: dark ? "var(--wf-ink-900)" : "var(--wf-cream)",
+        // Longhands only — the flat colour stays as the base so the band still
+        // reads if the backdrop is missing.
+        backgroundColor: dark ? "var(--wf-ink-900)" : "var(--wf-cream)",
+        backgroundImage: backgroundImage ? `url(${backgroundImage})` : undefined,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
         color: dark ? "var(--wf-text-on-dark)" : "var(--wf-ink-900)",
-        padding: "clamp(52px, 7vw, 88px) 0",
+        // Tightened from clamp(52px, 7vw, 88px) — the client asked for the dark
+        // band to be narrowed where there was room.
+        padding: "clamp(40px, 5vw, 64px) 0",
         overflowX: "clip",
         // Clear the site header and the sticky tab rail when jumped to.
         scrollMarginTop: "calc(var(--wf-header-h) + 56px)",

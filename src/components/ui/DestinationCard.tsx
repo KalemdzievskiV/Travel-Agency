@@ -31,7 +31,7 @@ export function DestinationCard({
   price,
   rating,
   badge,
-  height = 420,
+  height = 520,
   onClick,
 }: DestinationCardProps) {
   const t = useTranslations("cards");

@@ -64,7 +64,9 @@
 .wf-journey-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: clamp(12px, 1.4vw, 20px);
+  /* Columns are 1fr, so the only way to narrow the card is a wider gutter.
+     The reference runs a gap of roughly 10% of card width; ours was 7%. */
+  gap: clamp(14px, 1.8vw, 26px);
 }
 @media (max-width: 1100px) { .wf-journey-grid { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 720px) { .wf-journey-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
@@ -79,7 +81,9 @@
 .wf-journey-card {
   position: relative;
   display: block;
-  aspect-ratio: 3 / 4.2;
+  /* Taller and narrower, per the client's reference: their example measures
+     245x405 against our 269x375, i.e. 3/5 rather than 3/4.2. */
+  aspect-ratio: 3 / 5;
   border-radius: var(--wf-radius-md);
   overflow: hidden;
   text-decoration: none;
@@ -163,8 +167,8 @@
 
 .wf-trip-card {
   position: relative;
-  flex: 0 0 clamp(248px, 26vw, 320px);
-  aspect-ratio: 3 / 4.4;
+  flex: 0 0 clamp(216px, 22vw, 280px);
+  aspect-ratio: 3 / 5;
   border-radius: var(--wf-radius-md);
   overflow: hidden;
   display: block;
@@ -396,7 +400,7 @@
 .wf-exp-tile {
   position: relative;
   display: block;
-  aspect-ratio: 3 / 3.6;
+  aspect-ratio: 3 / 5;
   border-radius: var(--wf-radius-md);
   overflow: hidden;
   text-decoration: none;
@@ -447,7 +451,7 @@
    centred rather than bottom-left. Used by the Experiences mega-menu and the
    hub carousels so both read as the same card. */
 .wf-exp-tile--tall {
-  aspect-ratio: 3 / 5.2;
+  aspect-ratio: 3 / 5;
   border-radius: 0;
 }
 .wf-exp-tile--tall .wf-exp-tile__body {
@@ -633,7 +637,7 @@
 .wf-wrap--default { max-width: var(--wf-container); }
 
 /* ── Responsive card grids ────────────────────────────────── */
-.wf-grid { display: grid; gap: 24px; }
+.wf-grid { display: grid; gap: clamp(18px, 2.2vw, 32px); }
 .wf-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .wf-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .wf-grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
@@ -1307,3 +1311,4 @@
 /* About "why not DIY" is a pinned scroll-driven stage (WhySplit.tsx) — its
    desktop layout is inline (desktop-only render) and its stacked fallback uses
    wf-wrap, so no dedicated class is needed here. */
+

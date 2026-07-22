@@ -5,7 +5,7 @@ import { ExploreTrips } from "@/components/home/ExploreTrips";
 import { WhyBookit } from "@/components/home/WhyBookit";
 import { EnquireButton } from "@/components/site/EnquireButton";
 import { getTrips } from "@/lib/queries/public";
-import { journeyTabs, site } from "@/content/site";
+import { journeyTabs } from "@/content/site";
 
 export default async function HomePage({
   params,
@@ -25,9 +25,9 @@ export default async function HomePage({
         id="about"
         style={{
           // Longhands only: the white base stays underneath the line-art
-          // backdrop, which is itself an opaque white PNG.
+          // backdrop, which is itself an opaque white artboard.
           backgroundColor: "var(--wf-cream)",
-          backgroundImage: "url(/images/Landing2.png)",
+          backgroundImage: "url(/images/bg-lines-1.svg)",
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -63,10 +63,6 @@ export default async function HomePage({
               {t.rich("intro.p1", { i: (chunks) => <em>{chunks}</em> })}
             </p>
             <p style={{ margin: 0 }}>{t("intro.p2")}</p>
-            <p style={{ margin: 0 }}>
-              {t("intro.p3", { year: site.established.replace("Est. ", "") })}
-            </p>
-            <p style={{ margin: 0 }}>{t("intro.p4")}</p>
           </div>
           <div style={{ marginTop: "clamp(28px, 4vw, 40px)", display: "flex", justifyContent: "center" }}>
             <EnquireButton variant="dark" size="lg">
