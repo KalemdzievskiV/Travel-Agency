@@ -5,6 +5,7 @@ import { ExploreTrips } from "@/components/home/ExploreTrips";
 import { WhyBookit } from "@/components/home/WhyBookit";
 import { EnquireButton } from "@/components/site/EnquireButton";
 import { getTrips } from "@/lib/queries/public";
+import { getExperienceCategories } from "@/lib/queries/experiences";
 import { journeyTabs } from "@/content/site";
 
 export default async function HomePage({
@@ -14,7 +15,28 @@ export default async function HomePage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const [trips, t] = await Promise.all([getTrips(), getTranslations()]);
+  const [trips, whoCategories, t] = await Promise.all([
+    getTrips(),
+    getExperienceCategories("who"),
+    getTranslations(),
+  ]);
+
+  // The "who's travelling" tab is the same set of experience categories the
+  // Experiences hub and the mega-menu show — driven from the one DB source so
+  // labels and imagery can't drift apart. The rest of the tabs stay static.
+  const tabs = whoCategories.length
+    ? [
+        {
+          ...journeyTabs[0],
+          cards: whoCategories.map((c) => ({
+            label: c.title,
+            image: c.image ?? "",
+            href: `/experiences/${c.slug}`,
+          })),
+        },
+        ...journeyTabs.slice(1),
+      ]
+    : journeyTabs;
 
   return (
     <>
@@ -73,7 +95,7 @@ export default async function HomePage({
       </section>
 
       {/* Start your journey — tabbed card row */}
-      <StartYourJourney tabs={journeyTabs} />
+      <StartYourJourney tabs={tabs} />
 
       {/* Explore our trips — left title + horizontal trip cards */}
       <ExploreTrips trips={trips} />
