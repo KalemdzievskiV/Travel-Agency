@@ -1376,3 +1376,185 @@
 @media (max-width: 720px) {
   .wf-worldmap__label { font-size: 8px; letter-spacing: 0.06em; }
 }
+
+/* ── Trip layout prototypes (V1/V2/V3) ────────────────────────────
+   Temporary: delete alongside the losing TripShowcaseV* files once the
+   client picks a layout. */
+
+/* Column-safe photo carousel */
+.wf-tripcar__frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--wf-radius-md);
+  background: var(--wf-ink-800);
+}
+.wf-tripcar__slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.5s var(--wf-ease-out);
+}
+.wf-tripcar__slide--on { opacity: 1; }
+.wf-tripcar__arrow { width: 38px; height: 38px; }
+.wf-tripcar__arrow.wf-carousel-arrow--prev { left: 12px; }
+.wf-tripcar__arrow.wf-carousel-arrow--next { right: 12px; }
+.wf-tripcar__dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+.wf-tripcar__dot {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  background: var(--wf-ink-300);
+  transition: background 0.2s var(--wf-ease-out);
+}
+.wf-tripcar__dot--on { background: var(--wf-ink-900); }
+
+/* V2: gallery left, itinerary right */
+.wf-trip-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: start;
+}
+.wf-trip-split__media {
+  position: sticky;
+  top: calc(var(--wf-header-h) + 24px);
+}
+/* The map sticks to the top of its column while the days scroll under it. The
+   background is required — without it the list would show through. */
+.wf-trip-split__mapwrap {
+  position: sticky;
+  top: calc(var(--wf-header-h) + 20px);
+  z-index: 1;
+  background: var(--wf-cream);
+  padding-bottom: clamp(16px, 2.5vw, 28px);
+}
+.wf-trip-split__map {
+  /* A fixed height rather than an aspect ratio: the map shares its column with
+     the day list, so every pixel it takes is a pixel of sticky travel lost. At
+     16/10 it filled most of a short itinerary's column and unpinned at once. */
+  height: clamp(240px, 32vh, 340px);
+  border-radius: var(--wf-radius-md);
+  overflow: hidden;
+}
+/* Days dim back to the one you are on, matching the pinned itinerary. */
+.wf-trip-day {
+  padding: 18px 0;
+  opacity: 0.45;
+  transition: opacity 0.3s var(--wf-ease-out);
+}
+.wf-trip-day--on { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .wf-trip-day { opacity: 1; }
+}
+@media (max-width: 860px) {
+  .wf-trip-split { grid-template-columns: 1fr; gap: 24px; }
+  /* Stacked, two sticky blocks would fight each other for the top of the
+     viewport, so both release. */
+  .wf-trip-split__media,
+  .wf-trip-split__mapwrap { position: static; }
+  .wf-trip-day { opacity: 1; }
+}
+
+/* V3: tab rail over a single panel */
+.wf-triptabs { border-bottom: 1px solid var(--wf-border); }
+.wf-triptabs__row {
+  display: flex;
+  gap: clamp(18px, 3vw, 40px);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.wf-triptabs__row::-webkit-scrollbar { display: none; }
+.wf-triptabs__tab {
+  flex: 0 0 auto;
+  padding: 16px 0;
+  margin-bottom: -1px;
+  border: none;
+  border-bottom: 3px solid transparent;
+  background: none;
+  cursor: pointer;
+  font-family: var(--wf-font-sans);
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--wf-ink-700);
+  transition: color 0.2s var(--wf-ease-out), border-color 0.2s var(--wf-ease-out);
+}
+.wf-triptabs__tab:hover { color: var(--wf-ink-900); }
+.wf-triptabs__tab--on {
+  color: var(--wf-ink-900);
+  font-weight: 700;
+  border-bottom-color: var(--wf-coral-500);
+}
+
+/* The 1/2/3 prototype switcher */
+.wf-variant-switch {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: rgba(20, 18, 16, 0.92);
+  box-shadow: var(--wf-shadow-lg);
+}
+.wf-variant-switch__label {
+  font-family: var(--wf-font-sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  padding-right: 2px;
+}
+.wf-variant-switch__btn {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  text-decoration: none;
+  font-family: var(--wf-font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.14);
+}
+.wf-variant-switch__btn--on { background: var(--wf-coral-500); }
+
+/* V3: sticky panel (map or gallery) beside the day list. The list is shared by
+   both panel modes rather than being a tab of its own, so you keep your place
+   in the programme when switching. */
+.wf-trip-side {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: start;
+}
+.wf-trip-side__panel {
+  position: sticky;
+  top: calc(var(--wf-header-h) + 20px);
+  /* Fixed height so the panel does not jump when the content switches. */
+  height: clamp(340px, 58vh, 520px);
+}
+.wf-trip-side__fill {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--wf-radius-md);
+  overflow: hidden;
+}
+@media (max-width: 860px) {
+  .wf-trip-side { grid-template-columns: 1fr; gap: 20px; }
+  .wf-trip-side__panel { position: static; height: clamp(260px, 42vh, 360px); }
+}

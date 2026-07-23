@@ -253,7 +253,10 @@
     "makeYoursTitle": "Make this itinerary yours",
     "makeYoursBody": "Every journey with Bookit is tailored precisely to who you are and what you want to do. So tell us a little more about yourself and we'll create something completely made to measure.",
     "reassure": "No planning fees · reply within 24 hours",
-    "viewAll": "VIEW ALL TRIPS"
+    "viewAll": "VIEW ALL TRIPS",
+    "galleryHeading": "Gallery",
+    "layoutIntroPlaceholder": "Placeholder text. A short introduction to the journey will sit here — a few lines on what makes this trip particular, before the gallery and the day-by-day programme.",
+    "mapHeading": "Map"
   },
   "filters": {
     "title": "Filters",

@@ -7,8 +7,12 @@ import { Link } from "@/i18n/navigation";
 import { SectionHead } from "@/components/sections/SectionHead";
 import { TripsCarousel } from "@/components/sections/TripsCarousel";
 import { HotelGrid } from "@/components/sections/HotelGrid";
-import { TripGallery } from "@/components/sections/TripGallery";
-import { TripItineraryMap, type MapStop, type MapDay } from "@/components/sections/TripItineraryMap";
+import { type MapStop, type MapDay } from "@/components/sections/TripItineraryMap";
+// Layout prototypes — delete the two the client rejects, plus the switcher.
+import { TripShowcaseV1 } from "@/components/trips/TripShowcaseV1";
+import { TripShowcaseV2 } from "@/components/trips/TripShowcaseV2";
+import { TripShowcaseV3 } from "@/components/trips/TripShowcaseV3";
+import { TripVariantSwitcher } from "@/components/trips/TripVariantSwitcher";
 import { EnquireButton } from "@/components/site/EnquireButton";
 import { getTripWithDestinations, getSimilarTrips } from "@/lib/queries/public";
 import { getHotelsForDestination } from "@/lib/queries/hotels";
@@ -32,10 +36,15 @@ export async function generateMetadata({
 
 export default async function TripPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ locale: string; slug: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { locale, slug } = await params;
+  const sp = await searchParams;
+  const raw = Array.isArray(sp.view) ? sp.view[0] : sp.view;
+  const view: 1 | 2 | 3 = raw === "2" ? 2 : raw === "3" ? 3 : 1;
   setRequestLocale(locale);
   const result = await getTripWithDestinations(slug);
   if (!result) notFound();
@@ -177,48 +186,29 @@ export default async function TripPage({
         </div>
       </section>
 
-      {/* Gallery carousel */}
-      <TripGallery images={galleryImages} title={trip.title} />
-
-      {/* Itinerary. The pinned interactive map is behind SHOW_TRIP_MAP (hidden
-          for now); otherwise a static image + day-by-day list is shown. */}
-      {showMap && SHOW_TRIP_MAP ? (
-        <section style={{ background: "var(--wf-cream)", paddingTop: "clamp(40px, 6vw, 72px)" }}>
-          <div className="wf-wrap wf-wrap--wide">
-            <SectionHead eyebrow={t("onThisJourney")} title={t("itineraryHeading")} />
-          </div>
-          <TripItineraryMap stops={stops} days={days} dayWord={t("day")} />
-        </section>
-      ) : days.length > 0 ? (
-        <section style={{ background: "var(--wf-cream)", padding: "clamp(40px, 6vw, 72px) 0 clamp(64px, 9vw, 96px)" }}>
-          <div className="wf-wrap wf-wrap--wide">
-            <SectionHead eyebrow={t("onThisJourney")} title={t("itineraryHeading")} />
-            <div className="wf-trip-static" style={{ marginTop: "clamp(24px, 4vw, 40px)" }}>
-              <div className="wf-trip-static__media" style={{ background: staticImg ? undefined : trip.grad || "var(--wf-ink-800)" }}>
-                {staticImg && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={staticImg} alt={trip.title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-                )}
-              </div>
-              <ol style={{ listStyle: "none", margin: 0, padding: 0 }}>
-                {days.map((d, idx) => (
-                  <li key={idx} style={{ padding: "18px 0", borderTop: idx === 0 ? "none" : "1px solid var(--wf-divider)" }}>
-                    <span style={{ display: "block", fontFamily: "var(--wf-font-sans)", fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--wf-coral-600)" }}>
-                      {d.label || `${t("day")} ${d.n}`}
-                    </span>
-                    {stops[d.stopIndex]?.name && (
-                      <span style={{ display: "block", margin: "8px 0 0", fontFamily: "var(--wf-font-display)", fontWeight: 500, fontSize: "clamp(20px, 2.4vw, 26px)", letterSpacing: "-0.01em", color: "var(--wf-ink-900)" }}>
-                        {stops[d.stopIndex].name}
-                      </span>
-                    )}
-                    <p style={{ margin: "10px 0 0", fontSize: 16.5, lineHeight: 1.6, color: "var(--wf-ink-700)" }}>{d.text}</p>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </div>
-        </section>
-      ) : null}
+      {/* Gallery + itinerary — one of three layout prototypes (?view=1|2|3). */}
+      {(() => {
+        const showcase = {
+          images: galleryImages,
+          title: trip.title,
+          grad: trip.grad || "",
+          staticImg,
+          stops,
+          days,
+          showMap: showMap && SHOW_TRIP_MAP,
+          labels: {
+            eyebrow: t("onThisJourney"),
+            itinerary: t("itineraryHeading"),
+            gallery: t("galleryHeading"),
+            map: t("mapHeading"),
+            day: t("day"),
+          },
+          introText: t("layoutIntroPlaceholder"),
+        };
+        if (view === 2) return <TripShowcaseV2 {...showcase} />;
+        if (view === 3) return <TripShowcaseV3 {...showcase} />;
+        return <TripShowcaseV1 {...showcase} />;
+      })()}
 
       {/* Important notes (ВАЖНИ НАПОМЕНИ) */}
       {(trip.included.length > 0 || trip.notIncluded.length > 0 || trip.visaNotes) && (
@@ -293,6 +283,8 @@ export default async function TripPage({
           </Link>
         </div>
       </section>
+      {/* Prototype switcher — remove with the losing variants. */}
+      <TripVariantSwitcher current={view} />
     </>
   );
 }
