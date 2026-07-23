@@ -62,7 +62,7 @@ export function TripFinderLanding() {
           inset: 0,
           // Its own backdrop rather than the home hero's, so the two pages don't
           // open on the same photograph.
-          background: "url(/images/pelister-prespa.jpg) center/cover no-repeat, linear-gradient(135deg,#0e2a33,#0a1a20)",
+          background: "url(/images/trip-finder.avif) center/cover no-repeat, linear-gradient(135deg,#0e2a33,#0a1a20)",
         }}
       />
       <div
