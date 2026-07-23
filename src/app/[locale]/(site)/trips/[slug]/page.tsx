@@ -7,21 +7,13 @@ import { Link } from "@/i18n/navigation";
 import { SectionHead } from "@/components/sections/SectionHead";
 import { TripsCarousel } from "@/components/sections/TripsCarousel";
 import { HotelGrid } from "@/components/sections/HotelGrid";
-import { type MapStop, type MapDay } from "@/components/sections/TripItineraryMap";
-// Layout prototypes — delete the two the client rejects, plus the switcher.
-import { TripShowcaseV1 } from "@/components/trips/TripShowcaseV1";
-import { TripShowcaseV2 } from "@/components/trips/TripShowcaseV2";
-import { TripShowcaseV3 } from "@/components/trips/TripShowcaseV3";
-import { TripVariantSwitcher } from "@/components/trips/TripVariantSwitcher";
+import { type MapStop, type MapDay } from "@/components/trips/showcase-shared";
+import { TripShowcase } from "@/components/trips/TripShowcase";
 import { EnquireButton } from "@/components/site/EnquireButton";
 import { getTripWithDestinations, getSimilarTrips } from "@/lib/queries/public";
 import { getHotelsForDestination } from "@/lib/queries/hotels";
 import { splitDayPrefix } from "@/lib/itinerary";
 import { months as MONTHS } from "@/content/site";
-
-// Show the interactive route map (map + scroll-synced day descriptions). Trips
-// without any coordinates fall back to a static image + itinerary list.
-const SHOW_TRIP_MAP = true;
 
 export async function generateMetadata({
   params,
@@ -36,15 +28,10 @@ export async function generateMetadata({
 
 export default async function TripPage({
   params,
-  searchParams,
 }: {
   params: Promise<{ locale: string; slug: string }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { locale, slug } = await params;
-  const sp = await searchParams;
-  const raw = Array.isArray(sp.view) ? sp.view[0] : sp.view;
-  const view: 1 | 2 | 3 = raw === "2" ? 2 : raw === "3" ? 3 : 1;
   setRequestLocale(locale);
   const result = await getTripWithDestinations(slug);
   if (!result) notFound();
@@ -153,7 +140,6 @@ export default async function TripPage({
       days = geoDests.map((d, i) => ({ n: i + 1, text: d.teaser || d.intro || d.title, stopIndex: i }));
     }
   }
-  const showMap = stops.length >= 1 && days.length >= 1;
 
   return (
     <>
@@ -186,29 +172,24 @@ export default async function TripPage({
         </div>
       </section>
 
-      {/* Gallery + itinerary — one of three layout prototypes (?view=1|2|3). */}
-      {(() => {
-        const showcase = {
-          images: galleryImages,
-          title: trip.title,
-          grad: trip.grad || "",
-          staticImg,
-          stops,
-          days,
-          showMap: showMap && SHOW_TRIP_MAP,
-          labels: {
-            eyebrow: t("onThisJourney"),
-            itinerary: t("itineraryHeading"),
-            gallery: t("galleryHeading"),
-            map: t("mapHeading"),
-            day: t("day"),
-          },
-          introText: t("layoutIntroPlaceholder"),
-        };
-        if (view === 2) return <TripShowcaseV2 {...showcase} />;
-        if (view === 3) return <TripShowcaseV3 {...showcase} />;
-        return <TripShowcaseV1 {...showcase} />;
-      })()}
+      {/* Gallery + itinerary: intro text, then a sticky map/gallery panel beside
+          the day-by-day list, switched by the Карта / Галерија buttons. */}
+      <TripShowcase
+        images={galleryImages}
+        title={trip.title}
+        grad={trip.grad || ""}
+        staticImg={staticImg}
+        stops={stops}
+        days={days}
+        labels={{
+          eyebrow: t("onThisJourney"),
+          itinerary: t("itineraryHeading"),
+          gallery: t("galleryHeading"),
+          map: t("mapHeading"),
+          day: t("day"),
+        }}
+        introText={t("layoutIntroPlaceholder")}
+      />
 
       {/* Important notes (ВАЖНИ НАПОМЕНИ) */}
       {(trip.included.length > 0 || trip.notIncluded.length > 0 || trip.visaNotes) && (
@@ -283,8 +264,6 @@ export default async function TripPage({
           </Link>
         </div>
       </section>
-      {/* Prototype switcher — remove with the losing variants. */}
-      <TripVariantSwitcher current={view} />
     </>
   );
 }

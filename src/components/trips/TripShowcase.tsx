@@ -3,14 +3,14 @@ import { TripSideBySide } from "./TripSideBySide";
 import type { TripShowcaseProps } from "./showcase-shared";
 
 /**
- * Variant 3 — variant 2's opening text, then the itinerary as a sticky panel
+ * The trip itinerary layout: an opening text line, then the itinerary as a sticky panel
  * beside the days, with two buttons swapping that panel between the route map
  * and the photo carousel.
  *
  * Unlike a tabbed layout, the day list is not one of the tabs: it stays on the
  * right through the switch, so you never lose your place in the programme.
  */
-export function TripShowcaseV3({ images, title, grad, staticImg, stops, days, labels, introText }: TripShowcaseProps) {
+export function TripShowcase({ images, title, grad, staticImg, stops, days, labels, introText }: TripShowcaseProps) {
   if (images.length === 0 && days.length === 0) return null;
 
   return (

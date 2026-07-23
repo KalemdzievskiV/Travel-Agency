@@ -3,7 +3,7 @@
 import React from "react";
 import { TripRouteMap } from "./TripRouteMap";
 import { TripPhotoCarousel } from "./TripPhotoCarousel";
-import type { MapStop, MapDay } from "@/components/sections/TripItineraryMap";
+import type { MapStop, MapDay } from "./showcase-shared";
 
 /**
  * TripSideBySide — the itinerary with a sticky panel on the left and the days
@@ -12,8 +12,7 @@ import type { MapStop, MapDay } from "@/components/sections/TripItineraryMap";
  * switch rather than being a tab of its own.
  *
  * The active day is read from an IntersectionObserver over the list, and drives
- * the map the same way the pinned TripItineraryMap does — flying to the stop
- * and highlighting its marker.
+ * the map — flying to the stop and highlighting its marker.
  */
 export function TripSideBySide({
   stops,

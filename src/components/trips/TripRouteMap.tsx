@@ -3,7 +3,7 @@
 import React from "react";
 import type { Map as LeafletMap, Marker } from "leaflet";
 import "leaflet/dist/leaflet.css";
-import type { MapStop } from "@/components/sections/TripItineraryMap";
+import type { MapStop } from "./showcase-shared";
 
 /**
  * TripRouteMap — the route on a column-sized map: markers, a dashed line
