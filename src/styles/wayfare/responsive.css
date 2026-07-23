@@ -1374,35 +1374,77 @@
   border-bottom-color: var(--wf-coral-500);
 }
 
-/* Sticky panel (map or gallery) beside the day list. The list is shared by both
-   panel modes rather than being a tab of its own, so you keep your place in the
-   programme when switching. */
-.wf-trip-side {
-  display: grid;
-  /* The map/gallery panel takes the larger share so it reads as a big
-     landscape rectangle, like the previous full-width layout; the day list
-     sits in the narrower right column. */
-  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
-  gap: clamp(24px, 4vw, 56px);
-  align-items: start;
+/* Pinned itinerary: a tall, narrow map/gallery panel that stays in the viewport
+   while the days advance on scroll — so it never scrolls out however long the
+   trip is. The wrapper is made artificially tall (JS sets its height) to give
+   the scroll room the day-stepping reads from. */
+.wf-trip-pinwrap {
+  position: relative;
+  background: var(--wf-cream);
 }
-.wf-trip-side__panel {
+.wf-trip-pin {
   position: sticky;
-  top: calc(var(--wf-header-h) + 20px);
-  /* A landscape rectangle rather than the old near-square. Aspect-ratio keeps
-     it wide; the fixed height is only a fallback for browsers that ignore it
-     on a sticky box. */
-  aspect-ratio: 16 / 10;
-  height: auto;
-  max-height: 72vh;
+  top: var(--wf-header-h);
+  height: calc(100svh - var(--wf-header-h));
+  display: flex;
+  /* stretch (not center) so the inner column fills the pinned height and the
+     grid row — hence the panel — can be tall rather than content-sized. */
+  align-items: stretch;
 }
-.wf-trip-side__fill {
+.wf-trip-pin__inner {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding-block: clamp(16px, 3vh, 36px);
+}
+.wf-trip-pin__tabs { flex: 0 0 auto; margin-bottom: clamp(14px, 2vh, 24px); }
+.wf-trip-pin__grid {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  /* Panel narrower than the days column — tall and narrow, like the old pinned
+     map, rather than a wide landscape block. The single row fills the pinned
+     height (minmax 1fr), so the panel is tall rather than sized to the days. */
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: stretch;
+}
+.wf-trip-pin__panel {
+  min-width: 0;
+  min-height: 0;
+}
+.wf-trip-pin__fill {
   width: 100%;
   height: 100%;
   border-radius: var(--wf-radius-md);
   overflow: hidden;
+  border: 1px solid var(--wf-border);
+}
+.wf-trip-pin__days {
+  position: relative;
+  overflow: hidden;
+  min-height: 0;
+}
+.wf-trip-pin__day { padding: 16px 0; }
+.wf-trip-pin__progress {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  font-family: var(--wf-font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--wf-ink-500);
+  background: var(--wf-cream);
+  padding: 6px 2px 0 14px;
 }
 @media (max-width: 860px) {
-  .wf-trip-side { grid-template-columns: 1fr; gap: 20px; }
-  .wf-trip-side__panel { position: static; aspect-ratio: 16 / 10; max-height: none; }
+  /* Stacked within the pin: map on top, days below, both kept in view. */
+  .wf-trip-pin__grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: 46% 54%;
+    gap: 14px;
+  }
 }
