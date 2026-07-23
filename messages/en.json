@@ -377,8 +377,8 @@
     "thankYou": "Thank you",
     "sentTitle": "Your enquiry is on its way",
     "sentBody": "We’ll match you with a bookit travel expert and be in touch within 24 hours to set up a time to talk — over email, phone or video, whatever suits you. In the meantime, you can reach us any time on <phone></phone>.",
-    "title": "Let’s plan something <i>remarkable</i>",
-    "pageIntro": "Send us the details below and we’ll be in touch shortly — pairing you with a bookit travel designer and arranging a time to talk, by email, phone or video. Prefer to speak now? Call us on <phone></phone>.",
+    "title": "Your journey starts <i>here</i>.",
+    "pageIntro": "Send us your details through the form below and our team will be in touch shortly. We'll pair you with a Bookit travel designer who will help you plan your ideal trip.",
     "yourTrip": "Your trip",
     "idealLength": "Ideal length",
     "priceFrom": "Price from",
@@ -440,6 +440,12 @@
       "fri": "Friday",
       "sat": "Saturday",
       "sun": "Sunday"
-    }
+    },
+    "introChannels": "We can arrange the conversation over email, phone, Viber or WhatsApp — whenever suits you best.",
+    "introCallNow": "Prefer to talk right now? Call us on <phone></phone>."
+  },
+  "destinationsMenu": {
+    "allDestinations": "All destinations",
+    "browseAll": "Browse all {region}"
   }
 }

@@ -2,6 +2,7 @@
 
 import React from "react";
 import { ChevronRight, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Icon } from "@/components/ui";
 import { Link, usePathname } from "@/i18n/navigation";
 import type { RegionNavItem } from "@/lib/queries/regions";
@@ -45,6 +46,7 @@ export function DestinationsMegaMenu({
   const [active, setActive] = React.useState(0);
   const ref = React.useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+  const t = useTranslations("destinationsMenu");
 
   // Close on route change.
   React.useEffect(() => change(false), [pathname, change]);
@@ -128,7 +130,7 @@ export function DestinationsMegaMenu({
                 })}
               </ul>
               <Link href="/destinations" className="wf-destmenu__all">
-                All destinations
+                {t("allDestinations")}
               </Link>
             </div>
 
@@ -142,7 +144,7 @@ export function DestinationsMegaMenu({
                 ))}
               </div>
               <Link href={`/destinations/${region.slug}`} className="wf-destmenu__browse">
-                Browse all {region.label}
+                {t("browseAll", { region: region.label })}
               </Link>
             </div>
 

@@ -966,7 +966,7 @@
 .wf-destmenu__close:hover { color: var(--wf-ink-900); }
 .wf-destmenu__grid {
   display: grid;
-  grid-template-columns: 280px minmax(0, 1fr) 420px;
+  grid-template-columns: 280px minmax(0, 1fr) 360px;
   gap: clamp(24px, 4vw, 64px);
   padding: clamp(28px, 3vw, 44px) 0 clamp(36px, 4vw, 56px);
   align-items: start;
@@ -1027,8 +1027,9 @@
 }
 .wf-destmenu__browse:hover { color: var(--wf-coral-500); }
 .wf-destmenu__image {
-  /* Kept short enough that it doesn't drive the panel past the fold. */
-  height: clamp(260px, 28vw, 400px);
+  /* A taller portrait rectangle rather than the old near-square, per the
+     client — the third grid column is narrowed to match (see __grid). */
+  height: clamp(340px, 40vw, 540px);
   border-radius: 2px;
   background-size: cover;
   background-position: center;

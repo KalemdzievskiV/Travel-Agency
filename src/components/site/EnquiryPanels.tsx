@@ -250,7 +250,13 @@ export function EnquiryPanels({
           {t.rich("title", { i: (chunks) => <span style={{ fontStyle: "italic" }}>{chunks}</span> })}
         </h1>
         <p style={{ fontSize: 17, lineHeight: 1.65, color: "var(--wf-ink-700)", margin: "18px auto 0", maxWidth: 640 }}>
-          {t.rich("pageIntro", { phone: () => phoneLink })}
+          {t("pageIntro")}
+        </p>
+        <p style={{ fontSize: 17, lineHeight: 1.65, color: "var(--wf-ink-700)", margin: "14px auto 0", maxWidth: 640 }}>
+          {t("introChannels")}
+        </p>
+        <p style={{ fontSize: 17, lineHeight: 1.65, color: "var(--wf-ink-700)", margin: "14px auto 0", maxWidth: 640 }}>
+          {t.rich("introCallNow", { phone: () => phoneLink })}
         </p>
       </div>
 
