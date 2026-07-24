@@ -29,6 +29,7 @@ export async function saveRegion(formData: FormData) {
   if (!label) throw new Error("Label is required");
   const slug = str(formData, "slug") || slugify(label);
   const uploaded = await uploadImage(formData.get("image"));
+  const uploadedMenu = await uploadImage(formData.get("menuImage"));
 
   const values = {
     slug,
@@ -40,13 +41,19 @@ export async function saveRegion(formData: FormData) {
     updatedAt: new Date(),
   };
 
+  // Each upload is optional on edit — an untouched file input leaves the
+  // stored URL alone rather than blanking it.
   if (id) {
     await db
       .update(regions)
-      .set(uploaded ? { ...values, image: uploaded } : values)
+      .set({
+        ...values,
+        ...(uploaded ? { image: uploaded } : {}),
+        ...(uploadedMenu ? { menuImage: uploadedMenu } : {}),
+      })
       .where(eq(regions.id, id));
   } else {
-    await db.insert(regions).values({ ...values, image: uploaded });
+    await db.insert(regions).values({ ...values, image: uploaded, menuImage: uploadedMenu });
   }
 
   revalidateRegions();

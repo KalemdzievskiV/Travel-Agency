@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { Button, Eyebrow } from "@/components/ui";
 import { Link } from "@/i18n/navigation";
 import { site } from "@/content/site";
+import { useOpeningHoursMessage } from "@/lib/hours";
 
 /**
  * EnquiryPanels — the /make-an-enquiry page body (modelled on Black Tomato's
@@ -159,6 +160,7 @@ export function EnquiryPanels({
 }) {
   const t = useTranslations("enquiry");
   const tMonth = useTranslations("months");
+  const hoursMsg = useOpeningHoursMessage();
   const [sent, setSent] = React.useState(false);
   const [childCount, setChildCount] = React.useState(0);
   const [childAges, setChildAges] = React.useState<string[]>([]);
@@ -236,6 +238,12 @@ export function EnquiryPanels({
     <div>
       {/* Centred intro */}
       <div style={{ maxWidth: 760, margin: "0 auto clamp(32px, 5vw, 48px)", textAlign: "center" }}>
+        {/* Same live opening-hours line as the header phone tooltip. */}
+        {hoursMsg && (
+          <Eyebrow tone="ink" role="status" style={{ marginBottom: 14 }}>
+            {hoursMsg}
+          </Eyebrow>
+        )}
         <h1
           style={{
             fontFamily: "var(--wf-font-display)",

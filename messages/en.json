@@ -149,11 +149,11 @@
     "days": "{count, plural, one {# day} other {# days}}"
   },
   "feelings": {
-    "Contentment": "Contentment",
-    "Revitalised": "Revitalised",
-    "Freedom": "Freedom",
-    "Wonder": "Wonder",
-    "Challenged": "Challenged"
+    "Contentment": "Relaxed",
+    "Challenged": "Excited",
+    "Wonder": "Inspired",
+    "Freedom": "Free",
+    "Revitalised": "Fulfilled"
   },
   "months": {
     "Jan": "January",
@@ -327,12 +327,23 @@
   "contact": {
     "eyebrow": "Contact",
     "title": "Get in touch",
-    "intro": "We’re a small studio and we answer personally. Reach us however suits you — we’ll reply within 24 hours.",
     "phoneLabel": "Phone",
     "emailLabel": "Email",
     "addressLabel": "Address",
     "hoursLabel": "Opening hours",
-    "hoursValue": "Monday–Friday, 10:00–18:00"
+    "hoursValue": "Monday–Friday, 10:00–18:00",
+    "introLead": "Ready to start planning your next trip? Or perhaps you have a more general question?",
+    "introBody": "Call us, email us, or fill in our online enquiry form.",
+    "travelEnquiries": "Travel enquiries",
+    "travelBody": "Speak to one of our travel designers.",
+    "onlineEnquiries": "Online enquiries",
+    "onlineBody": "Tell us a few details about your travel plans and we’ll shape the journey around them.",
+    "emailUsLabel": "Email us",
+    "emailBody": "Send us your travel request and we’ll reply within 24 hours.",
+    "visitTitle": "Coming to meet one of the team?",
+    "visitSub": "Find us here",
+    "directions": "Get directions",
+    "mapTitle": "Map showing the bookit office in Skopje"
   },
   "legalPage": {
     "eyebrow": "Legal",

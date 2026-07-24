@@ -1,8 +1,10 @@
-// About-section content for bookit. Placeholder, feeling-led copy in British
-// English, grounded in North Macedonia & the Balkans — the client will supply
-// final text and photography later. Imagery uses tonal-gradient placeholders
-// (the `grad` pattern shared with destinations/trips); swap `grad` for real
-// images when they arrive. Kept here (not the DB) like other static site copy.
+// About-section content for bookit. Feeling-led copy in British English,
+// grounded in North Macedonia & the Balkans. The 5-reasons and how-it-works
+// sequences now run on the client's own photography (see `@/content/media`);
+// everything else still carries tonal-gradient placeholders (the `grad` pattern
+// shared with destinations/trips) until their photos arrive. Kept here (not the
+// DB) like other static site copy.
+import { processPhoto, reasonPhoto } from "@/content/media";
 
 export type StoryRow = {
   eyebrow: string;
@@ -107,8 +109,8 @@ export const aboutPage = {
 };
 
 // ── Why book with us → 5 reasons ────────────────────────────────────
-// Placeholder photography via Lorem Picsum (seeded → stable random travel
-// images). Swap `image` for the client's real photos when they arrive.
+// Photography is the client's own set (see `@/content/media`), one per reason
+// in order; the gradients stay as the fallback behind them.
 export const reasonsIntro: ReasonsIntro = {
   big: "WHY US?",
   eyebrow: "What sets us apart",
@@ -121,35 +123,35 @@ export const reasons: Reason[] = [
     title: "People who make the difference",
     body: "We believe an extraordinary team stands behind every unforgettable journey. Our genuine love of travel and our commitment to creating singular experiences are what set us apart in this industry.\n\nWith curiosity, care and a personal approach, we build meaningful, long-standing relationships founded on trust with every client.",
     grad: "linear-gradient(135deg,#3f6f7a,#1d3c45)",
-    image: "https://picsum.photos/seed/bookit-people/1400/1800",
+    image: reasonPhoto[0],
   },
   {
     no: "02",
     title: "Experiences you won't find elsewhere",
     body: "Years of experience, creativity and a carefully built network of partners let us create journeys that simply don't appear in standard offerings.\n\nOur team opens the door to special places, authentic experiences and thoughtfully considered details that turn every journey into something rich and unforgettable.",
     grad: "linear-gradient(135deg,#5a6b86,#2a3550)",
-    image: "https://picsum.photos/seed/bookit-bespoke/1400/1800",
+    image: reasonPhoto[1],
   },
   {
     no: "03",
     title: "Exceptional partners",
     body: "Our long-standing, close partnerships with trusted local experts are what distinguish us from the rest.\n\nBecause of that closeness, services are created specifically for us — carefully adapted to what our clients need and to our own creative ideas for singular journeys.",
     grad: "linear-gradient(135deg,#7a6a52,#2c2418)",
-    image: "https://picsum.photos/seed/bookit-partners/1400/1800",
+    image: reasonPhoto[2],
   },
   {
     no: "04",
     title: "Creativity that inspires",
     body: "We stand out through an original approach, striking content and inventive ideas that keep changing the way journeys are experienced.\n\nThrough contemporary marketing, new concepts, a vision for the future of travel and singular partnerships, we inspire our audience to discover the world in a different, more exciting and more considered way.",
     grad: "linear-gradient(135deg,#4f6f57,#1d2c20)",
-    image: "https://picsum.photos/seed/bookit-creative/1400/1800",
+    image: reasonPhoto[3],
   },
   {
     no: "05",
     title: "Made to measure",
     body: "We create wholly personalised journeys, carefully shaped around the wishes, needs and expectations of each client.\n\nWith honest recommendations, a personal approach and attention to every detail, we aim for each journey to be better than imagined. What sets us apart is our love of building long-term relationships with our clients, and of improving what comes next on the strength of their feedback.",
     grad: "linear-gradient(135deg,#6a4f6a,#241a24)",
-    image: "https://picsum.photos/seed/bookit-care/1400/1800",
+    image: reasonPhoto[4],
   },
 ];
 
@@ -212,49 +214,49 @@ export const howItWorks: ProcessStep[] = [
     title: "A place for ideas and inspiration",
     body: "This website is a place for ideas and inspiration — the space where every new journey begins. You can browse destinations alphabetically through our A–Z list, or use the Trip Finder if you'd rather discover something new and unexpected.",
     grad: "linear-gradient(135deg,#3f6f7a,#1d3c45)",
-    image: "https://picsum.photos/seed/bookit-how-1/1600/2000",
+    image: processPhoto[0],
   },
   {
     no: "02",
     title: "Nothing here is fixed",
     body: "Nothing you see here is set in stone. When you get in touch, we treat every suggested programme as a starting point for inspiration, not a rigid plan. Your journey will be carefully and precisely shaped around you, around what you want, and around the people you're travelling with.",
     grad: "linear-gradient(135deg,#5a6b86,#2a3550)",
-    image: "https://picsum.photos/seed/bookit-how-2/1600/2000",
+    image: processPhoto[1],
   },
   {
     no: "03",
     title: "Tell us your idea",
     body: "If you have an idea you don't see here, do share it with us. Unless it involves robbing the Louvre, we can — and gladly will — try to arrange very nearly anything.",
     grad: "linear-gradient(135deg,#7a6a52,#2c2418)",
-    image: "https://picsum.photos/seed/bookit-how-3/1600/2000",
+    image: processPhoto[2],
   },
   {
     no: "04",
     title: "We can arrange almost anything",
     body: "When we say we can arrange anything, we mean it — from timeless adventures like a family safari in Botswana, to the wholly unusual, like being left in the middle of the Amazon rainforest with nothing but a GPS phone in your hand.\n\nWhether you're after classic elegance or an adventure beyond every boundary, we'll turn your idea into an unforgettable journey.",
     grad: "linear-gradient(135deg,#4f6f57,#1d2c20)",
-    image: "https://picsum.photos/seed/bookit-how-4/1600/2000",
+    image: processPhoto[3],
   },
   {
     no: "05",
     title: "Look for the turquoise",
     body: "Wherever you notice bookit's distinctive turquoise, that's your sign you can click and go further. Use the “Start planning” buttons across the site to reach us through our online form.",
     grad: "linear-gradient(135deg,#6a4f6a,#241a24)",
-    image: "https://picsum.photos/seed/bookit-how-5/1600/2000",
+    image: processPhoto[4],
   },
   {
     no: "06",
     title: "We start planning straight away",
     body: "The moment you send the form, we begin planning your journey. One of our travel experts will be in touch with a first proposal. From there we refine it together until we've created a journey that answers exactly what you wanted.",
     grad: "linear-gradient(135deg,#3f5a4f,#161f18)",
-    image: "https://picsum.photos/seed/bookit-how-6/1600/2000",
+    image: processPhoto[5],
   },
   {
     no: "07",
     title: "We stay with you throughout",
     body: "We never leave you alone in the process. We're here to perfect your programme together until every detail is exactly as you imagined it.\n\nAnd once the journey begins, we remain available — one call is all it takes, should you need us.",
     grad: "linear-gradient(135deg,#3f6f7a,#16130f)",
-    image: "https://picsum.photos/seed/bookit-how-7/1600/2000",
+    image: processPhoto[6],
   },
 ];
 

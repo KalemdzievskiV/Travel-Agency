@@ -108,7 +108,9 @@ export function DestinationsMegaMenu({
           >
             <X size={22} aria-hidden />
           </button>
-          <div className="wf-wrap wf-wrap--wide wf-destmenu__grid">
+          <div
+            className={`wf-wrap wf-wrap--wide wf-destmenu__grid${region.menuImage ? "" : " wf-destmenu__grid--noimage"}`}
+          >
             {/* Regions */}
             <div>
               <ul className="wf-destmenu__regions">
@@ -148,15 +150,18 @@ export function DestinationsMegaMenu({
               </Link>
             </div>
 
-            {/* Feature image */}
-            <div
-              className="wf-destmenu__image"
-              style={{
-                background: region.grad ?? "var(--wf-ink-800)",
-                backgroundImage: region.image ? `url(${region.image})` : undefined,
-              }}
-              aria-hidden
-            />
+            {/* Feature image — only ever the crop uploaded for this slot; the
+                region masthead is a landscape header and stood in badly here,
+                so an unset menu image drops the column instead.
+
+                A real <img> rather than a background: the height follows the
+                file's own proportions, so an upload is shown as shot instead of
+                being zoomed into a fixed portrait box. Only an unusually tall
+                image gets cropped, by the max-height. */}
+            {region.menuImage && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img className="wf-destmenu__image" src={region.menuImage} alt="" aria-hidden />
+            )}
           </div>
         </div>
       )}

@@ -56,26 +56,29 @@ export function DeleteButton({
 export function ImageField({
   name = "image",
   currentUrl,
+  label = "Image",
+  hint = "Upload to replace. Leave empty to keep the current image.",
+  /** Preview shape — "portrait" for slots that crop tall, like the mega-menu. */
+  ratio = "landscape",
 }: {
   name?: string;
   currentUrl?: string | null;
+  label?: string;
+  hint?: string;
+  ratio?: "landscape" | "portrait";
 }) {
   const [preview, setPreview] = React.useState<string | null>(currentUrl ?? null);
 
   return (
-    <Field
-      label="Image"
-      htmlFor={name}
-      hint="Upload to replace. Leave empty to keep the current image."
-    >
+    <Field label={label} htmlFor={name} hint={hint}>
       {preview && (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={preview}
           alt=""
           style={{
-            width: 220,
-            height: 132,
+            width: ratio === "portrait" ? 148 : 220,
+            height: ratio === "portrait" ? 198 : 132,
             objectFit: "cover",
             borderRadius: "var(--wf-radius-md)",
             border: "1px solid var(--wf-border)",

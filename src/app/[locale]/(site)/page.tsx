@@ -7,6 +7,7 @@ import { EnquireButton } from "@/components/site/EnquireButton";
 import { getTrips } from "@/lib/queries/public";
 import { getExperienceCategories } from "@/lib/queries/experiences";
 import { journeyTabs } from "@/content/site";
+import { backdrop } from "@/content/media";
 
 export default async function HomePage({
   params,
@@ -49,7 +50,7 @@ export default async function HomePage({
           // Longhands only: the white base stays underneath the line-art
           // backdrop, which is itself an opaque white artboard.
           backgroundColor: "var(--wf-cream)",
-          backgroundImage: "url(/images/bg-lines-1.svg)",
+          backgroundImage: `url(${backdrop.intro})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",

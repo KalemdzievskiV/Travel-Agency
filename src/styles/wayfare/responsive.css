@@ -879,9 +879,42 @@
   display: grid;
   grid-template-columns: 280px minmax(0, 1fr) 360px;
   gap: clamp(24px, 4vw, 64px);
-  padding: clamp(28px, 3vw, 44px) 0 clamp(36px, 4vw, 56px);
+  /* padding-block, not the shorthand: .wf-wrap's padding-inline gutter is
+     declared earlier in this file, so a shorthand here would zero it out and
+     leave the region list flush against the viewport edge. */
+  padding-block: clamp(28px, 3vw, 44px) clamp(36px, 4vw, 56px);
   align-items: start;
 }
+/* Regions without a dedicated portrait for the menu simply lose the third
+   column; the country list takes the room rather than leaving a gap. */
+.wf-destmenu__grid--noimage { grid-template-columns: 280px minmax(0, 1fr); }
+
+/* ── Contact ──────────────────────────────────────────────────────
+   The three ways to reach us (call / enquiry form / email), side by side on
+   desktop and stacked on phones, with the hairline moving from left edge to
+   top edge as they stack. */
+.wf-contact-cols {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(28px, 4vw, 56px);
+}
+.wf-contact-col { border-left: 1px solid var(--wf-border); padding-left: clamp(20px, 2.5vw, 32px); }
+@media (max-width: 860px) {
+  .wf-contact-cols { grid-template-columns: 1fr; gap: 0; }
+  .wf-contact-col {
+    border-left: 0;
+    border-top: 1px solid var(--wf-border);
+    padding-left: 0;
+    padding-block: 28px;
+  }
+}
+/* The map and the printed address; the address slides under the map on phones. */
+.wf-contact-map {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+  gap: clamp(16px, 2.4vw, 28px);
+}
+@media (max-width: 780px) { .wf-contact-map { grid-template-columns: 1fr; } }
 .wf-destmenu__regions {
   list-style: none;
   margin: 0;
@@ -938,12 +971,16 @@
 }
 .wf-destmenu__browse:hover { color: var(--wf-coral-500); }
 .wf-destmenu__image {
-  /* A taller portrait rectangle rather than the old near-square, per the
-     client — the third grid column is narrowed to match (see __grid). */
-  height: clamp(340px, 40vw, 540px);
+  /* Height follows the uploaded file's own proportions so nothing is zoomed;
+     the cap only bites on unusually tall portraits, which then crop centrally
+     rather than pushing the menu past the fold. */
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: clamp(340px, 40vw, 540px);
+  object-fit: cover;
+  object-position: center;
   border-radius: 2px;
-  background-size: cover;
-  background-position: center;
 }
 
 /* ── Experiences mega-menu (groups → cards) ───────────────────────
@@ -1277,6 +1314,12 @@
   color: #fff;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
 }
+/* The landmass hit area. Clicking it focuses the anchor, and the UA focus ring
+   would be drawn around the region's whole bounding box — for Europe that runs
+   Greenland to Kamchatka, a white rectangle across the map. It's aria-hidden
+   and out of the tab order, so the label beside it carries the visible focus
+   state instead. */
+.wf-worldmap__hit:focus { outline: none; }
 .wf-worldmap__label:focus-visible {
   outline: 2px solid var(--wf-coral-400);
   outline-offset: 3px;
@@ -1287,6 +1330,24 @@
    remains the primary way in, so the map becomes decorative. */
 @media (max-width: 720px) {
   .wf-worldmap__label { font-size: 8px; letter-spacing: 0.06em; }
+}
+
+/* Region section headings on /destinations — each one leads to its region
+   page. Underline rather than a tint on hover, so the page keeps a single
+   accent. */
+.wf-region-heading {
+  color: inherit;
+  text-decoration: none;
+}
+.wf-region-heading:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 8px;
+}
+.wf-region-heading:focus-visible {
+  outline: 2px solid var(--wf-coral-400);
+  outline-offset: 4px;
+  border-radius: 2px;
 }
 
 /* ── Trip itinerary layout ────────────────────────────────────────

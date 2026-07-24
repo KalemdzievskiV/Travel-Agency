@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { DestinationGrid } from "@/components/sections/DestinationGrid";
 import { WorldRegionMap } from "@/components/sections/WorldRegionMap";
 import { getDestinations } from "@/lib/queries/public";
@@ -75,7 +76,9 @@ export default async function DestinationsPage({
                         color: "var(--wf-ink-900)",
                       }}
                     >
-                      {reg.label}
+                      <Link href={`/destinations/${reg.slug}`} className="wf-region-heading">
+                        {reg.label}
+                      </Link>
                     </h2>
                     <DestinationGrid items={items} />
                   </div>

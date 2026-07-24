@@ -63,13 +63,24 @@ export function WorldRegionMap({ regions }: { regions: RegionNavItem[] }) {
           if (!paths?.length) return null;
           const on = active === r.slug;
           return (
-            <path
+            // The landmass itself is the link, not just the label above it — it
+            // tints and shows a pointer on hover, so it has to go somewhere.
+            // The label carries the tab stop and the accessible name, so this
+            // one stays out of the tab order to avoid a duplicate.
+            <Link
               key={r.slug}
-              d={paths.join(" ")}
-              className={`wf-worldmap__region${on ? " wf-worldmap__region--on" : ""}`}
+              href={`/destinations/${r.slug}`}
+              className="wf-worldmap__hit"
+              tabIndex={-1}
+              aria-hidden
               onMouseEnter={() => setActive(r.slug)}
               onMouseLeave={() => setActive((p) => (p === r.slug ? null : p))}
-            />
+            >
+              <path
+                d={paths.join(" ")}
+                className={`wf-worldmap__region${on ? " wf-worldmap__region--on" : ""}`}
+              />
+            </Link>
           );
         })}
       </svg>

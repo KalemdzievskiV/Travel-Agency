@@ -18,6 +18,8 @@ export type RegionNavItem = {
   slug: string;
   label: string;
   image: string | null;
+  /** Portrait crop for the mega-menu; the menu drops its image column without it. */
+  menuImage: string | null;
   grad: string | null;
   destinations: { slug: string; title: string }[];
 };
@@ -46,6 +48,7 @@ export async function getRegionsWithDestinations(): Promise<RegionNavItem[]> {
       slug: r.slug,
       label: mk && r.labelMk ? r.labelMk : r.label,
       image: r.image,
+      menuImage: r.menuImage,
       grad: r.grad,
       destinations: r.destinations.map((d) => ({
         slug: d.slug,

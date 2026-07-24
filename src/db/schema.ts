@@ -264,6 +264,11 @@ export const regions = pgTable(
     label: text("label").notNull(),
     labelMk: text("label_mk"),
     image: text("image"),
+    // Portrait crop for the Destinations mega-menu. Deliberately separate from
+    // `image`: that one is a landscape masthead, and squeezing it into the
+    // menu's tall slot cropped it to a strip of sky. The menu hides its image
+    // column entirely until this is set.
+    menuImage: text("menu_image"),
     grad: text("grad"),
     sortOrder: integer("sort_order").notNull().default(0),
     published: boolean("published").notNull().default(true),

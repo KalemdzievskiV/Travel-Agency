@@ -12,6 +12,18 @@ export const site = {
     "Tailor-made luxury travel from North Macedonia, designed entirely around how you want to feel. No templates. No planning fees.",
 };
 
+/**
+ * The office, for the contact page's "come and meet us" map. `lat`/`lng` place
+ * the pin and frame the embed; `lines` is what's printed under it. Swap in the
+ * street address and its exact coordinates when the studio address is final —
+ * these currently sit on the city centre.
+ */
+export const office = {
+  lines: ["bookit", "Skopje", "North Macedonia"],
+  lat: 41.9973,
+  lng: 21.428,
+};
+
 // Masthead photo for the Experiences hub. Page-level rather than per-category,
 // so it lives here rather than in the categories table — swap the path to
 // change it.
@@ -59,12 +71,16 @@ export const press: string[] = [
   "BALKAN INSIGHT",
 ];
 
+// Trip-finder "how do you want to feel?" facet. These are stable keys, not
+// display text — trips and destinations are tagged with them in the database,
+// so renaming one orphans its tagged rows. The wording shown to visitors lives
+// in the `feelings` namespace of the dictionaries; order here is display order.
 export const feelings: string[] = [
-  "Contentment",
-  "Revitalised",
-  "Freedom",
-  "Wonder",
-  "Challenged",
+  "Contentment", // Опуштено / Relaxed
+  "Challenged", // Возбудено / Excited
+  "Wonder", // Инспирирано / Inspired
+  "Freedom", // Слободно / Free
+  "Revitalised", // Исполнето / Fulfilled
 ];
 
 export const months: string[] = [

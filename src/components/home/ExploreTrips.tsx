@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { TripsCarousel } from "@/components/sections/TripsCarousel";
+import { backdrop } from "@/content/media";
 import type { Trip } from "@/content/types";
 
 /**
@@ -15,7 +16,7 @@ export async function ExploreTrips({ trips }: { trips: Trip[] }) {
       trips={trips}
       title={t("title")}
       description={t("subtitle")}
-      backgroundImage="/images/Landing1.png"
+      backgroundImage={backdrop.dark}
     />
   );
 }

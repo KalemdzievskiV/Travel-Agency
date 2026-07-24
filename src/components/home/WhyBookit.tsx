@@ -3,6 +3,7 @@ import { Award, Lightbulb, Map, PhoneCall, UserRound } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { EnquireButton } from "@/components/site/EnquireButton";
 import { whyBookit } from "@/content/site";
+import { backdrop } from "@/content/media";
 
 /**
  * WhyBookit — the landing "why bookit?" row (modelled on Black Tomato): five
@@ -24,7 +25,7 @@ export async function WhyBookit() {
       <section
         style={{
           backgroundColor: "var(--wf-cream)",
-          backgroundImage: "url(/images/bg-lines-3.svg)",
+          backgroundImage: `url(${backdrop.points})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -79,16 +80,18 @@ export async function WhyBookit() {
         </div>
       </section>
 
-      {/* Full-bleed CTA band. The terracotta backdrop already clears AA against
-          white text on its own (5.65:1), so it carries only a light scrim to
-          hold the lighter parts of the texture — heavier would mute the colour
-          to brown, which was the reason the previous photo needed one. */}
+      {/* Full-bleed CTA band on the client's orange plaster wall. White on the
+          raw texture is 3.73:1 — fine for the large heading, short of AA for
+          anything else — so a light scrim lifts it to 4.55:1 while leaving the
+          orange vivid. Don't drop the scrim. */}
       <section
         style={{
+          backgroundColor: "var(--wf-ink-900)",
           backgroundImage:
-            "linear-gradient(180deg, rgba(20,18,16,0.18), rgba(20,18,16,0.26)), url(/images/Landing5.png)",
+            "linear-gradient(rgba(20,18,16,0.22), rgba(20,18,16,0.22)), url(/images/ready-to-start.png)",
           backgroundSize: "cover",
           backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
           color: "#fff",
           padding: "clamp(64px, 10vw, 110px) 0",
           textAlign: "center",

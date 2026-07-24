@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Button } from "@/components/ui";
 import { ReasonsScroller } from "@/components/about";
 import { getAbout } from "@/content/about";
+import { royalBluePanel } from "@/content/media";
 
 export const metadata: Metadata = {
   title: "5 reasons to book with us",
@@ -24,7 +25,9 @@ export default async function FiveReasonsPage({
     <>
       <ReasonsScroller reasons={reasons} intro={reasonsIntro} />
 
-      <section style={{ background: "var(--wf-ink-900)", color: "var(--wf-text-on-dark)", padding: "clamp(64px, 9vw, 96px) 0" }}>
+      {/* Same blue wall as the sequence above, so the route closes on one
+          surface rather than dropping to a flat, differently-toned dark. */}
+      <section style={{ background: royalBluePanel, color: "var(--wf-text-on-dark)", padding: "clamp(64px, 9vw, 96px) 0" }}>
         <div className="wf-wrap wf-wrap--default" style={{ textAlign: "center" }}>
           <h2
             style={{

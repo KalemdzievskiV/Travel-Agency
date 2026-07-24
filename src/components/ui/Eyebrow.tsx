@@ -12,7 +12,7 @@ type EyebrowProps = {
   as?: React.ElementType;
 } & Omit<React.HTMLAttributes<HTMLElement>, "children">;
 
-export function Eyebrow({ children, tone = "coral", as = "div", ...rest }: EyebrowProps) {
+export function Eyebrow({ children, tone = "coral", as = "div", style, ...rest }: EyebrowProps) {
   const tones: Record<EyebrowTone, string> = {
     coral: "var(--wf-coral-500)",
     ink: "var(--wf-ink-500)",
@@ -28,6 +28,8 @@ export function Eyebrow({ children, tone = "coral", as = "div", ...rest }: Eyebr
         textTransform: "uppercase",
         letterSpacing: "0.18em",
         color: tones[tone] || tones.coral,
+        // Caller styles layer on top rather than replacing the label styling.
+        ...style,
       }}
       {...rest}
     >

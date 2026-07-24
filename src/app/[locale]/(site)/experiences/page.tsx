@@ -6,6 +6,7 @@ import { ExperienceTabs } from "@/components/sections/ExperienceTabs";
 import { ExperienceCarousel } from "@/components/sections/ExperienceCarousel";
 import { getExperienceCategories } from "@/lib/queries/experiences";
 import { experiencesHeroImage } from "@/content/site";
+import { backdrop } from "@/content/media";
 
 export const metadata: Metadata = {
   title: "Experiences",
@@ -120,7 +121,7 @@ export default async function ExperiencesPage({
       <section
         style={{
           backgroundColor: "var(--wf-cream)",
-          backgroundImage: "url(/images/bg-lines-2.svg)",
+          backgroundImage: `url(${backdrop.intro})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -129,7 +130,9 @@ export default async function ExperiencesPage({
         }}
       >
         <div className="wf-wrap wf-wrap--wide">
-          <div style={{ maxWidth: 720, marginInline: "auto", textAlign: "center" }}>
+          {/* Wider than a normal reading column, matching the category pages:
+              the client wants these openers to land in two sentences, not four. */}
+          <div style={{ maxWidth: 980, marginInline: "auto", textAlign: "center" }}>
             <p
               style={{
                 fontFamily: "var(--wf-font-sans)",
@@ -152,7 +155,7 @@ export default async function ExperiencesPage({
       <ExperienceCarousel
         id="who"
         tone="dark"
-        backgroundImage="/images/Landing1.png"
+        backgroundImage={backdrop.dark}
         eyebrow={tMenu("who")}
         title={t("whoQuestion")}
         items={categories}
@@ -161,7 +164,7 @@ export default async function ExperiencesPage({
       <ExperienceCarousel
         id="how"
         tone="light"
-        backgroundImage="/images/bg-lines-1.svg"
+        backgroundImage={backdrop.points}
         eyebrow={tMenu("remarkable")}
         title={t("howQuestion")}
         items={remarkable}

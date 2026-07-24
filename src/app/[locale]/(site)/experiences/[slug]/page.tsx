@@ -44,12 +44,17 @@ export default async function ExperienceCategoryPage({
   const anchorPad = { scrollMarginTop: "calc(var(--wf-header-h) + 66px)" } as React.CSSProperties;
 
   const bodyStyle: React.CSSProperties = {
-    fontSize: "clamp(16px, 1.9vw, 18px)",
+    fontSize: "clamp(16px, 1.9vw, 18.5px)",
     lineHeight: 1.75,
     color: "var(--wf-ink-700)",
     whiteSpace: "pre-line",
     margin: 0,
   };
+  // The prose blocks run wider than the usual reading column: at 760px the
+  // client's two-sentence paragraphs were breaking into four stubby ones.
+  const prose: React.CSSProperties = { maxWidth: 980, marginInline: "auto", textAlign: "center" };
+  // …and their labels sit a size up, so the section markers actually register.
+  const sectionLabel: React.CSSProperties = { fontSize: "14px", letterSpacing: "0.22em" };
 
   return (
     <>
@@ -119,11 +124,11 @@ export default async function ExperienceCategoryPage({
       </div>
 
       {/* Concept */}
-      <section id="concept" style={{ background: "var(--wf-cream)", padding: "clamp(48px, 7vw, 80px) 0 clamp(40px, 6vw, 56px)", ...anchorPad }}>
-        <div className="wf-wrap" style={{ maxWidth: 760, marginInline: "auto", textAlign: "center" }}>
-          <Eyebrow>{t("concept")}</Eyebrow>
+      <section id="concept" style={{ background: "var(--wf-cream)", padding: "clamp(26px, 3.6vw, 44px) 0 clamp(40px, 6vw, 56px)", ...anchorPad }}>
+        <div className="wf-wrap wf-wrap--wide" style={prose}>
+          <Eyebrow style={sectionLabel}>{t("concept")}</Eyebrow>
           {c.heroText && (
-            <p style={{ fontFamily: "var(--wf-font-sans)", fontWeight: 500, lineHeight: 1.3, letterSpacing: "-0.005em", color: "var(--wf-ink-900)", margin: "16px 0 0", fontSize: "clamp(22px, 3.4vw, 30px)" }}>
+            <p style={{ fontFamily: "var(--wf-font-sans)", fontWeight: 500, lineHeight: 1.3, letterSpacing: "-0.005em", color: "var(--wf-ink-900)", margin: "16px 0 0", fontSize: "clamp(22px, 3.4vw, 32px)" }}>
               {c.heroText}
             </p>
           )}
@@ -136,7 +141,7 @@ export default async function ExperienceCategoryPage({
       {c.destinations.length > 0 && (
         <section id="destinations" style={{ background: "var(--wf-cream)", padding: "clamp(40px, 6vw, 64px) 0 clamp(8px, 2vw, 16px)", ...anchorPad }}>
           <div className="wf-wrap wf-wrap--wide">
-            <div style={{ maxWidth: 760, marginInline: "auto", textAlign: "center", marginBottom: "clamp(28px, 4vw, 40px)" }}>
+            <div style={{ ...prose, marginBottom: "clamp(28px, 4vw, 40px)" }}>
               <h2
                 style={{
                   fontFamily: "var(--wf-font-display)",
@@ -161,8 +166,8 @@ export default async function ExperienceCategoryPage({
 
       {/* Our recommendations */}
       <section id="recommendations" style={{ background: "var(--wf-cream)", padding: "0 0 clamp(8px, 2vw, 16px)", ...anchorPad }}>
-        <div className="wf-wrap" style={{ maxWidth: 760, marginInline: "auto", textAlign: "center" }}>
-          <Eyebrow>{t("recommendations")}</Eyebrow>
+        <div className="wf-wrap wf-wrap--wide" style={prose}>
+          <Eyebrow style={sectionLabel}>{t("recommendations")}</Eyebrow>
           {c.recommendations && <p style={{ ...bodyStyle, textAlign: "left", margin: "16px 0 0" }}>{c.recommendations}</p>}
         </div>
       </section>
@@ -175,7 +180,7 @@ export default async function ExperienceCategoryPage({
         <section id="faqs" style={{ background: "var(--wf-cream)", padding: "clamp(56px, 8vw, 88px) 0 clamp(64px, 9vw, 104px)", ...anchorPad }}>
           <div className="wf-wrap" style={{ maxWidth: 820, marginInline: "auto" }}>
             <div style={{ textAlign: "center", marginBottom: "clamp(24px, 4vw, 36px)" }}>
-              <Eyebrow>{t("faqs")}</Eyebrow>
+              <Eyebrow style={sectionLabel}>{t("faqs")}</Eyebrow>
             </div>
             <FaqAccordion items={c.faqs} />
           </div>

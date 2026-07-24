@@ -10,6 +10,7 @@ import {
 } from "motion/react";
 import { Eyebrow } from "@/components/ui";
 import { useIsDesktop } from "./useIsDesktop";
+import { royalBluePanel as PANEL } from "@/content/media";
 import type { Reason, ReasonsIntro } from "@/content/about";
 
 /**
@@ -99,7 +100,7 @@ function ReasonsPinned({ reasons, intro }: { reasons: Reason[]; intro: ReasonsIn
           top: 0,
           height: "100vh",
           overflow: "hidden",
-          background: "var(--wf-ink-900)",
+          background: PANEL,
           color: "var(--wf-text-on-dark)",
         }}
       >
@@ -153,7 +154,7 @@ function ReasonsPinned({ reasons, intro }: { reasons: Reason[]; intro: ReasonsIn
               style={{
                 position: "absolute",
                 inset: 0,
-                background: "var(--wf-ink-900)",
+                background: PANEL,
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
                 alignItems: "center",
@@ -208,7 +209,7 @@ function ReasonsPinned({ reasons, intro }: { reasons: Reason[]; intro: ReasonsIn
                 bottom: 0,
                 width: "50%",
                 left: copySide === "left" ? 0 : "50%",
-                background: "var(--wf-ink-900)",
+                background: PANEL,
                 display: "flex",
                 alignItems: "center",
                 // Extra room on whichever edge the index rail occupies, so the
@@ -312,7 +313,7 @@ function ReasonsStack({ reasons, intro }: { reasons: Reason[]; intro: ReasonsInt
     <>
       <section
         style={{
-          background: "var(--wf-ink-900)",
+          background: PANEL,
           color: "var(--wf-text-on-dark)",
           padding: "calc(var(--wf-header-h) + clamp(40px, 8vw, 72px)) 0 clamp(40px, 8vw, 64px)",
         }}
@@ -353,7 +354,7 @@ function ReasonsStack({ reasons, intro }: { reasons: Reason[]; intro: ReasonsInt
           the floating header keeps its light-on-dark treatment throughout. */}
       <section
         style={{
-          background: "var(--wf-ink-900)",
+          background: PANEL,
           color: "var(--wf-text-on-dark)",
           padding: "clamp(48px, 8vw, 80px) 0",
         }}

@@ -17,7 +17,18 @@ export function RegionForm({ region }: { region?: Region }) {
           defaultValue={r?.slug}
           hint="Leave blank to generate from the label."
         />
-        <ImageField currentUrl={r?.image} />
+        <ImageField
+          currentUrl={r?.image}
+          label="Masthead image"
+          hint="Landscape. Heads the region page. Upload to replace; leave empty to keep the current one."
+        />
+        <ImageField
+          name="menuImage"
+          currentUrl={r?.menuImage}
+          label="Mega-menu image"
+          ratio="portrait"
+          hint="Portrait (roughly 3:4). Shown beside the country list in the Destinations menu — leave empty and the menu simply drops the image."
+        />
         <TextField label="Gradient (fallback)" name="grad" defaultValue={r?.grad} hint="CSS gradient shown when no image is set." />
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, alignItems: "end" }}>
           <TextField label="Sort order" name="sortOrder" type="number" defaultValue={r?.sortOrder ?? 0} />
