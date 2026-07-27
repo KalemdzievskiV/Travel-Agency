@@ -54,9 +54,28 @@ next-env.d.ts
 # Admin image uploads (dev)
 /public/uploads/
 
-# Raw design exports — most are photographs base64-wrapped in SVG (~104 MB).
-# The three genuine vectors are recoloured and committed as public/images/bg-lines-*.svg.
-public/images/Design Images svg/
+# Raw design exports — most are photographs base64-wrapped in SVG (~104 MB), so
+# the folder is ignored wholesale. The exceptions below re-include only the files
+# actually referenced at runtime by src/content/media.ts (~7.9 MB), so the live
+# site's section backdrops and photography deploy to Vercel.
+public/images/Design Images svg/*
+!public/images/Design Images svg/1.svg
+!public/images/Design Images svg/2.svg
+!public/images/Design Images svg/3.svg
+!public/images/Design Images svg/4.svg
+!public/images/Design Images svg/1.avif
+!public/images/Design Images svg/2.avif
+!public/images/Design Images svg/3.avif
+!public/images/Design Images svg/4.avif
+!public/images/Design Images svg/5.avif
+!public/images/Design Images svg/11.avif
+!public/images/Design Images svg/12.avif
+!public/images/Design Images svg/13.avif
+!public/images/Design Images svg/14.avif
+!public/images/Design Images svg/15.avif
+!public/images/Design Images svg/16.avif
+!public/images/Design Images svg/17.avif
+!public/images/Design Images svg/Royal Blue background.png
 
 # Client correction documents — large Word files with embedded screenshots.
 *.docx
