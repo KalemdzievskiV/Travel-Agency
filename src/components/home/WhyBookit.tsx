@@ -3,7 +3,7 @@ import { Award, Lightbulb, Map, PhoneCall, UserRound } from "lucide-react";
 import { getTranslations } from "next-intl/server";
 import { EnquireButton } from "@/components/site/EnquireButton";
 import { whyBookit } from "@/content/site";
-import { backdrop } from "@/content/media";
+import { pageBackdrop } from "@/content/media";
 
 /**
  * WhyBookit — the landing "why bookit?" row (modelled on Black Tomato): five
@@ -24,11 +24,7 @@ export async function WhyBookit() {
     <>
       <section
         style={{
-          backgroundColor: "var(--wf-cream)",
-          backgroundImage: `url(${backdrop.points})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
+          ...pageBackdrop(1),
           padding: "clamp(64px, 9vw, 104px) 0",
         }}
       >

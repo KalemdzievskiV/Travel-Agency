@@ -51,8 +51,9 @@ export default async function ExperienceCategoryPage({
     margin: 0,
   };
   // The prose blocks run wider than the usual reading column: at 760px the
-  // client's two-sentence paragraphs were breaking into four stubby ones.
-  const prose: React.CSSProperties = { maxWidth: 980, marginInline: "auto", textAlign: "center" };
+  // client's two-sentence paragraphs were breaking into four stubby ones, and
+  // at 980px they still sat as a narrow ribbon on a large screen.
+  const prose: React.CSSProperties = { maxWidth: 1180, marginInline: "auto", textAlign: "center" };
   // …and their labels sit a size up, so the section markers actually register.
   const sectionLabel: React.CSSProperties = { fontSize: "14px", letterSpacing: "0.22em" };
 
@@ -124,7 +125,7 @@ export default async function ExperienceCategoryPage({
       </div>
 
       {/* Concept */}
-      <section id="concept" style={{ background: "var(--wf-cream)", padding: "clamp(26px, 3.6vw, 44px) 0 clamp(40px, 6vw, 56px)", ...anchorPad }}>
+      <section id="concept" style={{ background: "var(--wf-cream)", padding: "clamp(16px, 2.4vw, 28px) 0 clamp(40px, 6vw, 56px)", ...anchorPad }}>
         <div className="wf-wrap wf-wrap--wide" style={prose}>
           <Eyebrow style={sectionLabel}>{t("concept")}</Eyebrow>
           {c.heroText && (
@@ -178,7 +179,7 @@ export default async function ExperienceCategoryPage({
       {/* FAQs */}
       {c.faqs.length > 0 && (
         <section id="faqs" style={{ background: "var(--wf-cream)", padding: "clamp(56px, 8vw, 88px) 0 clamp(64px, 9vw, 104px)", ...anchorPad }}>
-          <div className="wf-wrap" style={{ maxWidth: 820, marginInline: "auto" }}>
+          <div className="wf-wrap" style={{ maxWidth: 1040, marginInline: "auto" }}>
             <div style={{ textAlign: "center", marginBottom: "clamp(24px, 4vw, 36px)" }}>
               <Eyebrow style={sectionLabel}>{t("faqs")}</Eyebrow>
             </div>

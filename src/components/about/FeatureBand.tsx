@@ -16,6 +16,7 @@ export function FeatureBand({
   body,
   grad,
   image,
+  scrim = 0.5,
   ctaLabel,
   ctaHref,
 }: {
@@ -24,6 +25,9 @@ export function FeatureBand({
   body?: string;
   grad: string;
   image?: string;
+  /** Darkening over the backdrop. Raise it for pale imagery — white body copy
+   *  needs 4.5:1, and this band centres text over the middle of the picture. */
+  scrim?: number;
   ctaLabel?: string;
   ctaHref?: string;
 }) {
@@ -42,7 +46,7 @@ export function FeatureBand({
       }}
     >
       <HeroBackdrop grad={grad} image={image} />
-      <div aria-hidden style={{ position: "absolute", inset: 0, background: "rgba(22,19,15,0.5)" }} />
+      <div aria-hidden style={{ position: "absolute", inset: 0, background: `rgba(22,19,15,${scrim})` }} />
       <div className="wf-wrap wf-wrap--default" style={{ position: "relative" }}>
         <Reveal>
           {eyebrow && (

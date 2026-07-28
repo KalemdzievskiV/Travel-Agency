@@ -68,6 +68,19 @@ export const reasonPhoto = [1, 2, 3, 4, 5].map((n) => `${DIR}/${n}.avif`);
 export const processPhoto = [11, 12, 13, 14, 15, 16, 17].map((n) => `${DIR}/${n}.avif`);
 
 /**
+ * The green plaster band behind the About masthead, replacing the old orange
+ * gradient. The ink wash is doing legibility work, not decoration: white sits
+ * at 4.4:1 on the bare plaster, just under AA for the small eyebrow. Don't
+ * lighten it without re-checking that.
+ */
+export const aboutMastheadBand =
+  "linear-gradient(rgba(16,24,16,0.32), rgba(16,24,16,0.32))," +
+  " url(/images/about/masthead.webp) center/cover no-repeat, var(--wf-ink-900)";
+
+/** World map behind the "Твојот свет" closing band. */
+export const aboutWorldImage = "/images/about/your-world.webp";
+
+/**
  * The five ЗА НАС photographs, numbered as the client sent them. They land on
  * the five portrait slots of /about, top to bottom: the masthead, the three
  * story rows, then "why the name?". The closing `world` band is landscape and

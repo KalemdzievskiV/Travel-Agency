@@ -7,7 +7,7 @@ import { EnquireButton } from "@/components/site/EnquireButton";
 import { getDestinations, getTrips } from "@/lib/queries/public";
 import { getExperienceCategories } from "@/lib/queries/experiences";
 import { journeyTabs } from "@/content/site";
-import { backdrop } from "@/content/media";
+import { pageBackdrop } from "@/content/media";
 
 export default async function HomePage({
   params,
@@ -77,13 +77,7 @@ export default async function HomePage({
       <section
         id="about"
         style={{
-          // Longhands only: the white base stays underneath the line-art
-          // backdrop, which is itself an opaque white artboard.
-          backgroundColor: "var(--wf-cream)",
-          backgroundImage: `url(${backdrop.intro})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
+          ...pageBackdrop(0),
           padding: "clamp(64px, 9vw, 104px) 0",
           scrollMarginTop: "var(--wf-header-h)",
         }}

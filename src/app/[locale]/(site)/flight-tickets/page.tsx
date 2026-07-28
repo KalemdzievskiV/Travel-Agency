@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Eyebrow } from "@/components/ui";
 import { FlightTicketsForm } from "@/components/site/FlightTicketsForm";
+import { pageBackdrop } from "@/content/media";
 
 export const metadata: Metadata = {
   title: "Flight tickets",
@@ -19,11 +20,7 @@ export default async function FlightTicketsPage({
 
   return (
     <section style={{
-        backgroundColor: "var(--wf-cream)",
-        backgroundImage: "url(/images/bg-lines-3.svg)",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
+        ...pageBackdrop(2),
         padding: "var(--wf-page-top) 0 clamp(48px, 8vw, 96px)",
         minHeight: "100vh",
       }}>

@@ -14,6 +14,7 @@ export function AboutMasthead({
   title,
   intro,
   grad,
+  band,
   image,
 }: {
   word: string;
@@ -21,11 +22,13 @@ export function AboutMasthead({
   title: string;
   intro?: string;
   grad: string;
+  /** Background for the tonal band. Falls back to `grad` when not given. */
+  band?: string;
   image?: string;
 }) {
   return (
     <section className="wf-about-masthead">
-      <div className="wf-about-masthead__band" style={{ background: grad }} aria-hidden />
+      <div className="wf-about-masthead__band" style={{ background: band ?? grad }} aria-hidden />
       <div className="wf-wrap wf-wrap--wide wf-about-masthead__inner">
         <p className="wf-about-masthead__word">{word}</p>
         <div className="wf-about-masthead__grid">
@@ -52,7 +55,7 @@ export function AboutMasthead({
                 style={{
                   fontSize: "clamp(15px, 1.8vw, 18px)",
                   lineHeight: 1.65,
-                  color: "rgba(244,239,231,0.82)",
+                  color: "rgba(244,239,231,0.95)",
                   margin: "18px 0 0",
                   maxWidth: 460,
                   whiteSpace: "pre-line",

@@ -4,7 +4,7 @@
 // everything else still carries tonal-gradient placeholders (the `grad` pattern
 // shared with destinations/trips) until their photos arrive. Kept here (not the
 // DB) like other static site copy.
-import { aboutPhoto, processPhoto, reasonPhoto } from "@/content/media";
+import { aboutMastheadBand, aboutPhoto, aboutWorldImage, processPhoto, reasonPhoto } from "@/content/media";
 
 export type StoryRow = {
   eyebrow: string;
@@ -31,6 +31,7 @@ export const aboutPage = {
     intro:
       "Our mission is to create unforgettable experiences that carefully connect our clients with the world, and inspire them to explore it with curiosity, respect and a sense of wonder.",
     grad: "var(--wf-brand-gradient-deep)",
+    band: aboutMastheadBand,
     image: aboutPhoto[0],
   },
 
@@ -104,7 +105,7 @@ export const aboutPage = {
     title: "Your journey, made to your measure",
     body: "No two journeys are alike, because no two travellers are. We build each experience around you — your pace, the people you travel with, and the feeling you want to come away with. From the first idea to the last detail, everything is shaped so the journey is singular and entirely yours.",
     grad: "linear-gradient(135deg,#3f6f7a,#16130f)",
-    image: "https://picsum.photos/seed/bookit-about-world/2000/1200",
+    image: aboutWorldImage,
   },
 };
 

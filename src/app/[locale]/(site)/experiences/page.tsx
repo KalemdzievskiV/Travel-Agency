@@ -132,7 +132,7 @@ export default async function ExperiencesPage({
         <div className="wf-wrap wf-wrap--wide">
           {/* Wider than a normal reading column, matching the category pages:
               the client wants these openers to land in two sentences, not four. */}
-          <div style={{ maxWidth: 980, marginInline: "auto", textAlign: "center" }}>
+          <div style={{ maxWidth: 1180, marginInline: "auto", textAlign: "center" }}>
             <p
               style={{
                 fontFamily: "var(--wf-font-sans)",

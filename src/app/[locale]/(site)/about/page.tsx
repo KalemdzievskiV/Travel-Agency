@@ -35,6 +35,7 @@ export default async function AboutPage({
         title={aboutPage.hero.title}
         intro={aboutPage.hero.intro}
         grad={aboutPage.hero.grad}
+        band={aboutPage.hero.band}
         image={aboutPage.hero.image}
       />
 
@@ -79,6 +80,7 @@ export default async function AboutPage({
         body={aboutPage.world.body}
         grad={aboutPage.world.grad}
         image={aboutPage.world.image}
+        scrim={0.68}
       />
 
       {/* Primary CTA */}
