@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { pageBackdrop } from "@/content/media";
 import { Eyebrow } from "@/components/ui";
 
 const SLUGS = ["terms", "cookies", "privacy"] as const;
@@ -33,7 +34,7 @@ export default async function LegalPage({
   const [tf, tl] = await Promise.all([getTranslations("footer"), getTranslations("legalPage")]);
 
   return (
-    <section style={{ background: "var(--wf-cream)", padding: "calc(var(--wf-header-h) + clamp(40px, 6vw, 72px)) 0 clamp(64px, 9vw, 104px)" }}>
+    <section style={{ ...pageBackdrop(0), padding: "var(--wf-page-top) 0 clamp(64px, 9vw, 104px)" }}>
       <div className="wf-wrap" style={{ maxWidth: 760, marginInline: "auto" }}>
         <Eyebrow>{tl("eyebrow")}</Eyebrow>
         <h1

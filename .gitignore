@@ -46,10 +46,12 @@ next-env.d.ts
 /preview/*.jpg
 /preview/*.webm
 
-# Large local hero source videos (keep out of git) — but commit the small,
-# web-optimised hero clip so it deploys to the live site.
+# Hero films stay out of git entirely — they run to ~100MB each and git keeps
+# every version for ever. The live site streams the film from Vercel Blob via
+# NEXT_PUBLIC_HERO_VIDEO_URL; `npm run upload:hero` pushes a new cut up there.
+# Locally, drop the file at public/videos/intro-hero.mp4 and it is used as the
+# fallback with no env var set.
 /public/videos/*
-!/public/videos/intro-hero.mp4
 
 # Admin image uploads (dev)
 /public/uploads/

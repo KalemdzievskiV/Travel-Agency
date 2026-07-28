@@ -1194,7 +1194,7 @@
 .wf-about-masthead__inner {
   position: relative;
   z-index: 1;
-  padding-top: calc(var(--wf-header-h) + clamp(20px, 4vw, 44px));
+  padding-top: var(--wf-page-top);
 }
 .wf-about-masthead__word {
   margin: 0;

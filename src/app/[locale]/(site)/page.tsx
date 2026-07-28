@@ -4,7 +4,7 @@ import { StartYourJourney } from "@/components/home/StartYourJourney";
 import { ExploreTrips } from "@/components/home/ExploreTrips";
 import { WhyBookit } from "@/components/home/WhyBookit";
 import { EnquireButton } from "@/components/site/EnquireButton";
-import { getTrips } from "@/lib/queries/public";
+import { getDestinations, getTrips } from "@/lib/queries/public";
 import { getExperienceCategories } from "@/lib/queries/experiences";
 import { journeyTabs } from "@/content/site";
 import { backdrop } from "@/content/media";
@@ -16,28 +16,58 @@ export default async function HomePage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const [trips, whoCategories, t] = await Promise.all([
+  const [trips, whoCategories, destinations, t] = await Promise.all([
     getTrips(),
     getExperienceCategories("who"),
+    getDestinations(),
     getTranslations(),
   ]);
 
-  // The "who's travelling" tab is the same set of experience categories the
-  // Experiences hub and the mega-menu show — driven from the one DB source so
-  // labels and imagery can't drift apart. The rest of the tabs stay static.
-  const tabs = whoCategories.length
-    ? [
-        {
-          ...journeyTabs[0],
-          cards: whoCategories.map((c) => ({
-            label: c.title,
-            image: c.image ?? "",
-            href: `/experiences/${c.slug}`,
-          })),
-        },
-        ...journeyTabs.slice(1),
-      ]
-    : journeyTabs;
+  // "Most popular" — real destinations rather than the Macedonian places the
+  // design shipped with, none of which exist in the catalogue. One per region
+  // so the row spans continents instead of showing five neighbours, then top up
+  // if fewer than five regions have anything to show. Most destinations still
+  // carry placeholder imagery; these cards will improve on their own as real
+  // photography is uploaded in the admin, with no change needed here.
+  const popular: typeof destinations = [];
+  const seenRegions = new Set<string>();
+  for (const d of destinations) {
+    const region = d.regionSlug ?? d.region;
+    if (!d.image || seenRegions.has(region)) continue;
+    seenRegions.add(region);
+    popular.push(d);
+    if (popular.length === 5) break;
+  }
+  for (const d of destinations) {
+    if (popular.length === 5) break;
+    if (!popular.includes(d)) popular.push(d);
+  }
+
+  // Both data-driven tabs come from the one DB source, so labels and imagery
+  // can't drift apart. The "by month" tab stays static — its artwork is fixed.
+  const tabs = journeyTabs.map((tab) => {
+    if (tab.key === "traveller" && whoCategories.length) {
+      return {
+        ...tab,
+        cards: whoCategories.map((c) => ({
+          label: c.title,
+          image: c.image ?? "",
+          href: `/experiences/${c.slug}`,
+        })),
+      };
+    }
+    if (tab.key === "popular" && popular.length) {
+      return {
+        ...tab,
+        cards: popular.map((d) => ({
+          label: d.title,
+          image: d.image ?? "",
+          href: `/destinations/${d.slug}`,
+        })),
+      };
+    }
+    return tab;
+  });
 
   return (
     <>

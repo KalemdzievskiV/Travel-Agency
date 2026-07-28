@@ -18,6 +18,38 @@ export const backdrop = {
   points: `${DIR}/4.svg`,
 } as const;
 
+/**
+ * Section backdrops for the content pages (regions, destinations, trips). Three
+ * white artboards with the same contour line-work as `backdrop`, drawn in pale
+ * warm beige into a different corner each — 1 bottom-left, 2 left, 3 right.
+ * Use `pageBackdrop(i)` rather than reaching for these directly.
+ */
+const pageBoards = [
+  // Each board is a 16:9 white artboard with its line-work in one corner, so it
+  // has to be anchored to that corner. `cover` on a short, wide band crops to
+  // the middle strip — centre these and the artwork falls outside the section
+  // entirely, leaving the plain white we were asked to get rid of.
+  { src: "/images/background/1.svg", position: "left bottom" },
+  { src: "/images/background/2.svg", position: "left center" },
+  { src: "/images/background/3.svg", position: "right top" },
+] as const;
+
+/**
+ * Longhand background properties for a light section, cycling the three boards
+ * by position down the page so consecutive bands never repeat the same corner.
+ * Longhands only: the white base has to stay underneath the artboard.
+ */
+export function pageBackdrop(i: number) {
+  const board = pageBoards[i % pageBoards.length];
+  return {
+    backgroundColor: "var(--wf-cream)",
+    backgroundImage: `url(${board.src})`,
+    backgroundSize: "cover",
+    backgroundPosition: board.position,
+    backgroundRepeat: "no-repeat",
+  } as const;
+}
+
 /** Deep-blue plaster texture behind the "why us" panels. */
 export const royalBlue = `${DIR}/Royal%20Blue%20background.png`;
 
@@ -34,3 +66,30 @@ export const reasonPhoto = [1, 2, 3, 4, 5].map((n) => `${DIR}/${n}.avif`);
 
 /** Photography for the "how it all works" steps, in order (01 → 07). */
 export const processPhoto = [11, 12, 13, 14, 15, 16, 17].map((n) => `${DIR}/${n}.avif`);
+
+/**
+ * The five ЗА НАС photographs, numbered as the client sent them. They land on
+ * the five portrait slots of /about, top to bottom: the masthead, the three
+ * story rows, then "why the name?". The closing `world` band is landscape and
+ * is deliberately not in this set.
+ */
+export const aboutPhoto = [1, 2, 3, 4, 5].map((n) => `/images/about/${n}.avif`);
+
+/**
+ * Artwork for the "by month" cards on the home page, keyed by the short English
+ * label those cards use. Filenames are the client's Macedonian month names.
+ */
+export const monthPhoto: Record<string, string> = {
+  Jan: "/images/months/Januari1.avif",
+  Feb: "/images/months/Fevruari1.avif",
+  Mar: "/images/months/Mart1.avif",
+  Apr: "/images/months/April1.avif",
+  May: "/images/months/Maj1.avif",
+  Jun: "/images/months/Juni1.avif",
+  Jul: "/images/months/Juli1.avif",
+  Aug: "/images/months/Avgust1.avif",
+  Sep: "/images/months/Septemvri1.avif",
+  Oct: "/images/months/Oktomvri1.avif",
+  Nov: "/images/months/Noemvri1.avif",
+  Dec: "/images/months/Dekemvri1.avif",
+};

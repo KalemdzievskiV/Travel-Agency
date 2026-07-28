@@ -18,6 +18,7 @@ import {
 } from "@/lib/queries/public";
 import { getRegionBySlug } from "@/lib/queries/regions";
 import { getHotelsForDestination } from "@/lib/queries/hotels";
+import { pageBackdrop } from "@/content/media";
 
 export async function generateMetadata(
   props: PageProps<"/[locale]/destinations/[slug]">,
@@ -156,18 +157,21 @@ export default async function DestinationPage(
       </div>
 
       {/* Overview — guide body + sidebar */}
-      <section id="overview" style={{ background: "var(--wf-cream)", padding: "clamp(22px, 3.2vw, 40px) 0 clamp(56px, 8vw, 80px)", scrollMarginTop: "calc(var(--wf-header-h) + 66px)" }}>
-        <div className="wf-wrap" style={{ maxWidth: 760, marginInline: "auto", textAlign: "center" }}>
+      <section id="overview" style={{ ...pageBackdrop(0), padding: "clamp(16px, 2.4vw, 28px) 0 clamp(48px, 7vw, 72px)", scrollMarginTop: "calc(var(--wf-header-h) + 66px)" }}>
+        <div className="wf-wrap" style={{ maxWidth: 980, marginInline: "auto", textAlign: "center" }}>
           <Eyebrow>{td("thePlace")}</Eyebrow>
+          {/* Set smaller and run wider than the old 760px column: at display size
+              it broke into six short lines and read like a verse, not a lede. */}
           <p
             style={{
               fontFamily: "var(--wf-font-sans)",
               fontWeight: 500,
-              lineHeight: 1.3,
+              lineHeight: 1.5,
               letterSpacing: "-0.005em",
               color: "var(--wf-ink-900)",
-              margin: "16px 0 0",
-              fontSize: "clamp(24px, 3.8vw, 32px)",
+              maxWidth: 920,
+              margin: "16px auto 0",
+              fontSize: "clamp(18px, 2.2vw, 23px)",
             }}
           >
             {d.intro}
@@ -198,7 +202,7 @@ export default async function DestinationPage(
 
       {/* Where to stay (ХОТЕЛИ) */}
       {hotels.length > 0 && (
-        <section id="stays" style={{ background: "var(--wf-cream)", padding: "clamp(48px, 7vw, 72px) 0 0", scrollMarginTop: "calc(var(--wf-header-h) + 66px)" }}>
+        <section id="stays" style={{ ...pageBackdrop(1), padding: "clamp(48px, 7vw, 72px) 0 0", scrollMarginTop: "calc(var(--wf-header-h) + 66px)" }}>
           <div className="wf-wrap wf-wrap--wide">
             <div style={{ marginBottom: 36 }}>
               <SectionHead eyebrow={td("stays")} title={td("whereToStay")} />
@@ -212,7 +216,7 @@ export default async function DestinationPage(
 
       {/* General notes (ОПШТИ НАПОМЕНИ) */}
       {d.generalNotes.length > 0 && (
-        <section style={{ background: "var(--wf-cream)", padding: "clamp(56px, 8vw, 88px) 0 0" }}>
+        <section style={{ ...pageBackdrop(2), padding: "clamp(56px, 8vw, 88px) 0 0" }}>
           <div className="wf-wrap" style={{ maxWidth: 820, marginInline: "auto" }}>
             <div style={{ textAlign: "center", marginBottom: "clamp(24px, 4vw, 36px)" }}>
               <SectionHead eyebrow={td("keepExploring")} title={td("generalNotes")} align="center" />
@@ -223,7 +227,7 @@ export default async function DestinationPage(
       )}
 
       {/* More places */}
-      <section style={{ background: "var(--wf-cream)", padding: "clamp(56px, 8vw, 88px) 0 clamp(64px, 9vw, 104px)" }}>
+      <section style={{ ...pageBackdrop(0), padding: "clamp(56px, 8vw, 88px) 0 clamp(64px, 9vw, 104px)" }}>
         <div className="wf-wrap wf-wrap--wide">
           <div style={{ marginBottom: 36 }}>
             <SectionHead eyebrow={td("keepExploring")} title={td("morePlaces")} />

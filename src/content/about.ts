@@ -4,7 +4,7 @@
 // everything else still carries tonal-gradient placeholders (the `grad` pattern
 // shared with destinations/trips) until their photos arrive. Kept here (not the
 // DB) like other static site copy.
-import { processPhoto, reasonPhoto } from "@/content/media";
+import { aboutPhoto, processPhoto, reasonPhoto } from "@/content/media";
 
 export type StoryRow = {
   eyebrow: string;
@@ -31,7 +31,7 @@ export const aboutPage = {
     intro:
       "Our mission is to create unforgettable experiences that carefully connect our clients with the world, and inspire them to explore it with curiosity, respect and a sense of wonder.",
     grad: "var(--wf-brand-gradient-deep)",
-    image: "https://picsum.photos/seed/bookit-about-hero/1400/1700",
+    image: aboutPhoto[0],
   },
 
   story: [
@@ -40,7 +40,7 @@ export const aboutPage = {
       title: "It all started with a feeling",
       body: "bookit was founded in 2026 by two friends who wanted to change the world of standard package deals and journeys that all look alike.\n\nOur aim is to grow into award-winning creators of personalised journeys, conceived with inspiration, creativity and exceptional attention to every detail.\n\nFor us, the most important question has always been: how do you want to feel? Everything else is in the details.",
       grad: "linear-gradient(135deg,#5a6b86,#2a3550)",
-      image: "https://picsum.photos/seed/bookit-about-feeling/1400/1700",
+      image: aboutPhoto[1],
       align: "right",
     },
     {
@@ -48,7 +48,7 @@ export const aboutPage = {
       title: "Singular, different and bold",
       body: "We create experiences that leave a lasting impression. The journeys we create shape us too — an idea we learned from the legendary travel writer Bruce Chatwin, who spoke of the importance of living with a constant desire to discover.\n\nWhen we plan a journey, we set out to remove every obstacle standing between you and the world. Because you aren't only looking for the familiar, but for the unexpected, the unknown, and everything still waiting to be discovered.\n\nBut real knowledge stands behind every great adventure. Over the years we've built a team of people who live for travel — curious explorers with impeccable organisation and attention to every detail.\n\nThey are the people who will help you find the right path — even when the finest experience begins precisely with getting a little lost.",
       grad: "linear-gradient(135deg,#7a6a52,#2c2418)",
-      image: "https://picsum.photos/seed/bookit-about-lake/1400/1700",
+      image: aboutPhoto[2],
       align: "left",
     },
     {
@@ -56,7 +56,7 @@ export const aboutPage = {
       title: "We'll show you the world — in a wholly new light",
       body: "We create journeys for those who want to draw genuinely close to the world, far from the tourist traps and the lists of places merely to be ticked off.\n\nInstead, we open space for deeper, more honest and more personal encounters with different cultures, traditions and ways of life.\n\nToday we arrange journeys across all seven continents, and we create each one from the very beginning. Which is exactly why no two journeys are ever the same.\n\nTrekking with the tribes of Borneo, discovering traditional leatherwork in Morocco, or living the thrilling atmosphere of the Palio in Siena. The world is vast, wild and full of surprises. Your journeys should be too.",
       grad: "linear-gradient(135deg,#4f6f57,#1d2c20)",
-      image: "https://picsum.photos/seed/bookit-about-curious/1400/1700",
+      image: aboutPhoto[3],
       align: "right",
     },
   ] satisfies StoryRow[],
@@ -94,7 +94,7 @@ export const aboutPage = {
     title: "Why Bookit?",
     body: "Every journey begins as an idea, but it becomes real the moment you say: “Book it.” That moment is exactly where the name Bookit comes from.\n\nBookit is the instant a daydream gets a date on it, a destination becomes a plan, and the plan becomes a journey. Our job is to make that decision easy, and to see that everything which follows is carefully considered, personal and worth remembering.",
     grad: "linear-gradient(135deg,#6a4f6a,#241a24)",
-    image: "https://picsum.photos/seed/bookit-about-name/1400/1700",
+    image: aboutPhoto[4],
     align: "left",
   } satisfies StoryRow,
 

@@ -1,4 +1,5 @@
 import { SectionHead } from "@/components/sections/SectionHead";
+import { pageBackdrop } from "@/content/media";
 import { TripSideBySide } from "./TripSideBySide";
 import type { TripShowcaseProps } from "./showcase-shared";
 
@@ -16,7 +17,15 @@ export function TripShowcase({ images, title, grad, staticImg, stops, days, labe
 
   return (
     <>
-      <section style={{ background: "var(--wf-cream)", padding: "clamp(28px, 4vw, 48px) 0 clamp(16px, 2.5vw, 24px)" }}>
+      {/* The opening line and the Програма heading carry a backdrop too — the
+          next board along, so the run down from the trip header reads as
+          successive tinted bands rather than one repeated silhouette. */}
+      <section
+        style={{
+          ...pageBackdrop(1),
+          padding: "clamp(28px, 4vw, 48px) 0 clamp(16px, 2.5vw, 24px)",
+        }}
+      >
         <div className="wf-wrap wf-wrap--wide">
           <div style={{ maxWidth: 760, marginInline: "auto", textAlign: "center", marginBottom: "clamp(20px, 3vw, 32px)" }}>
             <p style={{ fontSize: "clamp(16px, 1.9vw, 18px)", lineHeight: 1.75, color: "var(--wf-ink-700)", margin: 0 }}>

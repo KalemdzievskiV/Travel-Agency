@@ -4,6 +4,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Eyebrow, Icon } from "@/components/ui";
 import { EnquireButton } from "@/components/site/EnquireButton";
 import { office, site } from "@/content/site";
+import { pageBackdrop } from "@/content/media";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -63,8 +64,8 @@ export default async function ContactPage({
       {/* Invitation */}
       <section
         style={{
-          background: "var(--wf-cream)",
-          padding: "calc(var(--wf-header-h) + clamp(40px, 6vw, 72px)) 0 clamp(36px, 5vw, 56px)",
+          ...pageBackdrop(0),
+          padding: "var(--wf-page-top) 0 clamp(36px, 5vw, 56px)",
         }}
       >
         <div className="wf-wrap" style={{ maxWidth: 760, marginInline: "auto", textAlign: "center" }}>
@@ -149,7 +150,7 @@ export default async function ContactPage({
       </section>
 
       {/* Come and meet us */}
-      <section style={{ background: "var(--wf-cream)", padding: "clamp(48px, 7vw, 88px) 0 clamp(64px, 9vw, 104px)" }}>
+      <section style={{ ...pageBackdrop(2), padding: "clamp(48px, 7vw, 88px) 0 clamp(64px, 9vw, 104px)" }}>
         <div className="wf-wrap wf-wrap--wide">
           <div style={{ textAlign: "center", marginBottom: "clamp(24px, 3.5vw, 36px)" }}>
             <h2

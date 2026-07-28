@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { Eyebrow } from "@/components/ui";
 import { Link } from "@/i18n/navigation";
 import { CountryGrid } from "@/components/sections/CountryGrid";
+import { pageBackdrop } from "@/content/media";
 import { RegionExperienceFinder } from "@/components/sections/RegionExperienceFinder";
 import type { Region } from "@/db/schema";
 import type { Destination } from "@/content/types";
@@ -21,12 +22,6 @@ export async function RegionLanding({
 }) {
   const t = await getTranslations("regionPage");
   const tn = await getTranslations("nav");
-
-  const linkStyle: React.CSSProperties = {
-    color: "var(--wf-ink-700)",
-    textDecoration: "underline",
-    textUnderlineOffset: "2px",
-  };
 
   const subLink: React.CSSProperties = {
     textDecoration: "none",
@@ -117,9 +112,10 @@ export async function RegionLanding({
         <span style={{ color: "var(--wf-ink-700)" }}>{region.label}</span>
       </div>
 
-      {/* Overview */}
-      <section id="overview" style={{ background: "var(--wf-cream)", padding: "clamp(56px, 8vw, 88px) 0", scrollMarginTop: "calc(var(--wf-header-h) + 66px)" }}>
-        <div className="wf-wrap" style={{ maxWidth: 760, textAlign: "center" }}>
+      {/* Overview — sits straight under the breadcrumb, per the client: these
+          opening blocks should start as high up the page as they can. */}
+      <section id="overview" style={{ ...pageBackdrop(0), padding: "clamp(20px, 3vw, 32px) 0 clamp(44px, 6vw, 64px)", scrollMarginTop: "calc(var(--wf-header-h) + 66px)" }}>
+        <div className="wf-wrap" style={{ maxWidth: 980, marginInline: "auto", textAlign: "center" }}>
           <h2
             style={{
               fontFamily: "var(--wf-font-sans)",
@@ -133,28 +129,26 @@ export async function RegionLanding({
           >
             {t("introHeading", { region: region.label })}
           </h2>
-          <p style={{ fontSize: "clamp(16px, 1.9vw, 19px)", lineHeight: 1.7, color: "var(--wf-ink-700)", margin: "clamp(20px, 3vw, 28px) 0 0" }}>
+          {/* Smaller, italic and run wider than the heading column so the
+              paragraph reads as a caption rather than a stack of short lines. */}
+          <p
+            style={{
+              fontFamily: "var(--wf-font-sans)",
+              fontStyle: "italic",
+              fontSize: "clamp(14.5px, 1.5vw, 16px)",
+              lineHeight: 1.75,
+              color: "var(--wf-ink-700)",
+              maxWidth: 920,
+              margin: "clamp(16px, 2.4vw, 22px) auto 0",
+            }}
+          >
             {t("introBody", { region: region.label })}
           </p>
-          {destinations.length > 0 && (
-            <p style={{ fontSize: 16, lineHeight: 1.7, color: "var(--wf-ink-700)", margin: "18px 0 0" }}>
-              {t("whereWeGo")}:{" "}
-              {destinations.map((d, i) => (
-                <React.Fragment key={d.slug}>
-                  {i > 0 && ", "}
-                  <Link href={`/destinations/${d.slug}`} style={linkStyle}>
-                    {d.title}
-                  </Link>
-                </React.Fragment>
-              ))}
-              .
-            </p>
-          )}
         </div>
       </section>
 
       {/* Countries */}
-      <section id="countries" style={{ background: "var(--wf-cream)", padding: "0 0 clamp(64px, 9vw, 104px)", scrollMarginTop: "calc(var(--wf-header-h) + 66px)" }}>
+      <section id="countries" style={{ ...pageBackdrop(1), padding: "0 0 clamp(64px, 9vw, 104px)", scrollMarginTop: "calc(var(--wf-header-h) + 66px)" }}>
         <div className="wf-wrap wf-wrap--wide">
           <h2
             style={{

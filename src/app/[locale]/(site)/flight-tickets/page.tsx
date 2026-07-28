@@ -24,7 +24,7 @@ export default async function FlightTicketsPage({
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        padding: "calc(var(--wf-header-h) + clamp(28px, 5vw, 56px)) 0 clamp(48px, 8vw, 96px)",
+        padding: "var(--wf-page-top) 0 clamp(48px, 8vw, 96px)",
         minHeight: "100vh",
       }}>
       <div className="wf-wrap wf-wrap--wide">

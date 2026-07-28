@@ -14,6 +14,7 @@ import { getTripWithDestinations, getSimilarTrips } from "@/lib/queries/public";
 import { getHotelsForDestination } from "@/lib/queries/hotels";
 import { splitDayPrefix } from "@/lib/itinerary";
 import { months as MONTHS } from "@/content/site";
+import { pageBackdrop } from "@/content/media";
 
 export async function generateMetadata({
   params,
@@ -143,8 +144,16 @@ export default async function TripPage({
 
   return (
     <>
-      {/* Header — title + facts row */}
-      <section style={{ background: "var(--wf-paper)", padding: "clamp(32px, 5vw, 56px) 0 clamp(36px, 5vw, 56px)", textAlign: "center" }}>
+      {/* Header — title + facts row. On the client's line-art backdrop rather
+          than flat white: the whole opening of a programme read as a blank
+          sheet. Longhands only, so the white base stays under the artboard. */}
+      <section
+        style={{
+          ...pageBackdrop(0),
+          padding: "clamp(28px, 4vw, 44px) 0 clamp(36px, 5vw, 56px)",
+          textAlign: "center",
+        }}
+      >
         <div className="wf-wrap" style={{ maxWidth: 900, marginInline: "auto" }}>
           {destinations[0] && <Eyebrow>{destinations[0].title}</Eyebrow>}
           <h1
@@ -193,7 +202,7 @@ export default async function TripPage({
 
       {/* Important notes (ВАЖНИ НАПОМЕНИ) */}
       {(trip.included.length > 0 || trip.notIncluded.length > 0 || trip.visaNotes) && (
-        <section style={{ background: "var(--wf-cream)", padding: "clamp(40px, 6vw, 72px) 0 clamp(48px, 7vw, 72px)" }}>
+        <section style={{ ...pageBackdrop(2), padding: "clamp(40px, 6vw, 72px) 0 clamp(48px, 7vw, 72px)" }}>
           <div className="wf-wrap wf-wrap--wide">
             <div style={{ marginBottom: "clamp(24px, 4vw, 40px)" }}>
               <SectionHead eyebrow={t("onThisJourney")} title={t("importantNotes")} align="center" />
@@ -238,9 +247,16 @@ export default async function TripPage({
         </div>
       </section>
 
-      {/* Suggested accommodation (ПРЕДЛОГ СМЕСТУВАЊЕ) */}
+      {/* Suggested accommodation (ПРЕДЛОГ СМЕСТУВАЊЕ) — its own line-art band,
+          a different artboard from the one at the top of the page so the two
+          light sections don't repeat the same silhouette. */}
       {suggestedHotels.length > 0 && (
-        <section style={{ background: "var(--wf-cream)", padding: "0 0 clamp(56px, 8vw, 88px)" }}>
+        <section
+          style={{
+            ...pageBackdrop(0),
+            padding: "clamp(40px, 6vw, 64px) 0 clamp(56px, 8vw, 88px)",
+          }}
+        >
           <div className="wf-wrap wf-wrap--wide">
             <div style={{ marginBottom: 36 }}>
               <SectionHead eyebrow={t("onThisJourney")} title={t("suggestedStay")} />
@@ -255,7 +271,7 @@ export default async function TripPage({
 
       {/* Closing "view all trips" — secondary to the enquiry CTA above, so
           outline rather than accent. */}
-      <section style={{ background: "var(--wf-cream)", padding: "clamp(44px, 6vw, 68px) 0 clamp(64px, 9vw, 104px)" }}>
+      <section style={{ ...pageBackdrop(1), padding: "clamp(44px, 6vw, 68px) 0 clamp(64px, 9vw, 104px)" }}>
         <div className="wf-wrap wf-wrap--wide" style={{ textAlign: "center" }}>
           <Link href="/trip-finder/results" style={{ textDecoration: "none", display: "inline-block" }}>
             <Button as="span" variant="outline" size="lg">

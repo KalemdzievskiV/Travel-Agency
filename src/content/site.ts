@@ -1,6 +1,8 @@
 // Site-wide configuration and copy for bookit. Kept in one place so it is
 // trivial to externalise into a CMS or i18n dictionary later.
 
+import { monthPhoto } from "@/content/media";
+
 export const site = {
   name: "bookit",
   tagline: "Every journey starts with a feeling.",
@@ -24,10 +26,19 @@ export const office = {
   lng: 21.428,
 };
 
+/**
+ * The home-page hero film. Served from Vercel Blob in production so the
+ * full-quality cut never enters git — set NEXT_PUBLIC_HERO_VIDEO_URL to the
+ * Blob URL that `npm run upload:hero` prints. With no env var set it falls back
+ * to the local file, which is how dev runs.
+ */
+export const heroVideoUrl =
+  process.env.NEXT_PUBLIC_HERO_VIDEO_URL || "/videos/intro-hero.mp4";
+
 // Masthead photo for the Experiences hub. Page-level rather than per-category,
 // so it lives here rather than in the categories table — swap the path to
 // change it.
-export const experiencesHeroImage = "/images/exp-feeling.jpg";
+export const experiencesHeroImage = "/images/17.avif";
 
 export const nav: { label: string; href: string }[] = [
   { label: "Destinations", href: "/destinations" },
@@ -167,19 +178,11 @@ export const journeyTabs: JourneyTab[] = [
   {
     key: "month",
     label: "By month",
-    cards: [
-      { label: "Jan", image: "https://picsum.photos/seed/bookit-jr-jan/800/1100", href: "/destinations" },
-      { label: "Feb", image: "https://picsum.photos/seed/bookit-jr-feb/800/1100", href: "/destinations" },
-      { label: "Mar", image: "https://picsum.photos/seed/bookit-jr-mar/800/1100", href: "/destinations" },
-      { label: "Apr", image: "https://picsum.photos/seed/bookit-jr-apr/800/1100", href: "/destinations" },
-      { label: "May", image: "https://picsum.photos/seed/bookit-jr-may/800/1100", href: "/destinations" },
-      { label: "Jun", image: "https://picsum.photos/seed/bookit-jr-jun/800/1100", href: "/destinations" },
-      { label: "Jul", image: "https://picsum.photos/seed/bookit-jr-jul/800/1100", href: "/destinations" },
-      { label: "Aug", image: "https://picsum.photos/seed/bookit-jr-aug/800/1100", href: "/destinations" },
-      { label: "Sep", image: "https://picsum.photos/seed/bookit-jr-sep/800/1100", href: "/destinations" },
-      { label: "Oct", image: "https://picsum.photos/seed/bookit-jr-oct/800/1100", href: "/destinations" },
-      { label: "Nov", image: "https://picsum.photos/seed/bookit-jr-nov/800/1100", href: "/destinations" },
-      { label: "Dec", image: "https://picsum.photos/seed/bookit-jr-dec/800/1100", href: "/destinations" },
-    ],
+    // The client's month photography, mapped by short label in monthPhoto.
+    cards: months.map((label) => ({
+      label,
+      image: monthPhoto[label],
+      href: "/destinations",
+    })),
   },
 ];

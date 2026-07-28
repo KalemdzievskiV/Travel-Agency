@@ -5,6 +5,7 @@ import { ChevronDown } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui";
 import { Link } from "@/i18n/navigation";
+import { heroVideoUrl } from "@/content/site";
 
 export function HomeHero() {
   const t = useTranslations();
@@ -64,7 +65,7 @@ export function HomeHero() {
             objectFit: "cover",
           }}
         >
-          <source src="/videos/intro-hero.mp4" type="video/mp4" />
+          <source src={heroVideoUrl} type="video/mp4" />
         </video>
       )}
       {/* Even scrim so the centred text stays legible across the frame */}

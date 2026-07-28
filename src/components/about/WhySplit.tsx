@@ -246,7 +246,7 @@ function WhyPinned({ eyebrow, title, intro, topics }: { eyebrow: string; title: 
 /* ── Mobile / SSR / reduced-motion: accessible stacked layout ─────── */
 function WhyStack({ eyebrow, title, intro, topics }: { eyebrow: string; title: string; intro: string; topics: WhyTopic[] }) {
   return (
-    <section style={{ background: "var(--wf-cream)", padding: "calc(var(--wf-header-h) + clamp(40px, 8vw, 72px)) 0 clamp(48px, 8vw, 80px)" }}>
+    <section style={{ background: "var(--wf-cream)", padding: "var(--wf-page-top) 0 clamp(48px, 8vw, 80px)" }}>
       <div className="wf-wrap wf-wrap--wide">
         <div style={{ maxWidth: 460 }}>
           <Eyebrow>{eyebrow}</Eyebrow>

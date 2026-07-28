@@ -7,6 +7,7 @@ import { HotelGrid } from "@/components/sections/HotelGrid";
 import { EnquireButton } from "@/components/site/EnquireButton";
 import { SectionHead } from "@/components/sections/SectionHead";
 import { getHotelBySlug } from "@/lib/queries/hotels";
+import { pageBackdrop } from "@/content/media";
 
 export async function generateMetadata({
   params,
@@ -38,7 +39,7 @@ export default async function HotelPage({
   const images = hotel.images.length ? hotel.images : hotel.image ? [hotel.image] : [];
 
   return (
-    <section style={{ background: "var(--wf-cream)", padding: "calc(var(--wf-header-h) + clamp(28px, 5vw, 48px)) 0 clamp(56px, 8vw, 96px)" }}>
+    <section style={{ ...pageBackdrop(0), padding: "var(--wf-page-top) 0 clamp(56px, 8vw, 96px)" }}>
       <div className="wf-wrap wf-wrap--wide">
         {/* Name + meta */}
         <div style={{ textAlign: "center", maxWidth: 780, margin: "0 auto clamp(24px, 4vw, 36px)" }}>

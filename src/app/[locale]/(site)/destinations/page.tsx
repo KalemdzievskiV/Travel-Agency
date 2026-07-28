@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { DestinationGrid } from "@/components/sections/DestinationGrid";
 import { WorldRegionMap } from "@/components/sections/WorldRegionMap";
+import { pageBackdrop } from "@/content/media";
 import { getDestinations } from "@/lib/queries/public";
 import { getRegionsWithDestinations } from "@/lib/queries/regions";
 
@@ -40,7 +41,7 @@ export default async function DestinationsPage({
         style={{
           background: "var(--wf-ink-900)",
           color: "#fff",
-          padding: "calc(var(--wf-header-h) + 40px) 0 clamp(24px, 4vw, 48px)",
+          padding: "var(--wf-page-top) 0 clamp(24px, 4vw, 48px)",
         }}
       >
         <div className="wf-wrap wf-wrap--wide" style={{ textAlign: "center" }}>
@@ -53,7 +54,7 @@ export default async function DestinationsPage({
         </div>
       </section>
 
-      <section style={{ background: "var(--wf-cream)", padding: "clamp(40px, 6vw, 72px) 0 96px" }}>
+      <section style={{ ...pageBackdrop(0), padding: "clamp(40px, 6vw, 72px) 0 96px" }}>
         <div className="wf-wrap wf-wrap--wide">
           {regions.length > 0 ? (
             <>

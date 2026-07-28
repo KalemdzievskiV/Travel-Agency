@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { EnquiryPanels } from "@/components/site/EnquiryPanels";
 import { getDestinations, getTripWithDestinations } from "@/lib/queries/public";
+import { pageBackdrop } from "@/content/media";
 
 export const metadata: Metadata = {
   title: "Make an enquiry",
@@ -34,8 +35,8 @@ export default async function EnquiryPage({
   return (
     <section
       style={{
-        background: "var(--wf-cream)",
-        padding: "calc(var(--wf-header-h) + clamp(28px, 5vw, 56px)) 0 clamp(48px, 8vw, 96px)",
+        ...pageBackdrop(0),
+        padding: "var(--wf-page-top) 0 clamp(48px, 8vw, 96px)",
         minHeight: "100vh",
       }}
     >

@@ -315,7 +315,7 @@ function ReasonsStack({ reasons, intro }: { reasons: Reason[]; intro: ReasonsInt
         style={{
           background: PANEL,
           color: "var(--wf-text-on-dark)",
-          padding: "calc(var(--wf-header-h) + clamp(40px, 8vw, 72px)) 0 clamp(40px, 8vw, 64px)",
+          padding: "var(--wf-page-top) 0 clamp(40px, 8vw, 64px)",
         }}
       >
         <div className="wf-wrap wf-wrap--wide">
