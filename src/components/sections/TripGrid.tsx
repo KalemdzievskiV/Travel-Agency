@@ -11,17 +11,21 @@ import type { Trip } from "@/content/types";
  */
 export function TripGrid({
   items,
-  height = 520,
+  ratio,
   columns = 4,
 }: {
   items: Trip[];
-  height?: number;
+  /** Card shape; defaults to the shared portrait ratio on DestinationCard. */
+  ratio?: string;
   columns?: 2 | 3 | 4;
 }) {
   const router = useRouter();
   const tr = useTranslations("cards");
+  // Don't leave an empty column: fewer items than columns squeezed every
+  // card into a narrow slot and made them read small.
+  const cols = Math.max(2, Math.min(columns, items.length));
   return (
-    <div className={`wf-grid wf-grid-${columns}`}>
+    <div className={`wf-grid wf-grid-${cols}`}>
       {items.map((trip) => (
         <DestinationCard
           key={trip.slug}
@@ -31,7 +35,7 @@ export function TripGrid({
           title={trip.title}
           price={trip.priceFrom}
           badge={trip.durationDays ? tr("days", { count: trip.durationDays }) : undefined}
-          height={height}
+          ratio={ratio}
           onClick={() => router.push(`/trips/${trip.slug}`)}
         />
       ))}

@@ -18,6 +18,13 @@ type DestinationCardProps = {
   price?: string;
   rating?: string;
   badge?: string;
+  /**
+   * Card shape, as a CSS aspect-ratio. Ratio rather than a fixed height so the
+   * card keeps its portrait proportion as the grid column widens — at a pinned
+   * 520px these went nearly square on a large screen. `height` still wins if a
+   * caller genuinely needs a fixed size.
+   */
+  ratio?: string;
   height?: number;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 };
@@ -31,7 +38,8 @@ export function DestinationCard({
   price,
   rating,
   badge,
-  height = 520,
+  ratio = "2 / 3",
+  height,
   onClick,
 }: DestinationCardProps) {
   const t = useTranslations("cards");
@@ -46,7 +54,7 @@ export function DestinationCard({
       onMouseLeave={() => setHover(false)}
       style={{
         position: "relative",
-        height,
+        ...(height ? { height } : { aspectRatio: ratio }),
         borderRadius: "var(--wf-radius-md)",
         overflow: "hidden",
         cursor: onClick ? "pointer" : "default",

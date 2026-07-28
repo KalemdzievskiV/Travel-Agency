@@ -11,11 +11,12 @@ import type { Destination } from "@/content/types";
  */
 export function DestinationGrid({
   items,
-  height = 520,
+  ratio,
   columns = 4,
 }: {
   items: Destination[];
-  height?: number;
+  /** Card shape; defaults to the shared portrait ratio on DestinationCard. */
+  ratio?: string;
   columns?: 2 | 3 | 4;
 }) {
   const router = useRouter();
@@ -23,8 +24,11 @@ export function DestinationGrid({
   const tm = useTranslations("months");
   // Fall back to the raw value for any month not in the dictionary.
   const monthLabel = (m: string) => (tm.has(m) ? tm(m) : m);
+  // Don't leave an empty column: fewer items than columns squeezed every
+  // card into a narrow slot and made them read small.
+  const cols = Math.max(2, Math.min(columns, items.length));
   return (
-    <div className={`wf-grid wf-grid-${columns}`}>
+    <div className={`wf-grid wf-grid-${cols}`}>
       {items.map((d) => (
         <DestinationCard
           key={d.slug}
@@ -38,7 +42,7 @@ export function DestinationGrid({
               ? t("best", { months: d.bestMonths.map(monthLabel).join(", ") })
               : undefined
           }
-          height={height}
+          ratio={ratio}
           onClick={() => router.push(`/destinations/${d.slug}`)}
         />
       ))}

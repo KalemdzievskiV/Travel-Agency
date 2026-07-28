@@ -167,8 +167,10 @@
 
 .wf-trip-card {
   position: relative;
-  flex: 0 0 clamp(216px, 22vw, 280px);
-  aspect-ratio: 3 / 5;
+  /* Wider, and on the same 2/3 portrait as the DestinationCard grid so the two
+     card families read as one system rather than two. */
+  flex: 0 0 clamp(240px, 24vw, 330px);
+  aspect-ratio: 2 / 3;
   border-radius: var(--wf-radius-md);
   overflow: hidden;
   display: block;

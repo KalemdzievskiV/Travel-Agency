@@ -11,15 +11,19 @@ import type { Hotel } from "@/content/types";
 export function HotelGrid({
   items,
   columns = 4,
-  height = 380,
+  ratio,
 }: {
   items: Hotel[];
   columns?: 2 | 3 | 4;
-  height?: number;
+  /** Card shape; defaults to the shared portrait ratio on DestinationCard. */
+  ratio?: string;
 }) {
   const router = useRouter();
+  // Don't leave an empty column: fewer items than columns squeezed every
+  // card into a narrow slot and made them read small.
+  const cols = Math.max(2, Math.min(columns, items.length));
   return (
-    <div className={`wf-grid wf-grid-${columns}`}>
+    <div className={`wf-grid wf-grid-${cols}`}>
       {items.map((h) => (
         <DestinationCard
           key={h.slug}
@@ -30,7 +34,7 @@ export function HotelGrid({
           badge={h.style[0]}
           price={h.priceFrom || undefined}
           rating={h.stars ? String(h.stars) : undefined}
-          height={height}
+          ratio={ratio}
           onClick={() => router.push(`/hotels/${h.slug}`)}
         />
       ))}

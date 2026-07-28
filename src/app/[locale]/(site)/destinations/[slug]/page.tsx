@@ -207,9 +207,7 @@ export default async function DestinationPage(
             <div style={{ marginBottom: 36 }}>
               <SectionHead eyebrow={td("stays")} title={td("whereToStay")} />
             </div>
-            {/* Taller cards, per the client: the stay cards read as landscape
-                against the portrait ones everywhere else on the page. */}
-            <HotelGrid items={hotels} height={520} />
+            <HotelGrid items={hotels} />
           </div>
         </section>
       )}
@@ -232,7 +230,7 @@ export default async function DestinationPage(
           <div style={{ marginBottom: 36 }}>
             <SectionHead eyebrow={td("keepExploring")} title={td("morePlaces")} />
           </div>
-          <DestinationGrid items={more} height={470} />
+          <DestinationGrid items={more} />
           <div style={{ marginTop: 40 }}>
             <Link href="/destinations" style={{ textDecoration: "none", color: "var(--wf-ink-900)", fontSize: 13, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", borderBottom: "1px solid var(--wf-ink-900)", paddingBottom: 4 }}>
               {td("viewAll")}
