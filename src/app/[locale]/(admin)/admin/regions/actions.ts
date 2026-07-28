@@ -16,6 +16,7 @@ function str(formData: FormData, key: string): string {
 function revalidateRegions() {
   revalidatePath("/admin/regions");
   revalidatePath("/destinations");
+  revalidatePath("/destinations/[slug]", "page");
   revalidatePath("/");
 }
 
@@ -36,6 +37,11 @@ export async function saveRegion(formData: FormData) {
     label,
     labelMk: str(formData, "labelMk") || null,
     grad: str(formData, "grad") || null,
+    // Blank means "use the site default", so store null rather than "".
+    introHeading: str(formData, "introHeading") || null,
+    introHeadingMk: str(formData, "introHeadingMk") || null,
+    introBody: str(formData, "introBody") || null,
+    introBodyMk: str(formData, "introBodyMk") || null,
     sortOrder: Number(formData.get("sortOrder") ?? 0) || 0,
     published: formData.get("published") === "on",
     updatedAt: new Date(),

@@ -90,7 +90,16 @@ export async function getRegionBySlug(slug: string): Promise<Region | undefined>
     ]);
     if (!r) return undefined;
     // Resolve the display label for the active locale.
-    return { ...r, label: mk && r.labelMk ? r.labelMk : r.label };
+    const label = mk && r.labelMk ? r.labelMk : r.label;
+    // …and the admin-editable intro, with `{region}` filled in. Left null when
+    // unset so the page can fall back to the shared dictionary strings.
+    const fill = (s: string | null) => (s ? s.replaceAll("{region}", label) : null);
+    return {
+      ...r,
+      label,
+      introHeading: fill(mk && r.introHeadingMk ? r.introHeadingMk : r.introHeading),
+      introBody: fill(mk && r.introBodyMk ? r.introBodyMk : r.introBody),
+    };
   } catch {
     return undefined;
   }

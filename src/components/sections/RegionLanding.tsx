@@ -127,7 +127,7 @@ export async function RegionLanding({
               margin: 0,
             }}
           >
-            {t("introHeading", { region: region.label })}
+            {region.introHeading || t("introHeading", { region: region.label })}
           </h2>
           {/* Smaller, italic and run wider than the heading column so the
               paragraph reads as a caption rather than a stack of short lines. */}
@@ -140,9 +140,11 @@ export async function RegionLanding({
               color: "var(--wf-ink-700)",
               maxWidth: 920,
               margin: "clamp(16px, 2.4vw, 22px) auto 0",
+              // Honour line breaks typed into the admin textarea.
+              whiteSpace: "pre-line",
             }}
           >
-            {t("introBody", { region: region.label })}
+            {region.introBody || t("introBody", { region: region.label })}
           </p>
         </div>
       </section>

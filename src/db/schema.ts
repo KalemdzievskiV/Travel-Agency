@@ -270,6 +270,14 @@ export const regions = pgTable(
     // column entirely until this is set.
     menuImage: text("menu_image"),
     grad: text("grad"),
+    // Editorial intro above the country grid. Null falls back to the shared
+    // `regionPage.introHeading` / `introBody` strings in the dictionaries, so a
+    // freshly created region still reads sensibly before anyone edits it.
+    // A literal `{region}` in the text is substituted with the region label.
+    introHeading: text("intro_heading"),
+    introHeadingMk: text("intro_heading_mk"),
+    introBody: text("intro_body"),
+    introBodyMk: text("intro_body_mk"),
     sortOrder: integer("sort_order").notNull().default(0),
     published: boolean("published").notNull().default(true),
     createdAt: timestamp("created_at").notNull().defaultNow(),
