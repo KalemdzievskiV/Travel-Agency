@@ -43,8 +43,13 @@ export default async function ExperienceCategoryPage({
   const crumb: React.CSSProperties = { color: "var(--wf-ink-500)", textDecoration: "underline", textUnderlineOffset: "2px" };
   const anchorPad = { scrollMarginTop: "calc(var(--wf-header-h) + 66px)" } as React.CSSProperties;
 
+  // Italic and a size down, the same treatment the region intros carry: at
+  // clamp(16, 1.9vw, 18.5) across the wide column the client read it as far
+  // too big.
   const bodyStyle: React.CSSProperties = {
-    fontSize: "clamp(16px, 1.9vw, 18.5px)",
+    fontFamily: "var(--wf-font-sans)",
+    fontStyle: "italic",
+    fontSize: "clamp(14.5px, 1.5vw, 16.5px)",
     lineHeight: 1.75,
     color: "var(--wf-ink-700)",
     whiteSpace: "pre-line",
@@ -129,7 +134,7 @@ export default async function ExperienceCategoryPage({
         <div className="wf-wrap wf-wrap--wide" style={prose}>
           <Eyebrow style={sectionLabel}>{t("concept")}</Eyebrow>
           {c.heroText && (
-            <p style={{ fontFamily: "var(--wf-font-sans)", fontWeight: 500, lineHeight: 1.3, letterSpacing: "-0.005em", color: "var(--wf-ink-900)", margin: "16px 0 0", fontSize: "clamp(22px, 3.4vw, 32px)" }}>
+            <p style={{ fontFamily: "var(--wf-font-sans)", fontWeight: 500, lineHeight: 1.35, letterSpacing: "-0.005em", color: "var(--wf-ink-900)", margin: "16px 0 0", fontSize: "clamp(18px, 2.3vw, 24px)" }}>
               {c.heroText}
             </p>
           )}
@@ -147,8 +152,10 @@ export default async function ExperienceCategoryPage({
                 style={{
                   fontFamily: "var(--wf-font-display)",
                   fontWeight: 500,
-                  fontSize: "clamp(26px, 4vw, 40px)",
-                  lineHeight: 1.1,
+                  // Dialled back with the rest of the page's type, per the
+                  // client — at 40px it dwarfed the lede line above it.
+                  fontSize: "clamp(21px, 2.9vw, 29px)",
+                  lineHeight: 1.15,
                   letterSpacing: "-0.02em",
                   color: "var(--wf-ink-900)",
                   margin: 0,
