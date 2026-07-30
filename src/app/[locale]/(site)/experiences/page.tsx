@@ -6,7 +6,7 @@ import { ExperienceTabs } from "@/components/sections/ExperienceTabs";
 import { ExperienceCarousel } from "@/components/sections/ExperienceCarousel";
 import { getExperienceCategories } from "@/lib/queries/experiences";
 import { experiencesHeroImage } from "@/content/site";
-import { backdrop } from "@/content/media";
+import { backdrop, pageBackdrop, pageBoard } from "@/content/media";
 
 export const metadata: Metadata = {
   title: "Experiences",
@@ -120,11 +120,7 @@ export default async function ExperiencesPage({
       {/* What we do */}
       <section
         style={{
-          backgroundColor: "var(--wf-cream)",
-          backgroundImage: `url(${backdrop.intro})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
+          ...pageBackdrop(0),
           // Pulled up: the client's arrow marked the gap under the tab rail.
           padding: "clamp(22px, 3.2vw, 40px) 0 clamp(16px, 3vw, 32px)",
         }}
@@ -164,7 +160,8 @@ export default async function ExperiencesPage({
       <ExperienceCarousel
         id="how"
         tone="light"
-        backgroundImage={backdrop.points}
+        backgroundImage={pageBoard(1).src}
+        backgroundPosition={pageBoard(1).position}
         eyebrow={tMenu("remarkable")}
         title={t("howQuestion")}
         items={remarkable}

@@ -34,6 +34,11 @@ const pageBoards = [
   { src: "/images/background/3.svg", position: "right top" },
 ] as const;
 
+/** The board itself, for callers that compose their own background layers. */
+export function pageBoard(i: number) {
+  return pageBoards[i % pageBoards.length];
+}
+
 /**
  * Longhand background properties for a light section, cycling the three boards
  * by position down the page so consecutive bands never repeat the same corner.

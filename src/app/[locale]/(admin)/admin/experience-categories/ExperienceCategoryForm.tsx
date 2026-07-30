@@ -2,7 +2,6 @@ import {
   TextField,
   TextAreaField,
   CheckboxField,
-  CheckboxGroupField,
   SelectField,
   FormCard,
 } from "@/components/admin/ui";
@@ -12,10 +11,8 @@ import { saveExperienceCategory } from "./actions";
 
 export function ExperienceCategoryForm({
   category,
-  destinations,
 }: {
   category?: ExperienceCategoryRow;
-  destinations: { id: number; title: string }[];
 }) {
   const c = category;
   return (
@@ -55,26 +52,6 @@ export function ExperienceCategoryForm({
           hint="The 'who' filter option key whose tagged trips fill the carousel (e.g. families). Blank falls back to recent trips."
         />
 
-        <TextField
-          label="Destinations heading"
-          name="destinationsHeading"
-          defaultValue={c?.destinationsHeading}
-          placeholder="Our favourite safari destinations"
-        />
-        <TextAreaField
-          label="Destinations intro"
-          name="destinationsIntro"
-          defaultValue={c?.destinationsIntro}
-          rows={3}
-        />
-        <CheckboxGroupField
-          label="Favourite destinations"
-          name="destinationIds"
-          options={destinations.map((d) => ({ value: String(d.id), label: d.title }))}
-          selected={(c?.destinationIds ?? []).map(String)}
-          hint="Tiles shown under the heading above. Leave all unticked to hide the whole section."
-        />
-
         <ImageField currentUrl={c?.image} />
         <TextField label="Gradient (fallback)" name="grad" defaultValue={c?.grad} hint="CSS gradient shown when no image is set." />
 
@@ -100,8 +77,6 @@ export function ExperienceCategoryForm({
         <TextAreaField label="Concept (MK)" name="conceptMk" defaultValue={c?.conceptMk ?? ""} rows={6} />
         <TextAreaField label="Our recommendations (MK)" name="recommendationsMk" defaultValue={c?.recommendationsMk ?? ""} rows={5} />
         <TextAreaField label="FAQs (MK)" name="faqsMk" defaultValue={(c?.faqsMk ?? []).join("\n")} rows={6} hint="One per line as 'Question | Answer'." />
-        <TextField label="Destinations heading (MK)" name="destinationsHeadingMk" defaultValue={c?.destinationsHeadingMk ?? ""} />
-        <TextAreaField label="Destinations intro (MK)" name="destinationsIntroMk" defaultValue={c?.destinationsIntroMk ?? ""} rows={3} />
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, alignItems: "end" }}>
           <TextField label="Sort order" name="sortOrder" type="number" defaultValue={c?.sortOrder ?? 0} />

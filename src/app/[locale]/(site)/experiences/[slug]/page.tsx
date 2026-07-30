@@ -6,7 +6,6 @@ import { Eyebrow } from "@/components/ui";
 import { Link } from "@/i18n/navigation";
 import { TripsCarousel } from "@/components/sections/TripsCarousel";
 import { FaqAccordion } from "@/components/sections/FaqAccordion";
-import { DestinationGrid } from "@/components/sections/DestinationGrid";
 import { getExperienceCategoryBySlug } from "@/lib/queries/experiences";
 
 export async function generateMetadata({
@@ -141,36 +140,6 @@ export default async function ExperienceCategoryPage({
           {c.concept && <p style={{ ...bodyStyle, textAlign: "left", margin: "clamp(24px, 3vw, 32px) 0 0" }}>{c.concept}</p>}
         </div>
       </section>
-
-      {/* Our favourite … destinations — collapses when admin has picked none,
-          which is what keeps the lighter categories short. */}
-      {c.destinations.length > 0 && (
-        <section id="destinations" style={{ background: "var(--wf-cream)", padding: "clamp(40px, 6vw, 64px) 0 clamp(8px, 2vw, 16px)", ...anchorPad }}>
-          <div className="wf-wrap wf-wrap--wide">
-            <div style={{ ...prose, marginBottom: "clamp(28px, 4vw, 40px)" }}>
-              <h2
-                style={{
-                  fontFamily: "var(--wf-font-display)",
-                  fontWeight: 500,
-                  // Dialled back with the rest of the page's type, per the
-                  // client — at 40px it dwarfed the lede line above it.
-                  fontSize: "clamp(21px, 2.9vw, 29px)",
-                  lineHeight: 1.15,
-                  letterSpacing: "-0.02em",
-                  color: "var(--wf-ink-900)",
-                  margin: 0,
-                }}
-              >
-                {c.destinationsHeading || t("favouriteDestinations")}
-              </h2>
-              {c.destinationsIntro && (
-                <p style={{ ...bodyStyle, margin: "16px 0 0" }}>{c.destinationsIntro}</p>
-              )}
-            </div>
-            <DestinationGrid items={c.destinations} />
-          </div>
-        </section>
-      )}
 
       {/* Our recommendations */}
       <section id="recommendations" style={{ background: "var(--wf-cream)", padding: "0 0 clamp(8px, 2vw, 16px)", ...anchorPad }}>

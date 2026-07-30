@@ -10,7 +10,7 @@ import {
   filterOptions,
   filterGroups,
 } from "@/db/schema";
-import { toTrip, getDestinationsByIds } from "./public";
+import { toTrip } from "./public";
 import type {
   ExperienceCategory,
   ExperienceCategoryDetail,
@@ -114,10 +114,7 @@ export async function getExperienceCategoryBySlug(
   const mk = await localeIsMk();
   const pick = (en: string, mkVal: string | null | undefined) => (mk && mkVal ? mkVal : en);
   const faqSource = mk && row.faqsMk && row.faqsMk.length ? row.faqsMk : row.faqs;
-  const [trips, destinations] = await Promise.all([
-    tripsForWho(row.whoOptionKey || row.slug),
-    getDestinationsByIds(row.destinationIds),
-  ]);
+  const trips = await tripsForWho(row.whoOptionKey || row.slug);
 
   return {
     ...toCategory(row, mk),
@@ -125,9 +122,6 @@ export async function getExperienceCategoryBySlug(
     recommendations: pick(row.recommendations, row.recommendationsMk),
     faqs: parseFaqs(faqSource),
     trips,
-    destinationsHeading: pick(row.destinationsHeading, row.destinationsHeadingMk),
-    destinationsIntro: pick(row.destinationsIntro, row.destinationsIntroMk),
-    destinations,
   };
 }
 

@@ -28,6 +28,7 @@ export function ExperienceCarousel({
   items,
   tone = "light",
   backgroundImage,
+  backgroundPosition = "center",
 }: {
   id: string;
   eyebrow?: string;
@@ -37,6 +38,9 @@ export function ExperienceCarousel({
   tone?: "light" | "dark";
   /** Optional backdrop art behind the band. */
   backgroundImage?: string;
+  /** Where to anchor that art. The boards carry their line-work in one corner,
+   *  so centring crops it out of a short band. */
+  backgroundPosition?: string;
 }) {
   const rowRef = React.useRef<HTMLDivElement>(null);
   const [atStart, setAtStart] = React.useState(true);
@@ -88,7 +92,7 @@ export function ExperienceCarousel({
         backgroundColor: dark ? "var(--wf-ink-900)" : "var(--wf-cream)",
         backgroundImage: backgroundImage ? `url(${backgroundImage})` : undefined,
         backgroundSize: "cover",
-        backgroundPosition: "center",
+        backgroundPosition,
         backgroundRepeat: "no-repeat",
         color: dark ? "var(--wf-text-on-dark)" : "var(--wf-ink-900)",
         // Tightened from clamp(52px, 7vw, 88px) — the client asked for the dark

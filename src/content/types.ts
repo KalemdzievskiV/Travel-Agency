@@ -62,10 +62,6 @@ export type ExperienceCategoryDetail = ExperienceCategory & {
   recommendations: string;
   faqs: Faq[];
   trips: Trip[];
-  /** "Our favourite … destinations" band; empty when the category has none. */
-  destinationsHeading: string;
-  destinationsIntro: string;
-  destinations: Destination[];
 };
 
 // A curated place to stay, tied to a destination.
