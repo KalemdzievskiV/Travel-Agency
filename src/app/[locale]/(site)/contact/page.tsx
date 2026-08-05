@@ -217,7 +217,7 @@ export default async function ContactPage({
                   fontWeight: 700,
                   letterSpacing: "0.14em",
                   textTransform: "uppercase",
-                  color: "var(--wf-coral-500)",
+                  color: "var(--wf-accent-ink)",
                   textDecoration: "none",
                 }}
               >

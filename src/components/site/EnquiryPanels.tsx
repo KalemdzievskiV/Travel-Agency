@@ -46,7 +46,7 @@ function Field({ label, htmlFor, required = false, children }: { label: string; 
     <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
       <label htmlFor={htmlFor} style={{ fontSize: 13, fontWeight: 500, color: "var(--wf-ink-700)" }}>
         {label}
-        {required && <span aria-hidden style={{ color: "var(--wf-coral-500)", marginLeft: 3 }}>*</span>}
+        {required && <span aria-hidden style={{ color: "var(--wf-accent-ink)", marginLeft: 3 }}>*</span>}
       </label>
       {children}
     </div>

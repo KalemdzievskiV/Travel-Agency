@@ -14,7 +14,7 @@ type EyebrowProps = {
 
 export function Eyebrow({ children, tone = "coral", as = "div", style, ...rest }: EyebrowProps) {
   const tones: Record<EyebrowTone, string> = {
-    coral: "var(--wf-coral-500)",
+    coral: "var(--wf-accent-ink)",
     ink: "var(--wf-ink-500)",
     light: "rgba(244,239,231,0.8)",
   };

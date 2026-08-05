@@ -145,7 +145,7 @@ function ProcessPinned({ steps, title }: { steps: ProcessStep[]; title: string }
               cy="50"
               r={RING_R}
               fill="none"
-              stroke="var(--wf-coral-500)"
+              stroke="var(--wf-accent-ink)"
               strokeWidth="1"
               strokeLinecap="round"
               transform="rotate(-90 50 50)"
@@ -163,7 +163,7 @@ function ProcessPinned({ steps, title }: { steps: ProcessStep[]; title: string }
                   cx={cx}
                   cy={cy}
                   r={on ? 2 : 1.6}
-                  fill={on ? "var(--wf-coral-500)" : "var(--wf-ink-900)"}
+                  fill={on ? "var(--wf-accent-ink)" : "var(--wf-ink-900)"}
                   stroke="rgba(244,239,231,0.6)"
                   strokeWidth="0.4"
                 />

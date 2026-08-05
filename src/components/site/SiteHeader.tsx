@@ -122,41 +122,55 @@ export function SiteHeader({
         position: "sticky",
         top: 0,
         zIndex: 50,
-        // Longhands only — mixing the `background` shorthand with the
-        // backgroundOrigin/Repeat longhands below lets React reset one when it
-        // reapplies the other on re-render.
-        //
-        // Floating over imagery, the header carries a soft top-down scrim rather
-        // than being fully transparent: white nav on a pale sky (or a bright
-        // video frame) drops below a readable contrast otherwise. It fades to
-        // nothing, so the content still reads as running behind the header.
-        backgroundColor: dark ? "transparent" : "var(--wf-cream)",
-        backgroundImage: dark
-          ? "linear-gradient(180deg, rgba(20,18,16,0.55) 0%, rgba(20,18,16,0.28) 55%, rgba(20,18,16,0) 100%)"
-          : "none",
-        // The gradient must span the border box. Background images are sized to
-        // the padding box by default but painted to the border box, so the
-        // transparent 1px bottom border was filled by a repeat of the gradient's
-        // first stop — a dark hairline under the header.
-        backgroundOrigin: "border-box",
-        backgroundRepeat: "no-repeat",
-        // With a mega-menu open the header and the panel are one continuous
-        // white surface, so the hairline is dropped — otherwise the two read as
-        // stacked bars rather than a single sheet.
-        borderBottom: `1px solid ${dark || openMega ? "transparent" : "var(--wf-border)"}`,
-        transition: "background-color .3s, border-color .3s",
+        background: "transparent",
       }}
     >
+      {/* The two surfaces are stacked and cross-faded on opacity rather than
+          swapped: `background-image` can't animate between a gradient and
+          `none`, so switching them made the header snap to white. Both layers
+          are painted behind the row, which sits in the normal flow above. */}
       <div
-        className="wf-wrap wf-wrap--wide"
+        aria-hidden
         style={{
+          position: "absolute",
+          inset: 0,
+          // Floating over imagery the header carries a soft top-down scrim
+          // rather than being fully transparent: white nav on a pale sky (or a
+          // bright video frame) drops below a readable contrast otherwise. It
+          // fades to nothing, so the content still reads as running behind it.
+          backgroundImage:
+            "linear-gradient(180deg, rgba(20,18,16,0.55) 0%, rgba(20,18,16,0.28) 55%, rgba(20,18,16,0) 100%)",
+          opacity: dark ? 1 : 0,
+          transition: "opacity .5s var(--wf-ease-out)",
+          pointerEvents: "none",
+        }}
+      />
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: "var(--wf-cream)",
+          // With a mega-menu open the header and the panel are one continuous
+          // white surface, so the hairline is dropped — otherwise the two read
+          // as stacked bars rather than a single sheet.
+          borderBottom: `1px solid ${openMega ? "transparent" : "var(--wf-border)"}`,
+          opacity: dark ? 0 : 1,
+          transition: "opacity .5s var(--wf-ease-out), border-color .3s",
+          pointerEvents: "none",
+        }}
+      />
+      <div
+        className="wf-wrap wf-wrap--wide wf-header-row"
+        style={{
+          position: "relative",
           height: "var(--wf-header-h)",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
         }}
       >
-        <Logo light={dark} />
+        <Logo light={dark} crossfade />
 
         <nav className="wf-header-nav">
           <SearchOverlay regions={regionsNav} dark={dark} />

@@ -1,5 +1,7 @@
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { CookieNotice } from "@/components/site/CookieNotice";
+import { NewsletterPopup } from "@/components/site/NewsletterPopup";
 import { getRegionsWithDestinations } from "@/lib/queries/regions";
 import { getExperienceCategories } from "@/lib/queries/experiences";
 
@@ -24,6 +26,10 @@ export default async function SiteLayout({
       />
       <main className="flex-1">{children}</main>
       <SiteFooter />
+      {/* Corner cards — the cookie notice first, then the newsletter invite
+          once that has been answered. Both dock bottom-right. */}
+      <CookieNotice />
+      <NewsletterPopup />
     </div>
   );
 }

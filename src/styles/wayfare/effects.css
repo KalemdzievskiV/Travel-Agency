@@ -20,6 +20,12 @@
   --wf-overlay-full: linear-gradient(to top, rgba(14,42,51,0.55), rgba(14,42,51,0.15)); /* @kind other */
   --wf-overlay-scrim: rgba(14, 42, 51, 0.32); /* @kind color */
 
+  /* — Glass surface ——————————————————————————————
+     For cards that float over photography (the newsletter invite): the
+     imagery reads through, the blur keeps the copy legible. */
+  --wf-surface-glass: rgba(255, 255, 255, 0.80); /* @kind color */
+  --wf-glass-blur: saturate(115%) blur(12px); /* @kind other */
+
   /* — Motion ————————————————————————————————————— */
   --wf-ease-out: cubic-bezier(0.22, 1, 0.36, 1); /* @kind other */
   --wf-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1); /* @kind other */

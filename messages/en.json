@@ -433,7 +433,7 @@
     "hearFriend": "Friend or family",
     "hearPress": "Press or article",
     "hearOther": "Other",
-    "newsletter": "Sign up for occasional travel inspiration from our team. No spam, unsubscribe any time.",
+    "newsletter": "I agree to occasionally receive useful tips and inspiration from your team.",
     "send": "Submit enquiry",
     "callUsToday": "Call us today",
     "openNote": "We’re here Monday to Friday, 10am–6pm.",
@@ -456,5 +456,20 @@
   "destinationsMenu": {
     "allDestinations": "All destinations",
     "browseAll": "Browse all {region}"
+  },
+  "cookies": {
+    "title": "Cookies",
+    "body": "We use cookies to improve your visit and to understand what inspires you. Choose what you're happy for us to keep.",
+    "policyLink": "Read our cookie policy",
+    "acceptAll": "Accept all",
+    "essentialOnly": "Essential only"
+  },
+  "newsletterPopup": {
+    "title": "Sign up to our newsletter",
+    "namePlaceholder": "Your name",
+    "emailPlaceholder": "Your email",
+    "cta": "SIGN ME UP",
+    "done": "Thank you — you’re on the list.",
+    "close": "Close"
   }
 }

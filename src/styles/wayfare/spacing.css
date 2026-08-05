@@ -28,7 +28,7 @@
   --wf-container-wide: 1480px;
   --wf-container-text: 680px;   /* long-form reading measure */
   --wf-gutter: 24px;
-  --wf-header-h: 76px;
+  --wf-header-h: 60px;
 
   /* Top padding for a page whose first section is a plain band rather than a
      full-bleed hero. Deliberately tight — the client asked that these opening

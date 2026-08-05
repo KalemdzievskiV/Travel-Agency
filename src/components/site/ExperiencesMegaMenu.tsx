@@ -168,7 +168,7 @@ export function ExperiencesMegaMenu({
                         className="wf-destmenu__region"
                         aria-current={g.key === group.key ? "true" : undefined}
                         style={{
-                          color: g.key === group.key ? "var(--wf-coral-500)" : "var(--wf-ink-900)",
+                          color: g.key === group.key ? "var(--wf-accent-ink)" : "var(--wf-ink-900)",
                         }}
                       >
                         <span>{g.label}</span>

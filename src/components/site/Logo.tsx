@@ -13,23 +13,52 @@ export function Logo({
   light = false,
   size = 30,
   href = "/",
+  crossfade = false,
 }: {
   light?: boolean;
   size?: number;
   href?: string | null;
+  /**
+   * Stack both knockouts and fade between them instead of swapping the file.
+   * For the header, where `light` flips as the page scrolls off the hero — a
+   * straight swap pops while the background is still fading.
+   */
+  crossfade?: boolean;
 }) {
   const height = size;
   const width = Math.round(height * LOGO_RATIO);
 
-  const img = (
+  const mark = (src: string, visible: boolean, stacked: boolean) => (
     <Image
-      src={light ? "/brand/bookit-logo-white.png" : "/brand/bookit-logo.png"}
-      alt="bookit"
+      key={src}
+      src={src}
+      alt={stacked && !visible ? "" : "bookit"}
+      aria-hidden={stacked && !visible}
       width={width}
       height={height}
       priority
-      style={{ height, width: "auto", display: "block" }}
+      style={{
+        height,
+        width: "auto",
+        display: "block",
+        ...(stacked
+          ? {
+              gridArea: "1 / 1",
+              opacity: visible ? 1 : 0,
+              transition: "opacity .5s var(--wf-ease-out)",
+            }
+          : null),
+      }}
     />
+  );
+
+  const img = crossfade ? (
+    <span style={{ display: "grid" }}>
+      {mark("/brand/bookit-logo.png", !light, true)}
+      {mark("/brand/bookit-logo-white.png", light, true)}
+    </span>
+  ) : (
+    mark(light ? "/brand/bookit-logo-white.png" : "/brand/bookit-logo.png", true, false)
   );
 
   if (href === null) return img;

@@ -755,6 +755,9 @@
 
 /* Mobile menu panel */
 .wf-mobile-menu {
+  /* Positioned so it paints above the header's absolutely-positioned
+     background layers — in-flow content would otherwise sit under them. */
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -815,7 +818,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  color: var(--wf-coral-500);
+  color: var(--wf-accent-ink);
   margin-bottom: 14px;
 }
 .wf-megamenu__link {
@@ -830,7 +833,7 @@
   transition: color 0.16s var(--wf-ease-out);
 }
 .wf-megamenu__link:last-child { border-bottom: none; }
-.wf-megamenu__link:hover { color: var(--wf-coral-500); }
+.wf-megamenu__link:hover { color: var(--wf-accent-ink); }
 
 /* ── Destinations mega-menu (regions → countries → image) ─────── */
 .wf-destmenu {
@@ -948,7 +951,7 @@
   text-transform: uppercase;
   color: var(--wf-ink-900);
 }
-.wf-destmenu__all:hover { color: var(--wf-coral-500); }
+.wf-destmenu__all:hover { color: var(--wf-accent-ink); }
 .wf-destmenu__cols { column-count: 2; column-gap: 44px; }
 @media (max-width: 1160px) { .wf-destmenu__cols { column-count: 1; } }
 .wf-destmenu__country {
@@ -960,7 +963,7 @@
   color: var(--wf-ink-700);
   transition: color 0.15s var(--wf-ease-out);
 }
-.wf-destmenu__country:hover { color: var(--wf-coral-500); }
+.wf-destmenu__country:hover { color: var(--wf-accent-ink); }
 .wf-destmenu__browse {
   display: inline-block;
   margin-top: 20px;
@@ -971,7 +974,7 @@
   text-transform: uppercase;
   color: var(--wf-ink-900);
 }
-.wf-destmenu__browse:hover { color: var(--wf-coral-500); }
+.wf-destmenu__browse:hover { color: var(--wf-accent-ink); }
 .wf-destmenu__image {
   /* Height follows the uploaded file's own proportions so nothing is zoomed;
      the cap only bites on unusually tall portraits, which then crop centrally
@@ -1139,7 +1142,7 @@
 @media (max-width: 1160px) {
   .wf-aboutmenu__grid { grid-template-columns: 220px minmax(0, 1fr); }
 }
-.wf-expmenu__link-only:hover { color: var(--wf-coral-500); }
+.wf-expmenu__link-only:hover { color: var(--wf-accent-ink); }
 
 /* ── About mega-menu (mobile accordion, inside .wf-mobile-menu) ── */
 .wf-mobile-about__toggle {
@@ -1168,7 +1171,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.16em;
-  color: var(--wf-coral-500);
+  color: var(--wf-accent-ink);
   padding: 12px 0 4px;
 }
 .wf-mobile-about__panel a {
@@ -1510,4 +1513,60 @@
     grid-template-rows: 46% 54%;
     gap: 14px;
   }
+}
+
+/* ── Corner cards (cookie notice, newsletter invite) ───────────
+   Both dock to the bottom-right on desktop; below 520px they widen
+   into a full-width sheet with a gutter so the copy stays readable
+   and nothing overhangs the viewport. They never show at the same
+   time — the newsletter invite waits for the cookie choice. */
+.wf-corner {
+  position: fixed;
+  right: clamp(14px, 2vw, 28px);
+  bottom: clamp(14px, 2vw, 28px);
+  z-index: 90;
+  width: min(360px, calc(100vw - 28px));
+  max-height: calc(100vh - 28px);
+  overflow-y: auto;
+  border-radius: var(--wf-radius-lg);
+  box-shadow: var(--wf-shadow-lg);
+  animation: wf-corner-in 280ms var(--wf-ease-out) both;
+}
+.wf-corner--wide { width: min(400px, calc(100vw - 28px)); }
+/* Newsletter invite sits in the opposite corner to the cookie notice. */
+.wf-corner--left {
+  left: clamp(14px, 2vw, 28px);
+  right: auto;
+}
+
+@keyframes wf-corner-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (max-width: 520px) {
+  .wf-corner,
+  .wf-corner--wide {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    width: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wf-corner { animation: none; }
+}
+
+/* ── Header colour swap ────────────────────────────────────────
+   The row's contents (nav links, phone, language, toggle) flip between
+   white-on-imagery and ink-on-white at the scroll threshold. Fading the
+   colour over the same duration as the background layers keeps the whole
+   header arriving as one movement instead of a snap. */
+.wf-header-row,
+.wf-header-row a,
+.wf-header-row button,
+.wf-header-row span {
+  transition: color 0.5s var(--wf-ease-out),
+    border-color 0.5s var(--wf-ease-out);
 }

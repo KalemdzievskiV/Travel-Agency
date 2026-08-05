@@ -118,7 +118,7 @@ export function AboutMegaMenu({
                         href={g.href}
                         className={`wf-destmenu__region${i < 0 ? " wf-expmenu__link-only" : ""}`}
                         aria-current={on ? "true" : undefined}
-                        style={i >= 0 ? { color: on ? "var(--wf-coral-500)" : "var(--wf-ink-900)" } : undefined}
+                        style={i >= 0 ? { color: on ? "var(--wf-accent-ink)" : "var(--wf-ink-900)" } : undefined}
                       >
                         <span>{t(`aboutMenu.groups.${g.key}`)}</span>
                         <ChevronRight size={16} aria-hidden style={{ opacity: on ? 1 : 0.4 }} />

@@ -20,7 +20,7 @@ export function Badge({ children, tone = "neutral", variant = "soft", ...rest }:
     },
     coral: {
       soft: ["var(--wf-coral-050)", "var(--wf-coral-700)"],
-      solid: ["var(--wf-coral-500)", "#fff"],
+      solid: ["var(--wf-coral-500)", "var(--wf-text-on-accent)"],
     },
     success: {
       soft: ["#E4EDE4", "var(--wf-success)"],

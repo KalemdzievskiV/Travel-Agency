@@ -91,7 +91,7 @@ export async function RegionLanding({
           className="wf-wrap wf-wrap--wide"
           style={{ display: "flex", justifyContent: "center", gap: "clamp(20px, 4vw, 44px)", flexWrap: "wrap", paddingBlock: 18 }}
         >
-          <a href="#overview" style={{ ...subLink, color: "var(--wf-coral-500)", borderBottom: "2px solid var(--wf-coral-500)", paddingBottom: 4 }}>
+          <a href="#overview" style={{ ...subLink, color: "var(--wf-accent-ink)", borderBottom: "2px solid var(--wf-coral-500)", paddingBottom: 4 }}>
             {t("overview")}
           </a>
           <a href="#countries" style={subLink}>{t("countries")}</a>

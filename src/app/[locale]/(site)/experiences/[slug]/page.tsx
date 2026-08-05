@@ -113,7 +113,7 @@ export default async function ExperienceCategoryPage({
       {/* Sticky tab nav */}
       <div style={{ position: "sticky", top: "var(--wf-header-h)", zIndex: 40, background: "var(--wf-cream)", borderBottom: "1px solid var(--wf-border)" }}>
         <nav className="wf-wrap wf-wrap--wide" style={{ display: "flex", justifyContent: "center", gap: "clamp(20px, 4vw, 44px)", flexWrap: "wrap", paddingBlock: 18 }}>
-          <a href="#concept" style={{ ...subLink, color: "var(--wf-coral-500)", borderBottom: "2px solid var(--wf-coral-500)", paddingBottom: 4 }}>{t("concept")}</a>
+          <a href="#concept" style={{ ...subLink, color: "var(--wf-accent-ink)", borderBottom: "2px solid var(--wf-coral-500)", paddingBottom: 4 }}>{t("concept")}</a>
           <a href="#recommendations" style={subLink}>{t("recommendations")}</a>
           {c.faqs.length > 0 && <a href="#faqs" style={subLink}>{t("faqs")}</a>}
         </nav>

@@ -160,7 +160,7 @@ function WhyPinned({ eyebrow, title, intro, topics }: { eyebrow: string; title: 
                       fontWeight: 700,
                       textTransform: "uppercase",
                       letterSpacing: "0.12em",
-                      color: on ? "var(--wf-coral-500)" : "var(--wf-ink-700)",
+                      color: on ? "var(--wf-accent-ink)" : "var(--wf-ink-700)",
                       transition: "color .2s var(--wf-ease-out)",
                     }}
                   >
@@ -171,7 +171,7 @@ function WhyPinned({ eyebrow, title, intro, topics }: { eyebrow: string; title: 
                       aria-hidden
                       style={{
                         flexShrink: 0,
-                        color: "var(--wf-coral-500)",
+                        color: "var(--wf-accent-ink)",
                         opacity: on ? 1 : 0,
                         transform: on ? "none" : "translateX(-6px)",
                         transition: "opacity .2s var(--wf-ease-out), transform .2s var(--wf-ease-out)",

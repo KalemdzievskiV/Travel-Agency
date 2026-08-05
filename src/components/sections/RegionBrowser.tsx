@@ -25,7 +25,7 @@ export function RegionBrowser({ regions }: { regions: RegionNavItem[] }) {
               <Link
                 href={`/destinations/${reg.slug}`}
                 className="wf-region-browser__item"
-                style={{ color: on ? "var(--wf-coral-500)" : "var(--wf-ink-900)" }}
+                style={{ color: on ? "var(--wf-accent-ink)" : "var(--wf-ink-900)" }}
               >
                 <span>{reg.label}</span>
                 <ChevronRight size={20} aria-hidden style={{ opacity: on ? 1 : 0.3 }} />

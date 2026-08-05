@@ -122,7 +122,7 @@ export function DestinationsMegaMenu({
                         href={`/destinations/${r.slug}`}
                         className="wf-destmenu__region"
                         aria-current={on ? "true" : undefined}
-                        style={{ color: on ? "var(--wf-coral-500)" : "var(--wf-ink-900)" }}
+                        style={{ color: on ? "var(--wf-accent-ink)" : "var(--wf-ink-900)" }}
                       >
                         <span>{r.label}</span>
                         <ChevronRight size={16} aria-hidden style={{ opacity: on ? 1 : 0.4 }} />

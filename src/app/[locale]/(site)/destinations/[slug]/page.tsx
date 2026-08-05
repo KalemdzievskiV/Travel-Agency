@@ -133,7 +133,7 @@ export default async function DestinationPage(
           className="wf-wrap wf-wrap--wide"
           style={{ display: "flex", justifyContent: "center", gap: "clamp(20px, 4vw, 44px)", flexWrap: "wrap", paddingBlock: 18 }}
         >
-          <a href="#overview" style={{ ...subLink, color: "var(--wf-coral-500)", borderBottom: "2px solid var(--wf-coral-500)", paddingBottom: 4 }}>
+          <a href="#overview" style={{ ...subLink, color: "var(--wf-accent-ink)", borderBottom: "2px solid var(--wf-coral-500)", paddingBottom: 4 }}>
             {td("overview")}
           </a>
           {trips.length > 0 && <a href="#trips" style={subLink}>{td("programs")}</a>}
@@ -160,18 +160,19 @@ export default async function DestinationPage(
       <section id="overview" style={{ ...pageBackdrop(0), padding: "clamp(16px, 2.4vw, 28px) 0 clamp(48px, 7vw, 72px)", scrollMarginTop: "calc(var(--wf-header-h) + 66px)" }}>
         <div className="wf-wrap" style={{ maxWidth: 980, marginInline: "auto", textAlign: "center" }}>
           <Eyebrow>{td("thePlace")}</Eyebrow>
-          {/* Set smaller and run wider than the old 760px column: at display size
-              it broke into six short lines and read like a verse, not a lede. */}
+          {/* Same caption treatment as the region intro body: small and italic
+              so it reads as a lede, not a heading. */}
           <p
             style={{
               fontFamily: "var(--wf-font-sans)",
-              fontWeight: 500,
-              lineHeight: 1.5,
-              letterSpacing: "-0.005em",
-              color: "var(--wf-ink-900)",
+              fontStyle: "italic",
+              fontSize: "clamp(14.5px, 1.5vw, 16px)",
+              lineHeight: 1.75,
+              color: "var(--wf-ink-700)",
               maxWidth: 920,
-              margin: "16px auto 0",
-              fontSize: "clamp(18px, 2.2vw, 23px)",
+              margin: "clamp(16px, 2.4vw, 22px) auto 0",
+              // Honour line breaks typed into the admin textarea.
+              whiteSpace: "pre-line",
             }}
           >
             {d.intro}

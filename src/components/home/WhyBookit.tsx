@@ -57,7 +57,7 @@ export async function WhyBookit() {
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={w.src} alt="" width={62} height={62} aria-hidden style={{ display: "block" }} />
                   ) : (
-                    <Glyph size={46} strokeWidth={1.4} color="var(--wf-coral-500)" aria-hidden />
+                    <Glyph size={46} strokeWidth={1.4} color="var(--wf-accent-ink)" aria-hidden />
                   )}
                   <span
                     style={{
