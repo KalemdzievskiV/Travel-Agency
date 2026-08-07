@@ -4,10 +4,20 @@ import React from "react";
 
 /**
  * bookit Button — editorial-luxury. Square-ish corners, calm motion.
- * Variants: primary (coral), dark (ink), outline, ghost, link.
+ * Variants: primary (accent), dark (ink), outline, ghost, link, accentLocked.
  * Ported from the Wayfare design system.
+ *
+ * `accentLocked` is the header's enquire button: the accent fill with white
+ * type, holding one appearance through every state. Unlike the others it does
+ * not invert on hover — see the hover map below.
  */
-export type ButtonVariant = "primary" | "dark" | "outline" | "ghost" | "link";
+export type ButtonVariant =
+  | "primary"
+  | "dark"
+  | "outline"
+  | "ghost"
+  | "link"
+  | "accentLocked";
 export type ButtonSize = "sm" | "md" | "lg";
 
 type ButtonProps = {
@@ -96,6 +106,10 @@ export function Button({
       fontSize: "12px",
       paddingBottom: "4px",
     },
+    accentLocked: {
+      background: "var(--wf-accent)",
+      color: "var(--wf-text-on-accent-white)",
+    },
   };
 
   const hover: Record<
@@ -125,6 +139,9 @@ export function Button({
       el.style.color = on ? "var(--wf-accent)" : "var(--wf-ink-900)";
       el.style.borderColor = on ? "var(--wf-accent)" : "var(--wf-ink-900)";
     },
+    // Deliberately inert: this variant holds one appearance in every state.
+    // The press nudge in `base` still fires, so the click stays acknowledged.
+    accentLocked: () => {},
   };
 
   const Tag = as as React.ElementType;

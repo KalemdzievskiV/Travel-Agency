@@ -79,6 +79,15 @@
      text uses this darker cut of the same hue (~4.7:1). Fills, rules and
      underlines keep the bright --wf-accent. */
   --wf-accent-ink:      #56800F;
+  /* White type on the bright accent, for the header's enquire button only.
+     Deliberate deviation, chosen by the client after being shown the numbers:
+     white on #C0E84A is 1.41:1, below every contrast standard (13px bold needs
+     4.5:1), so the label is hard to read in sunlight or on a dim screen. It is
+     a token, and scoped to the `accentLocked` button variant, so the exception
+     stays contained — do not reach for it elsewhere. Everything else on the
+     accent keeps --wf-text-on-accent (ink, 11.3:1). If this is ever revisited,
+     --wf-accent-ink #56800F carries white at 4.68:1 in the same hue family. */
+  --wf-text-on-accent-white: #FFFFFF;
   --wf-border:          var(--wf-ink-200);
   --wf-border-strong:   var(--wf-ink-300);
   --wf-divider:         var(--wf-ink-100);
