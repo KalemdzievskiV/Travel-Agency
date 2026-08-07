@@ -21,17 +21,24 @@ export const backdrop = {
 /**
  * Section backdrops for the content pages (regions, destinations, trips). Three
  * white artboards with the same contour line-work as `backdrop`, drawn in pale
- * warm beige into a different corner each — 1 bottom-left, 2 left, 3 right.
+ * warm beige — bg1 right, bg3 left, bg2 right. Ordered so the side the
+ * line-work sits on alternates down the page rather than the file numbering.
  * Use `pageBackdrop(i)` rather than reaching for these directly.
+ *
+ * These are flattened from the client's SVGs (kept in `brand-source/backgrounds/`)
+ * at 2048px wide. Nothing is lost: the SVGs held no vector art, just a white
+ * rect and an embedded PNG drawn twice — once as the image, once as its own
+ * luminance mask — which is why they weighed 1.2 MB apiece to render 2%-contrast
+ * lines. Re-export from the masters if the artwork changes; don't hand-edit.
  */
 const pageBoards = [
-  // Each board is a 16:9 white artboard with its line-work in one corner, so it
-  // has to be anchored to that corner. `cover` on a short, wide band crops to
+  // Each board is a 16:9 white artboard with its line-work against one edge, so
+  // it has to be anchored to that edge. `cover` on a short, wide band crops to
   // the middle strip — centre these and the artwork falls outside the section
   // entirely, leaving the plain white we were asked to get rid of.
-  { src: "/images/background/1.svg", position: "left bottom" },
-  { src: "/images/background/2.svg", position: "left center" },
-  { src: "/images/background/3.svg", position: "right top" },
+  { src: "/images/background/bg1.webp", position: "right center" },
+  { src: "/images/background/bg3.webp", position: "left bottom" },
+  { src: "/images/background/bg2.webp", position: "right bottom" },
 ] as const;
 
 /** The board itself, for callers that compose their own background layers. */
