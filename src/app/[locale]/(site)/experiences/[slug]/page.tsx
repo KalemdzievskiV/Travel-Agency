@@ -162,8 +162,12 @@ export default async function ExperienceCategoryPage({
       {/* Our recommendations */}
       <section id="recommendations" style={{ background: "var(--wf-cream)", padding: "0 0 clamp(8px, 2vw, 16px)", ...anchorPad }}>
         <div className="wf-wrap wf-wrap--wide" style={prose}>
+          {/* Heading only. The brief asks for "насловот наши препораки (само
+              како наслов)" with the suggestions listed straight underneath, so
+              the intro paragraph is deliberately not rendered. The copy still
+              lives in the database and the admin field still edits it — nothing
+              was deleted, only unhooked from the page. */}
           <Eyebrow style={sectionLabel}>{t("recommendations")}</Eyebrow>
-          {c.recommendations && <p style={{ ...bodyStyle, textAlign: "left", margin: "16px 0 0" }}>{c.recommendations}</p>}
         </div>
       </section>
       {c.trips.length > 0 && (
