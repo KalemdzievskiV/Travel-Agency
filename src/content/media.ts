@@ -101,6 +101,14 @@ export const aboutWorldImage = "/images/about/your-world.webp";
 export const aboutPhoto = [1, 2, 3, 4, 5].map((n) => `/images/about/${n}.avif`);
 
 /**
+ * Photography for the newsletter popup, portrait to suit its tall left column.
+ * Drawn from the ЗА НАС set the client sent, minus number 5 — that one is the
+ * logo plate, and they asked for "некоја од човек интересна", a person. One is
+ * picked at random each time the popup opens.
+ */
+export const newsletterPhoto = [1, 2, 3, 4].map((n) => `/images/about/${n}.avif`);
+
+/**
  * Artwork for the "by month" cards on the home page, keyed by the short English
  * label those cards use. Filenames are the client's Macedonian month names.
  */

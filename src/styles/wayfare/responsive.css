@@ -1576,6 +1576,35 @@
   animation: wf-corner-in 280ms var(--wf-ease-out) both;
 }
 .wf-corner--wide { width: min(400px, calc(100vw - 28px)); }
+/* The newsletter invite runs wider than the cookie card: it carries a photo
+   beside the form, per the client's reference image. */
+.wf-corner--news { width: min(560px, calc(100vw - 28px)); }
+
+/* ── Newsletter invite: photo beside the form ──────────────────
+   Portrait image on the left, form on the right. Below 560px the photo becomes
+   a short banner across the top instead — a full-height portrait there would
+   push the email field and its consent line off a phone screen. */
+.wf-news {
+  display: grid;
+  grid-template-columns: 218px 1fr;
+  align-items: stretch;
+}
+.wf-news__photo {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 100%;
+}
+.wf-news__panel {
+  padding: clamp(22px, 3vw, 30px);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+@media (max-width: 560px) {
+  .wf-news { grid-template-columns: 1fr; }
+  .wf-news__photo { min-height: 120px; }
+}
 /* Newsletter invite sits in the opposite corner to the cookie notice. */
 .wf-corner--left {
   left: clamp(14px, 2vw, 28px);
@@ -1589,7 +1618,8 @@
 
 @media (max-width: 520px) {
   .wf-corner,
-  .wf-corner--wide {
+  .wf-corner--wide,
+  .wf-corner--news {
     left: 12px;
     right: 12px;
     bottom: 12px;

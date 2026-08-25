@@ -3,6 +3,8 @@
 import React from "react";
 import { useTranslations } from "next-intl";
 import { Button, Icon } from "@/components/ui";
+import { Link } from "@/i18n/navigation";
+import { newsletterPhoto } from "@/content/media";
 import {
   CONSENT_EVENT,
   markNewsletterAnswered,
@@ -34,6 +36,9 @@ const field: React.CSSProperties = {
  * never stack on phones, where both widen to full-width sheets), then appears
  * quietly a little way in. Dismissing or signing up settles it for good.
  *
+ * Laid out from the client's reference image: a portrait photo beside the form,
+ * email only — they were explicit that the name field wasn't needed.
+ *
  * Sign-up is client-side only, matching the footer band; wire both to the same
  * endpoint when the mailing list lands.
  */
@@ -41,6 +46,11 @@ export function NewsletterPopup() {
   const t = useTranslations("newsletterPopup");
   const [show, setShow] = React.useState(false);
   const [done, setDone] = React.useState(false);
+  // Chosen when the card opens rather than at render: the client asked for a
+  // random pick, and picking during render would differ between the server and
+  // the client. Safe here because the card never renders until this effect has
+  // already run on the client.
+  const [photo, setPhoto] = React.useState(newsletterPhoto[0]);
 
   React.useEffect(() => {
     if (newsletterAnswered()) return;
@@ -48,7 +58,10 @@ export function NewsletterPopup() {
     let timer: ReturnType<typeof setTimeout> | undefined;
     const arm = () => {
       if (timer) return;
-      timer = setTimeout(() => setShow(true), DELAY_MS);
+      timer = setTimeout(() => {
+        setPhoto(newsletterPhoto[Math.floor(Math.random() * newsletterPhoto.length)]);
+        setShow(true);
+      }, DELAY_MS);
     };
 
     // Wait out the cookie notice: either it was answered on an earlier visit,
@@ -84,17 +97,12 @@ export function NewsletterPopup() {
 
   return (
     <section
-      className="wf-corner wf-corner--wide wf-corner--left"
+      className="wf-corner wf-corner--news wf-corner--left"
       aria-label={t("title")}
       style={{
-        // Translucent so whatever it floats over still reads through; the
-        // backdrop blur keeps the copy legible over busy photography.
-        background: "var(--wf-surface-glass)",
-        backdropFilter: "var(--wf-glass-blur)",
-        WebkitBackdropFilter: "var(--wf-glass-blur)",
-        border: "1px solid rgba(255, 255, 255, 0.6)",
-        padding: "clamp(22px, 3vw, 30px)",
-        textAlign: "center",
+        background: "var(--wf-paper)",
+        border: "1px solid var(--wf-border)",
+        overflow: "hidden",
       }}
     >
       <button
@@ -105,13 +113,14 @@ export function NewsletterPopup() {
           position: "absolute",
           top: 10,
           right: 10,
+          zIndex: 1,
           display: "inline-flex",
           alignItems: "center",
           justifyContent: "center",
           width: 34,
           height: 34,
-          background: "none",
-          border: "none",
+          background: "var(--wf-paper)",
+          border: "1px solid var(--wf-border)",
           borderRadius: "var(--wf-radius-pill)",
           cursor: "pointer",
           color: "var(--wf-ink-700)",
@@ -120,50 +129,97 @@ export function NewsletterPopup() {
         <Icon name="x" size={18} color="var(--wf-ink-700)" />
       </button>
 
-      <h2
-        style={{
-          margin: "0 clamp(20px, 4vw, 28px)",
-          fontFamily: "var(--wf-font-sans)",
-          fontWeight: 700,
-          fontSize: "clamp(13px, 1.5vw, 15px)",
-          letterSpacing: "0.16em",
-          textTransform: "uppercase",
-          lineHeight: 1.5,
-          color: "var(--wf-ink-900)",
-        }}
-      >
-        {t("title")}
-      </h2>
+      <div className="wf-news">
+        <div
+          className="wf-news__photo"
+          role="presentation"
+          style={{ backgroundImage: `url(${photo})` }}
+        />
 
-      {done ? (
-        <p style={{ margin: "18px 0 0", fontSize: 14.5, lineHeight: 1.6, color: "var(--wf-ink-700)" }}>
-          {t("done")}
-        </p>
-      ) : (
-        <form onSubmit={submit} style={{ display: "grid", gap: 12, marginTop: 20 }}>
-          <input
-            type="text"
-            name="name"
-            required
-            placeholder={t("namePlaceholder")}
-            aria-label={t("namePlaceholder")}
-            style={field}
-          />
-          <input
-            type="email"
-            name="email"
-            required
-            placeholder={t("emailPlaceholder")}
-            aria-label={t("emailPlaceholder")}
-            style={field}
-          />
-          <div style={{ marginTop: 6 }}>
-            <Button type="submit" variant="dark">
-              {t("cta")}
-            </Button>
-          </div>
-        </form>
-      )}
+        <div className="wf-news__panel">
+          <h2
+            style={{
+              margin: 0,
+              fontFamily: "var(--wf-font-display)",
+              fontWeight: 500,
+              fontSize: "clamp(22px, 2.6vw, 28px)",
+              lineHeight: 1.15,
+              letterSpacing: "-0.01em",
+              color: "var(--wf-ink-900)",
+              textWrap: "balance",
+              paddingRight: 34,
+            }}
+          >
+            {t("title")}
+          </h2>
+
+          {done ? (
+            <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.6, color: "var(--wf-ink-700)" }}>
+              {t("done")}
+            </p>
+          ) : (
+            <>
+              <p style={{ margin: 0, fontSize: 14.5, lineHeight: 1.6, color: "var(--wf-ink-700)" }}>
+                {t("body")}
+              </p>
+
+              <form onSubmit={submit} style={{ display: "grid", gap: 10 }}>
+                <label
+                  htmlFor="wf-news-email"
+                  style={{
+                    fontFamily: "var(--wf-font-sans)",
+                    fontSize: 12,
+                    fontWeight: 700,
+                    letterSpacing: "0.04em",
+                    color: "var(--wf-ink-900)",
+                  }}
+                >
+                  {t("emailLabel")}
+                </label>
+                <input
+                  id="wf-news-email"
+                  type="email"
+                  name="email"
+                  required
+                  placeholder={t("emailPlaceholder")}
+                  style={field}
+                />
+                <p
+                  style={{
+                    margin: "2px 0 0",
+                    fontSize: 11.5,
+                    lineHeight: 1.5,
+                    color: "var(--wf-ink-500)",
+                  }}
+                >
+                  {t.rich("consent", {
+                    policy: (chunks) => (
+                      <Link
+                        href="/legal/privacy"
+                        // Underlined on purpose: at 11.5px in muted grey, colour
+                        // alone doesn't read as a link, and this is the consent
+                        // notice — the policy has to be findable.
+                        style={{
+                          color: "var(--wf-ink-700)",
+                          textDecoration: "underline",
+                          textUnderlineOffset: "2px",
+                        }}
+                      >
+                        {chunks}
+                      </Link>
+                    ),
+                  })}
+                </p>
+                <div style={{ marginTop: 4 }}>
+                  <Button type="submit" variant="primary" fullWidth>
+                    {t("cta")}
+                  </Button>
+                </div>
+              </form>
+            </>
+          )}
+        </div>
+      </div>
     </section>
   );
 }

@@ -469,11 +469,13 @@
     "essentialOnly": "Essential only"
   },
   "newsletterPopup": {
-    "title": "Sign up to our newsletter",
-    "namePlaceholder": "Your name",
-    "emailPlaceholder": "Your email",
-    "cta": "SIGN ME UP",
-    "done": "Thank you — you’re on the list.",
+    "title": "Time for a new journey",
+    "body": "From places worth discovering to the small secrets that make a journey special, we bring you a fresh dose of inspiration every week, straight to your inbox.",
+    "emailLabel": "Email address",
+    "emailPlaceholder": "Enter your email address",
+    "consent": "By clicking “Where to next”, you agree to receive emails from Bookit.mk and confirm that the personal information you share will be used in accordance with our <policy>Privacy Policy</policy>.",
+    "cta": "Where to next",
+    "done": "Thank you — you're on the list.",
     "close": "Close"
   }
 }
