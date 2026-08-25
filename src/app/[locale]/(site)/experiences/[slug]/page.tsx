@@ -5,6 +5,8 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Eyebrow } from "@/components/ui";
 import { Link } from "@/i18n/navigation";
 import { TripsCarousel } from "@/components/sections/TripsCarousel";
+import { ExpandableProse } from "@/components/sections/ExpandableProse";
+import { EnquireButton } from "@/components/site/EnquireButton";
 import { FaqAccordion } from "@/components/sections/FaqAccordion";
 import { getExperienceCategoryBySlug } from "@/lib/queries/experiences";
 
@@ -29,6 +31,7 @@ export default async function ExperienceCategoryPage({
   const c = await getExperienceCategoryBySlug(slug);
   if (!c) notFound();
   const t = await getTranslations("experiencesPage");
+  const tc = await getTranslations("common");
 
   const subLink: React.CSSProperties = {
     textDecoration: "none",
@@ -133,11 +136,26 @@ export default async function ExperienceCategoryPage({
         <div className="wf-wrap wf-wrap--wide" style={prose}>
           <Eyebrow style={sectionLabel}>{t("concept")}</Eyebrow>
           {c.heroText && (
-            <p style={{ fontFamily: "var(--wf-font-sans)", fontWeight: 500, lineHeight: 1.35, letterSpacing: "-0.005em", color: "var(--wf-ink-900)", margin: "16px 0 0", fontSize: "clamp(18px, 2.3vw, 24px)" }}>
+            // A size down from clamp(18, 2.3vw, 24) at the client's request —
+            // it was competing with the page title rather than introducing the
+            // copy beneath it.
+            <p style={{ fontFamily: "var(--wf-font-sans)", fontWeight: 500, lineHeight: 1.4, letterSpacing: "-0.005em", color: "var(--wf-ink-900)", margin: "16px 0 0", fontSize: "clamp(16px, 1.85vw, 20px)" }}>
               {c.heroText}
             </p>
           )}
-          {c.concept && <p style={{ ...bodyStyle, textAlign: "left", margin: "clamp(24px, 3vw, 32px) 0 0" }}>{c.concept}</p>}
+          {/* Narrower than the surrounding prose column, and clamped behind a
+              "read more" so the section opens with a taste rather than the whole
+              essay. The CTA sits outside the copy guard on purpose: the client
+              asked for it on every experience, and four categories currently
+              have no concept text at all. */}
+          <div style={{ maxWidth: 820, marginInline: "auto", marginTop: "clamp(24px, 3vw, 32px)" }}>
+            {c.concept && (
+              <ExpandableProse text={c.concept} style={{ ...bodyStyle, textAlign: "left" }} lines={3} />
+            )}
+            <div style={{ display: "flex", justifyContent: "center", marginTop: c.concept ? "clamp(24px, 3.5vw, 34px)" : 0 }}>
+              <EnquireButton size="md">{tc("enquireNow")}</EnquireButton>
+            </div>
+          </div>
         </div>
       </section>
 

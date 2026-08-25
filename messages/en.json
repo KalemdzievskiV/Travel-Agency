@@ -223,7 +223,9 @@
     "introBody": "Whether you're planning a family safari, a romantic honeymoon or a solo adventure, our team builds a wholly personalised programme around what you're after — to satisfy your urge to explore. To follow your passions. To push your own limits.",
     "introClose": "We are experts in the art of travel and we know every corner of the world, which makes us the right partner for the journey you've been dreaming of.",
     "whoQuestion": "Not where, but who's travelling?",
-    "howQuestion": "Not where, but how?"
+    "howQuestion": "Not where, but how?",
+    "readMore": "Read more",
+    "readLess": "Read less"
   },
   "experiencesMenu": {
     "who": "Who's travelling",
