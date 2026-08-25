@@ -128,7 +128,7 @@ export type DestinationSeed = Destination & {
 };
 
 const mkTitle: Record<string, string> = {
-  egypt: "Египет", ethiopia: "Етиопија", kenya: "Кенија", mauritius: "Маврициус", morocco: "Мароко", tunisia: "Тунис", seychelles: "Сејшели", "south-africa": "Јужна Африка", "tanzania-zanzibar": "Танзанија и Занзибар",
+  egypt: "Египет", ethiopia: "Етиопија", kenya: "Кенија", mauritius: "Маурициус", morocco: "Мароко", tunisia: "Тунис", seychelles: "Сејшели", "south-africa": "Јужна Африка", "tanzania-zanzibar": "Танзанија и Занзибар",
   bali: "Бали", philippines: "Филипини", china: "Кина", india: "Индија", indonesia: "Индонезија", japan: "Јапонија", "south-korea": "Јужна Кореја", malaysia: "Малезија", maldives: "Малдиви", "sri-lanka": "Шри Ланка", thailand: "Тајланд", vietnam: "Виетнам", cambodia: "Камбоџа", nepal: "Непал",
   argentina: "Аргентина", brazil: "Бразил", colombia: "Колумбија", peru: "Перу", chile: "Чиле", bolivia: "Боливија",
   cuba: "Куба", mexico: "Мексико", "dominican-republic": "Доминиканска Република", panama: "Панама", "costa-rica": "Коста Рика",
