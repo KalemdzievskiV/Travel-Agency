@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
 /**
  * DestinationCard — the signature bookit card. Full-bleed image with a
@@ -44,8 +45,15 @@ type DestinationCardProps = {
  */
 function SaleBadge({ label }: { label: string }) {
   return (
-    <span
+    <Link
+      href="/on-sale"
+      aria-label={label}
+      // The card around this is itself clickable, so the badge has to stop the
+      // click bubbling or it would navigate to the item instead of the sale
+      // listing the client asked it to open.
+      onClick={(e) => e.stopPropagation()}
       style={{
+        textDecoration: "none",
         display: "inline-flex",
         alignItems: "center",
         gap: 5,
@@ -64,7 +72,7 @@ function SaleBadge({ label }: { label: string }) {
     >
       <span aria-hidden style={{ fontSize: 12, lineHeight: 1 }}>🔥</span>
       {label}
-    </span>
+    </Link>
   );
 }
 

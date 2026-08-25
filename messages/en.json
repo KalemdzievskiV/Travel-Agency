@@ -468,6 +468,15 @@
     "acceptAll": "Accept all",
     "essentialOnly": "Essential only"
   },
+  "onSale": {
+    "eyebrow": "On sale",
+    "title": "We all love a good deal.",
+    "intro": "Selected 🔥 departures are available now at special prices, so take a look at our hottest offers and find your next journey.",
+    "hurry": "Hurry — only a few places left!",
+    "trips": "Trips on sale",
+    "destinations": "Destinations on sale",
+    "empty": "No offers are running just now. Check back soon — new deals land regularly."
+  },
   "newsletterPopup": {
     "title": "Time for a new journey",
     "body": "From places worth discovering to the small secrets that make a journey special, we bring you a fresh dose of inspiration every week, straight to your inbox.",

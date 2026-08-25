@@ -208,6 +208,39 @@ export async function getTrips(): Promise<Trip[]> {
   return rows.map((r) => toTrip(r));
 }
 
+/**
+ * Everything the client has flagged on sale, for the /on-sale page.
+ *
+ * `onSale` is the manual per-item flag, deliberately not derived from a sale
+ * price being filled in — so an item can have its discount staged without
+ * appearing here. Trips and destinations are fetched separately because they
+ * are different shapes; the page decides how to lay them out.
+ */
+export async function getOnSaleTrips(): Promise<Trip[]> {
+  const [rows, mk] = await Promise.all([
+    db
+      .select()
+      .from(tripsTable)
+      .where(and(eq(tripsTable.published, true), eq(tripsTable.onSale, true)))
+      .orderBy(asc(tripsTable.sortOrder), asc(tripsTable.id)),
+    localeIsMk(),
+  ]);
+  return rows.map((r) => toTrip(r, mk));
+}
+
+export async function getOnSaleDestinations(): Promise<Destination[]> {
+  const [rows, mk, regionMap] = await Promise.all([
+    db
+      .select()
+      .from(destinationsTable)
+      .where(and(eq(destinationsTable.published, true), eq(destinationsTable.onSale, true)))
+      .orderBy(asc(destinationsTable.sortOrder), asc(destinationsTable.id)),
+    localeIsMk(),
+    getRegionMap(),
+  ]);
+  return rows.map((r) => toDestination(r, mk, regionMap));
+}
+
 // Trips with their facet keys attached (taxonomy tags + derived duration/price),
 // for the filterable /trips listing.
 export async function getTripsWithFacets(): Promise<TripWithFacets[]> {

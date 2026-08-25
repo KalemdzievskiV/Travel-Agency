@@ -177,6 +177,17 @@
   text-decoration: none;
   scroll-snap-align: start;
 }
+/* The card's own link, as an overlay rather than a wrapper. The sale badge in
+   the corner links somewhere else, and an anchor inside an anchor is invalid
+   HTML that the parser silently unnests — so the corner sits outside this and
+   above it. */
+.wf-trip-card__link {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  text-decoration: none;
+}
 .wf-trip-card__img {
   position: absolute;
   inset: 0;

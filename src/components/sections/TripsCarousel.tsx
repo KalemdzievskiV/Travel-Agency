@@ -138,7 +138,7 @@ export function TripsCarousel({
           <div className="wf-explore__viewport">
             <div ref={rowRef} className="wf-explore__row" onScroll={updateEdges}>
               {trips.map((trip) => (
-                <Link key={trip.slug} href={`/trips/${trip.slug}`} className="wf-trip-card">
+                <div key={trip.slug} className="wf-trip-card">
                   <div
                     className="wf-trip-card__img"
                     style={{ backgroundImage: trip.image ? `url(${trip.image})` : trip.grad }}
@@ -147,10 +147,10 @@ export function TripsCarousel({
                   <div className="wf-trip-card__scrim" aria-hidden />
                   <div className="wf-trip-card__corner">
                     {showsSaleBadge(trip) && (
-                      <span className="wf-trip-card__sale">
+                      <Link href="/on-sale" className="wf-trip-card__sale" aria-label={tc("onSale")}>
                         <span aria-hidden>🔥</span>
                         {tc("onSale")}
-                      </span>
+                      </Link>
                     )}
                     {displayPrice(trip) ? (
                       <span className="wf-trip-card__corner-price">
@@ -166,6 +166,7 @@ export function TripsCarousel({
                       )
                     )}
                   </div>
+                  <Link href={`/trips/${trip.slug}`} className="wf-trip-card__link">
                   <div className="wf-trip-card__body">
                     {trip.feelings?.[0] && <span className="wf-trip-card__eyebrow">{trip.feelings[0]}</span>}
                     <h3 className="wf-trip-card__title">{trip.title}</h3>
@@ -178,7 +179,8 @@ export function TripsCarousel({
                       {t("exploreTrip")} <ChevronRight size={14} aria-hidden />
                     </span>
                   </div>
-                </Link>
+                  </Link>
+                </div>
               ))}
             </div>
 
