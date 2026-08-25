@@ -36,12 +36,12 @@ export function TripForm({
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
           <TextField label="Duration (days)" name="durationDays" type="number" defaultValue={t?.durationDays ?? ""} />
-          <TextField label="Price from" name="priceFrom" defaultValue={t?.priceFrom} placeholder="€2,400 per person" />
+          <TextField label="Price from" name="priceFrom" defaultValue={t?.priceFrom} placeholder="€2,400" />
         </div>
 
         <Field
           label="Sale"
-          hint="Ticking the box swaps the sale price in for the normal one on the card and shows the ON SALE badge. Leave it unticked to stage a sale price before it goes live."
+          hint="Ticking the box swaps the sale price in for the normal one on the card and shows the ON SALE badge. Leave it unticked to stage a sale price before it goes live. Enter the amount only — the card adds “сега од” / “now from” in the reader's language."
         >
           <div style={{ display: "grid", gap: 14 }}>
             <CheckboxField label="On sale" name="onSale" defaultChecked={t?.onSale ?? false} />
@@ -49,7 +49,7 @@ export function TripForm({
               label="Sale price from"
               name="salePriceFrom"
               defaultValue={t?.salePriceFrom}
-              placeholder="сега од 990 EUR"
+              placeholder="990 EUR"
               hint="Falls back to the normal price if this is empty."
             />
           </div>

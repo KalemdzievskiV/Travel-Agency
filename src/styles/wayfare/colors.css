@@ -88,6 +88,13 @@
      accent keeps --wf-text-on-accent (ink, 11.3:1). If this is ever revisited,
      --wf-accent-ink #56800F carries white at 4.68:1 in the same hue family. */
   --wf-text-on-accent-white: #FFFFFF;
+  /* ON SALE badge. The client supplied a reference image for this — a soft
+     peach pill with a flame — so it deliberately does not use the lime accent
+     and breaks the "one accent per view" rule, the same sanctioned-exception
+     pattern as the --wf-fact-* tones above. Scoped to the sale badge; do not
+     reach for it elsewhere. Ink on peach is 13.4:1. */
+  --wf-sale-bg:  #FBE3D0;
+  --wf-sale-ink: #2A1C11;
   --wf-border:          var(--wf-ink-200);
   --wf-border-strong:   var(--wf-ink-300);
   --wf-divider:         var(--wf-ink-100);

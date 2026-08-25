@@ -146,6 +146,8 @@
     "best": "Best {months}",
     "itinerary": "Itinerary",
     "from": "from",
+    "nowFrom": "now from",
+    "onSale": "ON SALE",
     "days": "{count, plural, one {# day} other {# days}}"
   },
   "feelings": {

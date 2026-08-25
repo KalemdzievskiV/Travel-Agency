@@ -6,7 +6,8 @@ import { useTranslations } from "next-intl";
 /**
  * DestinationCard — the signature bookit card. Full-bleed image with a
  * bottom protection gradient, region eyebrow, serif title, and optional
- * price / rating. `image` (URL) is preferred; `grad` is a tonal placeholder
+ * price / rating. A decorative heart used to sit in the top-right; revision 3.0
+ * replaced it with the ON SALE badge, which is deliberately not clickable. `image` (URL) is preferred; `grad` is a tonal placeholder
  * gradient used until real photography lands.
  */
 type DestinationCardProps = {
@@ -16,6 +17,13 @@ type DestinationCardProps = {
   title: React.ReactNode;
   meta?: string;
   price?: string;
+  /**
+   * Show the ON SALE badge. The caller decides via showsSaleBadge() in
+   * src/content/pricing.ts — the card doesn't re-derive it, so one rule governs
+   * every surface. The price label is "now from" either way: the client wants
+   * that phrasing on every card, sale or not.
+   */
+  onSale?: boolean;
   rating?: string;
   badge?: string;
   /**
@@ -29,6 +37,37 @@ type DestinationCardProps = {
   onClick?: React.MouseEventHandler<HTMLDivElement>;
 };
 
+/**
+ * ON SALE pill. The client supplied a reference image: a soft peach pill with a
+ * flame, deliberately off-palette (see --wf-sale-* in colors.css). Decorative
+ * only — it is not a link and leads nowhere, by decision.
+ */
+function SaleBadge({ label }: { label: string }) {
+  return (
+    <span
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 5,
+        background: "var(--wf-sale-bg)",
+        color: "var(--wf-sale-ink)",
+        fontFamily: "var(--wf-font-sans)",
+        fontSize: 11,
+        fontWeight: 700,
+        letterSpacing: "0.04em",
+        textTransform: "uppercase",
+        padding: "5px 11px",
+        borderRadius: 999,
+        whiteSpace: "nowrap",
+        boxShadow: "0 1px 4px rgba(0,0,0,0.18)",
+      }}
+    >
+      <span aria-hidden style={{ fontSize: 12, lineHeight: 1 }}>🔥</span>
+      {label}
+    </span>
+  );
+}
+
 export function DestinationCard({
   image,
   grad,
@@ -36,6 +75,7 @@ export function DestinationCard({
   title,
   meta,
   price,
+  onSale = false,
   rating,
   badge,
   ratio = "2 / 3",
@@ -95,6 +135,18 @@ export function DestinationCard({
           background: "var(--wf-overlay-bottom)",
         }}
       />
+      {(price || onSale) && (
+        <div
+          style={{
+            position: "absolute",
+            insetInline: 0,
+            top: 0,
+            height: "38%",
+            background: "var(--wf-overlay-top)",
+            pointerEvents: "none",
+          }}
+        />
+      )}
 
       <div
         style={{
@@ -105,6 +157,9 @@ export function DestinationCard({
           display: "flex",
           justifyContent: "space-between",
           alignItems: "flex-start",
+          // Keeps the style badge and the sale badge apart on a narrow card,
+          // where the two would otherwise meet in the middle.
+          gap: 8,
           zIndex: 2,
         }}
       >
@@ -126,29 +181,38 @@ export function DestinationCard({
             </span>
           )}
         </span>
-        <span
-          style={{
-            width: 34,
-            height: 34,
-            borderRadius: "999px",
-            background: "rgba(22,19,15,0.32)",
-            backdropFilter: "blur(6px)",
-            display: "grid",
-            placeItems: "center",
-            border: "1px solid rgba(255,255,255,0.35)",
-          }}
-        >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#fff"
-            strokeWidth="1.8"
+        {(price || onSale) && (
+          <span
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-end",
+              gap: 6,
+              textAlign: "right",
+            }}
           >
-            <path d="M12 21s-7-4.5-9.5-9A5 5 0 0 1 12 5a5 5 0 0 1 9.5 7c-2.5 4.5-9.5 9-9.5 9z" />
-          </svg>
-        </span>
+            {onSale && <SaleBadge label={t("onSale")} />}
+            {price && (
+              <span
+                style={{
+                  fontFamily: "var(--wf-font-sans)",
+                  fontSize: 13,
+                  color: "#fff",
+                  textShadow: "0 1px 3px rgba(0,0,0,0.45)",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {/* 0.92 not 0.75: the label sits over a photo, and the lighter
+                    tint dropped it under 4:1 on a pale sky. Weight carries the
+                    hierarchy instead. */}
+                <span style={{ color: "rgba(255,255,255,0.92)" }}>
+                  {t("nowFrom")}{" "}
+                </span>
+                <b style={{ fontWeight: 700 }}>{price}</b>
+              </span>
+            )}
+          </span>
+        )}
       </div>
 
       <div
@@ -186,22 +250,21 @@ export function DestinationCard({
         >
           {title}
         </div>
-        {(meta || price || rating) && (
+        {(meta || rating) && (
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              gap: 14,
+              // Wrap rather than compress: a price and a long month list share
+              // this row on destination cards, and without wrapping the price
+              // breaks mid-value ("сега од 990 / EUR") against the months.
+              flexWrap: "wrap",
+              columnGap: 14,
+              rowGap: 4,
               marginTop: 10,
               fontSize: 13,
             }}
           >
-            {price && (
-              <span>
-                <span style={{ color: "rgba(255,255,255,0.75)" }}>{t("from")} </span>
-                <b style={{ fontWeight: 700 }}>{price}</b>
-              </span>
-            )}
             {rating && (
               <span
                 style={{ display: "inline-flex", alignItems: "center", gap: 4 }}

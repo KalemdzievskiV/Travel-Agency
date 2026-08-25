@@ -195,15 +195,58 @@
   background: linear-gradient(to top, rgba(14, 42, 51, 0.86) 0%, rgba(14, 42, 51, 0.45) 70%, rgba(14, 42, 51, 0.4) 100%);
 }
 .wf-trip-card__nights {
-  position: absolute;
-  top: 14px;
-  right: 14px;
   color: #fff;
   font-family: var(--wf-font-sans);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+}
+/* Top-right corner stack: the price, with the sale pill beneath it. Revision
+   3.0 moved the price up here and dropped the nights label when a price exists
+   — the client wanted one thing in this corner and it is the price. */
+.wf-trip-card__corner {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  z-index: 2;
+}
+.wf-trip-card__corner-price {
+  color: #fff;
+  font-family: var(--wf-font-sans);
+  font-size: 13px;
+  white-space: nowrap;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+}
+.wf-trip-card__corner-price b {
+  font-weight: 700;
+}
+.wf-trip-card__corner-price span {
+  /* See the note in DestinationCard: a lighter tint fails contrast on a pale
+     photo, so the weight difference carries the hierarchy instead. */
+  color: rgba(255, 255, 255, 0.92);
+}
+/* Decorative only — not a link, by decision. Off-palette peach from the
+   client's reference image; see --wf-sale-* in colors.css. */
+.wf-trip-card__sale {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--wf-sale-bg);
+  color: var(--wf-sale-ink);
+  font-family: var(--wf-font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 5px 11px;
+  border-radius: 999px;
+  white-space: nowrap;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.18);
 }
 .wf-trip-card__body {
   position: absolute;

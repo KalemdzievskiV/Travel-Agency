@@ -76,6 +76,9 @@ function toDestination(r: DestinationRow, mk: boolean, regionMap: Map<number, Re
     intro: pick(r.intro, r.introMk),
     highlights: mk && r.highlightsMk && r.highlightsMk.length ? r.highlightsMk : r.highlights,
     generalNotes: parseFaqs(mk && r.generalNotesMk && r.generalNotesMk.length ? r.generalNotesMk : r.generalNotes),
+    priceFrom: r.priceFrom,
+    onSale: r.onSale,
+    salePriceFrom: r.salePriceFrom,
   };
 }
 
@@ -114,6 +117,8 @@ export function toTrip(r: TripRow, mk = false): Trip {
     description: r.description,
     durationDays: r.durationDays,
     priceFrom: r.priceFrom,
+    onSale: r.onSale,
+    salePriceFrom: r.salePriceFrom,
     grad: r.grad ?? "",
     image: r.image ?? undefined,
     images: r.images,

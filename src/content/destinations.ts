@@ -173,6 +173,11 @@ export const destinations: DestinationSeed[] = regions.flatMap(({ region, places
       whenToGo: `Best from ${p.months.join(", ")} — the sweet spot for ${p.title}.`,
       bestMonths: p.months,
       feelings: p.feelings,
+      // Seed data carries no pricing — the client sets prices per destination
+      // from the admin, and the DB columns default to these same values.
+      priceFrom: "",
+      onSale: false,
+      salePriceFrom: "",
       intro: `${p.teaser} We plan ${p.title} around how you want to feel — the icons and the quiet corners alike, from the first idea to the moment you're home. No templates, no planning fees.`,
       highlights: [
         `The essentials of ${p.title}, seen without the crowds`,

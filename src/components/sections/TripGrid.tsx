@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { DestinationCard } from "@/components/ui";
+import { displayPrice, showsSaleBadge } from "@/content/pricing";
 import type { Trip } from "@/content/types";
 
 /**
@@ -33,7 +34,8 @@ export function TripGrid({
           image={trip.image}
           region={tr("itinerary")}
           title={trip.title}
-          price={trip.priceFrom}
+          price={displayPrice(trip) || undefined}
+          onSale={showsSaleBadge(trip)}
           badge={trip.durationDays ? tr("days", { count: trip.durationDays }) : undefined}
           ratio={ratio}
           onClick={() => router.push(`/trips/${trip.slug}`)}

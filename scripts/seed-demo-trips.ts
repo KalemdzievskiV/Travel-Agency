@@ -49,7 +49,7 @@ const TRIPS: DemoTrip[] = [
     summary: "Ancient Athens, then a slow island-hop through the whitewashed Cyclades by fast ferry and private boat.",
     description: "The Acropolis at dawn, then the sea. We string together three contrasting islands — dramatic Santorini, easygoing Naxos and volcanic Milos — with the ferries, transfers and tables handled.",
     durationDays: 10,
-    priceFrom: "€5,400 per person",
+    priceFrom: "€5,400",
     feelings: ["Wonder", "Freedom"],
     gallery: ["greece-athens", "greece-santorini", "greece-naxos", "greece-milos"],
     itinerary: [
@@ -67,7 +67,7 @@ const TRIPS: DemoTrip[] = [
     summary: "Neon Tokyo, the hot-spring hills of Hakone, and the temples and tea houses of Kyoto by bullet train.",
     description: "A first taste of Japan, done properly — the energy of Tokyo, a ryokan in Hakone with Fuji views, and Kyoto's quiet gardens, joined by the shinkansen.",
     durationDays: 12,
-    priceFrom: "€8,200 per person",
+    priceFrom: "€8,200",
     feelings: ["Wonder", "Contentment"],
     gallery: ["japan-tokyo", "japan-hakone", "japan-kyoto", "japan-osaka"],
     itinerary: [
@@ -84,7 +84,7 @@ const TRIPS: DemoTrip[] = [
     summary: "Temples and markets in Bangkok, elephants and hill country in the north, then barefoot island days.",
     description: "Thailand's full range in one trip — the buzz of Bangkok, Chiang Mai's temples and ethical elephant sanctuary, and a soft landing on the Andaman coast.",
     durationDays: 13,
-    priceFrom: "€4,600 per person",
+    priceFrom: "€4,600",
     feelings: ["Freedom", "Revitalised"],
     gallery: ["thailand-bangkok", "thailand-chiangmai", "thailand-krabi", "thailand-samui"],
     itinerary: [
@@ -102,7 +102,7 @@ const TRIPS: DemoTrip[] = [
     summary: "A self-driven loop of the whole island — waterfalls, glaciers, black beaches and the far north.",
     description: "The complete circle of Iceland at your own pace, with the route, remarkable stays and every stop planned — from the south coast's waterfalls to the fjords of the north.",
     durationDays: 9,
-    priceFrom: "€5,900 per person",
+    priceFrom: "€5,900",
     feelings: ["Wonder", "Challenged"],
     gallery: ["iceland-reykjavik", "iceland-vik", "iceland-hofn", "iceland-akureyri"],
     itinerary: [
@@ -119,7 +119,7 @@ const TRIPS: DemoTrip[] = [
     summary: "Cairo's pyramids, a private Nile cruise between Luxor and Aswan, and the temples of Abu Simbel.",
     description: "Ancient Egypt without the crowds — the Giza plateau at first light, a slow sail down the Nile, and a dawn flight to the great temples of Abu Simbel.",
     durationDays: 9,
-    priceFrom: "€4,300 per person",
+    priceFrom: "€4,300",
     feelings: ["Wonder", "Contentment"],
     gallery: ["egypt-cairo", "egypt-luxor", "egypt-aswan", "egypt-abusimbel"],
     itinerary: [
@@ -136,7 +136,7 @@ const TRIPS: DemoTrip[] = [
     summary: "The Pyramids, a night under the stars in the White Desert, a dawn climb up Mount Sinai and Red Sea reefs.",
     description: "A wilder side of Egypt — Cairo's icons, the surreal chalk formations of the White Desert, the monastery and summit of Mount Sinai, and finishing on the coral reefs of the Red Sea.",
     durationDays: 10,
-    priceFrom: "€4,800 per person",
+    priceFrom: "€4,800",
     feelings: ["Challenged", "Freedom"],
     gallery: ["egypt-cairo2", "egypt-whitedesert", "egypt-sinai", "egypt-redsea"],
     itinerary: [
@@ -154,7 +154,7 @@ const TRIPS: DemoTrip[] = [
     summary: "Hanoi's old quarter, an overnight on Halong Bay, lantern-lit Hoi An and buzzing Ho Chi Minh City.",
     description: "The length of Vietnam, thoughtfully paced — the north's culture and karst scenery, Hoi An's tailor shops and beaches, and the energy of the south.",
     durationDays: 12,
-    priceFrom: "€4,100 per person",
+    priceFrom: "€4,100",
     feelings: ["Freedom", "Wonder"],
     gallery: ["vietnam-hanoi", "vietnam-halong", "vietnam-hoian", "vietnam-hcmc"],
     itinerary: [

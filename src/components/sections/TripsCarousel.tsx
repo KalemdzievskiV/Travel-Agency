@@ -5,6 +5,7 @@ import { ChevronRight, ChevronLeft } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { Trip } from "@/content/types";
+import { displayPrice, showsSaleBadge } from "@/content/pricing";
 
 /**
  * TripsCarousel — the dark "example trips" band (modelled on Black Tomato): a
@@ -30,6 +31,7 @@ export function TripsCarousel({
   backgroundImage?: string;
 }) {
   const t = useTranslations("explore");
+  const tc = useTranslations("cards");
   const rowRef = React.useRef<HTMLDivElement>(null);
   const [atStart, setAtStart] = React.useState(true);
   const [atEnd, setAtEnd] = React.useState(false);
@@ -143,9 +145,27 @@ export function TripsCarousel({
                     aria-hidden
                   />
                   <div className="wf-trip-card__scrim" aria-hidden />
-                  {trip.durationDays != null && trip.durationDays > 0 && (
-                    <span className="wf-trip-card__nights">{t("nights", { count: trip.durationDays })}</span>
-                  )}
+                  <div className="wf-trip-card__corner">
+                    {showsSaleBadge(trip) && (
+                      <span className="wf-trip-card__sale">
+                        <span aria-hidden>🔥</span>
+                        {tc("onSale")}
+                      </span>
+                    )}
+                    {displayPrice(trip) ? (
+                      <span className="wf-trip-card__corner-price">
+                        <span>{tc("nowFrom")} </span>
+                        <b>{displayPrice(trip)}</b>
+                      </span>
+                    ) : (
+                      // No price to show, so the corner keeps the nights label
+                      // rather than sitting empty.
+                      trip.durationDays != null &&
+                      trip.durationDays > 0 && (
+                        <span className="wf-trip-card__nights">{t("nights", { count: trip.durationDays })}</span>
+                      )
+                    )}
+                  </div>
                   <div className="wf-trip-card__body">
                     {trip.feelings?.[0] && <span className="wf-trip-card__eyebrow">{trip.feelings[0]}</span>}
                     <h3 className="wf-trip-card__title">{trip.title}</h3>

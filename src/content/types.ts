@@ -30,6 +30,14 @@ export type Destination = {
   highlights: string[];
   /** "General notes" — an editable FAQ shown on the destination page. */
   generalNotes: Faq[];
+  /**
+   * Card pricing. Free text, and the bare amount only ("990 EUR") — the card
+   * supplies the localised "from" / "now from" label. Read through
+   * `displayPrice()` in src/content/pricing.ts, never directly.
+   */
+  priceFrom: string;
+  onSale: boolean;
+  salePriceFrom: string;
 };
 
 export type Experience = {
@@ -109,6 +117,9 @@ export type Trip = {
   description: string;
   durationDays: number | null;
   priceFrom: string;
+  /** Sale pricing — see the note on Destination. */
+  onSale: boolean;
+  salePriceFrom: string;
   grad: string;
   image?: string;
   /** Gallery images (URLs) for the trip carousel. */

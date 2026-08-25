@@ -146,6 +146,8 @@
     "best": "Најдобро {months}",
     "itinerary": "Програма",
     "from": "од",
+    "nowFrom": "сега од",
+    "onSale": "ЗГРАБИ ПОПУСТ",
     "days": "{count, plural, one {# ден} other {# дена}}"
   },
   "feelings": {

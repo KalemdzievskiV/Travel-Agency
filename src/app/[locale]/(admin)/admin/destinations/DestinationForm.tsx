@@ -65,13 +65,13 @@ export function DestinationForm({
           label="Price from"
           name="priceFrom"
           defaultValue={d?.priceFrom}
-          placeholder="од 990 EUR"
-          hint="Shown on the destination card. Leave blank for no price."
+          placeholder="990 EUR"
+          hint="Shown on the destination card. Enter the amount only — the card adds “од” / “from” in the reader's language. Leave blank for no price."
         />
 
         <Field
           label="Sale"
-          hint="Ticking the box swaps the sale price in for the normal one on the card and shows the ON SALE badge. Leave it unticked to stage a sale price before it goes live."
+          hint="Ticking the box swaps the sale price in for the normal one on the card and shows the ON SALE badge. Leave it unticked to stage a sale price before it goes live. Enter the amount only — the card adds “сега од” / “now from”."
         >
           <div style={{ display: "grid", gap: 14 }}>
             <CheckboxField label="On sale" name="onSale" defaultChecked={d?.onSale ?? false} />
@@ -79,7 +79,7 @@ export function DestinationForm({
               label="Sale price from"
               name="salePriceFrom"
               defaultValue={d?.salePriceFrom}
-              placeholder="сега од 990 EUR"
+              placeholder="990 EUR"
               hint="Falls back to the normal price if this is empty."
             />
           </div>

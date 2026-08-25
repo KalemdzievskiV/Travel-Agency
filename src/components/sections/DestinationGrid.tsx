@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { DestinationCard } from "@/components/ui";
 import type { Destination } from "@/content/types";
+import { displayPrice, showsSaleBadge } from "@/content/pricing";
 
 /**
  * Responsive grid of DestinationCards that navigate to each detail page.
@@ -37,6 +38,8 @@ export function DestinationGrid({
           region={d.region}
           title={d.title}
           badge={d.badge}
+          price={displayPrice(d) || undefined}
+          onSale={showsSaleBadge(d)}
           meta={
             d.bestMonths.length
               ? t("best", { months: d.bestMonths.map(monthLabel).join(", ") })

@@ -144,7 +144,7 @@ async function main() {
       description:
         "Big-cat country on the Masai Mara, then an unwinding on the spice-island shores of Zanzibar — the classic safari-and-sea pairing, planned around you.",
       durationDays: 10,
-      priceFrom: "€6,800 per person",
+      priceFrom: "€6,800",
       feelings: ["Wonder", "Freedom"],
       itinerary: [
         "Days 1–5 · Kenya — game drives on the Mara, dawn balloon, private guides",
@@ -159,7 +159,7 @@ async function main() {
       description:
         "From the colour and clamour of Marrakech over the High Atlas to a camp beneath the stars on the edge of the Sahara.",
       durationDays: 8,
-      priceFrom: "€3,200 per person",
+      priceFrom: "€3,200",
       feelings: ["Wonder", "Freedom"],
       itinerary: [
         "Days 1–3 · Marrakech — the souks, gardens and rooftop dinners",
@@ -176,7 +176,7 @@ async function main() {
       description:
         "A first, full immersion in Japan — the energy of Tokyo, the temples and gardens of Kyoto, and a quiet ryokan retreat in the mountains.",
       durationDays: 12,
-      priceFrom: "€7,400 per person",
+      priceFrom: "€7,400",
       feelings: ["Wonder", "Contentment"],
       itinerary: [
         "Days 1–4 · Tokyo — markets, back-street dinners and design",
@@ -192,7 +192,7 @@ async function main() {
       description:
         "The best of Thailand and Bali in one unhurried loop — culture and cuisine, then rice terraces and the sea.",
       durationDays: 12,
-      priceFrom: "€5,600 per person",
+      priceFrom: "€5,600",
       feelings: ["Contentment", "Freedom"],
       itinerary: [
         "Days 1–6 · Thailand — Bangkok, the north and a quiet southern bay",
@@ -208,7 +208,7 @@ async function main() {
       description:
         "The great Andean journey — Cusco and the Sacred Valley, sunrise at Machu Picchu, then down into the Amazon.",
       durationDays: 11,
-      priceFrom: "€5,900 per person",
+      priceFrom: "€5,900",
       feelings: ["Challenged", "Wonder"],
       itinerary: [
         "Days 1–3 · Cusco & the Sacred Valley — markets, ruins and acclimatising",
@@ -224,7 +224,7 @@ async function main() {
       description:
         "Across the Argentine and Chilean ends of Patagonia — Torres del Paine, the great glaciers and endless sky.",
       durationDays: 12,
-      priceFrom: "€8,200 per person",
+      priceFrom: "€8,200",
       feelings: ["Freedom", "Challenged"],
       itinerary: [
         "Days 1–5 · Argentine Patagonia — El Calafate and the Perito Moreno glacier",
@@ -240,7 +240,7 @@ async function main() {
       description:
         "The Yucatán at its best — ancient cities, swimming in cenotes and a stretch of quiet coastline to finish.",
       durationDays: 9,
-      priceFrom: "€3,900 per person",
+      priceFrom: "€3,900",
       feelings: ["Wonder", "Freedom"],
       itinerary: [
         "Days 1–3 · Mexico City — museums, markets and great food",
@@ -255,7 +255,7 @@ async function main() {
       description:
         "A nature-first journey through Costa Rica — volcanoes and hanging bridges, cloud forest wildlife and a Pacific finish.",
       durationDays: 10,
-      priceFrom: "€4,600 per person",
+      priceFrom: "€4,600",
       feelings: ["Revitalised", "Freedom"],
       itinerary: [
         "Days 1–4 · Arenal — volcano, hot springs and hanging bridges",
@@ -272,7 +272,7 @@ async function main() {
       description:
         "Jordan's greatest hits, unhurried — Petra by day and candlelight, the red sands of Wadi Rum and a float in the Dead Sea.",
       durationDays: 7,
-      priceFrom: "€3,100 per person",
+      priceFrom: "€3,100",
       feelings: ["Wonder", "Challenged"],
       itinerary: [
         "Days 1–2 · Amman & Jerash — Roman ruins and city life",
@@ -288,7 +288,7 @@ async function main() {
       description:
         "Dubai and Abu Dhabi's modern dazzle paired with Oman's wadis, forts and dunes — two very different sides of the Gulf.",
       durationDays: 9,
-      priceFrom: "€4,800 per person",
+      priceFrom: "€4,800",
       feelings: ["Contentment", "Freedom"],
       itinerary: [
         "Days 1–4 · UAE — Dubai, Abu Dhabi and a desert night",
@@ -304,7 +304,7 @@ async function main() {
       description:
         "Banff and Jasper at their most spectacular — Lake Louise, glacier walks and the drive of a lifetime between them.",
       durationDays: 9,
-      priceFrom: "€5,200 per person",
+      priceFrom: "€5,200",
       feelings: ["Freedom", "Revitalised"],
       itinerary: [
         "Days 1–4 · Banff — Lake Louise, Moraine and mountain trails",
@@ -319,7 +319,7 @@ async function main() {
       description:
         "A classic road trip through the great national parks of the American Southwest — the Grand Canyon, Zion and beyond.",
       durationDays: 12,
-      priceFrom: "€6,400 per person",
+      priceFrom: "€6,400",
       feelings: ["Freedom", "Wonder"],
       itinerary: [
         "Days 1–3 · Las Vegas & Zion — canyons and first trails",
@@ -336,7 +336,7 @@ async function main() {
       description:
         "The essential Italy — Rome and Florence's art and food, then time to slow down on the Amalfi Coast.",
       durationDays: 10,
-      priceFrom: "€4,900 per person",
+      priceFrom: "€4,900",
       feelings: ["Contentment", "Wonder"],
       itinerary: [
         "Days 1–3 · Rome — the icons, plus the back-street city",
@@ -352,7 +352,7 @@ async function main() {
       description:
         "Iceland's elemental best — waterfalls and black beaches, geothermal spas and a glacier lagoon of drifting ice.",
       durationDays: 8,
-      priceFrom: "€4,300 per person",
+      priceFrom: "€4,300",
       feelings: ["Wonder", "Freedom"],
       itinerary: [
         "Days 1–3 · Reykjavík & the Golden Circle — geysers and waterfalls",
