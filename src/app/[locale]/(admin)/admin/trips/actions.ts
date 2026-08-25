@@ -61,6 +61,8 @@ export async function saveTrip(formData: FormData) {
     description: str(formData, "description"),
     durationDays: Number.isFinite(durationDays) && durationDays > 0 ? durationDays : null,
     priceFrom: str(formData, "priceFrom"),
+    onSale: formData.get("onSale") === "on",
+    salePriceFrom: str(formData, "salePriceFrom"),
     grad: str(formData, "grad") || null,
     images: linesToArray(formData.get("images")),
     feelings: feelingLabels,

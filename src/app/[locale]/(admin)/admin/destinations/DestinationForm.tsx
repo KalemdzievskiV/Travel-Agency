@@ -61,6 +61,30 @@ export function DestinationForm({
 
         <TextAreaField label="When to go" name="whenToGo" defaultValue={d?.whenToGo} rows={3} hint="A short editorial note on the best season." />
 
+        <TextField
+          label="Price from"
+          name="priceFrom"
+          defaultValue={d?.priceFrom}
+          placeholder="од 990 EUR"
+          hint="Shown on the destination card. Leave blank for no price."
+        />
+
+        <Field
+          label="Sale"
+          hint="Ticking the box swaps the sale price in for the normal one on the card and shows the ON SALE badge. Leave it unticked to stage a sale price before it goes live."
+        >
+          <div style={{ display: "grid", gap: 14 }}>
+            <CheckboxField label="On sale" name="onSale" defaultChecked={d?.onSale ?? false} />
+            <TextField
+              label="Sale price from"
+              name="salePriceFrom"
+              defaultValue={d?.salePriceFrom}
+              placeholder="сега од 990 EUR"
+              hint="Falls back to the normal price if this is empty."
+            />
+          </div>
+        </Field>
+
         <TextAreaField label="Don't miss" name="highlights" defaultValue={d?.highlights.join("\n")} rows={4} hint="One per line." />
         <TextAreaField label="Best months" name="bestMonths" defaultValue={d?.bestMonths.join("\n")} rows={4} hint="One per line (e.g. May)." />
 

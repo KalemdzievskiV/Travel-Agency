@@ -39,6 +39,12 @@ export const destinations = pgTable(
     badge: text("badge").notNull().default(""),
     // Editorial guide fields — when to go / what it feels like / what not to miss.
     whenToGo: text("when_to_go").notNull().default(""),
+    // Pricing, mirroring `trips` — see the note there. Destinations had no price
+    // at all until revision 3.0; the client wants one on the card so there's a
+    // reason to click before you're already inside.
+    priceFrom: text("price_from").notNull().default(""),
+    onSale: boolean("on_sale").notNull().default(false),
+    salePriceFrom: text("sale_price_from").notNull().default(""),
     image: text("image"),
     grad: text("grad"),
     // Geo coordinates — used to plot the destination on trip route maps.
@@ -215,6 +221,13 @@ export const trips = pgTable(
     description: text("description").notNull().default(""),
     durationDays: integer("duration_days"),
     priceFrom: text("price_from").notNull().default(""),
+    // Sale pricing. `onSale` is set by hand per item — deliberately not derived
+    // from salePriceFrom being filled in, so a price can be staged before the
+    // badge goes live. When the item is on sale the sale price *replaces* the
+    // normal one on the card; both are free text, like priceFrom. Read them
+    // through `displayPrice()` in src/content/pricing.ts rather than directly.
+    onSale: boolean("on_sale").notNull().default(false),
+    salePriceFrom: text("sale_price_from").notNull().default(""),
     image: text("image"),
     grad: text("grad"),
     // Gallery images for the trip carousel (URLs). The single `image` above

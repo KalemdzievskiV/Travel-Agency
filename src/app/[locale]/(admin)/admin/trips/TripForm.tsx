@@ -39,6 +39,22 @@ export function TripForm({
           <TextField label="Price from" name="priceFrom" defaultValue={t?.priceFrom} placeholder="€2,400 per person" />
         </div>
 
+        <Field
+          label="Sale"
+          hint="Ticking the box swaps the sale price in for the normal one on the card and shows the ON SALE badge. Leave it unticked to stage a sale price before it goes live."
+        >
+          <div style={{ display: "grid", gap: 14 }}>
+            <CheckboxField label="On sale" name="onSale" defaultChecked={t?.onSale ?? false} />
+            <TextField
+              label="Sale price from"
+              name="salePriceFrom"
+              defaultValue={t?.salePriceFrom}
+              placeholder="сега од 990 EUR"
+              hint="Falls back to the normal price if this is empty."
+            />
+          </div>
+        </Field>
+
         <Field label="Filters" hint="Tag this trip so travellers can filter to it. Feeling tags also feed the trip finder.">
           <FilterTagPicker groups={filterGroups} selected={selectedOptionIds} />
         </Field>
