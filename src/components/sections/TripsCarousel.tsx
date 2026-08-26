@@ -145,21 +145,22 @@ export function TripsCarousel({
                     aria-hidden
                   />
                   <div className="wf-trip-card__scrim" aria-hidden />
+                  {/* The sale pill owns the corner when it is showing, and the
+                      price moves down beside the title — one thing up here, per
+                      the client. Falls back to the nights label when there is
+                      no price and no sale. */}
                   <div className="wf-trip-card__corner">
-                    {showsSaleBadge(trip) && (
+                    {showsSaleBadge(trip) ? (
                       <Link href="/on-sale" className="wf-trip-card__sale" aria-label={tc("onSale")}>
                         <span aria-hidden>🔥</span>
                         {tc("onSale")}
                       </Link>
-                    )}
-                    {displayPrice(trip) ? (
+                    ) : displayPrice(trip) ? (
                       <span className="wf-trip-card__corner-price">
                         <span>{tc("nowFrom")} </span>
                         <b>{displayPrice(trip)}</b>
                       </span>
                     ) : (
-                      // No price to show, so the corner keeps the nights label
-                      // rather than sitting empty.
                       trip.durationDays != null &&
                       trip.durationDays > 0 && (
                         <span className="wf-trip-card__nights">{t("nights", { count: trip.durationDays })}</span>
@@ -169,7 +170,15 @@ export function TripsCarousel({
                   <Link href={`/trips/${trip.slug}`} className="wf-trip-card__link">
                   <div className="wf-trip-card__body">
                     {trip.feelings?.[0] && <span className="wf-trip-card__eyebrow">{trip.feelings[0]}</span>}
-                    <h3 className="wf-trip-card__title">{trip.title}</h3>
+                    <div className="wf-trip-card__titlerow">
+                      <h3 className="wf-trip-card__title">{trip.title}</h3>
+                      {showsSaleBadge(trip) && displayPrice(trip) && (
+                        <span className="wf-trip-card__corner-price">
+                          <span>{tc("nowFrom")} </span>
+                          <b>{displayPrice(trip)}</b>
+                        </span>
+                      )}
+                    </div>
                     <div className="wf-trip-card__reveal">
                       <div>
                         <p className="wf-trip-card__desc">{trip.summary}</p>

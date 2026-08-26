@@ -177,7 +177,7 @@
   text-decoration: none;
   scroll-snap-align: start;
 }
-/* The card's own link, as an overlay rather than a wrapper. The sale badge in
+/* The card's own link, as an overlay rather than a wrapper. The sale pill in
    the corner links somewhere else, and an anchor inside an anchor is invalid
    HTML that the parser silently unnests — so the corner sits outside this and
    above it. */
@@ -213,9 +213,9 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
-/* Top-right corner stack: the price, with the sale pill beneath it. Revision
-   3.0 moved the price up here and dropped the nights label when a price exists
-   — the client wanted one thing in this corner and it is the price. */
+/* Top-right corner: one thing only, per the client — the sale pill if there is
+   one, otherwise the price, otherwise the nights label. When the pill takes the
+   corner the price moves down beside the title. */
 .wf-trip-card__corner {
   position: absolute;
   top: 14px;
@@ -229,7 +229,9 @@
 .wf-trip-card__corner-price {
   color: #fff;
   font-family: var(--wf-font-sans);
-  font-size: 13px;
+  /* Up from 13px, then 15px, matching DestinationCard: the client asked twice
+     for the price to read larger. */
+  font-size: 17px;
   white-space: nowrap;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
 }
@@ -241,8 +243,8 @@
      photo, so the weight difference carries the hierarchy instead. */
   color: rgba(255, 255, 255, 0.92);
 }
-/* Decorative only — not a link, by decision. Off-palette peach from the
-   client's reference image; see --wf-sale-* in colors.css. */
+/* Off-palette peach from the client's reference image; see --wf-sale-* in
+   colors.css. Links to the sale listing, not to the trip. */
 .wf-trip-card__sale {
   display: inline-flex;
   align-items: center;
@@ -266,6 +268,20 @@
   bottom: 0;
   padding: clamp(16px, 2vw, 22px);
   color: #fff;
+}
+/* Title, with the price after it when the sale pill has taken the corner.
+   Aligned to the bottom rather than the baseline: a title that wraps to two
+   lines takes its baseline from the *first* line, which would leave the price
+   stranded up beside it. It wraps to its own line on a narrow card instead of
+   squeezing the title. */
+.wf-trip-card__titlerow {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 2px 12px;
+}
+.wf-trip-card__titlerow .wf-trip-card__corner-price {
+  line-height: 1.2;
 }
 .wf-trip-card__eyebrow {
   display: block;

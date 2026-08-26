@@ -7,9 +7,10 @@ import { Link } from "@/i18n/navigation";
 /**
  * DestinationCard — the signature bookit card. Full-bleed image with a
  * bottom protection gradient, region eyebrow, serif title, and optional
- * price / rating. A decorative heart used to sit in the top-right; revision 3.0
- * replaced it with the ON SALE badge, which is deliberately not clickable. `image` (URL) is preferred; `grad` is a tonal placeholder
- * gradient used until real photography lands.
+ * price / rating. The ON SALE pill owns the top-right corner; the price sits
+ * there too, unless the pill is showing — then it moves down beside the title
+ * rather than stacking under the pill. `image` (URL) is preferred; `grad` is a
+ * tonal placeholder gradient used until real photography lands.
  */
 type DestinationCardProps = {
   image?: string;
@@ -40,8 +41,9 @@ type DestinationCardProps = {
 
 /**
  * ON SALE pill. The client supplied a reference image: a soft peach pill with a
- * flame, deliberately off-palette (see --wf-sale-* in colors.css). Decorative
- * only — it is not a link and leads nowhere, by decision.
+ * flame, deliberately off-palette (see --wf-sale-* in colors.css). It links to
+ * the sale listing; the card around it links to the item, so it stops the
+ * click bubbling.
  */
 function SaleBadge({ label }: { label: string }) {
   return (
@@ -73,6 +75,34 @@ function SaleBadge({ label }: { label: string }) {
       <span aria-hidden style={{ fontSize: 12, lineHeight: 1 }}>🔥</span>
       {label}
     </Link>
+  );
+}
+
+/**
+ * The "now from €990" line. Lives in the top-right corner, or next to the title
+ * when the sale pill has taken that corner.
+ */
+function Price({ value, label }: { value: string; label: string }) {
+  return (
+    <span
+      style={{
+        fontFamily: "var(--wf-font-sans)",
+        // Up from 13, then 15: the client asked twice for the price to read
+        // larger. It is the one number on the card, and at 13 it lost to the
+        // months line below it.
+        fontSize: 17,
+        color: "#fff",
+        textShadow: "0 1px 3px rgba(0,0,0,0.45)",
+        whiteSpace: "nowrap",
+        lineHeight: 1.2,
+      }}
+    >
+      {/* 0.92 not 0.75: the label sits over a photo, and the lighter tint
+          dropped it under 4:1 on a pale sky. Weight carries the hierarchy
+          instead. */}
+      <span style={{ color: "rgba(255,255,255,0.92)" }}>{label} </span>
+      <b style={{ fontWeight: 700 }}>{value}</b>
+    </span>
   );
 }
 
@@ -165,8 +195,8 @@ export function DestinationCard({
           display: "flex",
           justifyContent: "space-between",
           alignItems: "flex-start",
-          // Keeps the style badge and the sale badge apart on a narrow card,
-          // where the two would otherwise meet in the middle.
+          // Keeps the style badge and the corner content apart on a narrow
+          // card, where the two would otherwise meet in the middle.
           gap: 8,
           zIndex: 2,
         }}
@@ -189,38 +219,9 @@ export function DestinationCard({
             </span>
           )}
         </span>
-        {(price || onSale) && (
-          <span
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-end",
-              gap: 6,
-              textAlign: "right",
-            }}
-          >
-            {onSale && <SaleBadge label={t("onSale")} />}
-            {price && (
-              <span
-                style={{
-                  fontFamily: "var(--wf-font-sans)",
-                  fontSize: 13,
-                  color: "#fff",
-                  textShadow: "0 1px 3px rgba(0,0,0,0.45)",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {/* 0.92 not 0.75: the label sits over a photo, and the lighter
-                    tint dropped it under 4:1 on a pale sky. Weight carries the
-                    hierarchy instead. */}
-                <span style={{ color: "rgba(255,255,255,0.92)" }}>
-                  {t("nowFrom")}{" "}
-                </span>
-                <b style={{ fontWeight: 700 }}>{price}</b>
-              </span>
-            )}
-          </span>
-        )}
+        {/* The pill owns this corner when it is showing, and the price goes
+            down to the title — one thing up here, per the client. */}
+        {onSale ? <SaleBadge label={t("onSale")} /> : price ? <Price value={price} label={t("nowFrom")} /> : null}
       </div>
 
       <div
@@ -247,16 +248,31 @@ export function DestinationCard({
             {region}
           </div>
         )}
+        {/* Title, with the price after it when the sale pill has taken the
+            corner. Aligned to the bottom rather than the baseline: a title that
+            wraps to two lines takes its baseline from the *first* line, which
+            would leave the price stranded up beside it. It wraps to its own
+            line on a narrow card instead of squeezing the title. */}
         <div
           style={{
-            fontFamily: "var(--wf-font-display)",
-            fontWeight: 500,
-            fontSize: 27,
-            lineHeight: 1.08,
-            letterSpacing: "-0.01em",
+            display: "flex",
+            alignItems: "flex-end",
+            flexWrap: "wrap",
+            gap: "2px 12px",
           }}
         >
-          {title}
+          <div
+            style={{
+              fontFamily: "var(--wf-font-display)",
+              fontWeight: 500,
+              fontSize: 27,
+              lineHeight: 1.08,
+              letterSpacing: "-0.01em",
+            }}
+          >
+            {title}
+          </div>
+          {onSale && price && <Price value={price} label={t("nowFrom")} />}
         </div>
         {(meta || rating) && (
           <div
