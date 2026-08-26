@@ -1654,3 +1654,31 @@
   transition: color 0.5s var(--wf-ease-out),
     border-color 0.5s var(--wf-ease-out);
 }
+
+/* ── Copy guard ────────────────────────────────────────────────
+   The client asked that page text not be copyable. Applied to the public site
+   only — the admin group has its own layout and is untouched, since the client
+   needs to copy their own copy while editing it.
+
+   Worth being honest about what this buys: it stops casual selection and the
+   context-menu copy. It does nothing about view-source, reader mode, the
+   printed page, JavaScript disabled, or any scraper. It is a deterrent, not
+   protection.
+
+   Everything a visitor types stays selectable. Blocking selection inside form
+   fields would make the flight and enquiry forms genuinely painful — no
+   correcting an email, no pasting a phone number. */
+.wf-guard {
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.wf-guard input,
+.wf-guard textarea,
+.wf-guard select,
+.wf-guard [contenteditable="true"],
+.wf-guard .wf-selectable {
+  -webkit-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
