@@ -4,6 +4,7 @@ import React from "react";
 import { useTranslations } from "next-intl";
 import { Button, Eyebrow } from "@/components/ui";
 import { Link } from "@/i18n/navigation";
+import { AirportCombobox } from "./AirportCombobox";
 
 const control: React.CSSProperties = {
   width: "100%",
@@ -53,8 +54,12 @@ export function FlightTicketsForm() {
       style={{ background: "var(--wf-sand)", borderRadius: "var(--wf-radius-lg)", padding: "clamp(24px, 4vw, 40px)", display: "grid", gap: 20, maxWidth: 900, margin: "0 auto" }}
     >
       <div className="wf-flight-grid">
-        <Field label={t("from")} htmlFor="from"><input id="from" name="from" required placeholder={t("fromPlaceholder")} style={control} /></Field>
-        <Field label={t("to")} htmlFor="to"><input id="to" name="to" required placeholder={t("toPlaceholder")} style={control} /></Field>
+        <Field label={t("from")} htmlFor="from">
+          <AirportCombobox id="from" name="from" required placeholder={t("fromPlaceholder")} />
+        </Field>
+        <Field label={t("to")} htmlFor="to">
+          <AirportCombobox id="to" name="to" required placeholder={t("toPlaceholder")} />
+        </Field>
         <Field label={t("departure")} htmlFor="departure"><input id="departure" name="departure" type="date" required style={control} /></Field>
         <Field label={t("return")} htmlFor="return"><input id="return" name="return" type="date" style={control} /></Field>
         <Field label={t("passengers")} htmlFor="passengers">

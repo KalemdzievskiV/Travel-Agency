@@ -81,3 +81,4 @@ public/images/Design Images svg/*
 
 # Client correction documents — large Word files with embedded screenshots.
 *.docx
+scripts/.airports-cache.json
