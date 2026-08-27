@@ -107,7 +107,7 @@ export async function WhyBookit() {
             {t("why.ctaHeading")}
           </h2>
           <div style={{ marginTop: "clamp(24px, 4vw, 34px)" }}>
-            <EnquireButton variant="dark" size="lg">
+            <EnquireButton size="lg">
               {t("common.getInTouch")}
             </EnquireButton>
           </div>

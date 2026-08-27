@@ -17,7 +17,7 @@ export default async function WhyNotDiyPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations("about");
+  const tc = await getTranslations("common");
   const { whyNotDiy } = getAbout(locale);
 
   return (
@@ -57,7 +57,7 @@ export default async function WhyNotDiyPage({
           </p>
           <div style={{ marginTop: 28 }}>
             <Button variant="primary" size="lg" as="a" href="/trip-finder">
-              {t("whyNotCta")}
+              {tc("planMyTrip")}
             </Button>
           </div>
         </div>

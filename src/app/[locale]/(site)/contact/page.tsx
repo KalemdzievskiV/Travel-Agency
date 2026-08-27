@@ -131,7 +131,7 @@ export default async function ContactPage({
               </span>
               <p style={colBody}>{t("onlineBody")}</p>
               <div style={{ marginTop: 18 }}>
-                <EnquireButton>{tc("enquireNow")}</EnquireButton>
+                <EnquireButton>{tc("planMyTrip")}</EnquireButton>
               </div>
             </div>
 

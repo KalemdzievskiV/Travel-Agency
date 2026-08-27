@@ -48,13 +48,14 @@ export default async function DestinationPage(
   const d = await getDestinationBySlug(slug);
   if (!d) notFound();
 
-  const [trips, all, hotels, td, tn, tr] = await Promise.all([
+  const [trips, all, hotels, td, tn, tr, tc] = await Promise.all([
     getTripsForDestination(slug),
     getDestinations(),
     getHotelsForDestination(slug),
     getTranslations("destinationPage"),
     getTranslations("nav"),
     getTranslations("regionPage"),
+    getTranslations("common"),
   ]);
   const more = all.filter((x) => x.slug !== d.slug).slice(0, 3);
 
@@ -180,7 +181,7 @@ export default async function DestinationPage(
 
           <div style={{ marginTop: 44, display: "flex", justifyContent: "center" }}>
             <EnquireButton destination={d.title} size="lg">
-              {td("planTripHere")}
+              {tc("planMyTrip")}
             </EnquireButton>
           </div>
           <p style={{ fontSize: 13, color: "var(--wf-ink-500)", margin: "14px 0 0" }}>

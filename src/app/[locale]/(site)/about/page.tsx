@@ -24,7 +24,10 @@ export default async function AboutPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations("about");
+  const [t, tc] = await Promise.all([
+    getTranslations("about"),
+    getTranslations("common"),
+  ]);
   const { aboutPage } = getAbout(locale);
 
   return (
@@ -102,7 +105,7 @@ export default async function AboutPage({
           </h2>
           <div style={{ marginTop: 28 }}>
             <Button variant="primary" size="lg" as="a" href="/trip-finder">
-              {t("startJourney")}
+              {tc("planMyTrip")}
             </Button>
           </div>
         </div>

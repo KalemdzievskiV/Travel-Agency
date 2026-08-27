@@ -154,7 +154,7 @@ export default async function ExperienceCategoryPage({
               <ExpandableProse text={c.concept} style={{ ...bodyStyle, textAlign: "left" }} lines={3} />
             )}
             <div style={{ display: "flex", justifyContent: "center", marginTop: c.concept ? "clamp(24px, 3.5vw, 34px)" : 0 }}>
-              <EnquireButton size="md">{tc("enquireNow")}</EnquireButton>
+              <EnquireButton size="md">{tc("planMyTrip")}</EnquireButton>
             </div>
           </div>
         </div>
