@@ -16,7 +16,19 @@ export type StoryRow = {
   align: "left" | "right";
 };
 
-export type ValueColumn = { title: string; body: string };
+/**
+ * One card in the About page's "our values" band. `kicker` is the small word
+ * that runs above the name ("be" / „бидете"), `lead` the bold line under it,
+ * and `tone` picks one of the --wf-value-* hues — this band is the one place
+ * on the site carrying three accents rather than one, at the client's request.
+ */
+export type ValueColumn = {
+  kicker: string;
+  title: string;
+  lead: string;
+  body: string;
+  tone: "var(--wf-value-1)" | "var(--wf-value-2)" | "var(--wf-value-3)";
+};
 export type Reason = { no: string; title: string; body: string; grad: string; image: string };
 /** Opening title panel of the 5-reasons sequence (the reference's "WHY US?" slide). */
 export type ReasonsIntro = { big: string; eyebrow: string; title: string };
@@ -76,16 +88,25 @@ export const aboutPage = {
 
   values: [
     {
+      kicker: "Be",
       title: "Curious",
-      body: "We always ask one more question, dig a little deeper, and notice the details others walk past. It is how we find the places and experiences that make a journey genuinely special.",
+      lead: "Our world is wide, varied and full of possibility",
+      body: "We like to ask questions. How could this be better? Where next? What is genuinely possible, and what do our travellers actually want? Put simply: we love questions, and we value the people who bring new ideas.",
+      tone: "var(--wf-value-1)",
     },
     {
+      kicker: "Be",
       title: "Thoughtful",
-      body: "We take care of every detail behind your journey, even the ones you will never notice. For us, the best organisation is the kind that lets you relax completely and enjoy it without a worry.",
+      lead: "Because attention begins with thinking",
+      body: "Good things come to those who think. And in our world, to think is to care — not only for our travellers, but for one another, and for the planet we all share.",
+      tone: "var(--wf-value-2)",
     },
     {
+      kicker: "Be",
       title: "Humble",
-      body: "We listen to the people who live in the places we visit, and we learn from them. Every journey is built with respect for the local culture, community and landscape.",
+      lead: "Let others do the talking",
+      body: "We don't let success carry us away, and we don't follow the noise around us. We are confident in what we do, dignified and calm under pressure, proud of what we achieve but never arrogant.",
+      tone: "var(--wf-value-3)",
     },
   ] satisfies ValueColumn[],
 
@@ -313,18 +334,28 @@ const aboutPageMk: typeof aboutPage = {
       "За местата што имаме привилегија да ги посетуваме се грижиме да ги зачуваме и да ги оставиме подобри отколку што ги затекнавме.",
     ],
   },
+  // Client-supplied copy (FINAL 3.1), verbatim.
   values: [
     {
+      kicker: "Бидете",
       title: "Љубопитни",
-      body: "Секогаш поставуваме уште едно прашање, истражуваме подлабоко и ги забележуваме деталите што другите ги пропуштаат. Така ги откриваме местата и искуствата што го прават секое патување навистина посебно.",
+      lead: "Нашиот свет е голем, разновиден и полн со можности",
+      body: "Сакаме да поставуваме прашања. Како ова може да биде подобро? Каде понатаму? Што е навистина возможно и што навистина сакаат нашите патници? Едноставно кажано, ги сакаме прашањата и ги цениме луѓето што носат нови идеи и иновации.",
+      tone: "var(--wf-value-1)",
     },
     {
-      title: "Внимателни",
-      body: "Се грижиме за секој детал зад вашето патување, дури и за оние што никогаш нема да ги забележите. За нас, најдобрата организација е онаа што ви овозможува целосно да се опуштите и да уживате без грижи.",
+      kicker: "Бидете",
+      title: "Промислени",
+      lead: "Затоа што вниманието започнува со размислување",
+      body: "Добрите работи им се случуваат на оние што размислуваат. А во нашиот свет, да размислуваш значи да се грижиш. Не само за нашите патници, туку и едни за други. И за планетата што сите ја делиме.",
+      tone: "var(--wf-value-2)",
     },
     {
+      kicker: "Бидете",
       title: "Скромни",
-      body: "Ги слушаме луѓето што живеат на местата што ги посетуваме и учиме од нив. Секое патување го создаваме со почит кон локалната култура, заедница и природа.",
+      lead: "Нека другите зборуваат за вас",
+      body: "Не дозволуваме успехот да нè понесе и не се водиме по вревата околу нас. Имаме самодоверба во она што го правиме, остануваме достоинствени и смирени под притисок, горди на нашите достигнувања, но никогаш арогантни.",
+      tone: "var(--wf-value-3)",
     },
   ],
   name: {

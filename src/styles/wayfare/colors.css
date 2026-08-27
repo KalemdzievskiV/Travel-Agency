@@ -63,6 +63,23 @@
   --wf-fact-2: #379C8A;   /* Black Tomato turquoise (.text--turquoise) */
   --wf-fact-3: #1E6E9F;   /* Black Tomato blue    (.text--info)      */
 
+  /* — "Our values" band ————————————————————————————
+     The About page's values section, which the client asked for as a direct
+     match to the reference: a deep teal ground, and each value named in its
+     own hue rather than in the one brand accent. Same sanctioned-exception
+     pattern as the --wf-fact-* tones — kept as tokens, scoped to that one
+     band, and not to be reached for elsewhere.
+
+     The three name tones are checked against the white card they sit on:
+     coral 4.53:1, green 4.85:1, teal 5.61:1. The heading tone is decorative
+     (it sits large on the teal ground and is not the accessible name of
+     anything), so it deliberately runs quiet. */
+  --wf-values-bg:      #2A5750;   /* the band itself */
+  --wf-values-heading: #3E7168;   /* the big display title, tonal on the band */
+  --wf-value-1: #C94F33;  /* be curious    — the brand accent */
+  --wf-value-2: #43793F;  /* be thoughtful */
+  --wf-value-3: #2A6B62;  /* be humble     — the band's own hue, darkened */
+
   /* — Aliases (use these in components) ———————————— */
   --wf-bg:              var(--wf-cream);
   --wf-bg-raised:       var(--wf-cream-2);

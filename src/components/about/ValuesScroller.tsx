@@ -2,37 +2,76 @@
 
 import React from "react";
 import { motion, useScroll, useMotionValueEvent, useReducedMotion } from "motion/react";
-import { SectionHead } from "@/components/sections/SectionHead";
-import { ValueColumns } from "./ValueColumns";
+import { ValueCard, ValueColumns } from "./ValueColumns";
 import { useIsDesktop } from "./useIsDesktop";
 import type { ValueColumn } from "@/content/about";
 
 /**
- * ValuesScroller — "what we stand for" as a pinned stage (same scroll-driven feel
- * as PurposeScroller): the section pins and the value columns appear one beside
- * the other as you scroll, accumulating across the row. Server render, small
- * screens and reduced-motion fall back to the static revealed grid.
+ * ValuesScroller — "our values" as a pinned stage: the section pins and the
+ * value cards appear one beside the other as you scroll, accumulating across
+ * the row. Server render, small screens and reduced-motion fall back to the
+ * static revealed grid.
+ *
+ * The band is the deep teal of the client's reference (FINAL 3.1), with each
+ * value named in its own hue — the one place on the site running three accents
+ * instead of one. See --wf-values-* / --wf-value-* in colors.css.
  */
 export function ValuesScroller({
-  eyebrow,
   title,
+  intro,
   values,
 }: {
-  eyebrow: string;
   title: string;
+  intro: string;
   values: ValueColumn[];
 }) {
   const isDesktop = useIsDesktop();
   const reduced = useReducedMotion();
 
   if (!isDesktop || reduced) {
-    return <ValuesStack eyebrow={eyebrow} title={title} values={values} />;
+    return <ValuesStack title={title} intro={intro} values={values} />;
   }
-  return <ValuesPinned eyebrow={eyebrow} title={title} values={values} />;
+  return <ValuesPinned title={title} intro={intro} values={values} />;
 }
 
-/* ── Desktop: pinned, columns accumulate on scroll ────────────────── */
-function ValuesPinned({ eyebrow, title, values }: { eyebrow: string; title: string; values: ValueColumn[] }) {
+/* ── The band's own head: big tonal title, then the line beneath it ─ */
+function ValuesHead({ title, intro }: { title: string; intro: string }) {
+  return (
+    <div style={{ maxWidth: 780 }}>
+      <h2
+        style={{
+          fontFamily: "var(--wf-font-display)",
+          fontWeight: 500,
+          fontSize: "clamp(44px, 8vw, 104px)",
+          lineHeight: 0.95,
+          letterSpacing: "-0.02em",
+          textTransform: "uppercase",
+          color: "var(--wf-values-heading)",
+          margin: 0,
+        }}
+      >
+        {title}
+      </h2>
+      <p
+        style={{
+          fontFamily: "var(--wf-font-sans)",
+          fontSize: "clamp(12px, 1.3vw, 14px)",
+          fontWeight: 700,
+          lineHeight: 1.55,
+          letterSpacing: "0.1em",
+          textTransform: "uppercase",
+          color: "rgba(255,255,255,0.92)",
+          margin: "clamp(14px, 1.8vw, 20px) 0 0",
+        }}
+      >
+        {intro}
+      </p>
+    </div>
+  );
+}
+
+/* ── Desktop: pinned, cards accumulate on scroll ──────────────────── */
+function ValuesPinned({ title, intro, values }: { title: string; intro: string; values: ValueColumn[] }) {
   const trackRef = React.useRef<HTMLElement>(null);
   const [visible, setVisible] = React.useState(1);
   const n = values.length;
@@ -54,15 +93,18 @@ function ValuesPinned({ eyebrow, title, values }: { eyebrow: string; title: stri
           position: "sticky",
           top: 0,
           height: "100vh",
-          background: "var(--wf-sand)",
+          background: "var(--wf-values-bg)",
           display: "flex",
           alignItems: "center",
           overflow: "hidden",
         }}
       >
         <div className="wf-wrap wf-wrap--wide" style={{ width: "100%" }}>
-          <SectionHead eyebrow={eyebrow} title={title} />
-          <div className="wf-grid wf-grid-3" style={{ marginTop: "clamp(40px, 6vw, 64px)" }}>
+          <ValuesHead title={title} intro={intro} />
+          <div
+            className="wf-grid wf-grid-3"
+            style={{ marginTop: "clamp(28px, 4vw, 48px)", alignItems: "stretch" }}
+          >
             {values.map((v, i) => {
               const on = i < visible;
               return (
@@ -71,23 +113,8 @@ function ValuesPinned({ eyebrow, title, values }: { eyebrow: string; title: stri
                   initial={false}
                   animate={{ opacity: on ? 1 : 0, y: on ? 0 : 32 }}
                   transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-                  style={{ borderTop: "1px solid var(--wf-border-strong)", paddingTop: 20 }}
                 >
-                  <h3
-                    style={{
-                      fontFamily: "var(--wf-font-display)",
-                      fontWeight: 500,
-                      fontSize: "clamp(24px, 2.8vw, 32px)",
-                      letterSpacing: "-0.01em",
-                      margin: 0,
-                      color: "var(--wf-ink-900)",
-                    }}
-                  >
-                    {v.title}
-                  </h3>
-                  <p style={{ fontSize: 16, lineHeight: 1.65, color: "var(--wf-ink-700)", margin: "12px 0 0" }}>
-                    {v.body}
-                  </p>
+                  <ValueCard value={v} />
                 </motion.div>
               );
             })}
@@ -99,12 +126,12 @@ function ValuesPinned({ eyebrow, title, values }: { eyebrow: string; title: stri
 }
 
 /* ── Mobile / SSR / reduced-motion: static revealed grid ──────────── */
-function ValuesStack({ eyebrow, title, values }: { eyebrow: string; title: string; values: ValueColumn[] }) {
+function ValuesStack({ title, intro, values }: { title: string; intro: string; values: ValueColumn[] }) {
   return (
-    <section style={{ background: "var(--wf-sand)", padding: "clamp(64px, 9vw, 112px) 0" }}>
+    <section style={{ background: "var(--wf-values-bg)", padding: "clamp(56px, 9vw, 112px) 0" }}>
       <div className="wf-wrap wf-wrap--wide">
-        <SectionHead eyebrow={eyebrow} title={title} />
-        <div style={{ marginTop: "clamp(36px, 5vw, 56px)" }}>
+        <ValuesHead title={title} intro={intro} />
+        <div style={{ marginTop: "clamp(28px, 5vw, 48px)" }}>
           <ValueColumns values={values} />
         </div>
       </div>

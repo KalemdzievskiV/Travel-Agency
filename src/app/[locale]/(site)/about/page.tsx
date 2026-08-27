@@ -63,10 +63,10 @@ export default async function AboutPage({
         grad={aboutPage.purpose.grad}
       />
 
-      {/* Values — pinned; columns appear side by side as you scroll */}
+      {/* Values — pinned teal band; cards appear side by side as you scroll */}
       <ValuesScroller
-        eyebrow={t("valuesEyebrow")}
         title={t("valuesTitle")}
+        intro={t("valuesIntro")}
         values={aboutPage.values}
       />
 
