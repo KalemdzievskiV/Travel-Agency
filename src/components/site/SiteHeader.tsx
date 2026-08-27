@@ -170,7 +170,9 @@ export function SiteHeader({
           justifyContent: "space-between",
         }}
       >
-        <Logo light={dark} crossfade />
+        {/* Collapses to the B once the page has scrolled past the hero, and
+            unfolds again on the way back up. */}
+        <Logo light={dark} collapsed={scrolled} />
 
         <nav className="wf-header-nav">
           <SearchOverlay regions={regionsNav} dark={dark} />

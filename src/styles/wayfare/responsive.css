@@ -7,6 +7,60 @@
    Breakpoints: 980 (tablet) · 860 (nav) · 720 (search) · 640/520 (phone)
    ============================================================ */
 
+/* ── Logo (wordmark + its collapse-to-B scroll transition) ────────
+   The mark is two CSS masks of the same artwork: the B, and "ookit". On
+   scroll the second box narrows to nothing while the artwork inside stays
+   pinned to its right edge, so the letters slide left and vanish behind the
+   B rather than fading on the spot. Colours live inline (they depend on
+   whether the header is over a hero); the motion lives here so it can be
+   dropped for reduced-motion. */
+.wf-logo {
+  display: inline-flex;
+  align-items: center;
+}
+/* Descendant selectors throughout, not the bare classes: the header's colour
+   swap below sets a `transition` shorthand on `.wf-header-row span`, which
+   out-specifies a single class and would drop these transitions on the floor
+   for the one component that needs them most. */
+.wf-logo .wf-logo__b,
+.wf-logo .wf-logo__rest-inner {
+  position: relative;
+  display: block;
+  flex: none;
+}
+/* Stacked slices of the artwork — the ink knockout, the white one, and (on the
+   B) the accent stencil. Crossfaded rather than swapped: a straight swap pops
+   while the header background is still fading. */
+.wf-logo .wf-logo__layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  transition: opacity 400ms var(--wf-ease-out);
+}
+.wf-logo .wf-logo__rest {
+  position: relative;
+  flex: none;
+  overflow: hidden;
+  /* 450ms, ease-in-out, no overshoot — the client asked for fluid, not bouncy. */
+  transition: width 450ms cubic-bezier(0.65, 0, 0.35, 1);
+}
+.wf-logo .wf-logo__rest-inner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  /* Delayed and shorter than the slide, so the letters are visibly travelling
+     before they thin out — a plain crossfade is what the brief rules out. */
+  transition: opacity 300ms cubic-bezier(0.65, 0, 0.35, 1) 120ms;
+}
+@media (prefers-reduced-motion: reduce) {
+  .wf-logo .wf-logo__layer,
+  .wf-logo .wf-logo__rest,
+  .wf-logo .wf-logo__rest-inner {
+    transition: none;
+  }
+}
+
 /* ── Hero ghost button (light outline on imagery; fills on hover) ─ */
 .wf-btn-ghost-light {
   display: inline-flex;
