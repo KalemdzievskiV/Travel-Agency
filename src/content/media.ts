@@ -20,11 +20,23 @@ export const backdrop = {
 
 /**
  * Section backdrops for the content pages (regions, destinations, trips). Four
- * white artboards with the same contour line-work as `backdrop`, drawn in pale
- * turquoise (#D4EAEE) bar board 2, which is the pale green (#EDF6E1) cut of the
- * same drawing. Ordered 1 / 3 / 2 / 4 so the side the line-work sits on
- * alternates right-left-right-left down the page rather than following the file
+ * artboards of contour line-work, drawn in pale turquoise (#D4EAEE) bar board
+ * 2, which is the pale green (#EDF6E1) cut of the same drawing. Ordered
+ * 1 / 3 / 2 / 4 so the side the line-work sits on alternates
+ * right-left-right-left down the page rather than following the file
  * numbering. Use `pageBackdrop(i)` rather than reaching for these directly.
+ *
+ * **Vector, traced from the client's rasters.** They supplied these as
+ * 1366×768 PNGs — a laptop screen's worth of pixels, where the set before them
+ * was 2048px wide — and asked why the result looked soft. At 1366px the boards
+ * are upscaled on any desktop page and doubled again on a 2× screen, and no
+ * CSS fixes that. The drawings are smooth, flat-colour curves with no fine
+ * detail, so they trace cleanly: `potrace` at the midpoint threshold between
+ * each board's ink and white, which lands every board's stroke weight within
+ * 3% of the original (measured as coverage weighted by distance from white).
+ * The PNGs are kept beside them as the source the traces came from — re-trace,
+ * don't hand-edit. If the client ever sends the real vector artwork, drop it
+ * in over these.
  *
  * These replace the earlier warm-beige set (bg1–bg3, still in
  * `public/images/background/` should the beige ever be wanted back).
@@ -36,10 +48,10 @@ const pageBoards = [
   // rid of. The vertical half named here is the one the board's largest wave
   // occupies — and since the boards are sized to the section's *width* (see
   // `pageBackdrop`), that vertical keyword is the part that does the work.
-  { src: "/images/background/1.png", position: "right top" },
-  { src: "/images/background/3.png", position: "left top" },
-  { src: "/images/background/2.png", position: "right bottom" },
-  { src: "/images/background/4.png", position: "left top" },
+  { src: "/images/background/1.svg", position: "right top" },
+  { src: "/images/background/3.svg", position: "left top" },
+  { src: "/images/background/2.svg", position: "right bottom" },
+  { src: "/images/background/4.svg", position: "left top" },
 ] as const;
 
 /** The board itself, for callers that compose their own background layers. */
@@ -66,9 +78,8 @@ export function pageBoard(i: number) {
  * top and bottom: the top and bottom edges of all four carry 2–5% ink, in pale
  * #D4EAEE, so the seam is white meeting white nearly all the way across.
  *
- * Genuinely sharper artwork still needs bigger files — the previous set was
- * 2048px wide, and these arrived at exactly 1366×768, which is a laptop screen
- * resolution, not an export.
+ * Sharpness is no longer the constraint it was — the boards are vectors now
+ * (see `pageBoards`), so they rasterise at whatever size the band asks for.
  */
 export function pageBackdrop(i: number) {
   const board = pageBoards[i % pageBoards.length];
