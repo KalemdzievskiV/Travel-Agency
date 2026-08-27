@@ -31,12 +31,13 @@ export const backdrop = {
  */
 const pageBoards = [
   // Each board is a 16:9 white artboard with its line-work against one edge, so
-  // it has to be anchored to that edge. `cover` on a short, wide band crops to
-  // the middle strip — centre these and the artwork falls outside the section
-  // entirely, leaving the plain white we were asked to get rid of. The vertical
-  // half named here is the one the board's largest wave actually occupies.
-  { src: "/images/background/1.png", position: "right center" },
-  { src: "/images/background/3.png", position: "left center" },
+  // it has to be anchored to that edge: centre these and the artwork can fall
+  // outside the section entirely, leaving the plain white we were asked to get
+  // rid of. The vertical half named here is the one the board's largest wave
+  // occupies — and since the boards are sized to the section's *width* (see
+  // `pageBackdrop`), that vertical keyword is the part that does the work.
+  { src: "/images/background/1.png", position: "right top" },
+  { src: "/images/background/3.png", position: "left top" },
   { src: "/images/background/2.png", position: "right bottom" },
   { src: "/images/background/4.png", position: "left top" },
 ] as const;
@@ -47,18 +48,36 @@ export function pageBoard(i: number) {
 }
 
 /**
- * Longhand background properties for a light section, cycling the three boards
- * by position down the page so consecutive bands never repeat the same corner.
+ * Longhand background properties for a light section, cycling the boards by
+ * position down the page so consecutive bands never repeat the same corner.
  * Longhands only: the white base has to stay underneath the artboard.
+ *
+ * `100% auto`, not `cover`. The client asked why these had gone soft and
+ * "развлечена", and `cover` was the answer: it scales to whichever axis needs
+ * more, so a *tall* band magnifies the artwork by its height. The boards are
+ * 1366×768, and the bands they sit behind are not short — the destinations
+ * listing runs 10,458px, which had `cover` blowing a 768px-tall drawing up
+ * 13.6× (27× on a 2× screen). Sizing to the width instead pins every band to
+ * ~1.05× whatever its height, which is as sharp as a 1366px file gets on a
+ * 1440px page.
+ *
+ * A band taller than the board would then run out of artwork, so the boards
+ * tile down it. That works because the drawings bleed off the *sides*, not the
+ * top and bottom: the top and bottom edges of all four carry 2–5% ink, in pale
+ * #D4EAEE, so the seam is white meeting white nearly all the way across.
+ *
+ * Genuinely sharper artwork still needs bigger files — the previous set was
+ * 2048px wide, and these arrived at exactly 1366×768, which is a laptop screen
+ * resolution, not an export.
  */
 export function pageBackdrop(i: number) {
   const board = pageBoards[i % pageBoards.length];
   return {
     backgroundColor: "var(--wf-cream)",
     backgroundImage: `url(${board.src})`,
-    backgroundSize: "cover",
+    backgroundSize: "100% auto",
     backgroundPosition: board.position,
-    backgroundRepeat: "no-repeat",
+    backgroundRepeat: "repeat-y",
   } as const;
 }
 
