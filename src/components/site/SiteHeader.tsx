@@ -224,10 +224,10 @@ export function SiteHeader({
             <LanguageSwitcher dark={dark} />
           </span>
           <span className="wf-header-enquire">
-            {/* Fixed variant on purpose: the enquire button keeps the accent
-                fill and white type whether the header is transparent over a
-                hero or solid after scrolling, and through hover. */}
-            <Button variant="accentLocked" size="sm" onClick={goEnquire}>
+            {/* Keeps its own label ("start here", per the client) but takes
+                the site-wide button transition: accent fill with white type,
+                inverting to white with accent type on hover. */}
+            <Button variant="primary" size="sm" onClick={goEnquire}>
               {t("common.enquireNow")}
             </Button>
           </span>
@@ -298,10 +298,10 @@ export function SiteHeader({
             <LanguageSwitcher />
           </div>
           <div style={{ marginTop: 16 }}>
-            {/* The same CTA as the desktop header, so it takes the same locked
+            {/* The same CTA as the desktop header, so it takes the same
                 variant — one enquire button, one appearance, at every width. */}
             <Button
-              variant="accentLocked"
+              variant="primary"
               size="md"
               fullWidth
               onClick={() => {

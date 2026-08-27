@@ -211,13 +211,12 @@ export function NewsletterPopup() {
                   })}
                 </p>
                 <div style={{ marginTop: 4 }}>
-                  {/* accentLocked, not primary: the client asked for white type
-                      on this button, and that variant is where the sanctioned
-                      white-on-accent exception lives (see --wf-text-on-accent-white
-                      in colors.css). It also holds one appearance through hover,
-                      which primary's invert-to-white would have turned into
-                      white-on-white. */}
-                  <Button type="submit" variant="accentLocked" fullWidth>
+                  {/* Plain primary: the client asked for white type here, and
+                      since the accent became #C94F33 that is what primary is.
+                      Its hover invert (white fill, accent type) is legible in
+                      both directions, so the locked variant is no longer
+                      needed. */}
+                  <Button type="submit" variant="primary" fullWidth>
                     {t("cta")}
                   </Button>
                 </div>

@@ -1,28 +1,30 @@
 /* ============================================================
    bookit — Colour tokens
-   Brand palette (client corrections): a bright lime accent (#C0E84A) on
+   Brand palette (client corrections): a burnt-coral accent (#C94F33) on
    clean white, with near-black #222222 for dark buttons/sections and a
    #F7F7F7 light frame. Neutral greys keep text quiet around the imagery.
-   (Token names are kept stable — `--wf-coral-*` now holds the accent — so
+   (Token names are kept stable — `--wf-coral-*` holds the accent — so
    every component reskins from this one file.)
 
-   Note: the accent is a *light* hue, so type on it is ink, not white —
-   see `--wf-text-on-accent` below.
+   The accent is a *dark* hue: 4.53:1 on white, 4.63:1 against black. That
+   is the whole reason this palette is simpler than the lime one it
+   replaces — #C94F33 carries white type, so it works as a fill and as
+   small label text without a second, darker cut standing in for it.
    ============================================================ */
 :root {
-  /* — Brand accent: lime #C0E84A ——————————————————————————— */
-  --wf-coral-700: #6F9418;   /* pressed / deep accent */
-  --wf-coral-600: #92BE2C;   /* hover */
-  --wf-coral-500: #C0E84A;   /* primary accent */
-  --wf-coral-400: #D2EF7C;   /* lighter accent, hover-on-dark */
-  --wf-coral-200: #E9F8C0;   /* tint / focus ring backing */
-  --wf-coral-050: #F7FCE8;   /* faint wash, hover surfaces */
+  /* — Brand accent: burnt coral #C94F33 ——————————————————————— */
+  --wf-coral-700: #8E3220;   /* pressed / deep accent */
+  --wf-coral-600: #AC4128;   /* hover */
+  --wf-coral-500: #C94F33;   /* primary accent */
+  --wf-coral-400: #E1795C;   /* lighter accent, hover-on-dark */
+  --wf-coral-200: #F5D6CD;   /* tint / focus ring backing */
+  --wf-coral-050: #FDF2EE;   /* faint wash, hover surfaces */
 
   /* — Brand palette hues (for gradients & accents) ———————————— */
-  --wf-brand-blue:  #C0E84A; /* back-compat alias → accent */
+  --wf-brand-blue:  #C94F33; /* back-compat alias → accent */
   --wf-brand-green: #222222; /* back-compat alias → dark */
-  --wf-brand-gradient:      linear-gradient(135deg, #C0E84A, #6F9418);
-  --wf-brand-gradient-deep: linear-gradient(140deg, #4E6810, #222222); /* legible behind light text */
+  --wf-brand-gradient:      linear-gradient(135deg, #C94F33, #8E3220);
+  --wf-brand-gradient-deep: linear-gradient(140deg, #6B2415, #222222); /* legible behind light text */
 
   /* — Ink / neutrals (neutral greys) ———————————————————————— */
   --wf-ink-900: #222222;     /* near-black, primary text & dark sections */
@@ -70,24 +72,20 @@
   --wf-text-secondary:  var(--wf-ink-700);
   --wf-text-muted:      var(--wf-ink-500);
   --wf-text-on-dark:    #F5F5F5;
-  --wf-text-on-accent:  var(--wf-ink-900);  /* ink on the lime accent — white is unreadable on it */
+  --wf-text-on-accent:  #FFFFFF;            /* white on the coral accent — 4.53:1 */
   --wf-accent:          var(--wf-coral-500);
   --wf-accent-hover:    var(--wf-coral-600);
   --wf-accent-press:    var(--wf-coral-700);
-  /* The accent as *type* on a light surface. #C0E84A itself sits at ~1.5:1 on
-     white — fine as a fill, unreadable as small uppercase labels — so accent
-     text uses this darker cut of the same hue (~4.7:1). Fills, rules and
-     underlines keep the bright --wf-accent. */
-  --wf-accent-ink:      #56800F;
-  /* White type on the bright accent, for the header's enquire button only.
-     Deliberate deviation, chosen by the client after being shown the numbers:
-     white on #C0E84A is 1.41:1, below every contrast standard (13px bold needs
-     4.5:1), so the label is hard to read in sunlight or on a dim screen. It is
-     a token, and scoped to the `accentLocked` button variant, so the exception
-     stays contained — do not reach for it elsewhere. Everything else on the
-     accent keeps --wf-text-on-accent (ink, 11.3:1). If this is ever revisited,
-     --wf-accent-ink #56800F carries white at 4.68:1 in the same hue family. */
-  --wf-text-on-accent-white: #FFFFFF;
+  /* The accent as *type* on a light surface. The lime needed a darker cut to
+     stand in for it here; #C94F33 does not — it clears 4.5:1 on white on its
+     own, so accent text and accent fills are finally the same colour. Kept as
+     its own token because ~40 files reference it, and because a future accent
+     may once again need them to differ. */
+  --wf-accent-ink:      var(--wf-coral-500);
+  /* Back-compat: white *is* the on-accent type now, so this is no longer an
+     exception, just an alias. Retained so the `accentLocked` variant keeps
+     resolving; prefer --wf-text-on-accent in new code. */
+  --wf-text-on-accent-white: var(--wf-text-on-accent);
   /* ON SALE badge. The client supplied a reference image for this — a soft
      peach pill with a flame — so it deliberately does not use the lime accent
      and breaks the "one accent per view" rule, the same sanctioned-exception
@@ -98,5 +96,5 @@
   --wf-border:          var(--wf-ink-200);
   --wf-border-strong:   var(--wf-ink-300);
   --wf-divider:         var(--wf-ink-100);
-  --wf-focus-ring:      var(--wf-accent-ink);   /* the bright lime is too faint as a ring on white */
+  --wf-focus-ring:      var(--wf-accent);       /* the coral is dark enough to ring on white */
 }

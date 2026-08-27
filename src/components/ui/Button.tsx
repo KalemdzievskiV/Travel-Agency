@@ -7,9 +7,14 @@ import React from "react";
  * Variants: primary (accent), dark (ink), outline, ghost, link, accentLocked.
  * Ported from the Wayfare design system.
  *
- * `accentLocked` is the header's enquire button: the accent fill with white
- * type, holding one appearance through every state. Unlike the others it does
- * not invert on hover — see the hover map below.
+ * `primary` is the site's one CTA appearance, per the client: accent fill with
+ * white type, inverting to a white fill with accent type on hover. Every button
+ * that leads to the enquiry form uses it, the header's included.
+ *
+ * `accentLocked` is the same fill holding one appearance through every state,
+ * with no hover invert. Nothing uses it since the accent became #C94F33 (white
+ * type on it is legible, so `primary` covers what this was for) — kept as a
+ * one-line way back if a locked button is ever wanted again.
  */
 export type ButtonVariant =
   | "primary"
