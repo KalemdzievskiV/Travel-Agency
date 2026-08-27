@@ -18,6 +18,10 @@ export const metadata: Metadata = {
  * Section headings appear only when both kinds are present: with one kind on
  * the page a heading reading "Trips on sale" under a title that already says
  * the same thing is noise.
+ *
+ * Both grids hold their four columns however few items there are
+ * (`fitToItems={false}`): a sale often runs with one or two departures, and
+ * the grids' usual widen-to-fill left a single card filling half the page.
  */
 export default async function OnSalePage({
   params,
@@ -105,13 +109,13 @@ export default async function OnSalePage({
             {trips.length > 0 && (
               <div>
                 {both && <h2 style={heading}>{t("trips")}</h2>}
-                <TripGrid items={trips} />
+                <TripGrid items={trips} fitToItems={false} />
               </div>
             )}
             {destinations.length > 0 && (
               <div style={{ marginTop: trips.length > 0 ? "clamp(48px, 8vw, 88px)" : 0 }}>
                 {both && <h2 style={heading}>{t("destinations")}</h2>}
-                <DestinationGrid items={destinations} />
+                <DestinationGrid items={destinations} fitToItems={false} />
               </div>
             )}
           </>
