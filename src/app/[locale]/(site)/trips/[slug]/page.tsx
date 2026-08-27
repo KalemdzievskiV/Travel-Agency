@@ -222,7 +222,7 @@ export default async function TripPage({
       )}
 
       {/* Make this itinerary yours (enquire, pre-filled with this trip) */}
-      <section style={{ background: "var(--wf-cream)", padding: "0 0 clamp(48px, 7vw, 72px)" }}>
+      <section style={{ ...pageBackdrop(1), padding: "0 0 clamp(48px, 7vw, 72px)" }}>
         <div className="wf-wrap wf-wrap--wide">
           <div style={{ background: "var(--wf-ink-900)", color: "var(--wf-text-on-dark)", borderRadius: "var(--wf-radius-md)", padding: "clamp(32px, 6vw, 56px)", textAlign: "center" }}>
             <h2
@@ -253,7 +253,7 @@ export default async function TripPage({
       {suggestedHotels.length > 0 && (
         <section
           style={{
-            ...pageBackdrop(0),
+            ...pageBackdrop(3),
             padding: "clamp(40px, 6vw, 64px) 0 clamp(56px, 8vw, 88px)",
           }}
         >

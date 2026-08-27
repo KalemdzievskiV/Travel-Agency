@@ -12,6 +12,7 @@ import {
 import { Reveal } from "./Reveal";
 import { useIsDesktop } from "./useIsDesktop";
 import type { ProcessStep } from "@/content/about";
+import { pageBackdrop } from "@/content/media";
 
 /**
  * ProcessSteps — the "how it all works" sequence (modelled on Black Tomato's
@@ -261,7 +262,7 @@ function ProcessPinned({ steps, title }: { steps: ProcessStep[]; title: string }
 /* ── Mobile / SSR / reduced-motion: accessible numbered list ──────── */
 function ProcessStack({ steps }: { steps: ProcessStep[] }) {
   return (
-    <section style={{ background: "var(--wf-cream)", padding: "clamp(56px, 10vw, 88px) 0" }}>
+    <section style={{ ...pageBackdrop(0), padding: "clamp(56px, 10vw, 88px) 0" }}>
       <div className="wf-wrap wf-wrap--default">
         <ol
           style={{

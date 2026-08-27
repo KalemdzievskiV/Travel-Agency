@@ -5,6 +5,7 @@ import { DestinationGrid } from "@/components/sections/DestinationGrid";
 import { WorldRegionMap } from "@/components/sections/WorldRegionMap";
 import { getDestinations } from "@/lib/queries/public";
 import { getRegionsWithDestinations } from "@/lib/queries/regions";
+import { pageBackdrop } from "@/content/media";
 
 export const metadata: Metadata = {
   title: "Destinations",
@@ -53,7 +54,7 @@ export default async function DestinationsPage({
         </div>
       </section>
 
-      <section style={{ background: "var(--wf-cream)", padding: "clamp(40px, 6vw, 72px) 0 96px" }}>
+      <section style={{ ...pageBackdrop(0), padding: "clamp(40px, 6vw, 72px) 0 96px" }}>
         <div className="wf-wrap wf-wrap--wide">
           {regions.length > 0 ? (
             <>

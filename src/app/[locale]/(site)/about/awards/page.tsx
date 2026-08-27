@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { AboutHero, Reveal } from "@/components/about";
+import { pageBackdrop } from "@/content/media";
 
 export const metadata: Metadata = {
   title: "Our awards",
@@ -27,7 +28,7 @@ export default async function AwardsPage({
         grad="linear-gradient(135deg,#7a6a52,#16130f)"
       />
 
-      <section style={{ background: "var(--wf-cream)", padding: "clamp(64px, 9vw, 112px) 0" }}>
+      <section style={{ ...pageBackdrop(0), padding: "clamp(64px, 9vw, 112px) 0" }}>
         <div className="wf-wrap wf-wrap--default">
           {awards.map((i) => (
             <Reveal key={i} delay={i * 0.05}>

@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Button } from "@/components/ui";
 import { AboutHero, MediaPlaceholder, Reveal } from "@/components/about";
 import { getAbout } from "@/content/about";
+import { pageBackdrop } from "@/content/media";
 
 export const metadata: Metadata = {
   title: "Regenerative travel",
@@ -29,7 +30,7 @@ export default async function RegenerativeTravelPage({
         grad={regenerative.grad}
       />
 
-      <section style={{ background: "var(--wf-cream)", padding: "clamp(64px, 9vw, 112px) 0" }}>
+      <section style={{ ...pageBackdrop(0), padding: "clamp(64px, 9vw, 112px) 0" }}>
         <div className="wf-wrap wf-wrap--wide">
           <Reveal className="wf-about-row">
             <div className="wf-about-row__media">

@@ -12,6 +12,7 @@ import { ChevronRight, Clock, Lightbulb, Wallet, ShieldCheck, BadgeCheck } from 
 import { Eyebrow } from "@/components/ui";
 import { useIsDesktop } from "./useIsDesktop";
 import type { WhyTopic } from "@/content/about";
+import { pageBackdrop } from "@/content/media";
 
 /**
  * WhySplit — pinned, scroll-driven tab split (modelled on Black Tomato's "why
@@ -246,7 +247,7 @@ function WhyPinned({ eyebrow, title, intro, topics }: { eyebrow: string; title: 
 /* ── Mobile / SSR / reduced-motion: accessible stacked layout ─────── */
 function WhyStack({ eyebrow, title, intro, topics }: { eyebrow: string; title: string; intro: string; topics: WhyTopic[] }) {
   return (
-    <section style={{ background: "var(--wf-cream)", padding: "var(--wf-page-top) 0 clamp(48px, 8vw, 80px)" }}>
+    <section style={{ ...pageBackdrop(0), padding: "var(--wf-page-top) 0 clamp(48px, 8vw, 80px)" }}>
       <div className="wf-wrap wf-wrap--wide">
         <div style={{ maxWidth: 460 }}>
           <Eyebrow>{eyebrow}</Eyebrow>

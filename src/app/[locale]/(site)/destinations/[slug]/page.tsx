@@ -226,7 +226,7 @@ export default async function DestinationPage(
       )}
 
       {/* More places */}
-      <section style={{ ...pageBackdrop(0), padding: "clamp(56px, 8vw, 88px) 0 clamp(64px, 9vw, 104px)" }}>
+      <section style={{ ...pageBackdrop(3), padding: "clamp(56px, 8vw, 88px) 0 clamp(64px, 9vw, 104px)" }}>
         <div className="wf-wrap wf-wrap--wide">
           <div style={{ marginBottom: 36 }}>
             <SectionHead eyebrow={td("keepExploring")} title={td("morePlaces")} />

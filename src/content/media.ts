@@ -19,26 +19,26 @@ export const backdrop = {
 } as const;
 
 /**
- * Section backdrops for the content pages (regions, destinations, trips). Three
+ * Section backdrops for the content pages (regions, destinations, trips). Four
  * white artboards with the same contour line-work as `backdrop`, drawn in pale
- * warm beige — bg1 right, bg3 left, bg2 right. Ordered so the side the
- * line-work sits on alternates down the page rather than the file numbering.
- * Use `pageBackdrop(i)` rather than reaching for these directly.
+ * turquoise (#D4EAEE) bar board 2, which is the pale green (#EDF6E1) cut of the
+ * same drawing. Ordered 1 / 3 / 2 / 4 so the side the line-work sits on
+ * alternates right-left-right-left down the page rather than following the file
+ * numbering. Use `pageBackdrop(i)` rather than reaching for these directly.
  *
- * These are flattened from the client's SVGs (kept in `brand-source/backgrounds/`)
- * at 2048px wide. Nothing is lost: the SVGs held no vector art, just a white
- * rect and an embedded PNG drawn twice — once as the image, once as its own
- * luminance mask — which is why they weighed 1.2 MB apiece to render 2%-contrast
- * lines. Re-export from the masters if the artwork changes; don't hand-edit.
+ * These replace the earlier warm-beige set (bg1–bg3, still in
+ * `public/images/background/` should the beige ever be wanted back).
  */
 const pageBoards = [
   // Each board is a 16:9 white artboard with its line-work against one edge, so
   // it has to be anchored to that edge. `cover` on a short, wide band crops to
   // the middle strip — centre these and the artwork falls outside the section
-  // entirely, leaving the plain white we were asked to get rid of.
-  { src: "/images/background/bg1.webp", position: "right center" },
-  { src: "/images/background/bg3.webp", position: "left bottom" },
-  { src: "/images/background/bg2.webp", position: "right bottom" },
+  // entirely, leaving the plain white we were asked to get rid of. The vertical
+  // half named here is the one the board's largest wave actually occupies.
+  { src: "/images/background/1.png", position: "right center" },
+  { src: "/images/background/3.png", position: "left center" },
+  { src: "/images/background/2.png", position: "right bottom" },
+  { src: "/images/background/4.png", position: "left top" },
 ] as const;
 
 /** The board itself, for callers that compose their own background layers. */

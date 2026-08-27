@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { AboutHero, Reveal } from "@/components/about";
 import { testimonials } from "@/content/testimonials";
+import { pageBackdrop } from "@/content/media";
 
 export const metadata: Metadata = {
   title: "Client testimonials",
@@ -26,7 +27,7 @@ export default async function TestimonialsPage({
         grad="linear-gradient(135deg,#4f6f57,#16130f)"
       />
 
-      <section style={{ background: "var(--wf-cream)", padding: "clamp(64px, 9vw, 112px) 0" }}>
+      <section style={{ ...pageBackdrop(0), padding: "clamp(64px, 9vw, 112px) 0" }}>
         <div className="wf-wrap wf-wrap--wide">
           <div className="wf-grid wf-grid-3">
             {testimonials.map((item, i) => (

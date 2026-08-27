@@ -5,6 +5,7 @@ import { SlidersHorizontal, ChevronDown } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { TripFilters, type FilterGroupUI } from "@/components/sections/TripFilters";
+import { pageBackdrop } from "@/content/media";
 
 export type SortKey = "" | "price-asc" | "price-desc" | "duration-asc" | "duration-desc";
 
@@ -61,7 +62,7 @@ export function TripFinderResults({
   return (
     <>
       {/* Header — title + live count */}
-      <section style={{ background: "var(--wf-paper)", padding: "clamp(40px, 6vw, 64px) 0 32px", textAlign: "center" }}>
+      <section style={{ ...pageBackdrop(0), padding: "clamp(40px, 6vw, 64px) 0 32px", textAlign: "center" }}>
         <div className="wf-wrap wf-wrap--wide">
           <h1
             style={{
@@ -81,7 +82,7 @@ export function TripFinderResults({
         </div>
       </section>
 
-      <section style={{ background: "var(--wf-cream)", padding: "clamp(24px, 4vw, 40px) 0 96px" }}>
+      <section style={{ ...pageBackdrop(1), padding: "clamp(24px, 4vw, 40px) 0 96px" }}>
         <div className="wf-wrap wf-wrap--wide">
           {/* Toolbar */}
           <div
