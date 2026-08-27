@@ -5,8 +5,8 @@ import { Link } from "@/i18n/navigation";
 
 /**
  * ExperienceTabs — the sticky in-page rail on the Experiences hub, carrying the
- * same three entries as the header mega-menu: the two card bands (in-page
- * anchors) and the trip finder (a link out).
+ * same entries as the header mega-menu: the two card bands (in-page anchors),
+ * the trip finder and the sale listing (links out).
  *
  * Items with a `section` are tracked as you scroll so the rail always shows
  * which band you're in; the link-out never becomes active.

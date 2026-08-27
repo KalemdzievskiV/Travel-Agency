@@ -194,6 +194,16 @@ export function ExperiencesMegaMenu({
                     )}
                   </React.Fragment>
                 ))}
+                {/* The sale listing, last in the rail and above "all
+                    experiences" — the client asked for it here as a page of its
+                    own. Like the trip finder it is a link out, so it carries no
+                    cards and hovering leaves the pane alone. */}
+                <li>
+                  <Link href="/on-sale" className="wf-destmenu__region wf-expmenu__link-only">
+                    <span>{t("experiencesMenu.onSale")}</span>
+                    <ChevronRight size={16} aria-hidden style={{ opacity: 0.4 }} />
+                  </Link>
+                </li>
               </ul>
               <Link href="/experiences" className="wf-destmenu__all">
                 {t("experiencesMenu.viewAll")}

@@ -4,6 +4,7 @@ import { Button, Eyebrow } from "@/components/ui";
 import { Link } from "@/i18n/navigation";
 import { ExperienceTabs } from "@/components/sections/ExperienceTabs";
 import { ExperienceCarousel } from "@/components/sections/ExperienceCarousel";
+import { ExpandableProse } from "@/components/sections/ExpandableProse";
 import { getExperienceCategories } from "@/lib/queries/experiences";
 import { experiencesHeroImage } from "@/content/site";
 import { backdrop, pageBackdrop, pageBoard } from "@/content/media";
@@ -27,11 +28,12 @@ export default async function ExperiencesPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const [categories, remarkable, t, tMenu] = await Promise.all([
+  const [categories, remarkable, t, tMenu, tc] = await Promise.all([
     getExperienceCategories("who"),
     getExperienceCategories("remarkable"),
     getTranslations("experiencesPage"),
     getTranslations("experiencesMenu"),
+    getTranslations("common"),
   ]);
 
   const bodyStyle: React.CSSProperties = {
@@ -101,19 +103,20 @@ export default async function ExperiencesPage({
           <div style={{ marginTop: "clamp(24px, 3.2vw, 36px)", display: "flex", justifyContent: "center" }}>
             <Link href="/make-an-enquiry" style={{ textDecoration: "none" }}>
               <Button as="span" variant="primary" size="lg">
-                {t("heroCta")}
+                {tc("planMyTrip")}
               </Button>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Same three entries as the header mega-menu */}
+      {/* Same entries as the header mega-menu */}
       <ExperienceTabs
         tabs={[
           { label: tMenu("who"), section: "who" },
           { label: tMenu("remarkable"), section: "how" },
           { label: tMenu("finder"), href: "/trip-finder" },
+          { label: tMenu("onSale"), href: "/on-sale" },
         ]}
       />
 
@@ -126,15 +129,17 @@ export default async function ExperiencesPage({
         }}
       >
         <div className="wf-wrap wf-wrap--wide">
-          {/* Wider than a normal reading column, matching the category pages:
-              the client wants these openers to land in two sentences, not four. */}
-          <div style={{ maxWidth: 1180, marginInline: "auto", textAlign: "center" }}>
+          {/* 980, the destination pages' reading column: the client asked for
+              this block to stop running the full width of the page. */}
+          <div style={{ maxWidth: 980, marginInline: "auto", textAlign: "center" }}>
             <p
               style={{
                 fontFamily: "var(--wf-font-sans)",
                 fontWeight: 500,
-                fontSize: "clamp(22px, 2.8vw, 32px)",
-                lineHeight: 1.2,
+                // A step down, per the client — it was competing with the hero
+                // title a screen above it.
+                fontSize: "clamp(19px, 2.2vw, 26px)",
+                lineHeight: 1.25,
                 letterSpacing: "-0.005em",
                 color: "var(--wf-ink-900)",
                 margin: 0,
@@ -142,8 +147,15 @@ export default async function ExperiencesPage({
             >
               {t("introLead")}
             </p>
-            <p style={bodyStyle}>{t("introBody")}</p>
-            <p style={bodyStyle}>{t("introClose")}</p>
+            {/* One collapsible block rather than two loose paragraphs: in the
+                narrower column the pair runs long, and the client asked for the
+                overflow to sit behind a read-more the way the category pages
+                do. `pre-line` keeps the paragraph break inside the clamp. */}
+            <ExpandableProse
+              text={`${t("introBody")}\n\n${t("introClose")}`}
+              style={{ ...bodyStyle, whiteSpace: "pre-line" }}
+              lines={3}
+            />
           </div>
         </div>
       </section>
