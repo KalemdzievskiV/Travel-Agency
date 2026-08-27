@@ -145,21 +145,15 @@ export function TripsCarousel({
                     aria-hidden
                   />
                   <div className="wf-trip-card__scrim" aria-hidden />
-                  {/* The sale pill owns the corner when it is showing, and the
-                      price moves down beside the title — one thing up here, per
-                      the client. Falls back to the nights label when there is
-                      no price and no sale. */}
+                  {/* The price has left this corner for the title row below,
+                      per the client — the sale pill keeps it, and the nights
+                      label stands in when there is no sale. */}
                   <div className="wf-trip-card__corner">
                     {showsSaleBadge(trip) ? (
                       <Link href="/on-sale" className="wf-trip-card__sale" aria-label={tc("onSale")}>
                         <span aria-hidden>🔥</span>
                         {tc("onSale")}
                       </Link>
-                    ) : displayPrice(trip) ? (
-                      <span className="wf-trip-card__corner-price">
-                        <span>{tc("nowFrom")} </span>
-                        <b>{displayPrice(trip)}</b>
-                      </span>
                     ) : (
                       trip.durationDays != null &&
                       trip.durationDays > 0 && (
@@ -172,7 +166,7 @@ export function TripsCarousel({
                     {trip.feelings?.[0] && <span className="wf-trip-card__eyebrow">{trip.feelings[0]}</span>}
                     <div className="wf-trip-card__titlerow">
                       <h3 className="wf-trip-card__title">{trip.title}</h3>
-                      {showsSaleBadge(trip) && displayPrice(trip) && (
+                      {displayPrice(trip) && (
                         <span className="wf-trip-card__corner-price">
                           <span>{tc("nowFrom")} </span>
                           <b>{displayPrice(trip)}</b>

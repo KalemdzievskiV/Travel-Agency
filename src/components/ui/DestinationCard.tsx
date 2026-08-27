@@ -79,18 +79,23 @@ function SaleBadge({ label }: { label: string }) {
 }
 
 /**
- * The "now from €990" line. Lives in the top-right corner, or next to the title
- * when the sale pill has taken that corner.
+ * The "now from €990" line. Sits at the bottom-right of the card, on the title's
+ * row — the client asked for one place for the price on every surface, rather
+ * than the top corner here and the title row there.
+ *
+ * `marginLeft: auto` rather than the parent's `justify-content`: on a narrow
+ * card the price wraps to a line of its own, and as the only item on that line
+ * it would otherwise fall back to the left edge, under the title.
  */
 function Price({ value, label }: { value: string; label: string }) {
   return (
     <span
       style={{
         fontFamily: "var(--wf-font-sans)",
-        // Up from 13, then 15: the client asked twice for the price to read
-        // larger. It is the one number on the card, and at 13 it lost to the
-        // months line below it.
-        fontSize: 17,
+        // 13 → 15 → 17 → 21: the client has asked four times for this to read
+        // larger. It is the one number on the card.
+        fontSize: 21,
+        marginLeft: "auto",
         color: "#fff",
         textShadow: "0 1px 3px rgba(0,0,0,0.45)",
         whiteSpace: "nowrap",
@@ -100,7 +105,7 @@ function Price({ value, label }: { value: string; label: string }) {
       {/* 0.92 not 0.75: the label sits over a photo, and the lighter tint
           dropped it under 4:1 on a pale sky. Weight carries the hierarchy
           instead. */}
-      <span style={{ color: "rgba(255,255,255,0.92)" }}>{label} </span>
+      <span style={{ fontSize: 14, color: "rgba(255,255,255,0.92)" }}>{label} </span>
       <b style={{ fontWeight: 700 }}>{value}</b>
     </span>
   );
@@ -173,7 +178,8 @@ export function DestinationCard({
           background: "var(--wf-overlay-bottom)",
         }}
       />
-      {(price || onSale) && (
+      {/* Only the sale pill lives up top now, so the scrim follows it. */}
+      {onSale && (
         <div
           style={{
             position: "absolute",
@@ -219,9 +225,9 @@ export function DestinationCard({
             </span>
           )}
         </span>
-        {/* The pill owns this corner when it is showing, and the price goes
-            down to the title — one thing up here, per the client. */}
-        {onSale ? <SaleBadge label={t("onSale")} /> : price ? <Price value={price} label={t("nowFrom")} /> : null}
+        {/* The sale pill is all that sits up here — the price moved down to
+            the title row on every card, per the client. */}
+        {onSale ? <SaleBadge label={t("onSale")} /> : null}
       </div>
 
       <div
@@ -248,11 +254,11 @@ export function DestinationCard({
             {region}
           </div>
         )}
-        {/* Title, with the price after it when the sale pill has taken the
-            corner. Aligned to the bottom rather than the baseline: a title that
-            wraps to two lines takes its baseline from the *first* line, which
-            would leave the price stranded up beside it. It wraps to its own
-            line on a narrow card instead of squeezing the title. */}
+        {/* Title left, price right. Aligned to the bottom rather than the
+            baseline: a title that wraps to two lines takes its baseline from
+            the *first* line, which would leave the price stranded up beside it.
+            The price wraps to its own line on a narrow card instead of
+            squeezing the title. */}
         <div
           style={{
             display: "flex",
@@ -272,16 +278,16 @@ export function DestinationCard({
           >
             {title}
           </div>
-          {onSale && price && <Price value={price} label={t("nowFrom")} />}
+          {price && <Price value={price} label={t("nowFrom")} />}
         </div>
         {(meta || rating) && (
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              // Wrap rather than compress: a price and a long month list share
-              // this row on destination cards, and without wrapping the price
-              // breaks mid-value ("сега од 990 / EUR") against the months.
+              // Wrap rather than compress: a rating and a long month list
+              // share this row on destination cards, and without wrapping the
+              // months break mid-list against the stars.
               flexWrap: "wrap",
               columnGap: 14,
               rowGap: 4,

@@ -214,8 +214,7 @@
   text-transform: uppercase;
 }
 /* Top-right corner: one thing only, per the client — the sale pill if there is
-   one, otherwise the price, otherwise the nights label. When the pill takes the
-   corner the price moves down beside the title. */
+   one, otherwise the nights label. The price lives on the title row below. */
 .wf-trip-card__corner {
   position: absolute;
   top: 14px;
@@ -229,9 +228,9 @@
 .wf-trip-card__corner-price {
   color: #fff;
   font-family: var(--wf-font-sans);
-  /* Up from 13px, then 15px, matching DestinationCard: the client asked twice
-     for the price to read larger. */
-  font-size: 17px;
+  /* 13 → 15 → 17 → 21px, matching DestinationCard: the client has asked four
+     times for the price to read larger. */
+  font-size: 21px;
   white-space: nowrap;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
 }
@@ -240,7 +239,8 @@
 }
 .wf-trip-card__corner-price span {
   /* See the note in DestinationCard: a lighter tint fails contrast on a pale
-     photo, so the weight difference carries the hierarchy instead. */
+     photo, so size and weight carry the hierarchy instead. */
+  font-size: 14px;
   color: rgba(255, 255, 255, 0.92);
 }
 /* Off-palette peach from the client's reference image; see --wf-sale-* in
@@ -269,11 +269,10 @@
   padding: clamp(16px, 2vw, 22px);
   color: #fff;
 }
-/* Title, with the price after it when the sale pill has taken the corner.
-   Aligned to the bottom rather than the baseline: a title that wraps to two
-   lines takes its baseline from the *first* line, which would leave the price
-   stranded up beside it. It wraps to its own line on a narrow card instead of
-   squeezing the title. */
+/* Title left, price right. Aligned to the bottom rather than the baseline: a
+   title that wraps to two lines takes its baseline from the *first* line, which
+   would leave the price stranded up beside it. The price wraps to its own line
+   on a narrow card instead of squeezing the title. */
 .wf-trip-card__titlerow {
   display: flex;
   align-items: flex-end;
@@ -282,6 +281,9 @@
 }
 .wf-trip-card__titlerow .wf-trip-card__corner-price {
   line-height: 1.2;
+  /* Not the row's justify-content: wrapped onto a line of its own, the price
+     is the only item there and would fall back to the left edge. */
+  margin-left: auto;
 }
 .wf-trip-card__eyebrow {
   display: block;
