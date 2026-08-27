@@ -22,21 +22,14 @@
    swap below sets a `transition` shorthand on `.wf-header-row span`, which
    out-specifies a single class and would drop these transitions on the floor
    for the one component that needs them most. */
-.wf-logo .wf-logo__b,
-.wf-logo .wf-logo__rest-inner {
-  position: relative;
+.wf-logo .wf-logo__part {
   display: block;
-  flex: none;
+  /* The light/dark swap is a colour fade, not a file swap: a straight swap
+     pops while the header background is still fading. */
+  transition: background-color 400ms var(--wf-ease-out);
 }
-/* Stacked slices of the artwork — the ink knockout, the white one, and (on the
-   B) the accent stencil. Crossfaded rather than swapped: a straight swap pops
-   while the header background is still fading. */
-.wf-logo .wf-logo__layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: block;
-  transition: opacity 400ms var(--wf-ease-out);
+.wf-logo .wf-logo__b {
+  flex: none;
 }
 .wf-logo .wf-logo__rest {
   position: relative;
@@ -51,10 +44,12 @@
   right: 0;
   /* Delayed and shorter than the slide, so the letters are visibly travelling
      before they thin out — a plain crossfade is what the brief rules out. */
-  transition: opacity 300ms cubic-bezier(0.65, 0, 0.35, 1) 120ms;
+  transition:
+    opacity 300ms cubic-bezier(0.65, 0, 0.35, 1) 120ms,
+    background-color 400ms var(--wf-ease-out);
 }
 @media (prefers-reduced-motion: reduce) {
-  .wf-logo .wf-logo__layer,
+  .wf-logo .wf-logo__part,
   .wf-logo .wf-logo__rest,
   .wf-logo .wf-logo__rest-inner {
     transition: none;
