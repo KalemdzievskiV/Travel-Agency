@@ -98,7 +98,7 @@ export function SearchBar({
           gap: "8px",
           padding: "16px 30px",
           background: hover ? "var(--wf-accent-hover)" : "var(--wf-accent)",
-          color: "var(--wf-text-on-accent)",
+          color: "var(--wf-text-on-accent-white)",
           border: "none",
           cursor: "pointer",
           fontFamily: "var(--wf-font-sans)",

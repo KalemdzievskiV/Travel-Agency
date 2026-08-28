@@ -211,11 +211,9 @@ export function NewsletterPopup() {
                   })}
                 </p>
                 <div style={{ marginTop: 4 }}>
-                  {/* Plain primary: the client asked for white type here, and
-                      since the accent became #C94F33 that is what primary is.
-                      Its hover invert (white fill, accent type) is legible in
-                      both directions, so the locked variant is no longer
-                      needed. */}
+                  {/* Plain primary: accent fill, white type (the client's
+                      call — see --wf-text-on-accent-white), inverting to a
+                      white fill with accent type on hover. */}
                   <Button type="submit" variant="primary" fullWidth>
                     {t("cta")}
                   </Button>

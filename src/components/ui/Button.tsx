@@ -9,12 +9,14 @@ import React from "react";
  *
  * `primary` is the site's one CTA appearance, per the client: accent fill with
  * white type, inverting to a white fill with accent type on hover. Every button
- * that leads to the enquiry form uses it, the header's included.
+ * that leads to the enquiry form uses it, the header's included. The white
+ * label is the sanctioned --wf-text-on-accent-white exception (the green accent
+ * is light, so white on it is 2.50:1); the inverted state takes the darker
+ * --wf-accent-ink, since the bright accent is unreadable as type on white.
  *
  * `accentLocked` is the same fill holding one appearance through every state,
- * with no hover invert. Nothing uses it since the accent became #C94F33 (white
- * type on it is legible, so `primary` covers what this was for) — kept as a
- * one-line way back if a locked button is ever wanted again.
+ * with no hover invert. Nothing uses it — kept as a one-line way back if a
+ * locked button is ever wanted again.
  */
 export type ButtonVariant =
   | "primary"
@@ -92,7 +94,7 @@ export function Button({
   };
 
   const variants: Record<ButtonVariant, React.CSSProperties> = {
-    primary: { background: "var(--wf-accent)", color: "var(--wf-text-on-accent)" },
+    primary: { background: "var(--wf-accent)", color: "var(--wf-text-on-accent-white)" },
     dark: { background: "var(--wf-ink-900)", color: "var(--wf-text-on-dark)" },
     outline: {
       background: "transparent",
@@ -124,8 +126,8 @@ export function Button({
     // Invert on hover: white background, accent text + border.
     primary: (el, on) => {
       el.style.background = on ? "#fff" : "var(--wf-accent)";
-      el.style.color = on ? "var(--wf-accent)" : "var(--wf-text-on-accent)";
-      el.style.borderColor = on ? "var(--wf-accent)" : "transparent";
+      el.style.color = on ? "var(--wf-accent-ink)" : "var(--wf-text-on-accent-white)";
+      el.style.borderColor = on ? "var(--wf-accent-ink)" : "transparent";
     },
     // Invert on hover: white background, dark text + border.
     dark: (el, on) => {
@@ -141,8 +143,8 @@ export function Button({
       el.style.background = on ? "var(--wf-coral-050)" : "transparent";
     },
     link: (el, on) => {
-      el.style.color = on ? "var(--wf-accent)" : "var(--wf-ink-900)";
-      el.style.borderColor = on ? "var(--wf-accent)" : "var(--wf-ink-900)";
+      el.style.color = on ? "var(--wf-accent-ink)" : "var(--wf-ink-900)";
+      el.style.borderColor = on ? "var(--wf-accent-ink)" : "var(--wf-ink-900)";
     },
     // Deliberately inert: this variant holds one appearance in every state.
     // The press nudge in `base` still fires, so the click stays acknowledged.

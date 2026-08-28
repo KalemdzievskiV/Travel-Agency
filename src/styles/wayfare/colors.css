@@ -1,30 +1,30 @@
 /* ============================================================
    bookit — Colour tokens
-   Brand palette (client corrections): a burnt-coral accent (#C94F33) on
+   Brand palette (client corrections): a leaf-green accent (#7CB342) on
    clean white, with near-black #222222 for dark buttons/sections and a
    #F7F7F7 light frame. Neutral greys keep text quiet around the imagery.
    (Token names are kept stable — `--wf-coral-*` holds the accent — so
    every component reskins from this one file.)
 
-   The accent is a *dark* hue: 4.53:1 on white, 4.63:1 against black. That
-   is the whole reason this palette is simpler than the lime one it
-   replaces — #C94F33 carries white type, so it works as a fill and as
-   small label text without a second, darker cut standing in for it.
+   Note: the accent is a *light* hue — 2.50:1 on white, 6.35:1 against ink —
+   so type sitting on it is ink, not white (`--wf-text-on-accent`), and the
+   accent as *type* on white needs the darker cut in `--wf-accent-ink`.
+   Fills, rules and underlines keep the bright #7CB342.
    ============================================================ */
 :root {
-  /* — Brand accent: burnt coral #C94F33 ——————————————————————— */
-  --wf-coral-700: #8E3220;   /* pressed / deep accent */
-  --wf-coral-600: #AC4128;   /* hover */
-  --wf-coral-500: #C94F33;   /* primary accent */
-  --wf-coral-400: #E1795C;   /* lighter accent, hover-on-dark */
-  --wf-coral-200: #F5D6CD;   /* tint / focus ring backing */
-  --wf-coral-050: #FDF2EE;   /* faint wash, hover surfaces */
+  /* — Brand accent: leaf green #7CB342 ———————————————————————— */
+  --wf-coral-700: #4A7C28;   /* pressed / deep accent — also the accent as type, 4.99:1 on white */
+  --wf-coral-600: #689F38;   /* hover */
+  --wf-coral-500: #7CB342;   /* primary accent */
+  --wf-coral-400: #9CCC65;   /* lighter accent, hover-on-dark */
+  --wf-coral-200: #C5E1A5;   /* tint / focus ring backing */
+  --wf-coral-050: #F1F8E9;   /* faint wash, hover surfaces */
 
   /* — Brand palette hues (for gradients & accents) ———————————— */
-  --wf-brand-blue:  #C94F33; /* back-compat alias → accent */
+  --wf-brand-blue:  #7CB342; /* back-compat alias → accent */
   --wf-brand-green: #222222; /* back-compat alias → dark */
-  --wf-brand-gradient:      linear-gradient(135deg, #C94F33, #8E3220);
-  --wf-brand-gradient-deep: linear-gradient(140deg, #6B2415, #222222); /* legible behind light text */
+  --wf-brand-gradient:      linear-gradient(135deg, #7CB342, #4A7C28);
+  --wf-brand-gradient-deep: linear-gradient(140deg, #2C4A18, #222222); /* legible behind light text */
 
   /* — Ink / neutrals (neutral greys) ———————————————————————— */
   --wf-ink-900: #222222;     /* near-black, primary text & dark sections */
@@ -71,12 +71,12 @@
      band, and not to be reached for elsewhere.
 
      The three name tones are checked against the white card they sit on:
-     coral 4.53:1, green 4.85:1, teal 5.61:1. The heading tone is decorative
+     accent green 4.99:1, green 4.85:1, teal 5.61:1. The heading tone is decorative
      (it sits large on the teal ground and is not the accessible name of
      anything), so it deliberately runs quiet. */
   --wf-values-bg:      #2A5750;   /* the band itself */
   --wf-values-heading: #3E7168;   /* the big display title, tonal on the band */
-  --wf-value-1: #C94F33;  /* be curious    — the brand accent */
+  --wf-value-1: #4A7C28;  /* be curious    — the brand accent (its --wf-accent-ink cut) */
   --wf-value-2: #43793F;  /* be thoughtful */
   --wf-value-3: #2A6B62;  /* be humble     — the band's own hue, darkened */
 
@@ -89,22 +89,31 @@
   --wf-text-secondary:  var(--wf-ink-700);
   --wf-text-muted:      var(--wf-ink-500);
   --wf-text-on-dark:    #F5F5F5;
-  --wf-text-on-accent:  #FFFFFF;            /* white on the coral accent — 4.53:1 */
+  --wf-text-on-accent:  var(--wf-ink-900);   /* ink on the green accent — 6.35:1; white is only 2.50:1 */
   --wf-accent:          var(--wf-coral-500);
   --wf-accent-hover:    var(--wf-coral-600);
   --wf-accent-press:    var(--wf-coral-700);
-  /* The accent as *type* on a light surface. The lime needed a darker cut to
-     stand in for it here; #C94F33 does not — it clears 4.5:1 on white on its
-     own, so accent text and accent fills are finally the same colour. Kept as
-     its own token because ~40 files reference it, and because a future accent
-     may once again need them to differ. */
-  --wf-accent-ink:      var(--wf-coral-500);
-  /* Back-compat: white *is* the on-accent type now, so this is no longer an
-     exception, just an alias. Retained so the `accentLocked` variant keeps
-     resolving; prefer --wf-text-on-accent in new code. */
-  --wf-text-on-accent-white: var(--wf-text-on-accent);
+  /* The accent as *type* on a light surface. #7CB342 itself sits at 2.50:1 on
+     white — fine as a fill, unreadable as small uppercase labels — so accent
+     text uses the deep cut of the same hue (#4A7C28, 4.99:1 on white, and
+     4.60:1 on the --wf-coral-050 wash the soft badges use). Fills, rules and
+     underlines keep the bright --wf-accent. ~40 files reference this. */
+  --wf-accent-ink:      var(--wf-coral-700);
+  /* White type on the accent, for accent-filled *buttons* only (Button's
+     `primary` / `accentLocked`, the search bar's submit).
+
+     Deliberate deviation, chosen by the client after being shown the numbers:
+     white on #7CB342 is 2.50:1, below every contrast standard (bold 13–15px
+     needs 4.5:1), so those labels are hard to read in sunlight or on a dim
+     screen. It is a token, and scoped to the buttons, so the exception stays
+     contained — everything else on the accent keeps --wf-text-on-accent (ink,
+     6.35:1), including the small IATA chips and solid badges, where white
+     would be least readable of all. If this is ever revisited: filling the
+     buttons with --wf-accent-ink #4A7C28 instead carries white at 4.99:1 in
+     the same hue family. */
+  --wf-text-on-accent-white: #FFFFFF;
   /* ON SALE badge. The client supplied a reference image for this — a soft
-     peach pill with a flame — so it deliberately does not use the lime accent
+     peach pill with a flame — so it deliberately does not use the brand accent
      and breaks the "one accent per view" rule, the same sanctioned-exception
      pattern as the --wf-fact-* tones above. Scoped to the sale badge; do not
      reach for it elsewhere. Ink on peach is 13.4:1. */
@@ -113,5 +122,5 @@
   --wf-border:          var(--wf-ink-200);
   --wf-border-strong:   var(--wf-ink-300);
   --wf-divider:         var(--wf-ink-100);
-  --wf-focus-ring:      var(--wf-accent);       /* the coral is dark enough to ring on white */
+  --wf-focus-ring:      var(--wf-accent-ink);   /* the bright green is too faint as a ring on white */
 }
