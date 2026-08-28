@@ -48,10 +48,19 @@
     opacity 300ms cubic-bezier(0.65, 0, 0.35, 1) 120ms,
     background-color 400ms var(--wf-ease-out);
 }
+/* The two letter colours, stacked. Same 400ms as the old colour fade, so the
+   light/dark swap still tracks the header background rather than popping. */
+.wf-logo .wf-logo__art {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: opacity 400ms var(--wf-ease-out);
+}
 @media (prefers-reduced-motion: reduce) {
   .wf-logo .wf-logo__part,
   .wf-logo .wf-logo__rest,
-  .wf-logo .wf-logo__rest-inner {
+  .wf-logo .wf-logo__rest-inner,
+  .wf-logo .wf-logo__art {
     transition: none;
   }
 }
