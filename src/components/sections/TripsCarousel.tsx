@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { Trip } from "@/content/types";
 import { displayPrice, showsSaleBadge } from "@/content/pricing";
+import { photoLayers } from "@/lib/photo";
 
 /**
  * TripsCarousel — the dark "example trips" band (modelled on Black Tomato): a
@@ -141,7 +142,7 @@ export function TripsCarousel({
                 <div key={trip.slug} className="wf-trip-card">
                   <div
                     className="wf-trip-card__img"
-                    style={{ backgroundImage: trip.image ? `url(${trip.image})` : trip.grad }}
+                    style={{ backgroundImage: photoLayers(trip.image, trip.grad) }}
                     aria-hidden
                   />
                   <div className="wf-trip-card__scrim" aria-hidden />

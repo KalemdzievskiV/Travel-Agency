@@ -4,6 +4,7 @@ import React from "react";
 import { ChevronRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import type { RegionNavItem } from "@/lib/queries/regions";
+import { photoLayers } from "@/lib/photo";
 
 /**
  * RegionBrowser — the region index on the destinations page: a list on the left
@@ -36,7 +37,9 @@ export function RegionBrowser({ regions }: { regions: RegionNavItem[] }) {
       </ul>
       <div
         className="wf-region-browser__image"
-        style={{ background: r.grad ?? "var(--wf-ink-800)", backgroundImage: r.image ? `url(${r.image})` : undefined }}
+        // Longhands only — a `background` shorthand would drop the layered
+        // photo/gradient on the next render.
+        style={{ backgroundColor: "var(--wf-ink-800)", backgroundImage: photoLayers(r.image, r.grad) }}
         aria-hidden
       />
     </div>

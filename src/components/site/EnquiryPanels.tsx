@@ -7,6 +7,7 @@ import { Button, Eyebrow } from "@/components/ui";
 import { Link } from "@/i18n/navigation";
 import { site } from "@/content/site";
 import { useOpeningHoursMessage } from "@/lib/hours";
+import { photoLayers } from "@/lib/photo";
 
 /**
  * EnquiryPanels — the /make-an-enquiry page body (modelled on Black Tomato's
@@ -126,8 +127,8 @@ function TripSummaryCard({ trip }: { trip: EnquiryTripSummary }) {
         // Longhands only — a `background` shorthand would reset the image on the
         // client (this is a client component).
         style={{
-          backgroundImage: trip.image ? `url(${trip.image})` : trip.grad || undefined,
-          backgroundColor: trip.image || trip.grad ? undefined : "var(--wf-ink-800)",
+          backgroundImage: photoLayers(trip.image, trip.grad),
+          backgroundColor: "var(--wf-ink-800)",
         }}
         aria-hidden
       />

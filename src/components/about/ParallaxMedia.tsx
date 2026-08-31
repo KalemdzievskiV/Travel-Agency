@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
+import { photoLayers } from "@/lib/photo";
 
 /**
  * ParallaxMedia — a tonal-gradient media slot whose contents drift vertically as
@@ -66,7 +67,7 @@ export function ParallaxMedia({
           style={{
             position: "absolute",
             inset: 0,
-            backgroundImage: image ? `url(${image})` : grad,
+            backgroundImage: photoLayers(image, grad),
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
@@ -82,7 +83,7 @@ export function ParallaxMedia({
             right: 0,
             top: `-${amount}px`,
             height: `calc(100% + ${amount * 2}px)`,
-            backgroundImage: image ? `url(${image})` : grad,
+            backgroundImage: photoLayers(image, grad),
             backgroundSize: "cover",
             backgroundPosition: "center",
             y,

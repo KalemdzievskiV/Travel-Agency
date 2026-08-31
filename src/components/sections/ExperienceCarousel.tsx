@@ -3,6 +3,7 @@
 import React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import { photoLayers } from "@/lib/photo";
 
 /**
  * ExperienceCarousel — a titled band of tall experience tiles that scrolls
@@ -150,8 +151,10 @@ export function ExperienceCarousel({
                   // Longhands only: a `background` shorthand here would reset
                   // background-image on re-render and blank the photo.
                   style={{
-                    backgroundImage: item.image ? `url(${item.image})` : item.grad || undefined,
-                    backgroundColor: item.image || item.grad ? undefined : "var(--wf-ink-800)",
+                    backgroundImage: photoLayers(item.image, item.grad),
+                    // Unconditional: it is the base layer under the photo, so
+                    // a photo that fails to load lands on ink, not on nothing.
+                    backgroundColor: "var(--wf-ink-800)",
                   }}
                   aria-hidden
                 />

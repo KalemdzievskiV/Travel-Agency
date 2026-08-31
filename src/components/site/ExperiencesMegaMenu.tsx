@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { Icon } from "@/components/ui";
 import { Link, usePathname } from "@/i18n/navigation";
 import type { ExperienceCategory } from "@/content/types";
+import { photoLayers } from "@/lib/photo";
 
 /**
  * ExperiencesMegaMenu — header mega-menu (modelled on the reference): opens on
@@ -222,8 +223,8 @@ export function ExperiencesMegaMenu({
                       // here (even undefined) resets background-image and blanks
                       // the photo. A gradient is a background-image value too.
                       style={{
-                        backgroundImage: c.image ? `url(${c.image})` : c.grad || undefined,
-                        backgroundColor: c.image || c.grad ? undefined : "var(--wf-ink-800)",
+                        backgroundImage: photoLayers(c.image, c.grad),
+                        backgroundColor: "var(--wf-ink-800)",
                       }}
                       aria-hidden
                     />
