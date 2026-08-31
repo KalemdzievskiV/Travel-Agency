@@ -12,7 +12,19 @@ const DIR = "/images/Design%20Images%20svg";
  * don't repeat the same silhouette.
  */
 export const backdrop = {
-  dark: `${DIR}/1.svg`,
+  /**
+   * The dark band backdrop, revision 3.1: the client's own blurred artboard,
+   * line-work in the lower left. It replaces the colour-corrected olive board
+   * (`1.svg`) they had here before, and they asked for it on every dark
+   * carousel band — home, destination pages, trip pages, /doživuvanja and each
+   * of its subgroups. No scrim: white sits at 10.2:1 on the darkest of it.
+   *
+   * Raster, and they sent it 1366×768 — a laptop screen's worth of pixels, the
+   * same size problem as the boards below. It survives it where those did not:
+   * it is a photographic blur with no fine detail to lose, so upscaling reads
+   * as softness in something already soft. Ask for 2048px+ if it ever shows.
+   */
+  dark: "/images/background/dark-band.webp",
   cta: `${DIR}/2.svg`,
   intro: `${DIR}/3.svg`,
   points: `${DIR}/4.svg`,
@@ -119,14 +131,39 @@ export const aboutMastheadBand =
   "linear-gradient(rgba(16,24,16,0.32), rgba(16,24,16,0.32))," +
   " url(/images/about/masthead.webp) center/cover no-repeat, var(--wf-ink-900)";
 
-/** World map behind the "Твојот свет" closing band. */
+/**
+ * The photograph behind the "Твојот свет" closing band (client image 25,
+ * revision 3.1), replacing the grey world map that was here. It is a saturated
+ * picture and the band centres white copy over the middle of it, so the
+ * FeatureBand scrim is doing legibility work — see /about's use of it.
+ */
 export const aboutWorldImage = "/images/about/your-world.webp";
 
 /**
+ * The plate beside "Зошто Bookit?" (client image BOOKIT, revision 3.1) — the
+ * wordmark over a slot canyon. It is not part of the numbered ЗА НАС set below
+ * because it is the one image with the logo burnt into it: it must not be
+ * cropped hard or picked up by the newsletter popup, which wants a person.
+ */
+export const aboutNameImage = "/images/about/why-bookit.webp";
+
+/**
+ * The blue plaster behind the "make this itinerary yours" card on every trip
+ * page (client image 21, revision 3.1). The scrim is deliberate and mild: the
+ * bare plaster carries white body copy at 4.19:1, just under the 4.5:1 that
+ * size of type needs, and 0.35 lifts it to 7.8:1 while leaving the blue blue.
+ */
+export const ctaPlasterPanel =
+  "linear-gradient(rgba(22,19,15,0.35), rgba(22,19,15,0.35))," +
+  " url(/images/background/cta-plaster.webp) center/cover no-repeat, var(--wf-ink-900)";
+
+/**
  * The five ЗА НАС photographs, numbered as the client sent them. They land on
- * the five portrait slots of /about, top to bottom: the masthead, the three
- * story rows, then "why the name?". The closing `world` band is landscape and
- * is deliberately not in this set.
+ * the portrait slots of /about, top to bottom: the masthead and the three story
+ * rows. Number 5 held "why the name?" until revision 3.1 gave that slot its own
+ * plate (`aboutNameImage`); it stays in the set so the numbering keeps matching
+ * the files the client sent. The closing `world` band is landscape and is
+ * deliberately not in this set.
  */
 export const aboutPhoto = [1, 2, 3, 4, 5].map((n) => `/images/about/${n}.avif`);
 

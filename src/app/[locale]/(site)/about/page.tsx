@@ -77,14 +77,18 @@ export default async function AboutPage({
         </div>
       </section>
 
-      {/* Your world, your journey — closing feeling band */}
+      {/* Your world, your journey — closing feeling band. The scrim was 0.68,
+          tuned for the pale world map the client replaced in revision 3.1;
+          their photograph is dark to begin with, so it is dialled back to let
+          the picture read — white copy still clears 5.67:1 over its brightest
+          part. */}
       <FeatureBand
         eyebrow={aboutPage.world.eyebrow}
         title={aboutPage.world.title}
         body={aboutPage.world.body}
         grad={aboutPage.world.grad}
         image={aboutPage.world.image}
-        scrim={0.68}
+        scrim={0.55}
       />
 
       {/* Primary CTA */}

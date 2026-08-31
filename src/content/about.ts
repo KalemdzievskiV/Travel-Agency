@@ -4,7 +4,7 @@
 // everything else still carries tonal-gradient placeholders (the `grad` pattern
 // shared with destinations/trips) until their photos arrive. Kept here (not the
 // DB) like other static site copy.
-import { aboutMastheadBand, aboutPhoto, aboutWorldImage, processPhoto, reasonPhoto } from "@/content/media";
+import { aboutMastheadBand, aboutPhoto, aboutWorldImage, processPhoto, reasonPhoto, aboutNameImage } from "@/content/media";
 
 export type StoryRow = {
   eyebrow: string;
@@ -116,7 +116,7 @@ export const aboutPage = {
     title: "Why Bookit?",
     body: "Every journey begins as an idea, but it becomes real the moment you say: “Book it.” That moment is exactly where the name Bookit comes from.\n\nBookit is the instant a daydream gets a date on it, a destination becomes a plan, and the plan becomes a journey. Our job is to make that decision easy, and to see that everything which follows is carefully considered, personal and worth remembering.",
     grad: "linear-gradient(135deg,#6a4f6a,#241a24)",
-    image: aboutPhoto[4],
+    image: aboutNameImage,
     align: "left",
   } satisfies StoryRow,
 
@@ -261,8 +261,8 @@ export const howItWorks: ProcessStep[] = [
   },
   {
     no: "05",
-    title: "Look for the turquoise",
-    body: "Wherever you notice bookit's distinctive turquoise, that's your sign you can click and go further. Use the “Start planning” buttons across the site to reach us through our online form.",
+    title: "Look for the green",
+    body: "Wherever you notice bookit's distinctive green, that's your sign you can click and go further. Use the “Plan a trip” buttons across the site to reach us through our online form.",
     grad: "linear-gradient(135deg,#6a4f6a,#241a24)",
     image: processPhoto[4],
   },
@@ -474,8 +474,8 @@ const howItWorksMk: ProcessStep[] = [
   },
   {
     ...howItWorks[4],
-    title: "Побарајте ја тиркизната боја",
-    body: "Секаде каде што ќе ја забележите препознатливата тиркизна боја на Bookit, тоа е знак дека можете да кликнете и да продолжите понатаму.\n\nКористете ги копчињата „Започнете со планирање“ низ веб-сајтот за да нè контактирате преку нашата онлајн форма.",
+    title: "Побарајте ја зелената боја",
+    body: "Секаде каде што ќе ја забележите препознатливата зелена боја на Bookit, тоа е знак дека можете да кликнете и да продолжите понатаму.\n\nКористете ги копчињата „Планирај патување“ низ веб-сајтот за да нè контактирате преку нашата онлајн форма.",
   },
   {
     ...howItWorks[5],

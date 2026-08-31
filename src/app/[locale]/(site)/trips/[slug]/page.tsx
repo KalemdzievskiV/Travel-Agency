@@ -14,7 +14,7 @@ import { getTripWithDestinations, getSimilarTrips } from "@/lib/queries/public";
 import { getHotelsForDestination } from "@/lib/queries/hotels";
 import { splitDayPrefix } from "@/lib/itinerary";
 import { months as MONTHS } from "@/content/site";
-import { pageBackdrop } from "@/content/media";
+import { backdrop, ctaPlasterPanel, pageBackdrop } from "@/content/media";
 
 export async function generateMetadata({
   params,
@@ -224,7 +224,9 @@ export default async function TripPage({
       {/* Make this itinerary yours (enquire, pre-filled with this trip) */}
       <section style={{ ...pageBackdrop(1), padding: "0 0 clamp(48px, 7vw, 72px)" }}>
         <div className="wf-wrap wf-wrap--wide">
-          <div style={{ background: "var(--wf-ink-900)", color: "var(--wf-text-on-dark)", borderRadius: "var(--wf-radius-md)", padding: "clamp(32px, 6vw, 56px)", textAlign: "center" }}>
+          {/* The client's blue plaster (image 21) behind this card, ink field
+              underneath it so the card still reads if the texture is slow. */}
+          <div style={{ background: ctaPlasterPanel, color: "var(--wf-text-on-dark)", borderRadius: "var(--wf-radius-md)", padding: "clamp(32px, 6vw, 56px)", textAlign: "center" }}>
             <h2
               style={{
                 fontFamily: "var(--wf-font-display)",
@@ -267,7 +269,7 @@ export default async function TripPage({
       )}
 
       {/* Similar experiences — the dark carousel band, same as the home page. */}
-      <TripsCarousel trips={similarTrips} title={t("similarExperiences")} />
+      <TripsCarousel trips={similarTrips} title={t("similarExperiences")} backgroundImage={backdrop.dark} />
 
       {/* Closing "view all trips" — secondary to the enquiry CTA above, so
           outline rather than accent. */}

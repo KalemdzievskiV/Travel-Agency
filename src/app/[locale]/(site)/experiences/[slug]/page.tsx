@@ -9,7 +9,7 @@ import { ExpandableProse } from "@/components/sections/ExpandableProse";
 import { EnquireButton } from "@/components/site/EnquireButton";
 import { FaqAccordion } from "@/components/sections/FaqAccordion";
 import { getExperienceCategoryBySlug } from "@/lib/queries/experiences";
-import { pageBackdrop } from "@/content/media";
+import { backdrop, pageBackdrop } from "@/content/media";
 
 export async function generateMetadata({
   params,
@@ -172,7 +172,7 @@ export default async function ExperienceCategoryPage({
         </div>
       </section>
       {c.trips.length > 0 && (
-        <TripsCarousel trips={c.trips} eyebrow={t("recommendations")} title={t("tripsHeading")} description={t("tripsIntro")} />
+        <TripsCarousel trips={c.trips} eyebrow={t("recommendations")} title={t("tripsHeading")} description={t("tripsIntro")} backgroundImage={backdrop.dark} />
       )}
 
       {/* FAQs */}

@@ -18,7 +18,7 @@ import {
 } from "@/lib/queries/public";
 import { getRegionBySlug } from "@/lib/queries/regions";
 import { getHotelsForDestination } from "@/lib/queries/hotels";
-import { pageBackdrop } from "@/content/media";
+import { backdrop, pageBackdrop } from "@/content/media";
 
 export async function generateMetadata(
   props: PageProps<"/[locale]/destinations/[slug]">,
@@ -198,6 +198,7 @@ export default async function DestinationPage(
             eyebrow={td("tripsEyebrow")}
             title={td("tripsTitle", { title: d.title })}
             description={td("tripsIntro")}
+            backgroundImage={backdrop.dark}
           />
         </div>
       )}
