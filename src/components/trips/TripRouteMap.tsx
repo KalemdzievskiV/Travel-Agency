@@ -6,6 +6,24 @@ import "leaflet/dist/leaflet.css";
 import type { MapStop } from "./showcase-shared";
 
 /**
+ * The basemap. OpenStreetMap's own tiles, because they need no key: CARTO's
+ * `light_all`, which this used, now stamps "API KEY REQUIRED" across every tile
+ * it serves keyless (verified: their CDN returns the watermarked tile with a
+ * 200). It only looked correct in dev because a developer's browser still had
+ * clean tiles cached, which is why this surfaced as a deployed-site bug.
+ *
+ * OSM's raster tiles are more colourful than CARTO's grey, so `.wf-map`
+ * desaturates the tile pane in CSS to get the quiet basemap back (markers and
+ * the route line sit in other panes, untouched).
+ *
+ * If the CARTO look is ever wanted verbatim, it is a paid key on their side:
+ * `https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png?api_key=…`.
+ */
+const TILE_URL = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
+const TILE_ATTRIBUTION =
+  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+
+/**
  * TripRouteMap — the route on a column-sized map: markers, a dashed line
  * between them, fitted to the bounds.
  *
@@ -45,12 +63,7 @@ export function TripRouteMap({
       map = L.map(elRef.current, { scrollWheelZoom: false, zoomControl: true, attributionControl: true });
       mapRef.current = map;
 
-      L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-        subdomains: "abcd",
-        maxZoom: 19,
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-      }).addTo(map);
+      L.tileLayer(TILE_URL, { maxZoom: 19, attribution: TILE_ATTRIBUTION }).addTo(map);
 
       const idle = L.divIcon({ className: "", html: '<span class="wf-mappin"></span>', iconSize: [16, 16], iconAnchor: [8, 8] });
       const activeIcon = L.divIcon({ className: "", html: '<span class="wf-mappin wf-mappin--active"></span>', iconSize: [24, 24], iconAnchor: [12, 12] });
@@ -103,5 +116,12 @@ export function TripRouteMap({
   }, [activeIndex, stops]);
 
   if (stops.length === 0) return null;
-  return <div ref={elRef} className={className} role="img" aria-label="Trip route map" />;
+  return (
+    <div
+      ref={elRef}
+      className={className ? `wf-map ${className}` : "wf-map"}
+      role="img"
+      aria-label="Trip route map"
+    />
+  );
 }

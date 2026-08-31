@@ -601,6 +601,13 @@
 }
 
 /* ── Trip route map pin styling (used by TripRouteMap) ────────── */
+/* OSM's raster tiles are far more colourful than the grey basemap this map was
+   drawn against, and the map is a quiet backdrop for the route, not a subject.
+   Only the tile pane is filtered — the markers, route line and tooltips live in
+   their own panes and keep the accent. */
+.wf-map .leaflet-tile-pane {
+  filter: grayscale(1) brightness(1.06) contrast(0.9);
+}
 .wf-route-line { stroke: var(--wf-coral-500); }
 .wf-mappin {
   display: block;
