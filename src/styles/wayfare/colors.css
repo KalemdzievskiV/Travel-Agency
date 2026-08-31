@@ -70,13 +70,20 @@
      pattern as the --wf-fact-* tones — kept as tokens, scoped to that one
      band, and not to be reached for elsewhere.
 
+     These three no longer track the brand accent, and must not be wired back
+     to it. The first value used to be defined as "the accent", which was fine
+     while that was coral — but when the accent went green it dragged this hue
+     with it onto the green of the second value, 1.04:1 apart, and the band
+     lost a colour. The client asked for the orange back, so it is now held
+     here in its own right: orange, green, teal, whatever the accent does next.
+
      The three name tones are checked against the white card they sit on:
-     accent green 4.99:1, green 4.85:1, teal 5.61:1. The heading tone is decorative
+     orange 4.53:1, green 5.19:1, teal 6.22:1. The heading tone is decorative
      (it sits large on the teal ground and is not the accessible name of
      anything), so it deliberately runs quiet. */
   --wf-values-bg:      #2A5750;   /* the band itself */
   --wf-values-heading: #3E7168;   /* the big display title, tonal on the band */
-  --wf-value-1: #4A7C28;  /* be curious    — the brand accent (its --wf-accent-ink cut) */
+  --wf-value-1: #C94F33;  /* be curious    — the client's orange, held independently */
   --wf-value-2: #43793F;  /* be thoughtful */
   --wf-value-3: #2A6B62;  /* be humble     — the band's own hue, darkened */
 
