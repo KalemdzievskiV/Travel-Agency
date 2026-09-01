@@ -112,7 +112,7 @@ export default async function HomePage({
             <p style={{ margin: 0 }}>{t("intro.p2")}</p>
           </div>
           <div style={{ marginTop: "clamp(28px, 4vw, 40px)", display: "flex", justifyContent: "center" }}>
-            <EnquireButton size="lg">
+            <EnquireButton size="lg" className="wf-cta-mono">
               {t("common.getInTouch")}
             </EnquireButton>
           </div>

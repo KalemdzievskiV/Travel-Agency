@@ -11,9 +11,10 @@ import { ExperiencesMegaMenu } from "./ExperiencesMegaMenu";
 import { AboutMegaMenu } from "./AboutMegaMenu";
 import { SearchOverlay } from "./SearchOverlay";
 import { PhoneWithHours } from "./PhoneWithHours";
+import { MobileNav } from "./MobileNav";
 import type { RegionNavItem } from "@/lib/queries/regions";
 import type { ExperienceCategory } from "@/content/types";
-import { nav, aboutMenu, site } from "@/content/site";
+import { nav } from "@/content/site";
 
 export function SiteHeader({
   regionsNav = [],
@@ -30,7 +31,6 @@ export function SiteHeader({
   const goEnquire = () => router.push("/make-an-enquiry");
   const [scrolled, setScrolled] = React.useState(false);
   const [menuOpen, setMenuOpen] = React.useState(false);
-  const [aboutOpen, setAboutOpen] = React.useState(false);
   // Which mega-menu is showing, if any. Tracked by key rather than a boolean so
   // one menu closing can't clear the flag another has just set.
   const [openMega, setOpenMega] = React.useState<string | null>(null);
@@ -87,10 +87,9 @@ export function SiteHeader({
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close the mobile menu (and its About accordion) on route change.
+  // Close the mobile drawer on route change.
   React.useEffect(() => {
     setMenuOpen(false);
-    setAboutOpen(false);
   }, [pathname]);
 
   const isActive = (href: string) =>
@@ -117,6 +116,7 @@ export function SiteHeader({
     `wf-navlink${isActive(href) ? " wf-navlink--on" : ""}`;
 
   return (
+    <>
     <header
       style={{
         position: "sticky",
@@ -222,10 +222,15 @@ export function SiteHeader({
 
         <div className="wf-header-actions">
           <PhoneWithHours dark={dark} />
-          <span className="wf-header-enquire">
+          <span className="wf-header-lang">
             <LanguageSwitcher dark={dark} />
           </span>
-          <span className="wf-header-enquire">
+          {/* Stays beside the burger on mobile, per the client: this is the one
+              button that carries the accent at every width, which is what lets
+              every other CTA on the page go black-and-white. Sizing down for
+              narrow screens is done in CSS (.wf-header-cta), not here — a JS
+              breakpoint would have to wait for hydration to pick a size. */}
+          <span className="wf-header-cta">
             {/* Keeps its own label ("start here", per the client) but takes
                 the site-wide button transition: accent fill with white type,
                 inverting to white with accent type on hover. */}
@@ -250,72 +255,21 @@ export function SiteHeader({
         </div>
       </div>
 
-      {/* Mobile dropdown */}
-      {menuOpen && (
-        <div className="wf-mobile-menu">
-          {nav.map((l) =>
-            l.href === "/about" ? (
-              <div key={l.href}>
-                <button
-                  className="wf-mobile-about__toggle"
-                  aria-expanded={aboutOpen}
-                  onClick={() => setAboutOpen((v) => !v)}
-                >
-                  {navLabel(l.href)}
-                  <span
-                    style={{
-                      display: "inline-flex",
-                      transform: aboutOpen ? "rotate(180deg)" : "none",
-                      transition: "transform .2s var(--wf-ease-out)",
-                    }}
-                  >
-                    <Icon name="chevron" size={18} color="var(--wf-ink-700)" />
-                  </span>
-                </button>
-                {aboutOpen && (
-                  <div className="wf-mobile-about__panel">
-                    {aboutMenu.map((group) => (
-                      <React.Fragment key={t(`aboutMenu.groups.${group.key}`)}>
-                        <Link href={group.href} className="wf-mobile-about__group">
-                          {t(`aboutMenu.groups.${group.key}`)}
-                        </Link>
-                        {group.items.map((item) => (
-                          <Link key={item.key} href={item.href}>
-                            {t(`aboutMenu.items.${item.key}`)}
-                          </Link>
-                        ))}
-                      </React.Fragment>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ) : (
-              <Link key={l.href} href={l.href}>
-                {navLabel(l.href)}
-              </Link>
-            )
-          )}
-          <a href={`tel:${site.phone.replace(/\s+/g, "")}`}>{site.phone}</a>
-          <div style={{ marginTop: 16, display: "flex", justifyContent: "center" }}>
-            <LanguageSwitcher />
-          </div>
-          <div style={{ marginTop: 16 }}>
-            {/* The same CTA as the desktop header, so it takes the same
-                variant — one enquire button, one appearance, at every width. */}
-            <Button
-              variant="primary"
-              size="md"
-              fullWidth
-              onClick={() => {
-                setMenuOpen(false);
-                goEnquire();
-              }}
-            >
-              {t("common.enquireNow")}
-            </Button>
-          </div>
-        </div>
-      )}
     </header>
+
+    {/* Mobile drawer — the drill-down menu the client's brief asks for. It is a
+        SIBLING of the header, not a child: the header is sticky with a z-index,
+        which makes it a stacking context, and a fixed drawer inside one can
+        never rise above the corner popups outside it however high its z-index.
+        Hidden above 860px by .wf-drawer, and inert until opened. */}
+    <MobileNav
+      open={menuOpen}
+      onClose={() => setMenuOpen(false)}
+      regionsNav={regionsNav}
+      experienceCategories={experienceCategories}
+      remarkableCategories={remarkableCategories}
+      navLabel={navLabel}
+    />
+    </>
   );
 }

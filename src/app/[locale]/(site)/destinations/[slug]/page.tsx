@@ -19,6 +19,7 @@ import {
 import { getRegionBySlug } from "@/lib/queries/regions";
 import { getHotelsForDestination } from "@/lib/queries/hotels";
 import { backdrop, pageBackdrop } from "@/content/media";
+import { PageTabs } from "@/components/sections/PageTabs";
 
 export async function generateMetadata(
   props: PageProps<"/[locale]/destinations/[slug]">,
@@ -59,15 +60,6 @@ export default async function DestinationPage(
   ]);
   const more = all.filter((x) => x.slug !== d.slug).slice(0, 3);
 
-  const subLink: React.CSSProperties = {
-    textDecoration: "none",
-    fontFamily: "var(--wf-font-sans)",
-    fontSize: 13,
-    fontWeight: 700,
-    letterSpacing: "0.14em",
-    textTransform: "uppercase",
-    color: "var(--wf-ink-700)",
-  };
   const crumbLink: React.CSSProperties = {
     color: "var(--wf-ink-500)",
     textDecoration: "underline",
@@ -121,26 +113,14 @@ export default async function DestinationPage(
       </section>
 
       {/* Section nav (centred), sticky under the header */}
-      <div
-        style={{
-          position: "sticky",
-          top: "var(--wf-header-h)",
-          zIndex: 40,
-          background: "var(--wf-cream)",
-          borderBottom: "1px solid var(--wf-border)",
-        }}
-      >
-        <nav
-          className="wf-wrap wf-wrap--wide"
-          style={{ display: "flex", justifyContent: "center", gap: "clamp(20px, 4vw, 44px)", flexWrap: "wrap", paddingBlock: 18 }}
-        >
-          <a href="#overview" style={{ ...subLink, color: "var(--wf-accent-ink)", borderBottom: "2px solid var(--wf-coral-500)", paddingBottom: 4 }}>
-            {td("overview")}
-          </a>
-          {trips.length > 0 && <a href="#trips" style={subLink}>{td("programs")}</a>}
-          {hotels.length > 0 && <a href="#stays" style={subLink}>{td("hotels")}</a>}
-        </nav>
-      </div>
+      <PageTabs
+        label={d.title}
+        tabs={[
+          { label: td("overview"), href: "#overview", active: true },
+          ...(trips.length > 0 ? [{ label: td("programs"), href: "#trips" }] : []),
+          ...(hotels.length > 0 ? [{ label: td("hotels"), href: "#stays" }] : []),
+        ]}
+      />
 
       {/* Breadcrumb */}
       <div className="wf-wrap wf-wrap--wide" style={{ paddingTop: 16, fontSize: 12.5, color: "var(--wf-ink-500)" }}>
@@ -210,7 +190,7 @@ export default async function DestinationPage(
             <div style={{ marginBottom: 36 }}>
               <SectionHead eyebrow={td("stays")} title={td("whereToStay")} />
             </div>
-            <HotelGrid items={hotels} />
+            <HotelGrid items={hotels} scrollOnMobile />
           </div>
         </section>
       )}
@@ -233,7 +213,7 @@ export default async function DestinationPage(
           <div style={{ marginBottom: 36 }}>
             <SectionHead eyebrow={td("keepExploring")} title={td("morePlaces")} />
           </div>
-          <DestinationGrid items={more} />
+          <DestinationGrid items={more} scrollOnMobile />
           <div style={{ marginTop: 40 }}>
             <Link href="/destinations" style={{ textDecoration: "none", color: "var(--wf-ink-900)", fontSize: 13, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", borderBottom: "1px solid var(--wf-ink-900)", paddingBottom: 4 }}>
               {td("viewAll")}

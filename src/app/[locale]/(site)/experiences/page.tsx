@@ -102,7 +102,7 @@ export default async function ExperiencesPage({
           </p>
           <div style={{ marginTop: "clamp(24px, 3.2vw, 36px)", display: "flex", justifyContent: "center" }}>
             <Link href="/make-an-enquiry" style={{ textDecoration: "none" }}>
-              <Button as="span" variant="primary" size="lg">
+              <Button as="span" variant="primary" size="lg" className="wf-cta-mono">
                 {tc("planMyTrip")}
               </Button>
             </Link>

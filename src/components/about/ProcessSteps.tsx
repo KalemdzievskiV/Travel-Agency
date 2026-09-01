@@ -13,6 +13,7 @@ import { Reveal } from "./Reveal";
 import { useIsDesktop } from "./useIsDesktop";
 import type { ProcessStep } from "@/content/about";
 import { pageBackdrop } from "@/content/media";
+import { photoLayers } from "@/lib/photo";
 
 /**
  * ProcessSteps — the "how it all works" sequence (modelled on Black Tomato's
@@ -29,7 +30,12 @@ export function ProcessSteps({ steps, title }: { steps: ProcessStep[]; title: st
   const reduced = useReducedMotion();
 
   if (!isDesktop || reduced) {
-    return <ProcessStack steps={steps} />;
+    // Phones get the step photography as well as the copy — the pinned stage's
+    // whole left-hand pane was being dropped at this width, which is what the
+    // client's "ова исто како кај нив" note on page 17 is about. `null` (SSR /
+    // first paint) and a wide reduced-motion screen keep today's plain
+    // timeline, so nothing above 980px changes.
+    return <ProcessStack steps={steps} withMedia={isDesktop === false} />;
   }
   return <ProcessPinned steps={steps} title={title} />;
 }
@@ -260,7 +266,7 @@ function ProcessPinned({ steps, title }: { steps: ProcessStep[]; title: string }
 }
 
 /* ── Mobile / SSR / reduced-motion: accessible numbered list ──────── */
-function ProcessStack({ steps }: { steps: ProcessStep[] }) {
+function ProcessStack({ steps, withMedia = false }: { steps: ProcessStep[]; withMedia?: boolean }) {
   return (
     <section style={{ ...pageBackdrop(0), padding: "clamp(56px, 10vw, 88px) 0" }}>
       <div className="wf-wrap wf-wrap--default">
@@ -296,6 +302,20 @@ function ProcessStack({ steps }: { steps: ProcessStep[] }) {
                   background: "var(--wf-coral-500)",
                 }}
               />
+              {withMedia && s.image && (
+                <div
+                  className="wf-processstack__media"
+                  // photoLayers, not a `background` shorthand: the shorthand
+                  // resets background-size/position, which would beat the
+                  // class's `cover` and leave the photo at natural size in the
+                  // top-left corner. It also keeps the gradient underneath as
+                  // the fallback if the image fails.
+                  style={{ backgroundImage: photoLayers(s.image, s.grad) }}
+                  aria-hidden
+                >
+                  <span className="wf-processstack__no">{String(s.no).padStart(2, "0")}</span>
+                </div>
+              )}
               <span
                 style={{
                   fontFamily: "var(--wf-font-sans)",

@@ -113,7 +113,12 @@ export function HomeHero() {
         >
           {t("hero.intro")}
         </p>
+        {/* One row at every width, per the client — the pair used to wrap onto
+            two lines on a phone. Below 640px .wf-hero-ctas splits the row
+            evenly between them and sizes the type down to suit; the wrap is
+            kept above that, where the labels are at full size. */}
         <div
+          className="wf-hero-ctas"
           style={{
             marginTop: "clamp(28px, 4vw, 40px)",
             display: "flex",
@@ -125,7 +130,7 @@ export function HomeHero() {
           <Link className="wf-btn-ghost-light" href="/destinations">
             {t("common.exploreOurTrips")}
           </Link>
-          <Button as="a" href="/make-an-enquiry" variant="primary" size="lg">
+          <Button as="a" href="/make-an-enquiry" variant="primary" size="lg" className="wf-cta-mono">
             {t("common.planMyTrip")}
           </Button>
         </div>

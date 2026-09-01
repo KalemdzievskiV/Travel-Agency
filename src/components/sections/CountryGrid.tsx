@@ -26,7 +26,7 @@ export function CountryGrid({
 
   return (
     <>
-      <DestinationGrid items={shown} />
+      <DestinationGrid items={shown} scrollOnMobile />
       {hasMore && (
         <div style={{ display: "flex", justifyContent: "center", marginTop: "clamp(28px, 4vw, 44px)" }}>
           <Button

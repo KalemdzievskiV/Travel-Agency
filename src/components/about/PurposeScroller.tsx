@@ -4,6 +4,8 @@ import React from "react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent, useReducedMotion } from "motion/react";
 import { Eyebrow } from "@/components/ui";
 import { useIsDesktop } from "./useIsDesktop";
+import { Reveal } from "./Reveal";
+import { ScrollRevealText } from "./ScrollRevealText";
 
 /**
  * PurposeScroller — the purpose statement as a full-screen pinned stage
@@ -27,7 +29,19 @@ export function PurposeScroller({
   const reduced = useReducedMotion();
 
   if (!isDesktop || reduced) {
-    return <PurposeStack eyebrow={eyebrow} statement={statement} facets={facets} grad={grad} />;
+    return (
+      <PurposeStack
+        eyebrow={eyebrow}
+        statement={statement}
+        facets={facets}
+        grad={grad}
+        // Phones get the statement on the scroll-scrubbed reveal the pinned
+        // stage uses, rather than as flat static type — the client's page 15
+        // note ("погледни ги транзициите кај нив ... да се смени"). SSR and
+        // reduced-motion keep the static paragraph.
+        animated={isDesktop === false}
+      />
+    );
   }
   return <PurposePinned eyebrow={eyebrow} statement={statement} facets={facets} grad={grad} />;
 }
@@ -126,29 +140,53 @@ function PurposePinned({ eyebrow, statement, facets, grad }: { eyebrow: string; 
 }
 
 /* ── Mobile / SSR / reduced-motion: static band, all facets listed ── */
-function PurposeStack({ eyebrow, statement, facets, grad }: { eyebrow: string; statement: string; facets: string[]; grad: string }) {
+function PurposeStack({
+  eyebrow,
+  statement,
+  facets,
+  grad,
+  animated = false,
+}: {
+  eyebrow: string;
+  statement: string;
+  facets: string[];
+  grad: string;
+  animated?: boolean;
+}) {
   return (
     <section style={{ background: grad, color: "var(--wf-text-on-dark)", padding: "clamp(72px, 14vw, 120px) 0" }}>
       <div className="wf-wrap wf-wrap--default" style={{ textAlign: "center" }}>
         <Eyebrow tone="light" style={{ textAlign: "center" }}>
           {eyebrow}
         </Eyebrow>
-        <p style={statementStyle}>{statement}</p>
+        {animated ? (
+          <ScrollRevealText text={statement} style={statementStyle} />
+        ) : (
+          <p style={statementStyle}>{statement}</p>
+        )}
         <div style={{ display: "grid", gap: "clamp(18px, 4vw, 28px)", marginTop: "clamp(32px, 7vw, 48px)" }}>
-          {facets.map((f) => (
-            <p
-              key={f}
-              style={{
-                margin: "0 auto",
-                maxWidth: 600,
-                fontSize: "clamp(16px, 2.2vw, 20px)",
-                lineHeight: 1.6,
-                color: "rgba(233, 245, 246, 0.86)",
-              }}
-            >
-              {f}
-            </p>
-          ))}
+          {facets.map((f, i) => {
+            const para = (
+              <p
+                style={{
+                  margin: "0 auto",
+                  maxWidth: 600,
+                  fontSize: "clamp(16px, 2.2vw, 20px)",
+                  lineHeight: 1.6,
+                  color: "rgba(233, 245, 246, 0.86)",
+                }}
+              >
+                {f}
+              </p>
+            );
+            return animated ? (
+              <Reveal key={f} delay={i * 0.08}>
+                {para}
+              </Reveal>
+            ) : (
+              <React.Fragment key={f}>{para}</React.Fragment>
+            );
+          })}
         </div>
       </div>
     </section>

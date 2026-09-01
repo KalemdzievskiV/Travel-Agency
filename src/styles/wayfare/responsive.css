@@ -85,6 +85,86 @@
 }
 .wf-btn-ghost-light:hover { background: #fff; color: var(--wf-ink-900); }
 
+/* ── Section backdrops on mobile ──────────────────────────────────
+   The client's most-repeated note (pages 2, 8, 9, 11, 13, 14, 15, 16): "да се
+   тргнат многу позадини вака шарено да остане само од десната страна малку" —
+   the line-art boards read as clutter at phone width, where they tile down a
+   band that can be several screens tall and the text sits on top of them.
+
+   Below 860px every band takes the same board, drawn ONCE in the top-right
+   corner at two thirds width, instead of the four alternating boards tiling
+   full-width. That leaves the copy on clean white with a little line-work in
+   the corner, which is what the reference does. Boards 2 and 4 are anchored
+   left, so they drop out at this width entirely.
+
+   Consumed by `pageBackdrop()` in src/content/media.ts and by the light
+   ExperienceCarousel band; desktop defines none of these and keeps its
+   fallbacks. Setting them on :root rather than per-section is deliberate —
+   the point of the note is that the variety itself was the problem. */
+@media (max-width: 860px) {
+  :root {
+    --wf-board-img: url("/images/background/1.svg");
+    --wf-board-size: 66% auto;
+    --wf-board-pos: right top;
+    --wf-board-repeat: no-repeat;
+  }
+}
+
+/* ── Home hero CTA pair ───────────────────────────────────────────
+   "Долните копчиња да дојдат во еден ред исто како кај нив" — the two hero
+   buttons wrapped onto separate lines on a phone. They share the row evenly
+   instead: flex-basis 0 on both, so neither label's length decides the split,
+   and the type steps down so the longer Macedonian labels still fit 360px.
+   The Button's own padding and font-size are inline, hence !important. */
+@media (max-width: 640px) {
+  .wf-hero-ctas {
+    flex-wrap: nowrap !important;
+    gap: 10px !important;
+    align-items: stretch;
+  }
+  .wf-hero-ctas > * {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 13px 10px !important;
+    font-size: 11.5px !important;
+    letter-spacing: 0 !important;
+    text-align: center;
+    /* Both children centre their own label — the ghost link is a flex box,
+       the Button is inline-flex — so this only matters if one ever wraps. */
+    white-space: normal !important;
+  }
+}
+
+/* ── Mobile-only mono CTA ─────────────────────────────────────────
+   The client's mobile brief asks for one accented control per screen — the
+   "start here" button in the header — with every other CTA black-and-white
+   ("исто црно бело со транзиција како горното"). These classes restate the
+   `primary` Button's colour vars below 860px only; desktop keeps the accent
+   fill it has today. The hover pair is kept so the invert still reads on the
+   handful of touch devices that fire it, and on a narrow desktop window.
+
+   Two cuts, because the CTAs sit on opposite grounds:
+     .wf-cta-mono        ink fill  → inverts to white   (light sections, photos)
+     .wf-cta-mono--light white fill → inverts to ink    (dark panels and bands)
+   Black on a dark navy panel would be the literal reading of "црно бело" and
+   also unreadable; --light is that same pair the other way up. */
+@media (max-width: 860px) {
+  .wf-cta-mono {
+    --wf-btn-bg: var(--wf-ink-900);
+    --wf-btn-fg: var(--wf-text-on-dark);
+    --wf-btn-bg-hover: #fff;
+    --wf-btn-fg-hover: var(--wf-ink-900);
+    --wf-btn-bd-hover: var(--wf-ink-900);
+  }
+  .wf-cta-mono--light {
+    --wf-btn-bg: #fff;
+    --wf-btn-fg: var(--wf-ink-900);
+    --wf-btn-bg-hover: var(--wf-ink-900);
+    --wf-btn-fg-hover: var(--wf-text-on-dark);
+    --wf-btn-bd-hover: #fff;
+  }
+}
+
 /* ── Hero scroll cue ──────────────────────────────────────── */
 .wf-scroll-cue {
   position: absolute;
@@ -135,6 +215,52 @@
 @media (max-width: 1100px) { .wf-journey-grid--six { grid-template-columns: repeat(4, 1fr); } }
 @media (max-width: 720px) { .wf-journey-grid--six { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 460px) { .wf-journey-grid--six { grid-template-columns: repeat(2, 1fr); } }
+
+/* Per-tab phone layouts (МОБИЛНА ВЕРЗИЈА 1.0, pages 2–3). The three tabs shared
+   one grid, which at phone width became a single column of tall 3:5 cards for
+   all of them; the reference gives each tab its own shape. Classes are doubled
+   for specificity so these land after the .wf-journey-grid--six rules above
+   regardless of source order. Nothing here applies above 640px. */
+@media (max-width: 640px) {
+  /* КОЈ ПАТУВА — stacked wide banners, as in the reference's "by traveller". */
+  .wf-journey-grid.wf-journey-grid--traveller {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .wf-journey-grid--traveller .wf-journey-card { aspect-ratio: 2.6 / 1; }
+
+  /* НАЈПОПУЛАРНИ — a swipe row with the next card peeking, over the "View more"
+     button that already sits below the grid. */
+  .wf-journey-grid.wf-journey-grid--popular {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    gap: 12px;
+  }
+  .wf-journey-grid--popular::-webkit-scrollbar { display: none; }
+  .wf-journey-grid--popular > * {
+    flex: 0 0 66%;
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+  .wf-journey-grid--popular .wf-journey-card { aspect-ratio: 3 / 4; }
+
+  /* СПОРЕД МЕСЕЦ — three small tiles a row, matching the reference's month
+     grid; ours was two large ones. The label steps down to suit the tile. */
+  .wf-journey-grid.wf-journey-grid--month {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .wf-journey-grid--month .wf-journey-card { aspect-ratio: 3 / 4; }
+  .wf-journey-grid--month .wf-journey-card__label {
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    padding: 6px;
+  }
+}
 
 .wf-journey-card {
   position: relative;
@@ -235,6 +361,17 @@
   text-decoration: none;
   scroll-snap-align: start;
 }
+/* "Да се направи големината на програмите исто како кај нив" — at phone width
+   ours stood a 240px-wide card 360px tall, half again the height of the
+   reference's. Sized to the viewport instead, on a shallower ratio, so the card
+   is shorter and the next one peeks further in. */
+@media (max-width: 640px) {
+  .wf-trip-card {
+    flex-basis: 66%;
+    aspect-ratio: 3 / 4;
+  }
+}
+
 /* The card's own link, as an overlay rather than a wrapper. The sale pill in
    the corner links somewhere else, and an anchor inside an anchor is invalid
    HTML that the parser silently unnests — so the corner sits outside this and
@@ -702,6 +839,33 @@
   .wf-grid-4 { grid-template-columns: 1fr; gap: 18px; }
 }
 
+/* Opt-in: a grid that becomes a swipe row on a phone instead of a single
+   column of full-width cards. The client asked for this in three places —
+   the hotels ("да не бидат на телефон волкави него да се постават лево десно
+   да може да се гледаат како кај нив"), the popular-destinations band, and the
+   countries on a region page — all of which were stacking one tall 2:3 card
+   per screen. The card is sized so the next one peeks in at the right edge,
+   which is what tells the visitor the row scrolls. Grid above 640px, untouched. */
+@media (max-width: 640px) {
+  .wf-grid--scroll {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    gap: 14px;
+    /* Room for the cards' own shadow, which the scroll box would clip. */
+    padding-bottom: 4px;
+  }
+  .wf-grid--scroll::-webkit-scrollbar { display: none; }
+  .wf-grid--scroll > * {
+    flex: 0 0 72%;
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+}
+
 /* ── Content + sticky sidebar split ───────────────────────── */
 .wf-split {
   display: grid;
@@ -886,31 +1050,179 @@
 @media (max-width: 860px) {
   .wf-header-nav { display: none; }
   .wf-header-phone { display: none; }
-  .wf-header-enquire { display: none; }
+  .wf-header-lang { display: none; }
   .wf-nav-toggle { display: inline-flex; }
+
+  /* The "start here" CTA stays in the bar beside the burger, per the client's
+     mobile brief — it is the one accented control at this width. Three things
+     have to share 360px (logo, CTA, burger), so the row tightens and the
+     button is sized down from the `sm` it renders at on desktop. Overriding
+     Button's inline styles needs !important; nothing else reaches inside it. */
+  .wf-header-actions { gap: 10px; }
+  .wf-header-cta > * {
+    padding: 8px 12px !important;
+    font-size: 12px !important;
+    letter-spacing: 0 !important;
+  }
+  .wf-nav-toggle { padding: 6px 0 6px 2px; }
+}
+/* At 360px the row measures ~229px of the 320px available, so nothing has to
+   give way; this last step is headroom for the longer of the two labels
+   ("ЗАПОЧНИ ТУКА" runs wider than "START HERE") on the narrowest phones. */
+@media (max-width: 380px) {
+  .wf-header-cta > * {
+    padding: 8px 10px !important;
+    font-size: 11px !important;
+  }
 }
 
-/* Mobile menu panel */
-.wf-mobile-menu {
-  /* Positioned so it paints above the header's absolutely-positioned
-     background layers — in-flow content would otherwise sit under them. */
-  position: relative;
+/* ── Mobile navigation drawer ─────────────────────────────────────
+   The client's brief replaces the old in-flow dropdown with the reference's
+   full-height drill-down (МОБИЛНА ВЕРЗИЈА 1.0, pages 5–7). Markup is
+   src/components/site/MobileNav.tsx; none of this applies above 860px, where
+   the drawer never renders.
+
+   "Транзиција да се движи од лево кон десно": the drawer is anchored to the
+   left edge and translates in rightward. Panels inside it then travel on their
+   own axis — deeper slides in from the right, BACK returns it leftward. */
+.wf-drawer__scrim {
+  position: fixed;
+  inset: 0;
+  /* Above the corner popups (.wf-corner, 90) — the newsletter invite fires on
+     a timer and was landing on top of an open menu — and below the search
+     overlay (100), which is desktop-only and can never be open at this width. */
+  z-index: 96;
+  background: rgba(20, 18, 16, 0.42);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.32s var(--wf-ease-out), visibility 0.32s;
+}
+.wf-drawer__scrim.is-open { opacity: 1; visibility: visible; }
+
+.wf-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 97;
+  width: min(100vw, 420px);
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 12px clamp(20px, 5vw, 32px) 24px;
   background: var(--wf-cream);
+  transform: translateX(-100%);
+  visibility: hidden;
+  transition: transform 0.34s var(--wf-ease-out), visibility 0.34s;
+  overscroll-behavior: contain;
+}
+.wf-drawer.is-open { transform: translateX(0); visibility: visible; }
+
+/* Header row: the wordmark at the root, a BACK control once a panel is open. */
+.wf-drawer__top {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: var(--wf-header-h);
+  padding: 0 clamp(16px, 4vw, 24px);
   border-bottom: 1px solid var(--wf-border);
 }
-.wf-mobile-menu a {
+.wf-drawer__back,
+.wf-drawer__close {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 0;
+  font-family: var(--wf-font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--wf-accent-ink);
+}
+.wf-drawer__close { padding: 8px; margin-right: -8px; }
+
+.wf-drawer__body {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+.wf-drawer__panel {
+  display: flex;
+  flex-direction: column;
+  padding: 6px clamp(16px, 4vw, 24px) 20px;
+  animation: wf-drawer-in 0.3s var(--wf-ease-out) both;
+}
+.wf-drawer__panel--back { animation-name: wf-drawer-in-back; }
+@keyframes wf-drawer-in {
+  from { transform: translateX(26%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes wf-drawer-in-back {
+  from { transform: translateX(-26%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wf-drawer { transition: none; }
+  .wf-drawer__scrim { transition: none; }
+  .wf-drawer__panel { animation: none; }
+}
+
+.wf-drawer__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--wf-divider);
+  cursor: pointer;
+  text-align: left;
+  text-decoration: none;
+  padding: 15px 0;
+  font-family: var(--wf-font-sans);
+  /* "Групите и подгрупите да бидат болдирани како кај нив (фонтот)" — the
+     reference sets its menu in bold; ours was a 500 weight. */
+  font-size: 15.5px;
+  font-weight: 700;
+  color: var(--wf-ink-900);
+}
+.wf-drawer__row > svg { flex: none; color: var(--wf-ink-500); }
+.wf-drawer__row--lead { color: var(--wf-accent-ink); }
+.wf-drawer__heading {
+  padding: 22px 0 6px;
+  font-family: var(--wf-font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--wf-ink-500);
+}
+
+/* Pinned foot — phone, the MK/EN pair the client asked to keep, and the CTA. */
+.wf-drawer__foot {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 16px clamp(16px, 4vw, 24px) calc(18px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--wf-border);
+  background: var(--wf-cream);
+}
+.wf-drawer__phone {
   text-decoration: none;
   font-family: var(--wf-font-sans);
-  font-size: 17px;
-  font-weight: 500;
-  color: var(--wf-ink-900);
-  padding: 12px 0;
-  border-bottom: 1px solid var(--wf-divider);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--wf-accent-ink);
 }
+.wf-drawer__foot > *:last-child { width: 100%; }
 
 /* ── About mega-menu (desktop dropdown) ───────────────────── */
 .wf-megamenu { position: relative; display: inline-flex; }
@@ -1157,6 +1469,63 @@
    they get their accent on hover instead. */
 .wf-expmenu__link-only { color: var(--wf-ink-900); }
 
+/* ── In-page section rail (region / destination / experience pages) ──
+   Restates, as CSS, the inline styles these three pages each carried their own
+   copy of — desktop appearance is unchanged. Mobile then diverges per the
+   client's brief: the labels go black rather than grey ("да се болдираат во
+   тулбарот опциите" — they read as thin against the reference's solid black),
+   and the rail scrolls in one line instead of wrapping onto two. */
+.wf-pagetabs {
+  position: sticky;
+  top: var(--wf-header-h);
+  z-index: 40;
+  background: var(--wf-cream);
+  border-bottom: 1px solid var(--wf-border);
+}
+.wf-pagetabs__row {
+  display: flex;
+  justify-content: center;
+  gap: clamp(20px, 4vw, 44px);
+  flex-wrap: wrap;
+  padding-block: 18px;
+}
+.wf-pagetabs__link {
+  text-decoration: none;
+  font-family: var(--wf-font-sans);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--wf-ink-700);
+  transition: color 0.2s var(--wf-ease-out);
+}
+.wf-pagetabs__link--on {
+  color: var(--wf-accent-ink);
+  border-bottom: 2px solid var(--wf-coral-500);
+  padding-bottom: 4px;
+}
+.wf-pagetabs__link:hover { color: var(--wf-ink-900); }
+
+@media (max-width: 860px) {
+  /* One line that scrolls. Centring a scroll container puts its first item out
+     of reach, so the row starts at the leading edge once it can overflow; the
+     row is also the .wf-wrap, so its own padding-inline is the gutter the
+     first and last tabs come to rest against. */
+  .wf-pagetabs__row {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .wf-pagetabs__row::-webkit-scrollbar { display: none; }
+  .wf-pagetabs__link {
+    flex: 0 0 auto;
+    /* Black, not grey — the accent stays on the active tab's underline. */
+    color: var(--wf-ink-900);
+  }
+}
+
 /* ── Experiences hub in-page toolbar ──────────────────────────────
    A sticky tab rail under the site header carrying the same three entries as
    the Experiences mega-menu. Scrolls horizontally on narrow screens rather
@@ -1281,40 +1650,64 @@
 }
 .wf-expmenu__link-only:hover { color: var(--wf-accent-ink); }
 
-/* ── About mega-menu (mobile accordion, inside .wf-mobile-menu) ── */
-.wf-mobile-about__toggle {
+/* ── "How it all works" — phone step media ────────────────────────
+   The pinned desktop stage pairs each step with a full-height photograph; the
+   stacked fallback dropped it entirely. Phones get it back above the copy, with
+   the step number set into the corner as the reference does. */
+.wf-processstack__media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  margin: 0 0 18px;
+  border-radius: var(--wf-radius-md);
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+}
+.wf-processstack__no {
+  position: absolute;
+  right: 14px;
+  bottom: 6px;
+  font-family: var(--wf-font-display);
+  font-weight: 500;
+  font-size: 64px;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.92);
+  /* The photographs are not uniformly dark, so the numeral carries its own
+     shadow rather than the card carrying a scrim over the whole image. */
+  text-shadow: 0 2px 18px rgba(14, 42, 51, 0.55);
+}
+
+/* ── "Why not do it yourself" — phone accordion ───────────────────
+   Markup in src/components/about/WhySplit.tsx (WhyStack, collapsible). Only
+   phones render the toggle, so none of this can reach the desktop layouts. */
+.wf-whystack__toggle {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 14px;
   width: 100%;
+  padding: 0;
   background: none;
   border: none;
   cursor: pointer;
-  font-family: var(--wf-font-sans);
-  font-size: 17px;
-  font-weight: 500;
-  color: var(--wf-ink-900);
-  padding: 12px 0;
-  border-bottom: 1px solid var(--wf-divider);
+  color: inherit;
+  text-align: left;
 }
-.wf-mobile-about__panel {
+.wf-whystack__head {
   display: flex;
-  flex-direction: column;
-  padding: 4px 0 8px 14px;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
 }
-.wf-mobile-about__group {
-  font-family: var(--wf-font-sans);
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  color: var(--wf-accent-ink);
-  padding: 12px 0 4px;
+.wf-whystack__reveal {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.32s var(--wf-ease-out);
 }
-.wf-mobile-about__panel a {
-  font-size: 15.5px;
-  font-weight: 400;
-  padding: 9px 0;
+.wf-whystack__reveal.is-open { grid-template-rows: 1fr; }
+.wf-whystack__reveal > div { overflow: hidden; }
+@media (prefers-reduced-motion: reduce) {
+  .wf-whystack__reveal { transition: none; }
 }
 
 /* ── About: masthead (big word + lead, image overlapping the seam) ── */
@@ -1364,12 +1757,27 @@
 .wf-about-masthead__lead {
   padding-top: clamp(16px, 4vw, 56px);
 }
+/* Restated from the inline styles these carried, unchanged: on a wide screen
+   the lead is inside the band, so it is set light-on-dark. */
+.wf-about-masthead__lead h1 { color: var(--wf-text-on-dark); }
+.wf-about-masthead__lead p { color: rgba(244, 239, 231, 0.95); }
+
 @media (max-width: 860px) {
   .wf-about-masthead { --mh-img: 100%; }
   .wf-about-masthead__band { height: clamp(260px, 72vw, 420px); }
   .wf-about-masthead__word { white-space: normal; font-size: clamp(44px, 14vw, 92px); }
   .wf-about-masthead__grid { grid-template-columns: 1fr; gap: 24px; }
   .wf-about-masthead__lead { padding-top: 0; }
+
+  /* Stacked, the lead follows a full-width 4:5 portrait and so begins roughly
+     580px down — well past the foot of the band, on white. Light type was
+     invisible there (the client's arrow on page 14 of the mobile brief). Ink
+     on white is what the reference does at this width too. */
+  .wf-about-masthead__lead h1 { color: var(--wf-ink-900); }
+  .wf-about-masthead__lead p { color: var(--wf-ink-700); }
+  /* The eyebrow is <Eyebrow tone="light">, which sets its colour inline from
+     the component's own tone map — so this one needs !important to win. */
+  .wf-about-masthead__lead > :first-child { color: var(--wf-accent-ink) !important; }
 }
 
 /* ── About: alternating image / text row ──────────────────── */

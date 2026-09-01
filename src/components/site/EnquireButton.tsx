@@ -8,6 +8,9 @@ import { useRouter } from "@/i18n/navigation";
  * Pass `trip` (a slug) to carry the trip through as well — the enquiry page
  * shows its summary card and presets the destination from it.
  * Safe to drop into server components.
+ *
+ * `className` reaches the Button itself — it is how a CTA opts into
+ * `.wf-cta-mono`, the mobile black-and-white treatment.
  */
 export function EnquireButton({
   children = "Enquire now",
@@ -16,6 +19,7 @@ export function EnquireButton({
   variant = "primary",
   size = "md",
   fullWidth = false,
+  className,
 }: {
   children?: React.ReactNode;
   destination?: string;
@@ -23,6 +27,7 @@ export function EnquireButton({
   variant?: ButtonVariant;
   size?: ButtonSize;
   fullWidth?: boolean;
+  className?: string;
 }) {
   const router = useRouter();
   const go = () => {
@@ -33,7 +38,7 @@ export function EnquireButton({
     router.push(qs ? `/make-an-enquiry?${qs}` : "/make-an-enquiry");
   };
   return (
-    <Button variant={variant} size={size} fullWidth={fullWidth} onClick={go}>
+    <Button variant={variant} size={size} fullWidth={fullWidth} className={className} onClick={go}>
       {children}
     </Button>
   );

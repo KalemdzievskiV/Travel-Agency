@@ -36,6 +36,13 @@ export function AboutMasthead({
             <ParallaxMedia grad={grad} image={image} ratio="4 / 5" amount={28} />
           </div>
           <div className="wf-about-masthead__lead">
+            {/* The three colours live in .wf-about-masthead__lead (responsive
+                .css) rather than inline. On desktop the lead sits inside the
+                tonal band and is set light-on-dark; below 860px the grid
+                stacks, which pushes the lead past the foot of the band onto
+                white — where light type was invisible ("да се реши текстот да
+                се чита"). CSS can flip it to ink there; an inline colour
+                cannot. */}
             <Eyebrow tone="light">{eyebrow}</Eyebrow>
             <h1
               style={{
@@ -45,7 +52,6 @@ export function AboutMasthead({
                 lineHeight: 1.06,
                 letterSpacing: "-0.02em",
                 margin: "16px 0 0",
-                color: "var(--wf-text-on-dark)",
               }}
             >
               {title}
@@ -55,7 +61,6 @@ export function AboutMasthead({
                 style={{
                   fontSize: "clamp(15px, 1.8vw, 18px)",
                   lineHeight: 1.65,
-                  color: "rgba(244,239,231,0.95)",
                   margin: "18px 0 0",
                   maxWidth: 460,
                   whiteSpace: "pre-line",

@@ -242,7 +242,7 @@ export default async function TripPage({
             <p style={{ fontSize: "clamp(15px, 1.9vw, 17px)", lineHeight: 1.7, color: "rgba(245,245,245,0.85)", maxWidth: 620, margin: "16px auto clamp(24px, 4vw, 32px)" }}>
               {t("makeYoursBody")}
             </p>
-            <EnquireButton trip={trip.slug} destination={destinations[0]?.title} size="lg">
+            <EnquireButton trip={trip.slug} destination={destinations[0]?.title} size="lg" className="wf-cta-mono--light">
               {tCommon("planMyTrip")}
             </EnquireButton>
           </div>
@@ -263,7 +263,7 @@ export default async function TripPage({
             <div style={{ marginBottom: 36 }}>
               <SectionHead eyebrow={t("onThisJourney")} title={t("suggestedStay")} />
             </div>
-            <HotelGrid items={suggestedHotels} />
+            <HotelGrid items={suggestedHotels} scrollOnMobile />
           </div>
         </section>
       )}

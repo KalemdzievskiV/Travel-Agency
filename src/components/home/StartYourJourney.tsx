@@ -99,7 +99,13 @@ export function StartYourJourney({ tabs }: { tabs: JourneyTab[] }) {
         </div>
 
         {/* Cards */}
-        <div className={`wf-journey-grid${current.cards.length > 6 ? " wf-journey-grid--six" : ""}`}>
+        {/* The tab key rides along as a class so each tab can take its own
+            phone layout — the client asked for three different ones (banners,
+            a swipe row, small month tiles) where all three shared a grid.
+            Desktop reads only the first two classes and is unchanged. */}
+        <div
+          className={`wf-journey-grid${current.cards.length > 6 ? " wf-journey-grid--six" : ""} wf-journey-grid--${current.key}`}
+        >
           {current.cards.map((c, i) => (
             <motion.div
               key={`${current.key}-${c.label}`}

@@ -92,15 +92,23 @@ export function pageBoard(i: number) {
  *
  * Sharpness is no longer the constraint it was — the boards are vectors now
  * (see `pageBoards`), so they rasterise at whatever size the band asks for.
+ *
+ * All four values are read through custom properties with the desktop
+ * behaviour as the fallback. This is what lets the mobile brief's "да не биде
+ * кич" be a media query rather than an edit to ~30 call sites: these are
+ * spread into inline `style`, which can't carry one. `responsive.css` restates
+ * the four on `:root` below 860px — one right-anchored board, drawn once at
+ * the top of the band instead of tiling down it. Desktop never sees the vars,
+ * so it takes the fallbacks and is unchanged.
  */
 export function pageBackdrop(i: number) {
   const board = pageBoards[i % pageBoards.length];
   return {
     backgroundColor: "var(--wf-cream)",
-    backgroundImage: `url(${board.src})`,
-    backgroundSize: "100% auto",
-    backgroundPosition: board.position,
-    backgroundRepeat: "repeat-y",
+    backgroundImage: `var(--wf-board-img, url(${board.src}))`,
+    backgroundSize: "var(--wf-board-size, 100% auto)",
+    backgroundPosition: `var(--wf-board-pos, ${board.position})`,
+    backgroundRepeat: "var(--wf-board-repeat, repeat-y)",
   } as const;
 }
 

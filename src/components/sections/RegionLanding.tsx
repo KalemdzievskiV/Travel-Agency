@@ -4,6 +4,7 @@ import { Eyebrow } from "@/components/ui";
 import { Link } from "@/i18n/navigation";
 import { CountryGrid } from "@/components/sections/CountryGrid";
 import { pageBackdrop } from "@/content/media";
+import { PageTabs } from "./PageTabs";
 import { RegionExperienceFinder } from "@/components/sections/RegionExperienceFinder";
 import type { Region } from "@/db/schema";
 import type { Destination } from "@/content/types";
@@ -22,16 +23,6 @@ export async function RegionLanding({
 }) {
   const t = await getTranslations("regionPage");
   const tn = await getTranslations("nav");
-
-  const subLink: React.CSSProperties = {
-    textDecoration: "none",
-    fontFamily: "var(--wf-font-sans)",
-    fontSize: 13,
-    fontWeight: 700,
-    letterSpacing: "0.14em",
-    textTransform: "uppercase",
-    color: "var(--wf-ink-700)",
-  };
 
   return (
     <>
@@ -78,26 +69,14 @@ export async function RegionLanding({
       </section>
 
       {/* Section nav (centred), sticky under the header */}
-      <div
-        style={{
-          position: "sticky",
-          top: "var(--wf-header-h)",
-          zIndex: 40,
-          background: "var(--wf-cream)",
-          borderBottom: "1px solid var(--wf-border)",
-        }}
-      >
-        <nav
-          className="wf-wrap wf-wrap--wide"
-          style={{ display: "flex", justifyContent: "center", gap: "clamp(20px, 4vw, 44px)", flexWrap: "wrap", paddingBlock: 18 }}
-        >
-          <a href="#overview" style={{ ...subLink, color: "var(--wf-accent-ink)", borderBottom: "2px solid var(--wf-coral-500)", paddingBottom: 4 }}>
-            {t("overview")}
-          </a>
-          <a href="#countries" style={subLink}>{t("countries")}</a>
-          <Link href="/trip-finder" style={subLink}>{tn("tripFinder")}</Link>
-        </nav>
-      </div>
+      <PageTabs
+        label={region.label}
+        tabs={[
+          { label: t("overview"), href: "#overview", active: true },
+          { label: t("countries"), href: "#countries" },
+          { label: tn("tripFinder"), href: "/trip-finder" },
+        ]}
+      />
 
       {/* Breadcrumb — below the bar */}
       <div className="wf-wrap wf-wrap--wide" style={{ paddingTop: 16, fontSize: 12.5, color: "var(--wf-ink-500)" }}>

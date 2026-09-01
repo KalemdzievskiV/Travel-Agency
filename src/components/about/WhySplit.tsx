@@ -8,7 +8,7 @@ import {
   useMotionValueEvent,
   useReducedMotion,
 } from "motion/react";
-import { ChevronRight, Clock, Lightbulb, Wallet, ShieldCheck, BadgeCheck } from "lucide-react";
+import { ChevronDown, ChevronRight, Clock, Lightbulb, Wallet, ShieldCheck, BadgeCheck } from "lucide-react";
 import { Eyebrow } from "@/components/ui";
 import { useIsDesktop } from "./useIsDesktop";
 import type { WhyTopic } from "@/content/about";
@@ -47,7 +47,19 @@ export function WhySplit({
   // SSR and first client paint render the stacked layout (isDesktop === null),
   // so hydration matches; wide + motion screens upgrade to the pinned stage.
   if (!isDesktop || reduced) {
-    return <WhyStack eyebrow={eyebrow} title={title} intro={intro} topics={topics} />;
+    return (
+      <WhyStack
+        eyebrow={eyebrow}
+        title={title}
+        intro={intro}
+        topics={topics}
+        // Only an actual narrow screen collapses the topics. `null` is SSR and
+        // the first paint, and `true` is a wide screen that asked for reduced
+        // motion — both keep the expanded cards they render today, so nothing
+        // above 980px changes appearance.
+        collapsible={isDesktop === false}
+      />
+    );
   }
   return <WhyPinned eyebrow={eyebrow} title={title} intro={intro} topics={topics} />;
 }
@@ -245,7 +257,28 @@ function WhyPinned({ eyebrow, title, intro, topics }: { eyebrow: string; title: 
 }
 
 /* ── Mobile / SSR / reduced-motion: accessible stacked layout ─────── */
-function WhyStack({ eyebrow, title, intro, topics }: { eyebrow: string; title: string; intro: string; topics: WhyTopic[] }) {
+/**
+ * `collapsible` turns the five topics into an accordion — the client's note on
+ * page 16 of the mobile brief: "да не бидат вака сувопарни него со опаѓачко
+ * мени како кај нив". Five fully-expanded coloured panels is most of a phone
+ * screen each; the reference collapses them to a titled row you open. Only
+ * phones pass it, so the SSR and reduced-motion renders are untouched.
+ */
+function WhyStack({
+  eyebrow,
+  title,
+  intro,
+  topics,
+  collapsible = false,
+}: {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  topics: WhyTopic[];
+  collapsible?: boolean;
+}) {
+  // First topic open, so the section never reads as a wall of shut drawers.
+  const [open, setOpen] = React.useState(0);
   return (
     <section style={{ ...pageBackdrop(0), padding: "var(--wf-page-top) 0 clamp(48px, 8vw, 80px)" }}>
       <div className="wf-wrap wf-wrap--wide">
@@ -260,6 +293,22 @@ function WhyStack({ eyebrow, title, intro, topics }: { eyebrow: string; title: s
         <div style={{ display: "grid", gap: "clamp(28px, 6vw, 44px)", marginTop: "clamp(40px, 8vw, 64px)" }}>
           {topics.map((t, i) => {
             const Icon = TOPIC_ICONS[i] ?? TOPIC_ICONS[0];
+            const isOpen = !collapsible || open === i;
+            const heading = (
+              <h2
+                style={{
+                  fontFamily: "var(--wf-font-display)",
+                  fontWeight: 500,
+                  fontSize: "clamp(24px, 6vw, 32px)",
+                  lineHeight: 1.1,
+                  letterSpacing: "-0.02em",
+                  margin: collapsible ? 0 : "16px 0 0",
+                  textAlign: "left",
+                }}
+              >
+                {t.title}
+              </h2>
+            );
             return (
               <article
                 key={t.nav}
@@ -270,22 +319,43 @@ function WhyStack({ eyebrow, title, intro, topics }: { eyebrow: string; title: s
                   padding: "clamp(28px, 7vw, 40px)",
                 }}
               >
-                <Icon size={36} strokeWidth={1.25} aria-hidden style={{ opacity: 0.9 }} />
-                <h2
-                  style={{
-                    fontFamily: "var(--wf-font-display)",
-                    fontWeight: 500,
-                    fontSize: "clamp(24px, 6vw, 32px)",
-                    lineHeight: 1.1,
-                    letterSpacing: "-0.02em",
-                    margin: "16px 0 0",
-                  }}
-                >
-                  {t.title}
-                </h2>
-                <p style={{ fontSize: 17, lineHeight: 1.7, margin: "12px 0 0", opacity: 0.92, whiteSpace: "pre-line" }}>
-                  {t.body}
-                </p>
+                {collapsible ? (
+                  <button
+                    type="button"
+                    className="wf-whystack__toggle"
+                    aria-expanded={isOpen}
+                    onClick={() => setOpen((prev) => (prev === i ? -1 : i))}
+                  >
+                    <span className="wf-whystack__head">
+                      <Icon size={30} strokeWidth={1.25} aria-hidden style={{ opacity: 0.9, flex: "none" }} />
+                      {heading}
+                    </span>
+                    <ChevronDown
+                      size={22}
+                      strokeWidth={1.5}
+                      aria-hidden
+                      style={{
+                        flex: "none",
+                        transform: isOpen ? "rotate(180deg)" : "none",
+                        transition: "transform .25s var(--wf-ease-out)",
+                      }}
+                    />
+                  </button>
+                ) : (
+                  <>
+                    <Icon size={36} strokeWidth={1.25} aria-hidden style={{ opacity: 0.9 }} />
+                    {heading}
+                  </>
+                )}
+                {/* Grid-rows 0fr→1fr animates a height the content decides,
+                    which `height: auto` cannot. */}
+                <div className={`wf-whystack__reveal${isOpen ? " is-open" : ""}`} aria-hidden={!isOpen}>
+                  <div>
+                    <p style={{ fontSize: 17, lineHeight: 1.7, margin: "12px 0 0", opacity: 0.92, whiteSpace: "pre-line" }}>
+                      {t.body}
+                    </p>
+                  </div>
+                </div>
               </article>
             );
           })}

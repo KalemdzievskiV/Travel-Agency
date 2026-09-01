@@ -94,7 +94,14 @@ export function Button({
   };
 
   const variants: Record<ButtonVariant, React.CSSProperties> = {
-    primary: { background: "var(--wf-accent)", color: "var(--wf-text-on-accent-white)" },
+    // Routed through element-scoped custom properties so a class can restate
+    // them under a media query — `.wf-cta-mono` turns this button black-and-
+    // white on mobile, per the client, without touching desktop or any button
+    // that doesn't opt in. The fallbacks are the unchanged desktop appearance.
+    primary: {
+      background: "var(--wf-btn-bg, var(--wf-accent))",
+      color: "var(--wf-btn-fg, var(--wf-text-on-accent-white))",
+    },
     dark: { background: "var(--wf-ink-900)", color: "var(--wf-text-on-dark)" },
     outline: {
       background: "transparent",
@@ -123,11 +130,18 @@ export function Button({
     ButtonVariant,
     (el: HTMLElement, on: boolean) => void
   > = {
-    // Invert on hover: white background, accent text + border.
+    // Invert on hover: white background, accent text + border. Reads the same
+    // vars as the resting state so `.wf-cta-mono` inverts to ink, not accent.
     primary: (el, on) => {
-      el.style.background = on ? "#fff" : "var(--wf-accent)";
-      el.style.color = on ? "var(--wf-accent-ink)" : "var(--wf-text-on-accent-white)";
-      el.style.borderColor = on ? "var(--wf-accent-ink)" : "transparent";
+      el.style.background = on
+        ? "var(--wf-btn-bg-hover, #fff)"
+        : "var(--wf-btn-bg, var(--wf-accent))";
+      el.style.color = on
+        ? "var(--wf-btn-fg-hover, var(--wf-accent-ink))"
+        : "var(--wf-btn-fg, var(--wf-text-on-accent-white))";
+      el.style.borderColor = on
+        ? "var(--wf-btn-bd-hover, var(--wf-accent-ink))"
+        : "transparent";
     },
     // Invert on hover: white background, dark text + border.
     dark: (el, on) => {

@@ -91,10 +91,21 @@ export function ExperienceCarousel({
         // Longhands only — the flat colour stays as the base so the band still
         // reads if the backdrop is missing.
         backgroundColor: dark ? "var(--wf-ink-900)" : "var(--wf-cream)",
-        backgroundImage: backgroundImage ? `url(${backgroundImage})` : undefined,
-        backgroundSize: "cover",
-        backgroundPosition,
-        backgroundRepeat: "no-repeat",
+        // The light band takes the same mobile treatment as every other
+        // line-art section (see the --wf-board-* block in responsive.css): one
+        // board in the top-right corner rather than a full-bleed cover. The
+        // dark band is a photographic blur, not line-work, so it opts out and
+        // keeps covering the section at every width.
+        backgroundImage: backgroundImage
+          ? dark
+            ? `url(${backgroundImage})`
+            : `var(--wf-board-img, url(${backgroundImage}))`
+          : undefined,
+        backgroundSize: dark ? "cover" : "var(--wf-board-size, cover)",
+        backgroundPosition: dark
+          ? backgroundPosition
+          : `var(--wf-board-pos, ${backgroundPosition})`,
+        backgroundRepeat: dark ? "no-repeat" : "var(--wf-board-repeat, no-repeat)",
         color: dark ? "var(--wf-text-on-dark)" : "var(--wf-ink-900)",
         // Tightened from clamp(52px, 7vw, 88px) — the client asked for the dark
         // band to be narrowed where there was room.

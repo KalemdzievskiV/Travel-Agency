@@ -10,6 +10,7 @@ import { EnquireButton } from "@/components/site/EnquireButton";
 import { FaqAccordion } from "@/components/sections/FaqAccordion";
 import { getExperienceCategoryBySlug } from "@/lib/queries/experiences";
 import { backdrop, pageBackdrop } from "@/content/media";
+import { PageTabs } from "@/components/sections/PageTabs";
 
 export async function generateMetadata({
   params,
@@ -34,15 +35,6 @@ export default async function ExperienceCategoryPage({
   const t = await getTranslations("experiencesPage");
   const tc = await getTranslations("common");
 
-  const subLink: React.CSSProperties = {
-    textDecoration: "none",
-    fontFamily: "var(--wf-font-sans)",
-    fontSize: 13,
-    fontWeight: 700,
-    letterSpacing: "0.14em",
-    textTransform: "uppercase",
-    color: "var(--wf-ink-700)",
-  };
   const crumb: React.CSSProperties = { color: "var(--wf-ink-500)", textDecoration: "underline", textUnderlineOffset: "2px" };
   const anchorPad = { scrollMarginTop: "calc(var(--wf-header-h) + 66px)" } as React.CSSProperties;
 
@@ -115,13 +107,14 @@ export default async function ExperienceCategoryPage({
       </section>
 
       {/* Sticky tab nav */}
-      <div style={{ position: "sticky", top: "var(--wf-header-h)", zIndex: 40, background: "var(--wf-cream)", borderBottom: "1px solid var(--wf-border)" }}>
-        <nav className="wf-wrap wf-wrap--wide" style={{ display: "flex", justifyContent: "center", gap: "clamp(20px, 4vw, 44px)", flexWrap: "wrap", paddingBlock: 18 }}>
-          <a href="#concept" style={{ ...subLink, color: "var(--wf-accent-ink)", borderBottom: "2px solid var(--wf-coral-500)", paddingBottom: 4 }}>{t("concept")}</a>
-          <a href="#recommendations" style={subLink}>{t("recommendations")}</a>
-          {c.faqs.length > 0 && <a href="#faqs" style={subLink}>{t("faqs")}</a>}
-        </nav>
-      </div>
+      <PageTabs
+        label={c.title}
+        tabs={[
+          { label: t("concept"), href: "#concept", active: true },
+          { label: t("recommendations"), href: "#recommendations" },
+          ...(c.faqs.length > 0 ? [{ label: t("faqs"), href: "#faqs" }] : []),
+        ]}
+      />
 
       {/* Breadcrumb */}
       <div className="wf-wrap wf-wrap--wide" style={{ paddingTop: 16, fontSize: 12.5, color: "var(--wf-ink-500)" }}>
