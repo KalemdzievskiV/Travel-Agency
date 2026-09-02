@@ -41,10 +41,10 @@ function ValuesHead({ title, intro }: { title: string; intro: string }) {
       <h2
         style={{
           fontFamily: "var(--wf-font-display)",
-          fontWeight: 500,
+          fontWeight: 400,
           fontSize: "clamp(44px, 8vw, 104px)",
           lineHeight: 0.95,
-          letterSpacing: "-0.02em",
+          letterSpacing: "-0.01em",
           textTransform: "uppercase",
           color: "var(--wf-values-heading)",
           margin: 0,

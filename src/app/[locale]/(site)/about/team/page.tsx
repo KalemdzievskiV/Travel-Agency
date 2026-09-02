@@ -36,7 +36,7 @@ export default async function TeamPage({
         grad="linear-gradient(135deg,#5a6b86,#16130f)"
       />
 
-      <section style={{ ...pageBackdrop(0), padding: "clamp(64px, 9vw, 112px) 0" }}>
+      <section style={{ ...pageBackdrop("d3"), padding: "clamp(64px, 9vw, 112px) 0" }}>
         <div className="wf-wrap wf-wrap--wide">
           <div className="wf-grid wf-grid-4">
             {team.map((m, i) => (

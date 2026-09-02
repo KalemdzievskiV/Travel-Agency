@@ -87,25 +87,25 @@ export function HomeHero() {
           textAlign: "center",
         }}
       >
-        <h1
-          style={{
-            fontFamily: "var(--wf-font-display)",
-            fontWeight: 500,
-            fontSize: "clamp(40px, 8.5vw, 78px)",
-            lineHeight: 1.04,
-            letterSpacing: "-0.02em",
-            margin: "18px 0 0",
-          }}
-        >
+        {/* The brief's strongest typographic element: Oswald 400, up to 100px.
+            Regular, not medium — "тежината и карактерот треба да доаѓаат од
+            големината и condensed формата на буквите, а не од премногу дебели
+            линии". Case is left to the copy in `messages/`, which the brief
+            asks to stay sentence case: "Светот по твои правила" reads more
+            elegantly in Macedonian than the shouted version. */}
+        <h1 className="wf-h1" style={{ margin: "18px 0 0" }}>
           {t.rich("hero.title", {
             i: (chunks) => <span style={{ fontStyle: "italic" }}>{chunks}</span>,
             br: () => <br />,
           })}
         </h1>
+        {/* Subtitle is Manrope, deliberately not Oswald — the contrast between
+            the big display heading and clean, very readable secondary text is
+            the whole principle the brief borrows from Black Tomato. */}
         <p
           style={{
-            fontSize: "clamp(16px, 2.2vw, 19px)",
-            lineHeight: 1.55,
+            fontSize: "clamp(16px, 2vw, 18px)",
+            lineHeight: 1.4,
             color: "rgba(255,255,255,0.85)",
             margin: "22px auto 0",
             maxWidth: 560,

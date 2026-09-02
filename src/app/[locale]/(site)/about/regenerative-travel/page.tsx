@@ -30,7 +30,7 @@ export default async function RegenerativeTravelPage({
         grad={regenerative.grad}
       />
 
-      <section style={{ ...pageBackdrop(0), padding: "clamp(64px, 9vw, 112px) 0" }}>
+      <section style={{ ...pageBackdrop("d3"), padding: "clamp(64px, 9vw, 112px) 0" }}>
         <div className="wf-wrap wf-wrap--wide">
           <Reveal className="wf-about-row">
             <div className="wf-about-row__media">

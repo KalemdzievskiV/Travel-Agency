@@ -39,7 +39,7 @@ export default async function HotelPage({
   const images = hotel.images.length ? hotel.images : hotel.image ? [hotel.image] : [];
 
   return (
-    <section style={{ ...pageBackdrop(0), padding: "var(--wf-page-top) 0 clamp(56px, 8vw, 96px)" }}>
+    <section style={{ ...pageBackdrop("d3"), padding: "var(--wf-page-top) 0 clamp(56px, 8vw, 96px)" }}>
       <div className="wf-wrap wf-wrap--wide">
         {/* Name + meta */}
         <div style={{ textAlign: "center", maxWidth: 780, margin: "0 auto clamp(24px, 4vw, 36px)" }}>

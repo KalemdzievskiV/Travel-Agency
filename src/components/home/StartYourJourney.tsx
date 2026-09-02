@@ -42,18 +42,8 @@ export function StartYourJourney({ tabs }: { tabs: JourneyTab[] }) {
   return (
     <section style={{ background: "var(--wf-sand)", padding: "clamp(64px, 9vw, 104px) 0" }}>
       <div className="wf-wrap wf-wrap--wide">
-        <h2
-          style={{
-            fontFamily: "var(--wf-font-sans)",
-            fontWeight: 700,
-            fontSize: "clamp(18px, 2.6vw, 28px)",
-            textTransform: "uppercase",
-            letterSpacing: "0.14em",
-            color: "var(--wf-ink-900)",
-            textAlign: "center",
-            margin: 0,
-          }}
-        >
+        {/* "Започнете го вашето патување" — a main section heading. */}
+        <h2 className="wf-h2" style={{ color: "var(--wf-ink-900)", textAlign: "center", margin: 0 }}>
           {tr("journey.heading")}
         </h2>
 
@@ -83,10 +73,10 @@ export function StartYourJourney({ tabs }: { tabs: JourneyTab[] }) {
                   cursor: "pointer",
                   padding: "6px 0",
                   fontFamily: "var(--wf-font-sans)",
-                  fontSize: 13,
-                  fontWeight: 700,
+                  fontSize: "var(--wf-filter-size)",
+                  fontWeight: 600,
                   textTransform: "uppercase",
-                  letterSpacing: "0.14em",
+                  letterSpacing: "var(--wf-filter-tracking)",
                   color: on ? "var(--wf-ink-900)" : "var(--wf-ink-500)",
                   borderBottom: `2px solid ${on ? "var(--wf-coral-500)" : "transparent"}`,
                   transition: "color .2s var(--wf-ease-out)",

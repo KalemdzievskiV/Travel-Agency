@@ -4,7 +4,7 @@ import { Eyebrow } from "@/components/ui";
 import { DestinationGrid } from "@/components/sections/DestinationGrid";
 import { TripGrid } from "@/components/sections/TripGrid";
 import { getOnSaleDestinations, getOnSaleTrips } from "@/lib/queries/public";
-import { pageBackdrop } from "@/content/media";
+import { plainBand } from "@/content/media";
 
 export const metadata: Metadata = {
   title: "On sale",
@@ -51,7 +51,7 @@ export default async function OnSalePage({
   return (
     <section
       style={{
-        ...pageBackdrop(0),
+        ...plainBand,
         padding: "var(--wf-page-top) 0 clamp(48px, 8vw, 96px)",
         minHeight: "100vh",
       }}
@@ -62,10 +62,10 @@ export default async function OnSalePage({
           <h1
             style={{
               fontFamily: "var(--wf-font-display)",
-              fontWeight: 500,
+              fontWeight: 400,
               fontSize: "clamp(30px, 5vw, 48px)",
-              letterSpacing: "-0.02em",
-              lineHeight: 1.08,
+              letterSpacing: "0",
+              lineHeight: 1.05,
               margin: "14px 0 0",
               color: "var(--wf-ink-900)",
               textWrap: "balance",

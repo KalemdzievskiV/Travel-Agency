@@ -92,9 +92,12 @@ function Price({ value, label }: { value: string; label: string }) {
     <span
       style={{
         fontFamily: "var(--wf-font-sans)",
-        // 13 → 15 → 17 → 21: the client has asked four times for this to read
-        // larger. It is the one number on the card.
-        fontSize: 21,
+        // 13 → 15 → 17 → 21 → 18: the client asked four times for this to read
+        // larger, then the type brief capped prices at 15–18px. 18 is the top
+        // of that range, so this stays the one number on the card and still
+        // sits inside the spec. If it now reads too small, that is a conflict
+        // between two client notes, not a slip — raise it rather than nudging.
+        fontSize: 18,
         marginLeft: "auto",
         color: "#fff",
         textShadow: "0 1px 3px rgba(0,0,0,0.45)",
@@ -242,11 +245,8 @@ export function DestinationCard({
       >
         {region && (
           <div
+            className="wf-eyebrow"
             style={{
-              fontSize: 11,
-              fontWeight: 700,
-              letterSpacing: "0.16em",
-              textTransform: "uppercase",
               color: "var(--wf-coral-400)",
               marginBottom: 6,
             }}
@@ -267,17 +267,7 @@ export function DestinationCard({
             gap: "2px 12px",
           }}
         >
-          <div
-            style={{
-              fontFamily: "var(--wf-font-display)",
-              fontWeight: 500,
-              fontSize: 27,
-              lineHeight: 1.08,
-              letterSpacing: "-0.01em",
-            }}
-          >
-            {title}
-          </div>
+          <div className="wf-h3">{title}</div>
           {price && <Price value={price} label={t("nowFrom")} />}
         </div>
         {(meta || rating) && (

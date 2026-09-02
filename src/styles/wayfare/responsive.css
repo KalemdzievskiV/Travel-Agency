@@ -86,29 +86,23 @@
 .wf-btn-ghost-light:hover { background: #fff; color: var(--wf-ink-900); }
 
 /* ── Section backdrops on mobile ──────────────────────────────────
-   The client's most-repeated note (pages 2, 8, 9, 11, 13, 14, 15, 16): "да се
-   тргнат многу позадини вака шарено да остане само од десната страна малку" —
-   the line-art boards read as clutter at phone width, where they tile down a
-   band that can be several screens tall and the text sits on top of them.
+   The 3.1 client note here (repeated on pages 2, 8, 9, 11, 13, 14, 15, 16) was
+   "да се тргнат многу позадини вака шарено да остане само од десната страна
+   малку": at phone width four alternating tinted boards, tiling down bands
+   several screens tall, read as clutter. Below 860px every band took the same
+   board, once, in the top-right corner at two thirds width.
 
-   Below 860px every band takes the same board, drawn ONCE in the top-right
-   corner at two thirds width, instead of the four alternating boards tiling
-   full-width. That leaves the copy on clean white with a little line-work in
-   the corner, which is what the reference does. Boards 2 and 4 are anchored
-   left, so they drop out at this width entirely.
+   3.2 removed both causes rather than papering over them. The boards no longer
+   tile (D3 and D4 carry ink on their top and bottom edges, so they can't), the
+   brief cut them down to one or two short sections per page, and the new ink is
+   #EFEFEF against white where the old was #D4EAEE — there is no "шарено" left
+   to suppress. Forcing one board over the top would now override the client's
+   own page-by-page choice, so this override is gone.
 
-   Consumed by `pageBackdrop()` in src/content/media.ts and by the light
-   ExperienceCarousel band; desktop defines none of these and keeps its
-   fallbacks. Setting them on :root rather than per-section is deliberate —
-   the point of the note is that the variety itself was the problem. */
-@media (max-width: 860px) {
-  :root {
-    --wf-board-img: url("/images/background/1.svg");
-    --wf-board-size: 66% auto;
-    --wf-board-pos: right top;
-    --wf-board-repeat: no-repeat;
-  }
-}
+   `pageBackdrop()` in src/content/media.ts and the light ExperienceCarousel
+   band still read --wf-board-img / --wf-board-size / --wf-board-pos through
+   var() fallbacks. Nothing sets them; the hooks stay so the next mobile note is
+   one rule here again rather than an edit to ~30 call sites. */
 
 /* ── Home hero CTA pair ───────────────────────────────────────────
    "Долните копчиња да дојдат во еден ред исто како кај нив" — the two hero
@@ -294,11 +288,18 @@
   text-align: center;
   padding: 16px;
   color: #fff;
-  font-family: var(--wf-font-sans);
-  font-weight: 700;
-  font-size: clamp(15px, 1.5vw, 18px);
+  /* Category names over photography — the type brief's §8: these are "поголеми
+     текстови врз фотографии", so Oswald Medium 500 at 28–36px rather than the
+     small tracked-out sans label they were. The floor drops below the brief's
+     28 because these are uppercase Macedonian words on a phone-width card
+     ("СОЛО ПАТУВАЊА"), where 28 would wrap; tracking comes right down for the
+     same reason — Oswald is condensed and does not need 0.12em to read. */
+  font-family: var(--wf-font-display);
+  font-weight: 500;
+  font-size: clamp(20px, 2.2vw, 32px);
+  line-height: 1;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.02em;
 }
 
 /* ── "Why bookit?" icon points ────────────────────────────── */
@@ -2173,3 +2174,4 @@
   -ms-user-select: text;
   user-select: text;
 }
+

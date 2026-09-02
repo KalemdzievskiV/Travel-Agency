@@ -21,10 +21,10 @@ export function StoryRow({ eyebrow, title, body, grad, image, align }: StoryRowD
         <h3
           style={{
             fontFamily: "var(--wf-font-display)",
-            fontWeight: 500,
+            fontWeight: 400,
             fontSize: "clamp(26px, 3.6vw, 36px)",
-            lineHeight: 1.1,
-            letterSpacing: "-0.02em",
+            lineHeight: 1.05,
+            letterSpacing: "0",
             margin: "14px 0 0",
             color: "var(--wf-ink-900)",
           }}

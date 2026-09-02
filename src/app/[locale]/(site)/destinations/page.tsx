@@ -5,7 +5,7 @@ import { DestinationGrid } from "@/components/sections/DestinationGrid";
 import { WorldRegionMap } from "@/components/sections/WorldRegionMap";
 import { getDestinations } from "@/lib/queries/public";
 import { getRegionsWithDestinations } from "@/lib/queries/regions";
-import { pageBackdrop } from "@/content/media";
+import { plainBand } from "@/content/media";
 
 export const metadata: Metadata = {
   title: "Destinations",
@@ -54,7 +54,9 @@ export default async function DestinationsPage({
         </div>
       </section>
 
-      <section style={{ ...pageBackdrop(0), padding: "clamp(40px, 6vw, 72px) 0 96px" }}>
+      {/* No backdrop, per 3.2: "кога ќе влеземе во сите дестинации да нема
+          позадина". The world map above is the page's decoration now. */}
+      <section style={{ ...plainBand, padding: "clamp(40px, 6vw, 72px) 0 96px" }}>
         <div className="wf-wrap wf-wrap--wide">
           {regions.length > 0 ? (
             <>
@@ -70,9 +72,9 @@ export default async function DestinationsPage({
                     <h2
                       style={{
                         fontFamily: "var(--wf-font-display)",
-                        fontWeight: 500,
+                        fontWeight: 400,
                         fontSize: "clamp(26px, 4vw, 38px)",
-                        letterSpacing: "-0.02em",
+                        letterSpacing: "0",
                         margin: "0 0 clamp(20px, 3vw, 32px)",
                         color: "var(--wf-ink-900)",
                       }}

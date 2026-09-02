@@ -110,10 +110,10 @@ export function TripsCarousel({
             <h2
               style={{
                 fontFamily: "var(--wf-font-display)",
-                fontWeight: 500,
+                fontWeight: 400,
                 fontSize: "clamp(28px, 3.2vw, 40px)",
-                lineHeight: 1.08,
-                letterSpacing: "-0.01em",
+                lineHeight: 1.05,
+                letterSpacing: "0",
                 textTransform: "uppercase",
                 color: "var(--wf-text-on-dark)",
                 margin: 0,

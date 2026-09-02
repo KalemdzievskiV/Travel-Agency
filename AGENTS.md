@@ -17,8 +17,9 @@ or changing any markup, styles, or copy, **read `.claude/skills/wayfare-design/S
 and brand voice, and points to the full reference in `Wayfare Design System/`.
 
 Quick rules: use the tokens in `src/styles/wayfare/*` and the primitives in
-`@/components/ui` — never ad-hoc hex/px. One coral accent per view. Bodoni Moda
-serif headlines + Hanken Grotesk body. British English, no emoji.
+`@/components/ui` — never ad-hoc hex/px. One coral accent per view. Two font
+families and only two, per the client's type brief: **Oswald = наслови,
+Manrope = сè останато**. British English, no emoji.
 
 **Everything must be responsive (360px → desktop).** Inline styles can't hold
 media queries: use `clamp()` for fluid type/spacing, and the `wf-*` layout classes
@@ -29,7 +30,7 @@ fixed inline `gridTemplateColumns`. Verify at ≤375px with no horizontal scroll
 ## Stack
 - Next.js 16 (App Router, Turbopack), React 19.2, TypeScript.
 - Tailwind v4 bridged to the design tokens via `@theme` in `src/app/globals.css`.
-- Fonts self-hosted with `next/font` (Bodoni Moda + Hanken Grotesk).
+- Fonts via `next/font` (Oswald 400/500 display + Manrope variable body).
 - `lucide-react` for icons; `motion` for animation; content typed in `src/content/`.
 - English only for now, but copy lives in `src/content/` so i18n (MK/SQ) can be
   added later without touching components.

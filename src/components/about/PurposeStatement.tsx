@@ -37,10 +37,10 @@ export function PurposeStatement({
           text={statement}
           style={{
             fontFamily: "var(--wf-font-display)",
-            fontWeight: 500,
+            fontWeight: 400,
             fontSize: "clamp(30px, 5.2vw, 58px)",
-            lineHeight: 1.12,
-            letterSpacing: "-0.02em",
+            lineHeight: 1.05,
+            letterSpacing: "0",
             margin: "22px auto 0",
             maxWidth: 900,
           }}

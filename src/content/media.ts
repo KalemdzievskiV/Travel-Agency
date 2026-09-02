@@ -31,86 +31,100 @@ export const backdrop = {
 } as const;
 
 /**
- * Section backdrops for the content pages (regions, destinations, trips). Four
- * artboards of contour line-work, drawn in pale turquoise (#D4EAEE) bar board
- * 2, which is the pale green (#EDF6E1) cut of the same drawing. Ordered
- * 1 / 3 / 2 / 4 so the side the line-work sits on alternates
- * right-left-right-left down the page rather than following the file
- * numbering. Use `pageBackdrop(i)` rather than reaching for these directly.
+ * Section backdrops for the content pages (regions, destinations, trips).
  *
- * **Vector, traced from the client's rasters.** They supplied these as
- * 1366×768 PNGs — a laptop screen's worth of pixels, where the set before them
- * was 2048px wide — and asked why the result looked soft. At 1366px the boards
- * are upscaled on any desktop page and doubled again on a 2× screen, and no
- * CSS fixes that. The drawings are smooth, flat-colour curves with no fine
- * detail, so they trace cleanly: `potrace` at the midpoint threshold between
- * each board's ink and white, which lands every board's stroke weight within
- * 3% of the original (measured as coverage weighted by distance from white).
- * The PNGs are kept beside them as the source the traces came from — re-trace,
- * don't hand-edit. If the client ever sends the real vector artwork, drop it
- * in over these.
+ * Revision 3.2 threw out the turquoise set and the rotation that went with it.
+ * The client sent four grey boards, D1–D4, and — this is the change that
+ * matters — a page-by-page brief saying which board goes where and, more often,
+ * where a board should no longer appear at all. Boards are chosen by name now,
+ * not by position in a page, and a section with no entry here gets plain white.
  *
- * These replace the earlier warm-beige set (bg1–bg3, still in
- * `public/images/background/` should the beige ever be wanted back).
+ * The drawings are the same contour rings as before but drawn in near-white
+ * grey: #EFEFEF ink on #FFFFFF, a six-step difference where the old boards were
+ * #D4EAEE. They cover more of the artboard (6–9%, against 3%) and read as far
+ * less. Two consequences worth knowing before reusing them:
+ *
+ * - They vanish on anything but pure white. `--wf-sand` and `--wf-cream-2` are
+ *   both #F7F7F7, closer to the ink than the ink is to the canvas, so these are
+ *   for `--wf-cream` sections only.
+ * - They cannot tile. The old boards bled off the sides and kept their top and
+ *   bottom edges near-empty, which is what made `repeat-y` invisible; D3 carries
+ *   19% ink on its top edge and 27% on its bottom, so tiling butts ring against
+ *   ring and draws a line across the band. Every board is `no-repeat` now — the
+ *   brief confines them to short sections (notes, FAQs, an intro paragraph), so
+ *   there is nothing left to tile down.
+ *
+ * **Rendered from the client's own artwork**, not traced from it. They sent both
+ * 1920×1080 PNGs and SVGs; the SVGs are Affinity exports whose line-work is a
+ * dozen PNG tiles placed 1:1 inside an 8000×4500 viewBox, so the artwork's
+ * native detail is four times the PNGs'. `scripts/render-backgrounds.mjs`
+ * rasterises those at 3840×2160 into lossless WebP (55–107 KB each). Sources
+ * live in `brand-source/backgrounds/`; re-render, don't hand-edit.
+ *
+ * This set replaces the traced turquoise boards (1–4.svg) and, before them, the
+ * warm-beige bg1–bg3 — all still in `public/images/background/`.
  */
-const pageBoards = [
-  // Each board is a 16:9 white artboard with its line-work against one edge, so
-  // it has to be anchored to that edge: centre these and the artwork can fall
-  // outside the section entirely, leaving the plain white we were asked to get
-  // rid of. The vertical half named here is the one the board's largest wave
-  // occupies — and since the boards are sized to the section's *width* (see
-  // `pageBackdrop`), that vertical keyword is the part that does the work.
-  { src: "/images/background/1.svg", position: "right top" },
-  { src: "/images/background/3.svg", position: "left top" },
-  { src: "/images/background/2.svg", position: "right bottom" },
-  { src: "/images/background/4.svg", position: "left top" },
-] as const;
+const pageBoards = {
+  /**
+   * Ring cluster off the right edge, mid-height. Home intro, flight tickets.
+   * Anchored right: its ink centroid sits at 91% across and 43% down.
+   */
+  d1: { src: "/images/background/d1.webp", position: "right center" },
+  /** One low ring, bottom left — nothing in the top two thirds. "Why bookit?", contact. */
+  d2: { src: "/images/background/d2.webp", position: "left bottom" },
+  /**
+   * The busiest of the four: clusters top-right, right, and bottom-left, so no
+   * one edge owns it. Centred, which loses the least when a short band crops it.
+   */
+  d3: { src: "/images/background/d3.webp", position: "center center" },
+  /** Two rings down the left edge, top and bottom. Notes, FAQs, the enquiry form. */
+  d4: { src: "/images/background/d4.webp", position: "left center" },
+} as const;
+
+export type BoardName = keyof typeof pageBoards;
 
 /** The board itself, for callers that compose their own background layers. */
-export function pageBoard(i: number) {
-  return pageBoards[i % pageBoards.length];
+export function pageBoard(name: BoardName) {
+  return pageBoards[name];
 }
 
 /**
- * Longhand background properties for a light section, cycling the boards by
- * position down the page so consecutive bands never repeat the same corner.
+ * Longhand background properties for a light section carrying one named board.
  * Longhands only: the white base has to stay underneath the artboard.
  *
- * `100% auto`, not `cover`. The client asked why these had gone soft and
+ * `100% auto`, not `cover`. The client asked in 3.1 why these had gone soft and
  * "развлечена", and `cover` was the answer: it scales to whichever axis needs
- * more, so a *tall* band magnifies the artwork by its height. The boards are
- * 1366×768, and the bands they sit behind are not short — the destinations
- * listing runs 10,458px, which had `cover` blowing a 768px-tall drawing up
- * 13.6× (27× on a 2× screen). Sizing to the width instead pins every band to
- * ~1.05× whatever its height, which is as sharp as a 1366px file gets on a
- * 1440px page.
+ * more, so a *tall* band magnifies the artwork by its height. Sizing to the
+ * width instead pins the board to the band's own scale, and at 3840px wide it
+ * stays sharp doing it. A band taller than 9/16 of its width simply runs out of
+ * artwork and finishes in white, which is the right failure now that boards no
+ * longer tile — see `pageBoards`.
  *
- * A band taller than the board would then run out of artwork, so the boards
- * tile down it. That works because the drawings bleed off the *sides*, not the
- * top and bottom: the top and bottom edges of all four carry 2–5% ink, in pale
- * #D4EAEE, so the seam is white meeting white nearly all the way across.
- *
- * Sharpness is no longer the constraint it was — the boards are vectors now
- * (see `pageBoards`), so they rasterise at whatever size the band asks for.
- *
- * All four values are read through custom properties with the desktop
- * behaviour as the fallback. This is what lets the mobile brief's "да не биде
- * кич" be a media query rather than an edit to ~30 call sites: these are
- * spread into inline `style`, which can't carry one. `responsive.css` restates
- * the four on `:root` below 860px — one right-anchored board, drawn once at
- * the top of the band instead of tiling down it. Desktop never sees the vars,
- * so it takes the fallbacks and is unchanged.
+ * The three variable values are what let a phone override this in a media query
+ * rather than at ~30 call sites: these are spread into inline `style`, which
+ * can't carry one. `responsive.css` currently sets none of them — the 3.1
+ * mobile note that did was answering the old tiled, tinted set — but the hooks
+ * stay so the next mobile note is one rule again.
  */
-export function pageBackdrop(i: number) {
-  const board = pageBoards[i % pageBoards.length];
+export function pageBackdrop(name: BoardName) {
+  const board = pageBoards[name];
   return {
     backgroundColor: "var(--wf-cream)",
     backgroundImage: `var(--wf-board-img, url(${board.src}))`,
     backgroundSize: "var(--wf-board-size, 100% auto)",
     backgroundPosition: `var(--wf-board-pos, ${board.position})`,
-    backgroundRepeat: "var(--wf-board-repeat, repeat-y)",
+    backgroundRepeat: "no-repeat",
   } as const;
 }
+
+/**
+ * A light section the 3.2 brief asked to strip back to plain white — the
+ * destinations listing, a country page above its notes, a programme's title
+ * block ("само кај текстот, не кај насловот"). Spelled out rather than left
+ * blank so the intent reads as a decision at the call site instead of an
+ * omission, and so the band still paints white if it ever sits over something.
+ */
+export const plainBand = { backgroundColor: "var(--wf-cream)" } as const;
 
 /** Deep-blue plaster texture behind the "why us" panels. */
 export const royalBlue = `${DIR}/Royal%20Blue%20background.png`;

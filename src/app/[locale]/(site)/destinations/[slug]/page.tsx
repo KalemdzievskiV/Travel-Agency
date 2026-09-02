@@ -18,7 +18,7 @@ import {
 } from "@/lib/queries/public";
 import { getRegionBySlug } from "@/lib/queries/regions";
 import { getHotelsForDestination } from "@/lib/queries/hotels";
-import { backdrop, pageBackdrop } from "@/content/media";
+import { backdrop, pageBackdrop, plainBand } from "@/content/media";
 import { PageTabs } from "@/components/sections/PageTabs";
 
 export async function generateMetadata(
@@ -95,10 +95,10 @@ export default async function DestinationPage(
           <h1
             style={{
               fontFamily: "var(--wf-font-display)",
-              fontWeight: 500,
+              fontWeight: 400,
               fontSize: "clamp(38px, 8vw, 68px)",
               lineHeight: 1.04,
-              letterSpacing: "-0.02em",
+              letterSpacing: "-0.01em",
               margin: "14px 0 0",
             }}
           >
@@ -137,8 +137,9 @@ export default async function DestinationPage(
         <span style={{ color: "var(--wf-ink-700)" }}>{d.title}</span>
       </div>
 
-      {/* Overview — guide body + sidebar */}
-      <section id="overview" style={{ ...pageBackdrop(0), padding: "clamp(16px, 2.4vw, 28px) 0 clamp(48px, 7vw, 72px)", scrollMarginTop: "calc(var(--wf-header-h) + 66px)" }}>
+      {/* Overview — guide body + sidebar. Plain white from 3.2: on a country
+          page the only backdrop is the one under Општи напомени, below. */}
+      <section id="overview" style={{ ...plainBand, padding: "clamp(16px, 2.4vw, 28px) 0 clamp(48px, 7vw, 72px)", scrollMarginTop: "calc(var(--wf-header-h) + 66px)" }}>
         <div className="wf-wrap" style={{ maxWidth: 980, marginInline: "auto", textAlign: "center" }}>
           <Eyebrow>{td("thePlace")}</Eyebrow>
           {/* Same caption treatment as the region intro body: small and italic
@@ -185,7 +186,7 @@ export default async function DestinationPage(
 
       {/* Where to stay (ХОТЕЛИ) */}
       {hotels.length > 0 && (
-        <section id="stays" style={{ ...pageBackdrop(1), padding: "clamp(48px, 7vw, 72px) 0 0", scrollMarginTop: "calc(var(--wf-header-h) + 66px)" }}>
+        <section id="stays" style={{ ...plainBand, padding: "clamp(48px, 7vw, 72px) 0 0", scrollMarginTop: "calc(var(--wf-header-h) + 66px)" }}>
           <div className="wf-wrap wf-wrap--wide">
             <div style={{ marginBottom: 36 }}>
               <SectionHead eyebrow={td("stays")} title={td("whereToStay")} />
@@ -195,9 +196,11 @@ export default async function DestinationPage(
         </section>
       )}
 
-      {/* General notes (ОПШТИ НАПОМЕНИ) */}
+      {/* General notes (ОПШТИ НАПОМЕНИ) — the country page's one backdrop:
+          "кога ќе влеземе во земји позадина само кај општи напомени (Д4).
+          Ова важи за сите земји." */}
       {d.generalNotes.length > 0 && (
-        <section style={{ ...pageBackdrop(2), padding: "clamp(56px, 8vw, 88px) 0 0" }}>
+        <section style={{ ...pageBackdrop("d4"), padding: "clamp(56px, 8vw, 88px) 0 0" }}>
           <div className="wf-wrap" style={{ maxWidth: 820, marginInline: "auto" }}>
             <div style={{ textAlign: "center", marginBottom: "clamp(24px, 4vw, 36px)" }}>
               <SectionHead eyebrow={td("keepExploring")} title={td("generalNotes")} align="center" />
@@ -208,7 +211,7 @@ export default async function DestinationPage(
       )}
 
       {/* More places */}
-      <section style={{ ...pageBackdrop(3), padding: "clamp(56px, 8vw, 88px) 0 clamp(64px, 9vw, 104px)" }}>
+      <section style={{ ...plainBand, padding: "clamp(56px, 8vw, 88px) 0 clamp(64px, 9vw, 104px)" }}>
         <div className="wf-wrap wf-wrap--wide">
           <div style={{ marginBottom: 36 }}>
             <SectionHead eyebrow={td("keepExploring")} title={td("morePlaces")} />

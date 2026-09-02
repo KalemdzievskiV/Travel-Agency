@@ -32,10 +32,11 @@ export default async function EnquiryPage({
   const trip = tripData?.trip;
   const presetDestination = to || tripData?.destinations[0]?.title || "";
 
+  // "Во формата позадина Д4."
   return (
     <section
       style={{
-        ...pageBackdrop(0),
+        ...pageBackdrop("d4"),
         padding: "var(--wf-page-top) 0 clamp(48px, 8vw, 96px)",
         minHeight: "100vh",
       }}

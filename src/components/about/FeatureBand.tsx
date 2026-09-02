@@ -57,10 +57,10 @@ export function FeatureBand({
           <h2
             style={{
               fontFamily: "var(--wf-font-display)",
-              fontWeight: 500,
+              fontWeight: 400,
               fontSize: "clamp(28px, 5vw, 52px)",
-              lineHeight: 1.1,
-              letterSpacing: "-0.02em",
+              lineHeight: 1.05,
+              letterSpacing: "0",
               margin: "16px auto 0",
               maxWidth: 760,
             }}

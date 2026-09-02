@@ -1,32 +1,40 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Oswald, Nunito_Sans } from "next/font/google";
+import { Oswald, Manrope } from "next/font/google";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import "../globals.css";
 
 // Display headline font — Oswald (Google Fonts), a condensed grotesque. Drives
-// every headline via --wf-font-display; body/UI stays Brandon Grotesque.
+// every headline via --wf-font-display.
+//
+// 400 and 500 only, per the type brief: "да не се користи Oswald 600/700 освен
+// ако има многу конкретна дизајнерска причина". 400 is the default for hero and
+// section headings, 500 for card and category titles. Weight on a headline is
+// meant to come from its size and Oswald's condensed shapes, not from thicker
+// strokes — so the heavier cuts are not shipped at all rather than left
+// available to drift back in.
 const display = Oswald({
   variable: "--font-display",
   subsets: ["latin", "cyrillic"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500"],
   display: "swap",
 });
 
-// Body / UI sans — Nunito Sans (Google), loaded as a variable font so the client's
-// type spec can be dialled in on its axes rather than picking a static cut:
-//   wdth 75–125 (75 = condensed, what the spec asks for)
-//   wght 200–1000 (817 for the bolder label style, 400 for everything else)
-//   YTLC 440–540 — lowercase height, the axis the spec calls "lowercase height"
-// wght ships by default; the other two must be requested explicitly. Crucially
-// this carries Cyrillic, which the previous body face did not — Macedonian text
-// was silently falling through to a system font.
-const sans = Nunito_Sans({
+// Body / UI sans — Manrope (Google), the face the type brief names for
+// everything that is not a headline: navigation, body copy, buttons, labels,
+// prices, filters, forms, footer.
+//
+// It replaces Nunito Sans, which was here for an earlier spec written around
+// that face's own axes (wdth 75 / YTLC 540). Manrope is variable on `wght`
+// alone — 200–800, so the 400/500/600/700 the brief asks for all come from one
+// file — and it carries Cyrillic, which is non-negotiable for a Macedonian
+// site. The axis token those Nunito settings needed is gone with it; see
+// globals.css.
+const sans = Manrope({
   variable: "--font-sans",
   subsets: ["latin", "latin-ext", "cyrillic"],
-  axes: ["YTLC", "opsz", "wdth"],
   display: "swap",
 });
 

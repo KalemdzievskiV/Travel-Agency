@@ -47,10 +47,10 @@ export function AboutMasthead({
             <h1
               style={{
                 fontFamily: "var(--wf-font-display)",
-                fontWeight: 500,
+                fontWeight: 400,
                 fontSize: "clamp(30px, 4.6vw, 56px)",
-                lineHeight: 1.06,
-                letterSpacing: "-0.02em",
+                lineHeight: 1.05,
+                letterSpacing: "0",
                 margin: "16px 0 0",
               }}
             >

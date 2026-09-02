@@ -79,9 +79,9 @@ export default async function ExperiencesPage({
           <h1
             style={{
               fontFamily: "var(--wf-font-display)",
-              fontWeight: 500,
+              fontWeight: 400,
               fontSize: "clamp(34px, 5.6vw, 68px)",
-              letterSpacing: "-0.02em",
+              letterSpacing: "-0.01em",
               lineHeight: 1.04,
               textTransform: "uppercase",
               margin: "14px 0 0",
@@ -120,10 +120,10 @@ export default async function ExperiencesPage({
         ]}
       />
 
-      {/* What we do */}
+      {/* What we do — "во доживувања генерално кај текстот оди позадина Д3". */}
       <section
         style={{
-          ...pageBackdrop(0),
+          ...pageBackdrop("d3"),
           // Pulled up: the client's arrow marked the gap under the tab rail.
           padding: "clamp(22px, 3.2vw, 40px) 0 clamp(16px, 3vw, 32px)",
         }}
@@ -172,8 +172,8 @@ export default async function ExperiencesPage({
       <ExperienceCarousel
         id="how"
         tone="light"
-        backgroundImage={pageBoard(1).src}
-        backgroundPosition={pageBoard(1).position}
+        backgroundImage={pageBoard("d4").src}
+        backgroundPosition={pageBoard("d4").position}
         eyebrow={tMenu("remarkable")}
         title={t("howQuestion")}
         items={remarkable}

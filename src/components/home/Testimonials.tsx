@@ -16,10 +16,10 @@ export function Testimonials({ items }: { items: Testimonial[] }) {
         <blockquote
           style={{
             fontFamily: "var(--wf-font-display)",
-            fontWeight: 500,
+            fontWeight: 400,
             fontSize: "clamp(26px, 5vw, 38px)",
-            lineHeight: 1.18,
-            letterSpacing: "-0.01em",
+            lineHeight: 1.05,
+            letterSpacing: "0",
             color: "var(--wf-ink-900)",
             margin: "24px 0 0",
           }}

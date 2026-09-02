@@ -14,7 +14,7 @@ import { getTripWithDestinations, getSimilarTrips } from "@/lib/queries/public";
 import { getHotelsForDestination } from "@/lib/queries/hotels";
 import { splitDayPrefix } from "@/lib/itinerary";
 import { months as MONTHS } from "@/content/site";
-import { backdrop, ctaPlasterPanel, pageBackdrop } from "@/content/media";
+import { backdrop, ctaPlasterPanel, pageBackdrop, plainBand } from "@/content/media";
 
 export async function generateMetadata({
   params,
@@ -144,12 +144,13 @@ export default async function TripPage({
 
   return (
     <>
-      {/* Header — title + facts row. On the client's line-art backdrop rather
-          than flat white: the whole opening of a programme read as a blank
-          sheet. Longhands only, so the white base stays under the artboard. */}
+      {/* Header — title + facts row. Back to flat white in 3.2, which reverses
+          the 3.1 note that put a board here: "во програма само кај текстот, не
+          кај насловот". The backdrop starts one section down, under the intro
+          copy and Програма. */}
       <section
         style={{
-          ...pageBackdrop(0),
+          ...plainBand,
           padding: "clamp(28px, 4vw, 44px) 0 clamp(36px, 5vw, 56px)",
           textAlign: "center",
         }}
@@ -159,10 +160,10 @@ export default async function TripPage({
           <h1
             style={{
               fontFamily: "var(--wf-font-display)",
-              fontWeight: 500,
+              fontWeight: 400,
               fontSize: "clamp(30px, 5.2vw, 52px)",
-              lineHeight: 1.06,
-              letterSpacing: "-0.01em",
+              lineHeight: 1.05,
+              letterSpacing: "0",
               textTransform: "uppercase",
               color: "var(--wf-ink-900)",
               margin: "14px 0 0",
@@ -200,9 +201,9 @@ export default async function TripPage({
         introText={t("layoutIntroPlaceholder")}
       />
 
-      {/* Important notes (ВАЖНИ НАПОМЕНИ) */}
+      {/* Important notes (ВАЖНИ НАПОМЕНИ) — D4, per 3.2. */}
       {(trip.included.length > 0 || trip.notIncluded.length > 0 || trip.visaNotes) && (
-        <section style={{ ...pageBackdrop(2), padding: "clamp(40px, 6vw, 72px) 0 clamp(48px, 7vw, 72px)" }}>
+        <section style={{ ...pageBackdrop("d4"), padding: "clamp(40px, 6vw, 72px) 0 clamp(48px, 7vw, 72px)" }}>
           <div className="wf-wrap wf-wrap--wide">
             <div style={{ marginBottom: "clamp(24px, 4vw, 40px)" }}>
               <SectionHead eyebrow={t("onThisJourney")} title={t("importantNotes")} align="center" />
@@ -221,8 +222,10 @@ export default async function TripPage({
         </section>
       )}
 
-      {/* Make this itinerary yours (enquire, pre-filled with this trip) */}
-      <section style={{ ...pageBackdrop(1), padding: "0 0 clamp(48px, 7vw, 72px)" }}>
+      {/* Make this itinerary yours (enquire, pre-filled with this trip). No
+          board: the brief names only the text and the notes on a programme,
+          and the card below carries the blue plaster of its own. */}
+      <section style={{ ...plainBand, padding: "0 0 clamp(48px, 7vw, 72px)" }}>
         <div className="wf-wrap wf-wrap--wide">
           {/* The client's blue plaster (image 21) behind this card, ink field
               underneath it so the card still reads if the texture is slow. */}
@@ -230,9 +233,9 @@ export default async function TripPage({
             <h2
               style={{
                 fontFamily: "var(--wf-font-display)",
-                fontWeight: 500,
+                fontWeight: 400,
                 fontSize: "clamp(24px, 3.6vw, 36px)",
-                letterSpacing: "-0.01em",
+                letterSpacing: "0",
                 textTransform: "uppercase",
                 margin: 0,
               }}
@@ -249,13 +252,13 @@ export default async function TripPage({
         </div>
       </section>
 
-      {/* Suggested accommodation (ПРЕДЛОГ СМЕСТУВАЊЕ) — its own line-art band,
-          a different artboard from the one at the top of the page so the two
-          light sections don't repeat the same silhouette. */}
+      {/* Suggested accommodation (ПРЕДЛОГ СМЕСТУВАЊЕ) — plain white: a
+          programme carries two boards now, D3 on the text and D4 on the
+          notes, and nothing else. */}
       {suggestedHotels.length > 0 && (
         <section
           style={{
-            ...pageBackdrop(3),
+            ...plainBand,
             padding: "clamp(40px, 6vw, 64px) 0 clamp(56px, 8vw, 88px)",
           }}
         >
@@ -273,7 +276,7 @@ export default async function TripPage({
 
       {/* Closing "view all trips" — secondary to the enquiry CTA above, so
           outline rather than accent. */}
-      <section style={{ ...pageBackdrop(1), padding: "clamp(44px, 6vw, 68px) 0 clamp(64px, 9vw, 104px)" }}>
+      <section style={{ ...plainBand, padding: "clamp(44px, 6vw, 68px) 0 clamp(64px, 9vw, 104px)" }}>
         <div className="wf-wrap wf-wrap--wide" style={{ textAlign: "center" }}>
           <Link href="/trip-finder/results" style={{ textDecoration: "none", display: "inline-block" }}>
             <Button as="span" variant="outline" size="lg">

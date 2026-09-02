@@ -78,16 +78,7 @@ export function RegionExperienceFinder({
       <div aria-hidden style={{ position: "absolute", inset: 0, background: "rgba(14,42,51,0.5)" }} />
 
       <div className="wf-wrap" style={{ position: "relative", maxWidth: 820, textAlign: "center", color: "#fff" }}>
-        <h2
-          style={{
-            fontFamily: "var(--wf-font-sans)",
-            fontWeight: 700,
-            fontSize: "clamp(18px, 3vw, 26px)",
-            textTransform: "uppercase",
-            letterSpacing: "0.14em",
-            margin: 0,
-          }}
-        >
+        <h2 className="wf-h2" style={{ margin: 0 }}>
           {t("experienceHeading")}
         </h2>
         <p

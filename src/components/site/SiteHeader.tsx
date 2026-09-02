@@ -104,9 +104,11 @@ export function SiteHeader({
   const navLinkStyle = (): React.CSSProperties => ({
     textDecoration: "none",
     fontFamily: "var(--wf-font-sans)",
-    fontSize: 13,
+    // 12px, per the brief: 13 is the stated ceiling and 14–15 "ќе се изгуби
+    // поелегантниот luxury изглед".
+    fontSize: "var(--wf-nav-size)",
     fontWeight: 700,
-    letterSpacing: "0.08em",
+    letterSpacing: "var(--wf-tracking-nav)",
     textTransform: "uppercase",
     color: dark ? "#fff" : "var(--wf-ink-900)",
     paddingBottom: 3,

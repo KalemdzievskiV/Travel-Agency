@@ -18,9 +18,10 @@ export default async function FlightTicketsPage({
   setRequestLocale(locale);
   const t = await getTranslations("flightTickets");
 
+  // "Во авиобилети позадината е Д1."
   return (
     <section style={{
-        ...pageBackdrop(2),
+        ...pageBackdrop("d1"),
         padding: "var(--wf-page-top) 0 clamp(48px, 8vw, 96px)",
         minHeight: "100vh",
       }}>

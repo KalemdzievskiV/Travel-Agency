@@ -23,10 +23,10 @@ export function ReasonsList({ reasons }: { reasons: Reason[] }) {
             <span
               style={{
                 fontFamily: "var(--wf-font-display)",
-                fontWeight: 500,
+                fontWeight: 400,
                 fontSize: "clamp(40px, 6vw, 64px)",
                 lineHeight: 1,
-                letterSpacing: "-0.02em",
+                letterSpacing: "-0.01em",
                 color: "transparent",
                 WebkitTextStroke: "1px var(--wf-ink-300)",
                 display: "block",
@@ -37,10 +37,10 @@ export function ReasonsList({ reasons }: { reasons: Reason[] }) {
             <h3
               style={{
                 fontFamily: "var(--wf-font-display)",
-                fontWeight: 500,
+                fontWeight: 400,
                 fontSize: "clamp(26px, 3.6vw, 36px)",
-                lineHeight: 1.1,
-                letterSpacing: "-0.02em",
+                lineHeight: 1.05,
+                letterSpacing: "0",
                 margin: "12px 0 0",
                 color: "var(--wf-ink-900)",
               }}

@@ -3,7 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { Eyebrow } from "@/components/ui";
 import { Link } from "@/i18n/navigation";
 import { CountryGrid } from "@/components/sections/CountryGrid";
-import { pageBackdrop } from "@/content/media";
+import { pageBackdrop, plainBand } from "@/content/media";
 import { PageTabs } from "./PageTabs";
 import { RegionExperienceFinder } from "@/components/sections/RegionExperienceFinder";
 import type { Region } from "@/db/schema";
@@ -56,10 +56,10 @@ export async function RegionLanding({
           <h1
             style={{
               fontFamily: "var(--wf-font-display)",
-              fontWeight: 500,
+              fontWeight: 400,
               fontSize: "clamp(38px, 7vw, 68px)",
               lineHeight: 1.04,
-              letterSpacing: "-0.02em",
+              letterSpacing: "-0.01em",
               margin: "14px 0 0",
             }}
           >
@@ -92,20 +92,12 @@ export async function RegionLanding({
       </div>
 
       {/* Overview — sits straight under the breadcrumb, per the client: these
-          opening blocks should start as high up the page as they can. */}
-      <section id="overview" style={{ ...pageBackdrop(0), padding: "clamp(20px, 3vw, 32px) 0 clamp(44px, 6vw, 64px)", scrollMarginTop: "calc(var(--wf-header-h) + 66px)" }}>
+          opening blocks should start as high up the page as they can. D3 here
+          and nowhere else down the page: "само тука има позадина D3, надоле не.
+          Ова важи за сите континенти истото." */}
+      <section id="overview" style={{ ...pageBackdrop("d3"), padding: "clamp(20px, 3vw, 32px) 0 clamp(44px, 6vw, 64px)", scrollMarginTop: "calc(var(--wf-header-h) + 66px)" }}>
         <div className="wf-wrap" style={{ maxWidth: 980, marginInline: "auto", textAlign: "center" }}>
-          <h2
-            style={{
-              fontFamily: "var(--wf-font-sans)",
-              fontWeight: 700,
-              fontSize: "clamp(15px, 2vw, 20px)",
-              textTransform: "uppercase",
-              letterSpacing: "0.14em",
-              color: "var(--wf-ink-900)",
-              margin: 0,
-            }}
-          >
+          <h2 className="wf-h2" style={{ color: "var(--wf-ink-900)", margin: 0 }}>
             {region.introHeading || t("introHeading", { region: region.label })}
           </h2>
           {/* Smaller, italic and run wider than the heading column so the
@@ -128,15 +120,15 @@ export async function RegionLanding({
         </div>
       </section>
 
-      {/* Countries */}
-      <section id="countries" style={{ ...pageBackdrop(1), padding: "0 0 clamp(64px, 9vw, 104px)", scrollMarginTop: "calc(var(--wf-header-h) + 66px)" }}>
+      {/* Countries — plain white, the "надоле не" half of the note above. */}
+      <section id="countries" style={{ ...plainBand, padding: "0 0 clamp(64px, 9vw, 104px)", scrollMarginTop: "calc(var(--wf-header-h) + 66px)" }}>
         <div className="wf-wrap wf-wrap--wide">
           <h2
             style={{
               fontFamily: "var(--wf-font-display)",
-              fontWeight: 500,
+              fontWeight: 400,
               fontSize: "clamp(26px, 4vw, 38px)",
-              letterSpacing: "-0.02em",
+              letterSpacing: "0",
               margin: "0 0 clamp(24px, 4vw, 40px)",
               color: "var(--wf-ink-900)",
             }}

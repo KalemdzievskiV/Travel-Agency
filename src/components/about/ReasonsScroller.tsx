@@ -165,10 +165,10 @@ function ReasonsPinned({ reasons, intro }: { reasons: Reason[]; intro: ReasonsIn
               <h1
                 style={{
                   fontFamily: "var(--wf-font-display)",
-                  fontWeight: 500,
+                  fontWeight: 400,
                   fontSize: "clamp(48px, 8vw, 118px)",
                   lineHeight: 0.95,
-                  letterSpacing: "-0.03em",
+                  letterSpacing: "-0.01em",
                   color: "var(--wf-coral-400)",
                   margin: 0,
                 }}
@@ -224,10 +224,10 @@ function ReasonsPinned({ reasons, intro }: { reasons: Reason[]; intro: ReasonsIn
                 <h2
                   style={{
                     fontFamily: "var(--wf-font-display)",
-                    fontWeight: 500,
+                    fontWeight: 400,
                     fontSize: "clamp(30px, 3.4vw, 46px)",
-                    lineHeight: 1.08,
-                    letterSpacing: "-0.02em",
+                    lineHeight: 1.05,
+                    letterSpacing: "0",
                     margin: "16px 0 0",
                   }}
                 >
@@ -322,10 +322,10 @@ function ReasonsStack({ reasons, intro }: { reasons: Reason[]; intro: ReasonsInt
           <h1
             style={{
               fontFamily: "var(--wf-font-display)",
-              fontWeight: 500,
+              fontWeight: 400,
               fontSize: "clamp(44px, 15vw, 88px)",
               lineHeight: 0.95,
-              letterSpacing: "-0.03em",
+              letterSpacing: "-0.01em",
               color: "var(--wf-coral-400)",
               margin: 0,
             }}
@@ -378,10 +378,10 @@ function ReasonsStack({ reasons, intro }: { reasons: Reason[]; intro: ReasonsInt
               <span
                 style={{
                   fontFamily: "var(--wf-font-display)",
-                  fontWeight: 500,
+                  fontWeight: 400,
                   fontSize: "clamp(36px, 11vw, 48px)",
                   lineHeight: 1,
-                  letterSpacing: "-0.02em",
+                  letterSpacing: "0",
                   color: "transparent",
                   WebkitTextStroke: "1px rgba(244,239,231,0.45)",
                   display: "block",

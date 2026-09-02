@@ -17,12 +17,12 @@ export function TripShowcase({ images, title, grad, staticImg, stops, days, labe
 
   return (
     <>
-      {/* The opening line and the Програма heading carry a backdrop too — the
-          next board along, so the run down from the trip header reads as
-          successive tinted bands rather than one repeated silhouette. */}
+      {/* The programme's one backdrop. 3.2 moved it off the title block and
+          onto this — the opening line and the Програма heading — where the
+          brief asks for D3: "само кај текстот, не кај насловот". */}
       <section
         style={{
-          ...pageBackdrop(1),
+          ...pageBackdrop("d3"),
           padding: "clamp(28px, 4vw, 48px) 0 clamp(16px, 2.5vw, 24px)",
         }}
       >

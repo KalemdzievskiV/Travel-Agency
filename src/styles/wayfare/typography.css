@@ -1,15 +1,25 @@
 /* ============================================================
    Wayfare — Typography tokens
-   Display: Bodoni Moda  (substitute for Saol Display — high-contrast
-            editorial Didone; SWAP for licensed face in production)
-   Text:    Hanken Grotesk (substitute for Founders Grotesk —
-            neutral humanist grotesk)
-   Mono:    used only for spec/labels.
+
+   Two families, and only two — the type brief's whole point:
+     OSWALD  = наслови (display only)
+     MANROPE = сè останато
+
+   Display: Oswald 400 / 500. Hero, section headings, card and category
+            titles, large CTA headings. Never 600/700: the weight of a
+            headline is meant to come from its size and Oswald's condensed
+            shapes, not from thicker strokes.
+   Text:    Manrope 400 / 500 / 600 / 700. Navigation, body, buttons,
+            labels, prices, filters, forms, footer, contact details.
+   Mono:    spec/labels only.
+
+   The families themselves are wired to the next/font faces in
+   globals.css; these are the sizes, weights and spacings that go with them.
    ============================================================ */
 :root {
   /* — Families ——————————————————————————————————— */
-  --wf-font-display: "Bodoni Moda", "Times New Roman", Georgia, serif;
-  --wf-font-sans: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --wf-font-display: "Oswald", "Arial Narrow", sans-serif;
+  --wf-font-sans: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
   --wf-font-mono: "Space Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
   /* — Weights ———————————————————————————————————— */
@@ -19,33 +29,77 @@
   --wf-w-semibold: 600;  /* @kind font */
   --wf-w-bold: 700;      /* @kind font */
 
-  /* — Type scale (px) — fluid-friendly editorial scale ——— */
+  /* — Type scale (px) ————————————————————————————— */
   --wf-text-xs: 12px;
   --wf-text-sm: 14px;
   --wf-text-base: 16px;
-  --wf-text-md: 18px;
+  --wf-text-md: 17px;    /* the brief's recommended body size */
   --wf-text-lg: 21px;
   --wf-text-xl: 26px;
-  --wf-display-sm: 34px;
+  --wf-display-sm: 30px;     /* card titles */
   --wf-display-md: 46px;
-  --wf-display-lg: 64px;
-  --wf-display-xl: 88px;     /* hero headlines */
+  --wf-display-lg: 54px;     /* section headings */
+  --wf-display-xl: 100px;    /* hero headline */
 
   /* — Line heights ——————————————————————————————— */
-  --wf-leading-tight: 1.05;  /* display */
+  --wf-leading-hero: 0.94;   /* hero display */
+  --wf-leading-tight: 1;     /* section headings */
   --wf-leading-snug: 1.2;
   --wf-leading-normal: 1.5;
   --wf-leading-relaxed: 1.65; /* long-form body */
 
-  /* — Letter spacing ————————————————————————————— */
-  --wf-tracking-display: -0.02em; /* tighten large serif */
+  /* — Letter spacing —————————————————————————————
+     Oswald is already condensed, so display type wants far less negative
+     tracking than the Didone this scale was first written for: the brief
+     asks for -0.01em on the hero and 0 on section headings. */
+  --wf-tracking-display: -0.01em;
   --wf-tracking-normal: 0;
   --wf-tracking-wide: 0.04em;
-  --wf-tracking-label: 0.18em;    /* uppercase eyebrow labels */
+  --wf-tracking-nav: 0.07em;      /* header navigation */
+  --wf-tracking-button: 0.09em;   /* buttons and CTA links */
+  --wf-tracking-label: 0.14em;    /* uppercase eyebrows and small labels */
 
-  /* — Semantic roles ————————————————————————————— */
-  --wf-eyebrow-size: var(--wf-text-xs);
-  --wf-eyebrow-tracking: var(--wf-tracking-label);
-  --wf-body-size: var(--wf-text-base);
+  /* — Semantic roles —————————————————————————————
+     The brief's hierarchy, named. Fluid where it spans breakpoints: it gives
+     desktop/tablet/mobile figures for the display sizes, and clamp() is how
+     inline styles honour them (they can't carry a media query). */
+
+  /* Hero H1 — Oswald 400, 44–54 mobile / 60–72 tablet / 72–100 desktop. */
+  --wf-h1-size: clamp(44px, 7vw, 100px);
+  --wf-h1-leading: var(--wf-leading-hero);
+  --wf-h1-tracking: var(--wf-tracking-display);
+
+  /* Large CTA heading — Oswald 400, 38–46 mobile / 56–70 desktop. */
+  --wf-cta-size: clamp(38px, 5vw, 68px);
+  --wf-cta-leading: 0.98;
+
+  /* Section H2 — Oswald 400, 36 mobile / 48–58 desktop. */
+  --wf-h2-size: clamp(36px, 4.4vw, 54px);
+  --wf-h2-leading: var(--wf-leading-tight);
+  --wf-h2-tracking: var(--wf-tracking-normal);
+
+  /* Card H3 — Oswald 500, 28–34. */
+  --wf-h3-size: clamp(26px, 2.4vw, 30px);
+  --wf-h3-leading: 1.05;
+
+  /* Body — Manrope 400, 16–17 (17 recommended), 1.6–1.7 leading. */
+  --wf-body-size: var(--wf-text-md);
   --wf-body-leading: var(--wf-leading-relaxed);
+  --wf-body-sm-size: 15px;   /* card descriptions, secondary copy */
+
+  /* Navigation — Manrope 700, 12px, uppercase. 13 is the stated ceiling;
+     the brief warns 14–15 loses the luxury feel. */
+  --wf-nav-size: var(--wf-text-xs);
+
+  /* Buttons — Manrope 700, 11–12px, uppercase. */
+  --wf-button-size: var(--wf-text-xs);
+  --wf-button-size-sm: 11px;
+
+  /* Small label / eyebrow — Manrope 700, 10–11px, wide tracking. */
+  --wf-eyebrow-size: 11px;
+  --wf-eyebrow-tracking: var(--wf-tracking-label);
+
+  /* Filters and tabs — Manrope 600, 12px. */
+  --wf-filter-size: var(--wf-text-xs);
+  --wf-filter-tracking: 0.07em;
 }

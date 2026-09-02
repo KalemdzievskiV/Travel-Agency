@@ -77,23 +77,17 @@ export default async function HomePage({
       <section
         id="about"
         style={{
-          ...pageBackdrop(0),
+          ...pageBackdrop("d1"),
           padding: "clamp(64px, 9vw, 104px) 0",
           scrollMarginTop: "var(--wf-header-h)",
         }}
       >
         <div className="wf-wrap" style={{ maxWidth: 1040, textAlign: "center" }}>
-          <h2
-            style={{
-              fontFamily: "var(--wf-font-sans)",
-              fontWeight: 700,
-              fontSize: "clamp(15px, 2vw, 20px)",
-              textTransform: "uppercase",
-              letterSpacing: "0.14em",
-              color: "var(--wf-ink-900)",
-              margin: 0,
-            }}
-          >
+          {/* "Секое патување започнува со чувство" — named in the brief as a
+              main section heading, so Oswald 400 at 48–58px rather than the
+              small tracked-out sans label it was. Sentence case, as written in
+              `messages/`; the uppercase here was presentational. */}
+          <h2 className="wf-h2" style={{ color: "var(--wf-ink-900)", margin: 0 }}>
             {t("intro.heading")}
           </h2>
           <div

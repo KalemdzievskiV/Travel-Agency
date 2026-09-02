@@ -34,16 +34,16 @@ export default async function LegalPage({
   const [tf, tl] = await Promise.all([getTranslations("footer"), getTranslations("legalPage")]);
 
   return (
-    <section style={{ ...pageBackdrop(0), padding: "var(--wf-page-top) 0 clamp(64px, 9vw, 104px)" }}>
+    <section style={{ ...pageBackdrop("d3"), padding: "var(--wf-page-top) 0 clamp(64px, 9vw, 104px)" }}>
       <div className="wf-wrap" style={{ maxWidth: 760, marginInline: "auto" }}>
         <Eyebrow>{tl("eyebrow")}</Eyebrow>
         <h1
           style={{
             fontFamily: "var(--wf-font-display)",
-            fontWeight: 500,
+            fontWeight: 400,
             fontSize: "clamp(32px, 5.5vw, 52px)",
-            letterSpacing: "-0.02em",
-            lineHeight: 1.06,
+            letterSpacing: "0",
+            lineHeight: 1.05,
             margin: "14px 0 clamp(24px, 4vw, 36px)",
             color: "var(--wf-ink-900)",
           }}

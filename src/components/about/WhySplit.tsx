@@ -66,10 +66,10 @@ export function WhySplit({
 
 const headingStyle: React.CSSProperties = {
   fontFamily: "var(--wf-font-display)",
-  fontWeight: 500,
+  fontWeight: 400,
   fontSize: "clamp(34px, 4.6vw, 56px)",
   lineHeight: 1.05,
-  letterSpacing: "-0.02em",
+  letterSpacing: "0",
   margin: "16px 0 0",
   color: "var(--wf-ink-900)",
 };
@@ -236,10 +236,10 @@ function WhyPinned({ eyebrow, title, intro, topics }: { eyebrow: string; title: 
               <h2
                 style={{
                   fontFamily: "var(--wf-font-display)",
-                  fontWeight: 500,
+                  fontWeight: 400,
                   fontSize: "clamp(26px, 3.6vw, 40px)",
-                  lineHeight: 1.1,
-                  letterSpacing: "-0.02em",
+                  lineHeight: 1.05,
+                  letterSpacing: "0",
                   margin: "clamp(20px, 3vw, 28px) 0 0",
                 }}
               >
@@ -280,7 +280,7 @@ function WhyStack({
   // First topic open, so the section never reads as a wall of shut drawers.
   const [open, setOpen] = React.useState(0);
   return (
-    <section style={{ ...pageBackdrop(0), padding: "var(--wf-page-top) 0 clamp(48px, 8vw, 80px)" }}>
+    <section style={{ ...pageBackdrop("d3"), padding: "var(--wf-page-top) 0 clamp(48px, 8vw, 80px)" }}>
       <div className="wf-wrap wf-wrap--wide">
         <div style={{ maxWidth: 460 }}>
           <Eyebrow>{eyebrow}</Eyebrow>

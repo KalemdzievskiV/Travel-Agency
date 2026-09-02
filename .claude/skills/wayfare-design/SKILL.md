@@ -11,7 +11,7 @@ the look & feel of [Black Tomato](https://www.blacktomato.com/). The visual
 language is the **Wayfare design system** (an original editorial-luxury brand);
 we use it verbatim but the product is branded **bookit**. Every screen should
 feel like a travel magazine wrapped around photography: cinematic imagery, a
-high-contrast serif, a clean white canvas, and a single turquoise accent drawn
+condensed display grotesque, a clean white canvas, and a single accent drawn
 from the bookit logo's blue → green gradient.
 
 > Brand voice in one line: *"It's not where you want to go; it's how you want to feel."*
@@ -85,11 +85,16 @@ styles cannot hold media queries**, so follow this split:
   (and `--wf-brand-gradient-deep` for legibility behind light text) for hero bands
   and feature panels. Cool neutrals only (no warm beiges). Imagery supplies the
   rest of the colour. Alternate white / `--wf-sand` (light turquoise) / ink-900 bands.
-- **Type:** Bodoni Moda display serif (headlines, tight `-0.02em` tracking, a
-  frequent *italic* accent word) + Hanken Grotesk body (line-height ~1.65).
-  **Eyebrows** are 12px, 600, UPPERCASE, `.18em` tracking — above most headlines.
-  *(Both are substitutes for Saol Display / Founders Grotesk — swap licensed
-  faces in `src/styles/wayfare/typography.css` + `layout.tsx` for production.)*
+- **Type:** two families and only two, per the client's type brief —
+  **OSWALD = наслови, MANROPE = сè останато**. Oswald 400 for hero and section
+  headings, Oswald 500 for card and category titles, and never 600/700: a
+  headline's weight comes from its size and Oswald's condensed shapes, not from
+  thicker strokes. Manrope 400/500/600/700 for navigation, body, buttons,
+  labels, prices, filters, forms and footer. Body is 17px at 1.65 leading.
+  **Eyebrows** are 11px, 700, UPPERCASE, `.14em` tracking.
+  Use the role classes (`.wf-h1`, `.wf-h2`, `.wf-h2--cta`, `.wf-h3`,
+  `.wf-eyebrow`) and the tokens in `src/styles/wayfare/typography.css` rather
+  than restating sizes — that file carries the desktop/tablet/mobile figures.
 - **Shape:** restrained radii — `--wf-radius-md` (4px) for cards/buttons; pills
   only for chips and circular icon buttons. Luxury reads square-ish.
 - **Depth:** hairline borders (`1px var(--wf-border)`) over heavy shadows; soft,
@@ -105,7 +110,7 @@ styles cannot hold media queries**, so follow this split:
 - Speak as **"we"**, address the reader as **"you"**. Warm, editorial, never salesy.
 - **British English** ("personalised", "tailor-made", "favourite").
 - Lead with **feeling**, not logistics. Sentence case everywhere; UPPERCASE only
-  for eyebrows/labels. Headlines short and serif, often one *italic* word.
+  for eyebrows/labels. Headlines short and set in Oswald.
 - CTAs are verbs of intent: "Plan my trip", "Start your journey", "Enquire now"
   — never "Submit" / "Click here".
 - Concrete, credible specifics ("no planning fees", "within 24 hours"). Avoid
@@ -120,7 +125,7 @@ matches. The filled `star` glyph (tinted coral) is for ratings.
 
 ## Definition of done for UI work
 - Uses tokens/primitives, not ad-hoc values. Coral used once per view.
-- Eyebrow → serif headline → grotesk body rhythm where appropriate.
+- Eyebrow → Oswald headline → Manrope body rhythm where appropriate.
 - British English, feeling-led copy, no emoji.
 - **Fully responsive** (see *Responsiveness is mandatory*): fluid `clamp()` type,
   `wf-*` layout classes for anything that reflows, verified at ≤375px with no

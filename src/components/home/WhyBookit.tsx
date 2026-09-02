@@ -24,23 +24,14 @@ export async function WhyBookit() {
     <>
       <section
         style={{
-          ...pageBackdrop(1),
+          ...pageBackdrop("d2"),
           padding: "clamp(64px, 9vw, 104px) 0",
         }}
       >
         <div className="wf-wrap wf-wrap--wide">
-          <h2
-            style={{
-              fontFamily: "var(--wf-font-sans)",
-              fontWeight: 700,
-              fontSize: "clamp(18px, 2.6vw, 28px)",
-              textTransform: "uppercase",
-              letterSpacing: "0.14em",
-              color: "var(--wf-ink-900)",
-              textAlign: "center",
-              margin: 0,
-            }}
-          >
+          {/* "Зошто bookit?" — a section heading in the brief, and short
+              enough that it allows 58–64px where there is room. */}
+          <h2 className="wf-h2" style={{ color: "var(--wf-ink-900)", textAlign: "center", margin: 0 }}>
             {t("why.heading")}
           </h2>
           <div
@@ -62,8 +53,12 @@ export async function WhyBookit() {
                   <span
                     style={{
                       fontFamily: "var(--wf-font-sans)",
-                      fontSize: 15,
-                      lineHeight: 1.4,
+                      // Benefit titles are SemiBold, not regular: the brief
+                      // wants them to read as titles without competing with
+                      // the Oswald heading above them.
+                      fontSize: 16,
+                      fontWeight: 600,
+                      lineHeight: 1.3,
                       color: "var(--wf-ink-700)",
                     }}
                   >
@@ -94,16 +89,9 @@ export async function WhyBookit() {
         }}
       >
         <div className="wf-wrap wf-wrap--default">
-          <h2
-            style={{
-              fontFamily: "var(--wf-font-sans)",
-              fontWeight: 700,
-              fontSize: "clamp(24px, 4vw, 40px)",
-              textTransform: "uppercase",
-              letterSpacing: "0.1em",
-              margin: 0,
-            }}
-          >
+          {/* "Спремни сте да започнете?" — the brief's large CTA heading:
+              Oswald 400, a step above a section heading. */}
+          <h2 className="wf-h2 wf-h2--cta" style={{ margin: 0 }}>
             {t("why.ctaHeading")}
           </h2>
           <div style={{ marginTop: "clamp(24px, 4vw, 34px)" }}>

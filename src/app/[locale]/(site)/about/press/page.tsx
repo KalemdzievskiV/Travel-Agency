@@ -26,7 +26,7 @@ export default async function PressPage({
         grad="linear-gradient(135deg,#6a4f6a,#16130f)"
       />
 
-      <section style={{ ...pageBackdrop(0), padding: "clamp(64px, 9vw, 112px) 0" }}>
+      <section style={{ ...pageBackdrop("d3"), padding: "clamp(64px, 9vw, 112px) 0" }}>
         <div className="wf-wrap wf-wrap--wide">
           <div className="wf-grid wf-grid-3">
             {press.map((name, i) => (

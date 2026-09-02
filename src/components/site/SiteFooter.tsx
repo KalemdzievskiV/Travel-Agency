@@ -39,16 +39,21 @@ function SocialGlyph({ name }: { name: "facebook" | "instagram" | "linkedin" | "
   }
 }
 
+// Footer category headings, per the type brief: Manrope 700, 11–12px,
+// 0.08–0.10em, uppercase. Also worn by the newsletter kicker, which asks for
+// slightly wider tracking and overrides it at the call site.
 const colTitle: React.CSSProperties = {
-  fontSize: 12,
+  fontSize: 11,
   fontWeight: 700,
-  letterSpacing: "0.16em",
+  letterSpacing: "0.1em",
   textTransform: "uppercase",
   color: "rgba(244,239,231,0.55)",
   marginBottom: 16,
 };
+// Footer navigation links: Manrope 400, 13–14px.
 const linkStyle: React.CSSProperties = {
-  fontSize: 14.5,
+  fontSize: 14,
+  fontWeight: 400,
   color: "rgba(244,239,231,0.85)",
   textDecoration: "none",
 };
@@ -74,7 +79,7 @@ export function SiteFooter() {
       {/* Newsletter — a full-bleed band above everything else in the footer. */}
       <div className="wf-newsletter">
         <div className="wf-wrap wf-wrap--wide wf-newsletter__row">
-          <div className="wf-newsletter__label" style={{ ...colTitle, marginBottom: 0, whiteSpace: "nowrap" }}>
+          <div className="wf-newsletter__label" style={{ ...colTitle, letterSpacing: "0.12em", marginBottom: 0, whiteSpace: "nowrap" }}>
             {t("footer.newsletter.heading")}
           </div>
           {subscribed ? (
@@ -110,9 +115,9 @@ export function SiteFooter() {
                   color: "var(--wf-text-on-dark)",
                   cursor: "pointer",
                   fontFamily: "var(--wf-font-sans)",
-                  fontSize: 12,
+                  fontSize: "var(--wf-button-size)",
                   fontWeight: 700,
-                  letterSpacing: "0.16em",
+                  letterSpacing: "var(--wf-tracking-button)",
                   textTransform: "uppercase",
                   padding: "15px clamp(20px, 2.4vw, 32px)",
                   whiteSpace: "nowrap",

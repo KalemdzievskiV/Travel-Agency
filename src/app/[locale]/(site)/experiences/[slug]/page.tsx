@@ -9,7 +9,7 @@ import { ExpandableProse } from "@/components/sections/ExpandableProse";
 import { EnquireButton } from "@/components/site/EnquireButton";
 import { FaqAccordion } from "@/components/sections/FaqAccordion";
 import { getExperienceCategoryBySlug } from "@/lib/queries/experiences";
-import { backdrop, pageBackdrop } from "@/content/media";
+import { backdrop, pageBackdrop, plainBand } from "@/content/media";
 import { PageTabs } from "@/components/sections/PageTabs";
 
 export async function generateMetadata({
@@ -89,10 +89,10 @@ export default async function ExperienceCategoryPage({
           <h1
             style={{
               fontFamily: "var(--wf-font-display)",
-              fontWeight: 500,
+              fontWeight: 400,
               fontSize: "clamp(38px, 7vw, 68px)",
               lineHeight: 1.04,
-              letterSpacing: "-0.02em",
+              letterSpacing: "-0.01em",
               margin: "14px 0 0",
             }}
           >
@@ -126,7 +126,7 @@ export default async function ExperienceCategoryPage({
       </div>
 
       {/* Concept */}
-      <section id="concept" style={{ ...pageBackdrop(0), padding: "clamp(16px, 2.4vw, 28px) 0 clamp(40px, 6vw, 56px)", ...anchorPad }}>
+      <section id="concept" style={{ ...plainBand, padding: "clamp(16px, 2.4vw, 28px) 0 clamp(40px, 6vw, 56px)", ...anchorPad }}>
         <div className="wf-wrap wf-wrap--wide" style={prose}>
           <Eyebrow style={sectionLabel}>{t("concept")}</Eyebrow>
           {c.heroText && (
@@ -154,7 +154,7 @@ export default async function ExperienceCategoryPage({
       </section>
 
       {/* Our recommendations */}
-      <section id="recommendations" style={{ ...pageBackdrop(1), padding: "0 0 clamp(8px, 2vw, 16px)", ...anchorPad }}>
+      <section id="recommendations" style={{ ...plainBand, padding: "0 0 clamp(8px, 2vw, 16px)", ...anchorPad }}>
         <div className="wf-wrap wf-wrap--wide" style={prose}>
           {/* Heading only. The brief asks for "насловот наши препораки (само
               како наслов)" with the suggestions listed straight underneath, so
@@ -170,7 +170,7 @@ export default async function ExperienceCategoryPage({
 
       {/* FAQs */}
       {c.faqs.length > 0 && (
-        <section id="faqs" style={{ ...pageBackdrop(2), padding: "clamp(56px, 8vw, 88px) 0 clamp(64px, 9vw, 104px)", ...anchorPad }}>
+        <section id="faqs" style={{ ...pageBackdrop("d3"), padding: "clamp(56px, 8vw, 88px) 0 clamp(64px, 9vw, 104px)", ...anchorPad }}>
           <div className="wf-wrap" style={{ maxWidth: 1040, marginInline: "auto" }}>
             <div style={{ textAlign: "center", marginBottom: "clamp(24px, 4vw, 36px)" }}>
               <Eyebrow style={sectionLabel}>{t("faqs")}</Eyebrow>

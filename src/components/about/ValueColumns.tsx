@@ -36,10 +36,10 @@ export function ValueCard({ value }: { value: ValueColumn }) {
       <h3
         style={{
           fontFamily: "var(--wf-font-display)",
-          fontWeight: 500,
+          fontWeight: 400,
           fontSize: "clamp(28px, 3.4vw, 40px)",
           lineHeight: 1.02,
-          letterSpacing: "-0.01em",
+          letterSpacing: "0",
           textTransform: "uppercase",
           color: value.tone,
           margin: "6px 0 0",

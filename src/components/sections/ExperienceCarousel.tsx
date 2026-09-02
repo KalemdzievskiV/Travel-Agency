@@ -136,10 +136,10 @@ export function ExperienceCarousel({
           <h2
             style={{
               fontFamily: "var(--wf-font-display)",
-              fontWeight: 500,
+              fontWeight: 400,
               fontSize: "clamp(26px, 3.4vw, 42px)",
-              lineHeight: 1.08,
-              letterSpacing: "-0.01em",
+              lineHeight: 1.05,
+              letterSpacing: "0",
               textTransform: "uppercase",
               margin: "0 auto",
               maxWidth: "22ch",

@@ -37,11 +37,13 @@ export function Input({
     fontFamily: "var(--wf-font-sans)",
     width: "100%",
   };
+  // Field labels, per the type brief: Manrope 600 at 12px. Sentence case — a
+  // form label is read, not scanned, so it loses the uppercase eyebrow
+  // treatment the rest of the site's small text carries.
   const labelStyle: React.CSSProperties = {
-    fontSize: "11px",
-    fontWeight: 700,
-    letterSpacing: "0.14em",
-    textTransform: "uppercase",
+    fontSize: "12px",
+    fontWeight: 600,
+    letterSpacing: "0.02em",
     color: error ? "var(--wf-error)" : "var(--wf-ink-500)",
   };
   const borderColor = error
@@ -67,7 +69,7 @@ export function Input({
     outline: "none",
     background: "transparent",
     fontFamily: "var(--wf-font-sans)",
-    fontSize: "15px",
+    fontSize: "14px",
     color: "var(--wf-ink-900)",
     width: "100%",
     padding: 0,

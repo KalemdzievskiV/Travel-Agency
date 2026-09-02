@@ -112,11 +112,11 @@ function ProcessPinned({ steps, title }: { steps: ProcessStep[]; title: string }
             right: 0,
             textAlign: "center",
             margin: 0,
-            fontFamily: "var(--wf-font-sans)",
-            fontSize: "clamp(15px, 1.6vw, 20px)",
-            fontWeight: 700,
-            textTransform: "uppercase",
-            letterSpacing: "0.22em",
+            fontFamily: "var(--wf-font-display)",
+            fontSize: "var(--wf-h2-size)",
+            fontWeight: 400,
+            lineHeight: "var(--wf-h2-leading)",
+            letterSpacing: "var(--wf-h2-tracking)",
           }}
         >
           {title}
@@ -191,10 +191,10 @@ function ProcessPinned({ steps, title }: { steps: ProcessStep[]; title: string }
                 transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
                 style={{
                   fontFamily: "var(--wf-font-display)",
-                  fontWeight: 500,
+                  fontWeight: 400,
                   fontSize: "clamp(44px, 5.5vw, 76px)",
                   lineHeight: 1,
-                  letterSpacing: "-0.02em",
+                  letterSpacing: "-0.01em",
                 }}
               >
                 {step.no}
@@ -268,7 +268,7 @@ function ProcessPinned({ steps, title }: { steps: ProcessStep[]; title: string }
 /* ── Mobile / SSR / reduced-motion: accessible numbered list ──────── */
 function ProcessStack({ steps, withMedia = false }: { steps: ProcessStep[]; withMedia?: boolean }) {
   return (
-    <section style={{ ...pageBackdrop(0), padding: "clamp(56px, 10vw, 88px) 0" }}>
+    <section style={{ ...pageBackdrop("d3"), padding: "clamp(56px, 10vw, 88px) 0" }}>
       <div className="wf-wrap wf-wrap--default">
         <ol
           style={{

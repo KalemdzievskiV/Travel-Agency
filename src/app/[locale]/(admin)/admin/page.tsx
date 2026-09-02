@@ -27,9 +27,9 @@ export default async function AdminDashboardPage() {
       <h1
         style={{
           fontFamily: "var(--wf-font-display)",
-          fontWeight: 500,
+          fontWeight: 400,
           fontSize: "clamp(28px, 4vw, 38px)",
-          letterSpacing: "-0.02em",
+          letterSpacing: "0",
           margin: "0 0 6px",
         }}
       >
@@ -61,7 +61,7 @@ export default async function AdminDashboardPage() {
               style={{
                 fontFamily: "var(--wf-font-display)",
                 fontSize: 40,
-                fontWeight: 500,
+                fontWeight: 400,
                 color: "var(--wf-ink-900)",
                 lineHeight: 1,
               }}

@@ -64,10 +64,15 @@ export function Button({
   ...rest
 }: ButtonProps) {
 
+  // Per the type brief, a button is Manrope 700 at 11–12px, uppercase, tracked
+  // 0.08–0.10em — at every size. A button grows by its padding, not its type:
+  // 14–15px label text reads as body copy sitting in a box and loses the
+  // luxury feel the brief is after. The label case comes from the button, not
+  // from the copy, so translators can write sentence case in `messages/`.
   const sizes = {
-    sm: { padding: "8px 16px", font: "13px", gap: "6px" },
-    md: { padding: "12px 22px", font: "14px", gap: "8px" },
-    lg: { padding: "16px 30px", font: "15px", gap: "10px" },
+    sm: { padding: "8px 16px", font: "var(--wf-button-size-sm)", gap: "6px" },
+    md: { padding: "12px 22px", font: "var(--wf-button-size)", gap: "8px" },
+    lg: { padding: "16px 30px", font: "var(--wf-button-size)", gap: "10px" },
   } as const;
   const s = sizes[size] || sizes.md;
 
@@ -79,7 +84,8 @@ export function Button({
     fontFamily: "var(--wf-font-sans)",
     fontWeight: 700,
     fontSize: s.font,
-    letterSpacing: "0.02em",
+    letterSpacing: "var(--wf-tracking-button)",
+    textTransform: "uppercase",
     padding: s.padding,
     width: fullWidth ? "100%" : "auto",
     borderRadius: "var(--wf-radius-md)",
@@ -115,9 +121,8 @@ export function Button({
       padding: 0,
       borderRadius: 0,
       borderBottom: "1px solid var(--wf-ink-900)",
-      letterSpacing: "0.16em",
-      textTransform: "uppercase",
-      fontSize: "12px",
+      letterSpacing: "var(--wf-tracking-label)",
+      fontSize: "var(--wf-button-size-sm)",
       paddingBottom: "4px",
     },
     accentLocked: {

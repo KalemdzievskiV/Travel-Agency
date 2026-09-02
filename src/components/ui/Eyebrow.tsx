@@ -2,7 +2,11 @@ import React from "react";
 
 /**
  * Eyebrow — uppercase, wide-tracked label. The connective tissue of
- * bookit's editorial layouts. Sits above serif headlines.
+ * bookit's editorial layouts. Sits above the Oswald headings.
+ *
+ * The type brief's "small label / eyebrow" role: Manrope 700 at 10–11px with
+ * 0.12–0.15em tracking. Sizes come from tokens so the whole class of small
+ * labels — eyebrows, feeling tags, footer headings — moves together.
  */
 export type EyebrowTone = "coral" | "ink" | "light";
 
@@ -23,10 +27,10 @@ export function Eyebrow({ children, tone = "coral", as = "div", style, ...rest }
     <Tag
       style={{
         fontFamily: "var(--wf-font-sans)",
-        fontSize: "12px",
+        fontSize: "var(--wf-eyebrow-size)",
         fontWeight: 700,
         textTransform: "uppercase",
-        letterSpacing: "0.18em",
+        letterSpacing: "var(--wf-eyebrow-tracking)",
         color: tones[tone] || tones.coral,
         // Caller styles layer on top rather than replacing the label styling.
         ...style,

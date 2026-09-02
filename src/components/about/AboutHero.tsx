@@ -3,7 +3,7 @@ import { Eyebrow } from "@/components/ui";
 import { HeroBackdrop } from "./HeroBackdrop";
 
 /**
- * AboutHero — full-bleed editorial hero for the About pages. A big Bodoni
+ * AboutHero — full-bleed editorial hero for the About pages. A big Oswald
  * headline and eyebrow sit over a tonal gradient (swap for real photography
  * later). Server-safe.
  */
@@ -42,10 +42,10 @@ export function AboutHero({
         <h1
           style={{
             fontFamily: "var(--wf-font-display)",
-            fontWeight: 500,
+            fontWeight: 400,
             fontSize: "clamp(38px, 7vw, 72px)",
             lineHeight: 1.04,
-            letterSpacing: "-0.02em",
+            letterSpacing: "-0.01em",
             margin: "16px 0 0",
             maxWidth: 16 * 60,
           }}

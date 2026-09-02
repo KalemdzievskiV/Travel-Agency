@@ -197,9 +197,9 @@ export function EnquiryPanels({
         <h2
           style={{
             fontFamily: "var(--wf-font-display)",
-            fontWeight: 500,
+            fontWeight: 400,
             fontSize: "clamp(26px, 5vw, 36px)",
-            letterSpacing: "-0.02em",
+            letterSpacing: "0",
             margin: "14px 0 12px",
             color: "var(--wf-ink-900)",
           }}
@@ -248,10 +248,10 @@ export function EnquiryPanels({
         <h1
           style={{
             fontFamily: "var(--wf-font-display)",
-            fontWeight: 500,
+            fontWeight: 400,
             fontSize: "clamp(30px, 5vw, 48px)",
-            lineHeight: 1.08,
-            letterSpacing: "-0.02em",
+            lineHeight: 1.05,
+            letterSpacing: "0",
             margin: 0,
             color: "var(--wf-ink-900)",
           }}

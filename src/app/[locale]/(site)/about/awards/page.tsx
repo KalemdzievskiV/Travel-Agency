@@ -28,7 +28,7 @@ export default async function AwardsPage({
         grad="linear-gradient(135deg,#7a6a52,#16130f)"
       />
 
-      <section style={{ ...pageBackdrop(0), padding: "clamp(64px, 9vw, 112px) 0" }}>
+      <section style={{ ...pageBackdrop("d3"), padding: "clamp(64px, 9vw, 112px) 0" }}>
         <div className="wf-wrap wf-wrap--default">
           {awards.map((i) => (
             <Reveal key={i} delay={i * 0.05}>

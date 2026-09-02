@@ -61,10 +61,11 @@ export default async function ContactPage({
 
   return (
     <>
-      {/* Invitation */}
+      {/* Invitation — "во контакт Д2 и Д4": D2 opens the page, its one low
+          ring sitting under the invitation copy. */}
       <section
         style={{
-          ...pageBackdrop(0),
+          ...pageBackdrop("d2"),
           padding: "var(--wf-page-top) 0 clamp(36px, 5vw, 56px)",
         }}
       >
@@ -73,9 +74,9 @@ export default async function ContactPage({
           <h1
             style={{
               fontFamily: "var(--wf-font-display)",
-              fontWeight: 500,
+              fontWeight: 400,
               fontSize: "clamp(34px, 6vw, 56px)",
-              letterSpacing: "-0.02em",
+              letterSpacing: "0",
               lineHeight: 1.05,
               margin: "14px 0 0",
               color: "var(--wf-ink-900)",
@@ -149,21 +150,11 @@ export default async function ContactPage({
         </div>
       </section>
 
-      {/* Come and meet us */}
-      <section style={{ ...pageBackdrop(2), padding: "clamp(48px, 7vw, 88px) 0 clamp(64px, 9vw, 104px)" }}>
+      {/* Come and meet us — the D4 half of the same note. */}
+      <section style={{ ...pageBackdrop("d4"), padding: "clamp(48px, 7vw, 88px) 0 clamp(64px, 9vw, 104px)" }}>
         <div className="wf-wrap wf-wrap--wide">
           <div style={{ textAlign: "center", marginBottom: "clamp(24px, 3.5vw, 36px)" }}>
-            <h2
-              style={{
-                fontFamily: "var(--wf-font-sans)",
-                fontWeight: 700,
-                fontSize: "clamp(16px, 2.2vw, 22px)",
-                textTransform: "uppercase",
-                letterSpacing: "0.16em",
-                color: "var(--wf-ink-900)",
-                margin: 0,
-              }}
-            >
+            <h2 className="wf-h2" style={{ color: "var(--wf-ink-900)", margin: 0 }}>
               {t("visitTitle")}
             </h2>
             <p style={{ fontSize: 15, color: "var(--wf-ink-500)", margin: "10px 0 0" }}>{t("visitSub")}</p>

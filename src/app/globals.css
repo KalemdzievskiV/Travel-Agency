@@ -9,18 +9,12 @@
 @import "../styles/wayfare/effects.css";
 @import "../styles/wayfare/responsive.css";
 
-/* Wire the design-system font tokens to the self-hosted next/font faces
-   (loaded in app/layout.tsx). The literal family names remain as fallbacks. */
+/* Wire the design-system font tokens to the next/font faces (loaded in
+   app/[locale]/layout.tsx). The literal family names remain as fallbacks.
+   See src/styles/wayfare/typography.css for the scale that goes with them. */
 :root {
   --wf-font-display: var(--font-display), "Oswald", "Arial Narrow", sans-serif;
-  --wf-font-sans: var(--font-sans), "Nunito Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-
-  /* Nunito Sans variable axes, per the client's type spec. `wght` is set through
-     the normal font-weight property so it still cascades; only the axes with no
-     CSS equivalent live here. Note font-variation-settings does NOT merge — any
-     rule that re-declares it must repeat the whole list, which is why this pair
-     is kept in one token. */
-  --wf-axes: "wdth" 75, "YTLC" 540;
+  --wf-font-sans: var(--font-sans), "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
 /* ── Tailwind v4 theme bridge ────────────────────────────────────────────
@@ -99,18 +93,13 @@ body {
   background: var(--wf-bg);
   color: var(--wf-text);
   font-family: var(--wf-font-sans);
-  /* Body copy, per spec: 18px / wdth 75 / wght 400 / YTLC 540. Inherited, so
-     every text node picks it up unless it opts out. */
-  font-size: 18px;
+  /* Body copy per the type brief: Manrope 400, 17px, 1.65 leading. Inherited,
+     so every text node picks it up unless it opts out. Down from 18px, which
+     came from the earlier Nunito spec — the brief caps body at 16–17 and asks
+     for the extra room to come from leading and white space instead. */
+  font-size: var(--wf-body-size);
   font-weight: 400;
-  font-variation-settings: var(--wf-axes);
   line-height: var(--wf-body-leading);
-}
-
-/* Headings keep the display face, so they must not inherit the body's axes —
-   Oswald has none of them and the declaration would be dead weight. */
-h1, h2, h3, h4, h5, h6 {
-  font-variation-settings: normal;
 }
 
 ::selection {
@@ -118,47 +107,65 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--wf-ink-900);
 }
 
-/* Helpers for hand-written markup */
+/* ── Type roles ───────────────────────────────────────────────────────
+   The type brief's hierarchy as classes, so a heading is named rather than
+   re-specified. Inline styles can't carry media queries; the sizes are the
+   clamp() tokens in typography.css, which is where the desktop/tablet/mobile
+   figures live.
+
+   OSWALD = наслови. MANROPE = сè останато. Nothing here mixes the two. */
+
+/* Hero H1 — Oswald 400. The one heading allowed to be this big. */
+.wf-h1 {
+  font-family: var(--wf-font-display);
+  font-weight: 400;
+  font-size: var(--wf-h1-size);
+  line-height: var(--wf-h1-leading);
+  letter-spacing: var(--wf-h1-tracking);
+}
+
+/* Section H2 — Oswald 400, the main heading font across the site. */
+.wf-h2 {
+  font-family: var(--wf-font-display);
+  font-weight: 400;
+  font-size: var(--wf-h2-size);
+  line-height: var(--wf-h2-leading);
+  letter-spacing: var(--wf-h2-tracking);
+}
+
+/* Large CTA heading — Oswald 400, a step above H2 where a band is a call to
+   action rather than a section ("Спремни сте да започнете?"). */
+.wf-h2--cta {
+  font-size: var(--wf-cta-size);
+  line-height: var(--wf-cta-leading);
+}
+
+/* Card / category title — Oswald 500, the one place the medium cut is used. */
+.wf-h3 {
+  font-family: var(--wf-font-display);
+  font-weight: 500;
+  font-size: var(--wf-h3-size);
+  line-height: var(--wf-h3-leading);
+  letter-spacing: 0;
+}
+
+/* Kept for hand-written markup that wants display type without a heading
+   level. Same face and weight as .wf-h3. */
 .wf-display {
   font-family: var(--wf-font-display);
   font-weight: 500;
   letter-spacing: var(--wf-tracking-display);
   line-height: var(--wf-leading-tight);
 }
+
+/* Small uppercase label — Manrope 700. Eyebrows, feeling tags, footer
+   headings, the newsletter kicker. */
 .wf-eyebrow {
+  font-family: var(--wf-font-sans);
   font-size: var(--wf-eyebrow-size);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: var(--wf-eyebrow-tracking);
-}
-
-/* ── Nunito Sans type styles (client spec) ─────────────────────────────
-   Three named styles, all sharing wdth 75 / YTLC 540 and differing only in
-   weight and size. Applied as classes so the axes stay in one place — a rule
-   that re-declares font-variation-settings replaces the whole list, so these
-   must always carry --wf-axes rather than adding to it. */
-
-/* "Континенти" — the heavier label. */
-.wf-nun-label {
-  font-family: var(--wf-font-sans);
-  font-weight: 817;
-  font-variation-settings: var(--wf-axes);
-}
-
-/* "Земји" — subheadings. Same axes, regular weight. */
-.wf-nun-subhead {
-  font-family: var(--wf-font-sans);
-  font-weight: 400;
-  font-variation-settings: var(--wf-axes);
-}
-
-/* Body copy we write — 18px, regular. Matches the <body> default; use the class
-   where an element would otherwise inherit something else. */
-.wf-nun-body {
-  font-family: var(--wf-font-sans);
-  font-size: 18px;
-  font-weight: 400;
-  font-variation-settings: var(--wf-axes);
 }
 
 @media (prefers-reduced-motion: reduce) {

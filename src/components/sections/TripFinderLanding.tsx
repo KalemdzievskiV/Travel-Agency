@@ -78,10 +78,10 @@ export function TripFinderLanding() {
         <h1
           style={{
             fontFamily: "var(--wf-font-display)",
-            fontWeight: 500,
+            fontWeight: 400,
             fontSize: "clamp(36px, 7vw, 62px)",
             lineHeight: 1.05,
-            letterSpacing: "-0.02em",
+            letterSpacing: "-0.01em",
             margin: 0,
           }}
         >
