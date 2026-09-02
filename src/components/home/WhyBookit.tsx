@@ -96,7 +96,10 @@ export async function WhyBookit() {
           </h2>
           <div style={{ marginTop: "clamp(24px, 4vw, 34px)" }}>
             <EnquireButton size="lg">
-              {t("common.getInTouch")}
+              {/* Its own key: the landing page now carries two different CTAs
+                  the brief names separately — "Раскажи ни што замислуваш" under
+                  the intro (common.getInTouch) and this one closing the page. */}
+              {t("why.ctaButton")}
             </EnquireButton>
           </div>
         </div>

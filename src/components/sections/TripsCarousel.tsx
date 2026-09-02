@@ -152,7 +152,7 @@ export function TripsCarousel({
                   <div className="wf-trip-card__corner">
                     {showsSaleBadge(trip) ? (
                       <Link href="/on-sale" className="wf-trip-card__sale" aria-label={tc("onSale")}>
-                        <span aria-hidden>🔥</span>
+                        {/* No flame — see the note on DestinationCard's badge. */}
                         {tc("onSale")}
                       </Link>
                     ) : (

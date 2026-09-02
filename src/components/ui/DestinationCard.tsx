@@ -72,7 +72,10 @@ function SaleBadge({ label }: { label: string }) {
         boxShadow: "0 1px 4px rgba(0,0,0,0.18)",
       }}
     >
-      <span aria-hidden style={{ fontSize: 12, lineHeight: 1 }}>🔥</span>
+      {/* No flame. The 3.0 brief rebranded this from "ЗГРАБИ ПОПУСТ" to a
+          "специјален термин" and was explicit about the pictogram — "не
+          🔥🔥🔥. Premium не значи без попуст. Значи без викање дека има
+          попуст." The design system bans emoji outright anyway. */}
       {label}
     </Link>
   );
