@@ -34,16 +34,16 @@ export default async function FiveReasonsPage({
         <div className="wf-wrap wf-wrap--default" style={{ textAlign: "center" }}>
           {/* Two headings since 3.1: "ПЕТ ПРИЧИНИ ПОДОЦНА… (ХЕДИНГ 1)" over
               "Сега ни треба една од тебе. Каде сакаш да одиме? (хединг 2)". */}
-          <h2 className="wf-h2" style={{ margin: 0 }}>{t("ctaFiveLater")}</h2>
+          <h2 className="wf-h2 wf-h2--center" style={{ margin: "0 auto" }}>{t("ctaFiveLater")}</h2>
           <p
             style={{
-              fontFamily: "var(--wf-font-display)",
-              fontWeight: 400,
-              fontSize: "clamp(18px, 2.1vw, 26px)",
-              lineHeight: 1.15,
+              fontFamily: "var(--wf-font-sans)",
+              fontWeight: 500,
+              fontSize: "var(--wf-subtitle-size)",
+              lineHeight: "var(--wf-subtitle-leading)",
               letterSpacing: "0",
-              textTransform: "uppercase",
-              margin: "12px 0 0",
+              margin: "12px auto 0",
+              maxWidth: "var(--wf-subtitle-measure)",
               opacity: 0.92,
             }}
           >

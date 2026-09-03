@@ -64,7 +64,7 @@ export function Button({
   ...rest
 }: ButtonProps) {
 
-  // Per the type brief, a button is Manrope 700 at 11–12px, uppercase, tracked
+  // Per the type brief, a button is Manrope 600 at 11–12px, uppercase, tracked
   // 0.08–0.10em — at every size. A button grows by its padding, not its type:
   // 14–15px label text reads as body copy sitting in a box and loses the
   // luxury feel the brief is after. The label case comes from the button, not
@@ -82,7 +82,8 @@ export function Button({
     justifyContent: "center",
     gap: s.gap,
     fontFamily: "var(--wf-font-sans)",
-    fontWeight: 700,
+    // SIZE puts buttons on 600, and takes 700 out of editorial pages entirely.
+    fontWeight: 600,
     fontSize: s.font,
     letterSpacing: "var(--wf-tracking-button)",
     textTransform: "uppercase",

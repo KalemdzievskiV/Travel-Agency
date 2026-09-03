@@ -93,7 +93,7 @@ export function HomeHero() {
             линии". Case is left to the copy in `messages/`, which the brief
             asks to stay sentence case: "Светот по твои правила" reads more
             elegantly in Macedonian than the shouted version. */}
-        <h1 className="wf-h1" style={{ margin: "18px 0 0" }}>
+        <h1 className="wf-h1" style={{ margin: "18px auto 0" }}>
           {t.rich("hero.title", {
             i: (chunks) => <span style={{ fontStyle: "italic" }}>{chunks}</span>,
             br: () => <br />,
@@ -109,7 +109,6 @@ export function HomeHero() {
         <p
           className="wf-hero-sub"
           style={{
-            lineHeight: 1.45,
             color: "rgba(255,255,255,0.85)",
             margin: "18px auto 0",
           }}

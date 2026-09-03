@@ -40,11 +40,10 @@ export default async function WhyNotDiyPage({
             style={{
               fontFamily: "var(--wf-font-sans)",
               fontWeight: 500,
-              fontSize: "clamp(20px, 2.6vw, 28px)",
-              lineHeight: 1.25,
+              fontSize: "var(--wf-subtitle-size)",
+              lineHeight: "var(--wf-subtitle-leading)",
               letterSpacing: "-0.005em",
-              textTransform: "uppercase",
-              maxWidth: 640,
+              maxWidth: "var(--wf-subtitle-measure)",
               margin: "0 auto",
             }}
           >
@@ -52,10 +51,10 @@ export default async function WhyNotDiyPage({
           </p>
           <p
             style={{
-              fontSize: "clamp(14px, 1.5vw, 15.5px)",
-              lineHeight: 1.7,
+              fontSize: "var(--wf-body-size)",
+              lineHeight: "var(--wf-body-leading)",
               color: "rgba(233, 245, 246, 0.78)",
-              maxWidth: 640,
+              maxWidth: "var(--wf-body-measure-wide)",
               margin: "16px auto 0",
             }}
           >

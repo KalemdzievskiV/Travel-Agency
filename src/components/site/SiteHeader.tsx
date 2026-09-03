@@ -107,7 +107,7 @@ export function SiteHeader({
     // 12px, per the brief: 13 is the stated ceiling and 14–15 "ќе се изгуби
     // поелегантниот luxury изглед".
     fontSize: "var(--wf-nav-size)",
-    fontWeight: 700,
+    fontWeight: "var(--wf-nav-weight)",
     letterSpacing: "var(--wf-tracking-nav)",
     textTransform: "uppercase",
     color: dark ? "#fff" : "var(--wf-ink-900)",

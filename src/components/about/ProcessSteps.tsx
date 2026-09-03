@@ -118,9 +118,6 @@ function ProcessPinned({ steps, title }: { steps: ProcessStep[]; title: string }
             fontWeight: 400,
             lineHeight: "var(--wf-h2-leading)",
             letterSpacing: "var(--wf-h2-tracking)",
-            /* Restated rather than using `.wf-h2`: this heading is absolutely
-               positioned over the stage and needs its own layout properties. */
-            textTransform: "uppercase",
           }}
         >
           {title}
@@ -242,17 +239,16 @@ function ProcessPinned({ steps, title }: { steps: ProcessStep[]; title: string }
                 style={{
                   fontFamily: "var(--wf-font-display)",
                   fontWeight: 500,
-                  fontSize: "clamp(19px, 2vw, 26px)",
-                  lineHeight: 1.12,
+                  fontSize: "var(--wf-h2-size)",
+                  lineHeight: "var(--wf-h2-leading)",
                   letterSpacing: "0",
-                  textTransform: "uppercase",
                   margin: "12px 0 0",
                 }}
               >
                 {step.title}
               </h3>
               <div style={{ margin: "16px 0 0" }}>
-                <Prose text={step.body} style={{ fontSize: 15, lineHeight: 1.7, color: "rgba(244,239,231,0.82)" }} />
+                <Prose text={step.body} style={{ fontSize: "var(--wf-body-size)", lineHeight: "var(--wf-body-leading)", color: "rgba(244,239,231,0.82)" }} />
               </div>
             </motion.div>
           </AnimatePresence>
@@ -328,10 +324,9 @@ function ProcessStack({ steps, withMedia = false }: { steps: ProcessStep[]; with
                 style={{
                   fontFamily: "var(--wf-font-display)",
                   fontWeight: 500,
-                  fontSize: "clamp(18px, 2.6vw, 24px)",
-                  lineHeight: 1.12,
+                  fontSize: "var(--wf-h2-size)",
+                  lineHeight: "var(--wf-h2-leading)",
                   letterSpacing: "0",
-                  textTransform: "uppercase",
                   margin: "8px 0 0",
                   color: "var(--wf-ink-900)",
                 }}
@@ -339,7 +334,7 @@ function ProcessStack({ steps, withMedia = false }: { steps: ProcessStep[]; with
                 {s.title}
               </h3>
               <div style={{ margin: "12px 0 0", maxWidth: 600 }}>
-                <Prose text={s.body} style={{ fontSize: 15, lineHeight: 1.65, color: "var(--wf-ink-700)" }} />
+                <Prose text={s.body} style={{ fontSize: "var(--wf-body-size)", lineHeight: "var(--wf-body-leading)", color: "var(--wf-ink-700)" }} />
               </div>
             </Reveal>
           ))}
