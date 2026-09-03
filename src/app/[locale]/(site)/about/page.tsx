@@ -100,7 +100,7 @@ export default async function AboutPage({
           the cream boards have not arrived, so this keeps plain white. */}
       <section style={{ ...plainBand, padding: "clamp(52px, 7vw, 88px) 0" }}>
         <div className="wf-wrap wf-wrap--default" style={{ textAlign: "center" }}>
-          <h2 className="wf-h2 wf-h2--center" style={{ margin: "0 auto", color: "var(--wf-ink-900)" }}>
+          <h2 className="wf-h2" style={{ margin: 0, color: "var(--wf-ink-900)" }}>
             {t("ctaReadyNew")}
           </h2>
           <div style={{ marginTop: 28 }}>

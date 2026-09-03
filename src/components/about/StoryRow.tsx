@@ -35,7 +35,7 @@ export function StoryRow({ eyebrow, title, body, grad, image, align }: StoryRowD
         <div style={{ margin: "16px 0 0", maxWidth: 520 }}>
           <Prose
             text={body}
-            style={{ fontSize: "var(--wf-body-size)", lineHeight: "var(--wf-body-leading)", color: "var(--wf-ink-700)" }}
+            style={{ fontSize: 15.5, lineHeight: 1.65, color: "var(--wf-ink-700)" }}
           />
         </div>
       </div>

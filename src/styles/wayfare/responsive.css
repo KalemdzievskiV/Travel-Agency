@@ -172,13 +172,10 @@
    size, so it keeps a reading cap and wraps; above it, `max-content` sizes the
    paragraph to the sentence so it sets on one line. */
 .wf-hero-sub {
-  font-size: var(--wf-subtitle-size);
-  font-weight: var(--wf-subtitle-weight);
-  line-height: var(--wf-subtitle-leading);
-  text-wrap: balance;
-  max-width: var(--wf-subtitle-measure);
+  font-size: clamp(14px, 1.6vw, 16px);
+  max-width: 560px;
 }
-@media (min-width: 1200px) {
+@media (min-width: 900px) {
   .wf-hero-sub {
     max-width: max-content;
   }
@@ -449,21 +446,19 @@
 .wf-trip-card__corner-price {
   color: #fff;
   font-family: var(--wf-font-sans);
-  /* 13 → 15 → 17 → 21 → 19px, matching DestinationCard. The client asked four
-     times for the price to read larger and 3.1 settled on 21; the later SIZE
-     brief puts it at 19/600 as part of pulling card typography down the
-     hierarchy, and that supersedes it. */
-  font-size: var(--wf-price-size);
+  /* 13 → 15 → 17 → 21px, matching DestinationCard: the client has asked four
+     times for the price to read larger. */
+  font-size: 21px;
   white-space: nowrap;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
 }
 .wf-trip-card__corner-price b {
-  font-weight: 600;
+  font-weight: 700;
 }
 .wf-trip-card__corner-price span {
   /* See the note in DestinationCard: a lighter tint fails contrast on a pale
      photo, so size and weight carry the hierarchy instead. */
-  font-size: var(--wf-meta-size);
+  font-size: 14px;
   color: rgba(255, 255, 255, 0.92);
 }
 /* Off-palette peach from the client's reference image; see --wf-sale-* in
@@ -843,20 +838,16 @@
 }
 
 /* ── Page width + gutters ─────────────────────────────────── */
-/* Side padding per SIZE: desktop 64, laptop 40, tablet 28, mobile 20. */
 .wf-wrap {
   width: 100%;
   margin-inline: auto;
-  padding-inline: 20px;
+  padding-inline: clamp(20px, 5vw, 32px);
 }
-@media (min-width: 768px)  { .wf-wrap { padding-inline: 28px; } }
-@media (min-width: 1024px) { .wf-wrap { padding-inline: 40px; } }
-@media (min-width: 1440px) { .wf-wrap { padding-inline: 64px; } }
 .wf-wrap--wide { max-width: var(--wf-container-wide); }
 .wf-wrap--default { max-width: var(--wf-container); }
 
 /* ── Responsive card grids ────────────────────────────────── */
-.wf-grid { display: grid; gap: clamp(18px, 2vw, 24px); }  /* SIZE: cards gap 24px */
+.wf-grid { display: grid; gap: clamp(18px, 2.2vw, 32px); }
 .wf-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .wf-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .wf-grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }

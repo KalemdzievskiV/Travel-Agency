@@ -88,7 +88,7 @@ export default async function HomePage({
               it takes `.wf-h2`, which carries both the size and the uppercase
               3.1 asked for ("ХЕДИНГОТ ДА Е СО ГОЛЕМИ БУКВИ ЦЕЛ"). The copy in
               `messages/` stays sentence case. */}
-          <h2 className="wf-h2 wf-h2--center" style={{ color: "var(--wf-ink-900)", margin: "0 auto" }}>
+          <h2 className="wf-h2" style={{ color: "var(--wf-ink-900)", margin: 0 }}>
             {t("intro.heading")}
           </h2>
           <div
@@ -96,8 +96,8 @@ export default async function HomePage({
               display: "grid",
               gap: "clamp(18px, 3vw, 26px)",
               margin: "clamp(28px, 4vw, 40px) 0 0",
-              fontSize: "var(--wf-body-size)",
-              lineHeight: "var(--wf-body-leading)",
+              fontSize: "clamp(15px, 1.5vw, 16.5px)",
+              lineHeight: 1.7,
               color: "var(--wf-ink-700)",
             }}
           >

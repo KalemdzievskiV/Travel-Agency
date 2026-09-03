@@ -31,7 +31,7 @@ export async function WhyBookit() {
         <div className="wf-wrap wf-wrap--wide">
           {/* "Зошто bookit?" — a section heading in the brief, and short
               enough that it allows 58–64px where there is room. */}
-          <h2 className="wf-h2 wf-h2--center" style={{ color: "var(--wf-ink-900)", textAlign: "center", margin: "0 auto" }}>
+          <h2 className="wf-h2" style={{ color: "var(--wf-ink-900)", textAlign: "center", margin: 0 }}>
             {t("why.heading")}
           </h2>
           <div
@@ -94,7 +94,7 @@ export async function WhyBookit() {
               and answers it. They are one string with line breaks rather than
               three keys: the break points are part of the copy, and a
               translator needs to move them with the words. */}
-          <h2 className="wf-h2 wf-h2--cta wf-h2--cta-stack" style={{ margin: "0 auto", whiteSpace: "pre-line" }}>
+          <h2 className="wf-h2 wf-h2--cta wf-h2--cta-stack" style={{ margin: 0, whiteSpace: "pre-line" }}>
             {t("why.ctaHeading")}
           </h2>
           <div style={{ marginTop: "clamp(24px, 4vw, 34px)" }}>

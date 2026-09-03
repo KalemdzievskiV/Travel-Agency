@@ -252,7 +252,7 @@ export function EnquiryPanels({
             header — the cream boards have not arrived. The heading takes the
             shared `.wf-h2` scale and its uppercase in the meantime. */}
         <h1
-          className="wf-h1 wf-h1--internal"
+          className="wf-h2"
           style={{
             margin: 0,
             color: "var(--wf-ink-900)",
@@ -260,10 +260,10 @@ export function EnquiryPanels({
         >
           {t.rich("title", { i: (chunks) => <span style={{ fontStyle: "italic" }}>{chunks}</span> })}
         </h1>
-        <p className="wf-lead" style={{ color: "var(--wf-ink-700)", margin: "16px auto 0", marginInline: "auto" }}>
+        <p style={{ fontSize: 15.5, lineHeight: 1.65, color: "var(--wf-ink-700)", margin: "16px auto 0", maxWidth: 640 }}>
           {t("pageIntro")}
         </p>
-        <p style={{ fontSize: "var(--wf-body-size)", lineHeight: "var(--wf-body-leading)", color: "var(--wf-ink-700)", margin: "12px auto 0", maxWidth: "var(--wf-body-measure-wide)" }}>
+        <p style={{ fontSize: 15.5, lineHeight: 1.65, color: "var(--wf-ink-700)", margin: "12px auto 0", maxWidth: 640 }}>
           {t("introChannels")}
         </p>
         <p style={{ fontSize: 17, lineHeight: 1.65, color: "var(--wf-ink-700)", margin: "14px auto 0", maxWidth: 640 }}>

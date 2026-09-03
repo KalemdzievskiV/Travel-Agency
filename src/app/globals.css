@@ -115,113 +115,60 @@ body {
 
    OSWALD = наслови. MANROPE = сè останато. Nothing here mixes the two. */
 
-/* Display roles, per the client's SIZE brief (3 Sep 2026).
+/* Hero H1 — Oswald 400. The one heading allowed to be this big.
 
-   Two decisions in it reverse what came before, both deliberately:
-
-   - **Sentence case.** "Не uppercase ако не е намерен graphic treatment", and
-     every worked example in it is sentence case with only the eyebrow in
-     capitals. The 3.1 corrections had asked for uppercase headings; SIZE is the
-     later and far more specific document and the client confirmed it wins.
-     Copy in `messages/` and `src/content/` was already sentence case, so this
-     is only the removal of `text-transform` here.
-   - **Weight 500, not 400.** Its weight table puts H1 / H2 / subtitles on
-     Medium, keeps 600 for emphasised lines, CTAs, small labels and card
-     titles, and takes 700 out of editorial pages altogether.
-
-   `text-wrap: balance` is specified by name, and does the work the brief's
-   "непотребни line breaks" section is really after: an evenly split headline
-   rather than one long line and one orphan. */
-
-/* Homepage hero H1 — the one heading allowed to be biggest, and only there. */
+   Uppercase since revision 3.1, which asked for it on every heading it went
+   past ("исто хедингот се со големи букви", repeated on the landing page, the
+   experiences hub, за нас, 5 причини and како функционира). It is applied on
+   the role class, not in `messages/` or `src/content/`, so the copy stays
+   sentence case for translators and for anywhere a heading is reused as plain
+   text. This reverses the design system's original "sentence case everywhere"
+   rule for display headings — eyebrows and labels were already uppercase, and
+   body copy is unaffected. */
 .wf-h1 {
   font-family: var(--wf-font-display);
-  font-weight: var(--wf-h1-weight);
+  font-weight: 400;
   font-size: var(--wf-h1-size);
   line-height: var(--wf-h1-leading);
   letter-spacing: var(--wf-h1-tracking);
-  text-wrap: balance;
-  max-width: var(--wf-h1-measure);
-  margin-inline: auto;
+  text-transform: uppercase;
 }
 
-/* Internal page H1 — every masthead that is not the homepage. */
-.wf-h1--internal {
-  font-size: var(--wf-h1-internal-size);
-  line-height: var(--wf-h1-internal-leading);
-  max-width: var(--wf-h1-internal-measure);
-}
-
-/* Section H2 — the main heading font across the site. */
+/* Section H2 — Oswald 400, the main heading font across the site. */
 .wf-h2 {
   font-family: var(--wf-font-display);
-  font-weight: var(--wf-h2-weight);
+  font-weight: 400;
   font-size: var(--wf-h2-size);
   line-height: var(--wf-h2-leading);
   letter-spacing: var(--wf-h2-tracking);
-  text-wrap: balance;
-  max-width: var(--wf-h2-measure);
+  text-transform: uppercase;
 }
-/* Centred sections want the measure centred with them. */
-.wf-h2--center { margin-inline: auto; }
 
-/* Large CTA heading — a band that is a call to action rather than a section. */
+/* Large CTA heading — Oswald 400, a step above H2 where a band is a call to
+   action rather than a section ("Спремни сте да започнете?"). */
 .wf-h2--cta {
   font-size: var(--wf-cta-size);
   line-height: var(--wf-cta-leading);
-  margin-inline: auto;
 }
 
 /* The same band when the copy is a stack of short lines rather than one
-   headline — the landing page's three centred statements. Balancing is wrong
-   there: the line breaks are authored. */
+   headline. 3.1 rewrote the landing CTA as three centred statements, and the
+   display leading (0.98) is set for a heading that wraps once or not at all —
+   three full-width lines at that size close up into a block. Smaller, with
+   leading that lets the lines read as separate sentences. */
 .wf-h2--cta-stack {
-  font-size: var(--wf-cta-size);
+  font-size: clamp(18px, 2.1vw, 28px);
   line-height: 1.32;
-  text-wrap: initial;
-  max-width: none;
 }
 
-/* The line under an H1. "Ова треба да изгледа elegant, не како уште еден H1." */
-.wf-subtitle {
-  font-family: var(--wf-font-sans);
-  font-weight: var(--wf-subtitle-weight);
-  font-size: var(--wf-subtitle-size);
-  line-height: var(--wf-subtitle-leading);
-  text-wrap: balance;
-  max-width: var(--wf-subtitle-measure);
-  margin-inline: auto;
-}
-
-/* The line under an H2. */
-.wf-section-subtitle {
-  font-family: var(--wf-font-sans);
-  font-weight: 400;
-  font-size: var(--wf-section-subtitle-size);
-  line-height: var(--wf-section-subtitle-leading);
-  text-wrap: balance;
-  max-width: var(--wf-section-subtitle-measure);
-}
-
-/* The paragraph under a hero subtitle. */
-.wf-lead {
-  font-family: var(--wf-font-sans);
-  font-weight: 400;
-  font-size: var(--wf-lead-size);
-  line-height: var(--wf-lead-leading);
-  max-width: var(--wf-lead-measure);
-}
-
-/* Card / category title. Deliberately low in the hierarchy: the brief's point
-   is that a card must not read as a mini hero. */
+/* Card / category title — Oswald 500, the one place the medium cut is used. */
 .wf-h3 {
   font-family: var(--wf-font-display);
-  font-weight: var(--wf-h3-weight);
+  font-weight: 500;
   font-size: var(--wf-h3-size);
   line-height: var(--wf-h3-leading);
   letter-spacing: 0;
 }
-
 
 /* Kept for hand-written markup that wants display type without a heading
    level. Same face and weight as .wf-h3. */
@@ -232,34 +179,14 @@ body {
   line-height: var(--wf-leading-tight);
 }
 
-/* Small uppercase label — Manrope 600. Eyebrows, feeling tags, footer
-   headings, the newsletter kicker. The one role SIZE keeps in capitals. */
+/* Small uppercase label — Manrope 700. Eyebrows, feeling tags, footer
+   headings, the newsletter kicker. */
 .wf-eyebrow {
   font-family: var(--wf-font-sans);
   font-size: var(--wf-eyebrow-size);
-  font-weight: var(--wf-eyebrow-weight);
-  line-height: var(--wf-eyebrow-leading);
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: var(--wf-eyebrow-tracking);
-}
-
-/* Emphasis inside body copy. SIZE takes 700 out of editorial pages: "Bookit не
-   треба да има сè на 700 / Bold... 700 Bold практично не го користи во
-   editorial pages." An emphasised run is Medium-SemiBold, not Bold. */
-strong,
-b {
-  font-weight: var(--wf-strong-weight);
-}
-
-/* A closing sentence that is a paragraph of its own, entirely emphasised —
-   "Кажи ни што можеш да зборуваш со часови. Ќе изградиме патување околу тоа."
-   It is meant to be noticeable by weight, one step up in size and no more:
-   "Таа треба да е забележлива по weight, не затоа што е 28px." Prose tags
-   these; see src/components/ui/Prose.tsx. */
-.wf-strong-line {
-  font-size: var(--wf-strong-size);
-  line-height: var(--wf-strong-leading);
-  font-weight: var(--wf-strong-weight);
 }
 
 @media (prefers-reduced-motion: reduce) {

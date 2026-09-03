@@ -45,18 +45,20 @@ export function AboutMasthead({
                 cannot. */}
             <Eyebrow tone="light">{eyebrow}</Eyebrow>
             <h1
-              className="wf-h1 wf-h1--internal"
               style={{
+                fontFamily: "var(--wf-font-display)",
+                fontWeight: 400,
+                fontSize: "clamp(30px, 4.6vw, 56px)",
+                lineHeight: 1.05,
                 letterSpacing: "0",
                 margin: "16px 0 0",
-                marginInline: 0,
               }}
             >
               {title}
             </h1>
             {intro && (
               <div style={{ margin: "18px 0 0", maxWidth: 460 }}>
-                <Prose text={intro} style={{ fontSize: "var(--wf-lead-size)", lineHeight: "var(--wf-lead-leading)" }} />
+                <Prose text={intro} style={{ fontSize: "clamp(14px, 1.6vw, 16px)", lineHeight: 1.65 }} />
               </div>
             )}
           </div>

@@ -23,23 +23,12 @@
   --wf-radius-xl: 16px;
   --wf-radius-pill: 999px;
 
-  /* — Layout —————————————————————————————————————
-     Widths per the client's SIZE brief: "Global site container max-width:
-     1240px", body text 620, a wider editorial intro 680, headlines 850–900.
-     The wide container is kept for the full-bleed card rails and pinned
-     stages, which are not reading measures and would look starved at 1240. */
-  --wf-container: 1240px;
+  /* — Layout ————————————————————————————————————— */
+  --wf-container: 1280px;
   --wf-container-wide: 1480px;
-  --wf-container-text: 620px;        /* body reading measure */
-  --wf-container-text-wide: 680px;   /* wider editorial intro */
+  --wf-container-text: 680px;   /* long-form reading measure */
   --wf-gutter: 24px;
   --wf-header-h: 60px;
-
-  /* — Section rhythm ——————————————————————————————
-     "Section → section 80–88px. Не би користел 120–150px меѓу секоја секција."
-     Use this for a band's vertical padding rather than inventing a clamp. */
-  --wf-section-y: clamp(48px, 5.5vw, 84px);
-  --wf-section-y-tight: clamp(36px, 4vw, 56px);
 
   /* Top padding for a page whose first section is a plain band rather than a
      full-bleed hero. Deliberately tight — the client asked that these opening

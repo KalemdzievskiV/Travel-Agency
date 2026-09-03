@@ -95,11 +95,12 @@ function Price({ value, label }: { value: string; label: string }) {
     <span
       style={{
         fontFamily: "var(--wf-font-sans)",
-        // 13 → 15 → 17 → 21 → 18 → 19: the client asked four times for this to
-        // read larger, then successive type briefs capped it. SIZE (3 Sep 2026)
-        // settles it at 19/600 as part of pulling card typography down the
-        // hierarchy, and is the current authority.
-        fontSize: "var(--wf-price-size)",
+        // 13 → 15 → 17 → 21 → 18: the client asked four times for this to read
+        // larger, then the type brief capped prices at 15–18px. 18 is the top
+        // of that range, so this stays the one number on the card and still
+        // sits inside the spec. If it now reads too small, that is a conflict
+        // between two client notes, not a slip — raise it rather than nudging.
+        fontSize: 18,
         marginLeft: "auto",
         color: "#fff",
         textShadow: "0 1px 3px rgba(0,0,0,0.45)",
@@ -111,7 +112,7 @@ function Price({ value, label }: { value: string; label: string }) {
           dropped it under 4:1 on a pale sky. Weight carries the hierarchy
           instead. */}
       <span style={{ fontSize: 14, color: "rgba(255,255,255,0.92)" }}>{label} </span>
-      <b style={{ fontWeight: 600 }}>{value}</b>
+      <b style={{ fontWeight: 700 }}>{value}</b>
     </span>
   );
 }

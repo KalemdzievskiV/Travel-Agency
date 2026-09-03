@@ -100,10 +100,11 @@ export function WhySplit({
  */
 const headingStyle: React.CSSProperties = {
   fontFamily: "var(--wf-font-display)",
-  fontWeight: 500,
-  fontSize: "var(--wf-h1-internal-size)",
-  lineHeight: "var(--wf-h1-internal-leading)",
-  letterSpacing: "var(--wf-tracking-display)",
+  fontWeight: 400,
+  fontSize: "clamp(26px, 2.6vw, 34px)",
+  lineHeight: 1.08,
+  letterSpacing: "0",
+  textTransform: "uppercase",
   margin: "12px 0 0",
   color: "var(--wf-ink-900)",
 };
@@ -172,7 +173,7 @@ function WhyPinned({ eyebrow, title, intro, topics }: { eyebrow: string; title: 
             <Eyebrow>{eyebrow}</Eyebrow>
             <h1 style={headingStyle}>{title}</h1>
             <div style={{ margin: "14px 0 0" }}>
-              <Prose text={intro} style={{ fontSize: "var(--wf-body-size)", lineHeight: "var(--wf-body-leading)", color: "var(--wf-ink-500)" }} />
+              <Prose text={intro} style={{ fontSize: 14, lineHeight: 1.6, color: "var(--wf-ink-500)" }} />
             </div>
 
             <div
@@ -272,16 +273,17 @@ function WhyPinned({ eyebrow, title, intro, topics }: { eyebrow: string; title: 
                 style={{
                   fontFamily: "var(--wf-font-display)",
                   fontWeight: 400,
-                  fontSize: "var(--wf-h2-size)",
-                  lineHeight: "var(--wf-h2-leading)",
+                  fontSize: "clamp(22px, 2.6vw, 32px)",
+                  lineHeight: 1.08,
                   letterSpacing: "0",
+                  textTransform: "uppercase",
                   margin: "clamp(14px, 2vw, 20px) 0 0",
                 }}
               >
                 {topic.title}
               </h2>
               <div style={{ margin: "14px 0 0", opacity: 0.92 }}>
-                <Prose text={topic.body} style={{ fontSize: "var(--wf-body-size)", lineHeight: "var(--wf-body-leading)" }} />
+                <Prose text={topic.body} style={{ fontSize: 15.5, lineHeight: 1.65 }} />
               </div>
             </motion.div>
           </AnimatePresence>
@@ -321,7 +323,7 @@ function WhyStack({
           <Eyebrow>{eyebrow}</Eyebrow>
           <h1 style={headingStyle}>{title}</h1>
           <div style={{ margin: "16px 0 0" }}>
-            <Prose text={intro} style={{ fontSize: "var(--wf-body-size)", lineHeight: "var(--wf-body-leading)", color: "var(--wf-ink-500)" }} />
+            <Prose text={intro} style={{ fontSize: 15, lineHeight: 1.65, color: "var(--wf-ink-500)" }} />
           </div>
         </div>
 
@@ -334,9 +336,10 @@ function WhyStack({
                 style={{
                   fontFamily: "var(--wf-font-display)",
                   fontWeight: 500,
-                  fontSize: "var(--wf-h2-size)",
-                  lineHeight: "var(--wf-h2-leading)",
+                  fontSize: "clamp(20px, 5vw, 26px)",
+                  lineHeight: 1.15,
                   letterSpacing: "0",
+                  textTransform: "uppercase",
                   margin: collapsible ? 0 : "16px 0 0",
                   textAlign: "left",
                 }}
@@ -387,7 +390,7 @@ function WhyStack({
                 <div className={`wf-whystack__reveal${isOpen ? " is-open" : ""}`} aria-hidden={!isOpen}>
                   <div>
                     <div style={{ margin: "12px 0 0", opacity: 0.92 }}>
-                      <Prose text={t.body} style={{ fontSize: "var(--wf-body-size)", lineHeight: "var(--wf-body-leading)" }} />
+                      <Prose text={t.body} style={{ fontSize: 15.5, lineHeight: 1.7 }} />
                     </div>
                   </div>
                 </div>

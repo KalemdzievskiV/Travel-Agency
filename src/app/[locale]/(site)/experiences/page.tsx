@@ -36,8 +36,8 @@ export default async function ExperiencesPage({
   ]);
 
   const bodyStyle: React.CSSProperties = {
-    fontSize: "var(--wf-body-size)",
-    lineHeight: "var(--wf-body-leading)",
+    fontSize: "clamp(15px, 1.7vw, 17px)",
+    lineHeight: 1.75,
     color: "var(--wf-ink-700)",
     margin: "16px 0 0",
   };
@@ -84,7 +84,7 @@ export default async function ExperiencesPage({
           <Eyebrow tone="light">{t("eyebrow")}</Eyebrow>
           {/* `.wf-h1` rather than an inline clamp, so this hero moves with the
               display scale 3.1 brought down instead of staying at 68px. */}
-          <h1 className="wf-h1 wf-h1--internal" style={{ letterSpacing: "-0.01em", margin: "14px 0 0" }}>
+          <h1 className="wf-h1" style={{ letterSpacing: "-0.01em", margin: "14px 0 0" }}>
             {t("heroTitle")}
           </h1>
           {/* The line that sat here is gone: "Делот под хедингот текстот тргни го." */}
@@ -119,16 +119,17 @@ export default async function ExperiencesPage({
         <div className="wf-wrap wf-wrap--wide">
           {/* 980, the destination pages' reading column: the client asked for
               this block to stop running the full width of the page. */}
-          <div style={{ maxWidth: "var(--wf-subtitle-measure)", marginInline: "auto", textAlign: "center" }}>
+          <div style={{ maxWidth: 980, marginInline: "auto", textAlign: "center" }}>
             <p
               style={{
                 fontFamily: "var(--wf-font-sans)",
                 fontWeight: 500,
                 // A step down, per the client — it was competing with the hero
                 // title a screen above it.
-                fontSize: "var(--wf-subtitle-size)",
-                lineHeight: "var(--wf-subtitle-leading)",
+                fontSize: "clamp(17px, 1.9vw, 22px)",
+                lineHeight: 1.25,
                 letterSpacing: "-0.005em",
+                textTransform: "uppercase",
                 color: "var(--wf-ink-900)",
                 margin: 0,
               }}
