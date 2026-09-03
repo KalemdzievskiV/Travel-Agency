@@ -27,22 +27,15 @@ export default async function HowItWorksPage({
     <>
       <ProcessSteps steps={howItWorks} title={t("howTitle")} />
 
-      <section style={{ background: "var(--wf-ink-900)", color: "var(--wf-text-on-dark)", padding: "clamp(64px, 9vw, 96px) 0" }}>
+      {/* TODO(3.1): "Stavi pozadina od novite krem nekoja" — the cream boards
+          have not arrived, so this keeps the ink ground. */}
+      <section style={{ background: "var(--wf-ink-900)", color: "var(--wf-text-on-dark)", padding: "clamp(52px, 7vw, 80px) 0" }}>
         <div className="wf-wrap wf-wrap--default" style={{ textAlign: "center" }}>
-          <h2
-            style={{
-              fontFamily: "var(--wf-font-display)",
-              fontWeight: 400,
-              fontSize: "clamp(28px, 4.5vw, 44px)",
-              lineHeight: 1.05,
-              letterSpacing: "0",
-              margin: 0,
-            }}
-          >
+          <h2 className="wf-h2" style={{ margin: 0 }}>
             {t("howCta")}
           </h2>
           <div style={{ marginTop: 28 }}>
-            <Button variant="primary" size="lg" as="a" href="/trip-finder">
+            <Button variant="primary" size="lg" as="a" href="/trip-finder" className="wf-cta-mono--light">
               {tc("planMyTrip")}
             </Button>
           </div>

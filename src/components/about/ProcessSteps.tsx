@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { Prose } from "@/components/ui";
 import {
   motion,
   AnimatePresence,
@@ -117,6 +118,9 @@ function ProcessPinned({ steps, title }: { steps: ProcessStep[]; title: string }
             fontWeight: 400,
             lineHeight: "var(--wf-h2-leading)",
             letterSpacing: "var(--wf-h2-tracking)",
+            /* Restated rather than using `.wf-h2`: this heading is absolutely
+               positioned over the stage and needs its own layout properties. */
+            textTransform: "uppercase",
           }}
         >
           {title}
@@ -238,25 +242,18 @@ function ProcessPinned({ steps, title }: { steps: ProcessStep[]; title: string }
                 style={{
                   fontFamily: "var(--wf-font-display)",
                   fontWeight: 500,
-                  fontSize: "clamp(24px, 2.4vw, 34px)",
-                  lineHeight: 1.1,
-                  letterSpacing: "-0.02em",
+                  fontSize: "clamp(19px, 2vw, 26px)",
+                  lineHeight: 1.12,
+                  letterSpacing: "0",
+                  textTransform: "uppercase",
                   margin: "12px 0 0",
                 }}
               >
                 {step.title}
               </h3>
-              <p
-                style={{
-                  fontSize: 17,
-                  lineHeight: 1.7,
-                  color: "rgba(244,239,231,0.82)",
-                  margin: "16px 0 0",
-                  whiteSpace: "pre-line",
-                }}
-              >
-                {step.body}
-              </p>
+              <div style={{ margin: "16px 0 0" }}>
+                <Prose text={step.body} style={{ fontSize: 15, lineHeight: 1.7, color: "rgba(244,239,231,0.82)" }} />
+              </div>
             </motion.div>
           </AnimatePresence>
         </div>
@@ -331,27 +328,19 @@ function ProcessStack({ steps, withMedia = false }: { steps: ProcessStep[]; with
                 style={{
                   fontFamily: "var(--wf-font-display)",
                   fontWeight: 500,
-                  fontSize: "clamp(22px, 3vw, 30px)",
+                  fontSize: "clamp(18px, 2.6vw, 24px)",
                   lineHeight: 1.12,
-                  letterSpacing: "-0.01em",
+                  letterSpacing: "0",
+                  textTransform: "uppercase",
                   margin: "8px 0 0",
                   color: "var(--wf-ink-900)",
                 }}
               >
                 {s.title}
               </h3>
-              <p
-                style={{
-                  fontSize: 17,
-                  lineHeight: 1.65,
-                  color: "var(--wf-ink-700)",
-                  margin: "12px 0 0",
-                  maxWidth: 600,
-                  whiteSpace: "pre-line",
-                }}
-              >
-                {s.body}
-              </p>
+              <div style={{ margin: "12px 0 0", maxWidth: 600 }}>
+                <Prose text={s.body} style={{ fontSize: 15, lineHeight: 1.65, color: "var(--wf-ink-700)" }} />
+              </div>
             </Reveal>
           ))}
         </ol>
