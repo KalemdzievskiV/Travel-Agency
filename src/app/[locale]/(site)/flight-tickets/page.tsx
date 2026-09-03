@@ -28,26 +28,16 @@ export default async function FlightTicketsPage({
         <div className="wf-wrap wf-wrap--wide">
           <div style={{ maxWidth: 760, margin: "0 auto clamp(28px, 4vw, 44px)", textAlign: "center" }}>
             <Eyebrow>{t("eyebrow")}</Eyebrow>
-            {/* 3.1 splits this into two headings: "ОД А ДО Б Е ЛЕСНИОТ ДЕЛ" as
-                H1, then a smaller H2 that is still a heading, then the body. */}
-            <h1 className="wf-h2" style={{ margin: "12px 0 0", color: "var(--wf-ink-900)" }}>
+            {/* 3.1 splits this into an H1 and a second, smaller heading; SIZE
+                puts the second one on the subtitle role rather than making it a
+                second display line. */}
+            <h1 className="wf-h1 wf-h1--internal" style={{ margin: "12px 0 0", color: "var(--wf-ink-900)" }}>
               {t("title")}
             </h1>
-            <p
-              style={{
-                fontFamily: "var(--wf-font-display)",
-                fontWeight: 400,
-                fontSize: "clamp(18px, 2.1vw, 26px)",
-                lineHeight: 1.12,
-                textTransform: "uppercase",
-                color: "var(--wf-ink-700)",
-                margin: "10px auto 0",
-                maxWidth: 620,
-              }}
-            >
+            <p className="wf-subtitle" style={{ color: "var(--wf-ink-700)", margin: "10px auto 0" }}>
               {t("subtitle")}
             </p>
-            <p style={{ fontSize: 15.5, lineHeight: 1.65, color: "var(--wf-ink-700)", margin: "14px auto 0", maxWidth: 580 }}>{t("intro")}</p>
+            <p className="wf-lead" style={{ color: "var(--wf-ink-700)", margin: "14px auto 0", marginInline: "auto" }}>{t("intro")}</p>
           </div>
           <FlightTicketsForm />
         </div>
@@ -63,8 +53,8 @@ export default async function FlightTicketsPage({
       <section style={{ background: "var(--wf-values-bg)", color: "var(--wf-text-on-dark)", padding: "clamp(48px, 7vw, 88px) 0" }}>
         <div className="wf-wrap wf-wrap--wide">
           <div style={{ textAlign: "center", maxWidth: 720, margin: "0 auto clamp(28px, 4vw, 44px)" }}>
-            <h2 className="wf-h2" style={{ margin: 0 }}>{t("whyTitle")}</h2>
-            <p style={{ fontSize: "clamp(15px, 1.7vw, 17px)", lineHeight: 1.6, margin: "14px 0 0", opacity: 0.88 }}>
+            <h2 className="wf-h2 wf-h2--center" style={{ margin: "0 auto" }}>{t("whyTitle")}</h2>
+            <p className="wf-section-subtitle" style={{ margin: "14px auto 0", opacity: 0.88 }}>
               {t("whyLead")}
             </p>
           </div>
@@ -81,17 +71,16 @@ export default async function FlightTicketsPage({
                 <h3
                   style={{
                     fontFamily: "var(--wf-font-display)",
-                    fontWeight: 500,
-                    fontSize: "clamp(20px, 2.2vw, 26px)",
-                    lineHeight: 1.05,
-                    textTransform: "uppercase",
+                    fontWeight: 600,
+                    fontSize: "var(--wf-h3-size)",
+                    lineHeight: "var(--wf-h3-leading)",
                     color: "var(--wf-accent-ink)",
                     margin: 0,
                   }}
                 >
                   {t(`why${n}Title`)}
                 </h3>
-                <p style={{ fontSize: 14.5, lineHeight: 1.6, color: "var(--wf-ink-700)", margin: "12px 0 0" }}>
+                <p style={{ fontSize: "var(--wf-body-sm-size)", lineHeight: 1.55, color: "var(--wf-ink-700)", margin: "12px 0 0" }}>
                   {t(`why${n}Body`)}
                 </p>
               </article>

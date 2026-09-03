@@ -60,50 +60,162 @@
   --wf-tracking-label: 0.14em;    /* uppercase eyebrows and small labels */
 
   /* — Semantic roles —————————————————————————————
-     The brief's hierarchy, named. Fluid where it spans breakpoints: it gives
-     desktop/tablet/mobile figures for the display sizes, and clamp() is how
-     inline styles honour them (they can't carry a media query). */
+     The client's SIZE brief (3 Sep 2026) locks this scale outright, with
+     explicit figures for desktop / laptop / tablet / mobile. Those figures are
+     set literally, in the four bands it names, rather than interpolated with a
+     clamp: its steps are not a straight line — the tablet H1 (38) sits well
+     above where a 1440→1024 slope would put it — so no single clamp reaches
+     all four. The base block below is mobile; the media queries step up.
 
-  /* Hero H1 — Oswald 400, 32–40 mobile / 46–58 tablet / 58–64 desktop.
-     Revision 3.1 brought the whole display scale down a step: "да е помал
-     текстот, ова делува многу големо како да е цела страна тоа". The three
-     display roles moved together so the hierarchy between them is unchanged;
-     body sizes are untouched. */
-  --wf-h1-size: clamp(32px, 4.6vw, 64px);
-  --wf-h1-leading: var(--wf-leading-hero);
+       role            ≥1440   1024–1439   768–1023   ≤767
+       H1 homepage      52         46         38        34
+       H1 internal      46         42         38        34
+       subtitle         24         22         21        20
+       H2               30         28         26        24
+       lead             18         17         17        17
+       body           16.5–17      16         16        16
+
+     Two things it settles that were open before: the display roles are Oswald
+     **500**, not 400 ("H1 / H2 / subtitles" under its weight table), and 700 is
+     out of editorial pages entirely — an emphasised line is 600. It also asks
+     for sentence case ("Не uppercase ако не е намерен graphic treatment"),
+     which reverses the uppercase the 3.1 corrections had asked for; see the
+     role classes in globals.css.
+
+     "Не 56–64px на internal pages. Не 30–36px subtitles. Не 20–24px обичен
+     paragraph." — the ceilings here are deliberate, not incidental. */
+
+  /* Hero H1 — the homepage masthead only, the one heading allowed to be
+     biggest. "Homepage hero не смее да има H1 70–80px." */
+  --wf-h1-size: 34px;
+  --wf-h1-leading: 1.03;
   --wf-h1-tracking: var(--wf-tracking-display);
+  --wf-h1-weight: 500;
+  --wf-h1-measure: 900px;
 
-  /* Large CTA heading — Oswald 400, 26–32 mobile / 38–44 desktop. */
-  --wf-cta-size: clamp(26px, 3.2vw, 44px);
-  --wf-cta-leading: 0.98;
+  /* Internal page H1 — every masthead that is not the homepage. */
+  --wf-h1-internal-size: 34px;
+  --wf-h1-internal-leading: 1.05;
+  --wf-h1-internal-measure: 850px;
 
-  /* Section H2 — Oswald 400, 26 mobile / 34–38 desktop. */
-  --wf-h2-size: clamp(26px, 3vw, 38px);
-  --wf-h2-leading: var(--wf-leading-tight);
+  /* Hero / page subtitle — the line under an H1. Elegant, not a second H1. */
+  --wf-subtitle-size: 20px;
+  --wf-subtitle-leading: 1.25;
+  --wf-subtitle-weight: 500;
+  --wf-subtitle-measure: 850px;
+
+  /* Hero lead — the paragraph under the subtitle. */
+  --wf-lead-size: 17px;
+  --wf-lead-leading: 1.55;
+  --wf-lead-measure: 650px;
+
+  /* Large CTA heading — a band that is a call to action rather than a
+     section. Held one step above H2 and well under the old 68px. */
+  --wf-cta-size: 26px;
+  --wf-cta-leading: 1.12;
+
+  /* Section H2. */
+  --wf-h2-size: 24px;
+  --wf-h2-leading: 1.15;
   --wf-h2-tracking: var(--wf-tracking-normal);
+  --wf-h2-weight: 500;
+  --wf-h2-measure: 800px;
 
-  /* Card H3 — Oswald 500, 28–34. */
-  --wf-h3-size: clamp(26px, 2.4vw, 30px);
-  --wf-h3-leading: 1.05;
+  /* Section subtitle — the line under an H2. */
+  --wf-section-subtitle-size: 18px;
+  --wf-section-subtitle-leading: 1.35;
+  --wf-section-subtitle-measure: 720px;
 
-  /* Body — Manrope 400, 16–17 (17 recommended), 1.6–1.7 leading. */
-  --wf-body-size: var(--wf-text-md);
+  /* Card / category title — "trip titles се семантички многу пониски во
+     hierarchy... наместо секоја card да изгледа како mini hero". */
+  --wf-h3-size: 18px;
+  --wf-h3-leading: 1.2;
+  --wf-h3-weight: 600;
+
+  /* Body — editorial and concept text. Never below 16px, mobile included. */
+  --wf-body-size: 16px;
   --wf-body-leading: var(--wf-leading-relaxed);
-  --wf-body-sm-size: 15px;   /* card descriptions, secondary copy */
+  --wf-body-measure: 620px;
+  --wf-body-measure-wide: 680px;   /* a wider editorial intro */
+  --wf-body-sm-size: 15px;         /* card descriptions, secondary copy */
 
-  /* Navigation — Manrope 700, 12px, uppercase. 13 is the stated ceiling;
-     the brief warns 14–15 loses the luxury feel. */
-  --wf-nav-size: var(--wf-text-xs);
+  /* The emphasised closing line of a passage. Noticeable by weight, not size:
+     "Таа треба да е забележлива по weight, не затоа што е 28px." */
+  --wf-strong-size: 17px;
+  --wf-strong-leading: 1.45;
+  --wf-strong-weight: 600;
 
-  /* Buttons — Manrope 700, 11–12px, uppercase. */
+  /* Card metadata — route / duration / best time. */
+  --wf-meta-size: 12.5px;
+  /* Card price. */
+  --wf-price-size: 19px;
+
+  /* Navigation — Manrope, 13px. */
+  --wf-nav-size: 13px;
+  --wf-nav-weight: 600;
+
+  /* Buttons — Manrope 600, 12px, uppercase. */
   --wf-button-size: var(--wf-text-xs);
   --wf-button-size-sm: 11px;
+  --wf-button-weight: 600;
 
-  /* Small label / eyebrow — Manrope 700, 10–11px, wide tracking. */
+  /* Footer links. */
+  --wf-footer-link-size: 14px;
+
+  /* Small label / eyebrow — Manrope 600, 11px, wide tracking. The one role
+     the SIZE brief keeps in capitals. */
   --wf-eyebrow-size: 11px;
+  --wf-eyebrow-leading: 1.2;
+  --wf-eyebrow-weight: 600;
   --wf-eyebrow-tracking: var(--wf-tracking-label);
 
   /* Filters and tabs — Manrope 600, 12px. */
   --wf-filter-size: var(--wf-text-xs);
   --wf-filter-tracking: 0.07em;
+}
+
+/* — Responsive steps ————————————————————————————————
+   "Не треба само desktop да се намали." The brief's own table, verbatim:
+
+     role            ≤767   768–1023   1024–1439   ≥1440
+     H1 homepage      34        38         46        52
+     H1 internal      34        38         42        46
+     subtitle         20        21         22        24
+     H2               24        26         28        30
+     lead             17        17         17        18
+     body             16        16         16        17
+
+   Body never drops below 16px, mobile included — stated explicitly. */
+@media (min-width: 768px) {
+  :root {
+    --wf-h1-size: 38px;
+    --wf-h1-internal-size: 38px;
+    --wf-subtitle-size: 21px;
+    --wf-h2-size: 26px;
+    --wf-cta-size: 28px;
+    --wf-section-subtitle-size: 19px;
+  }
+}
+@media (min-width: 1024px) {
+  :root {
+    --wf-h1-size: 46px;
+    --wf-h1-internal-size: 42px;
+    --wf-subtitle-size: 22px;
+    --wf-h2-size: 28px;
+    --wf-cta-size: 30px;
+    --wf-section-subtitle-size: 20px;
+  }
+}
+@media (min-width: 1440px) {
+  :root {
+    --wf-h1-size: 52px;
+    --wf-h1-internal-size: 46px;
+    --wf-subtitle-size: 24px;
+    --wf-h2-size: 30px;
+    --wf-cta-size: 34px;
+    --wf-section-subtitle-size: 21px;
+    --wf-lead-size: 18px;
+    --wf-body-size: 17px;
+    --wf-strong-size: 18px;
+  }
 }

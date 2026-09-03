@@ -31,7 +31,7 @@ export default async function HowItWorksPage({
           have not arrived, so this keeps the ink ground. */}
       <section style={{ background: "var(--wf-ink-900)", color: "var(--wf-text-on-dark)", padding: "clamp(52px, 7vw, 80px) 0" }}>
         <div className="wf-wrap wf-wrap--default" style={{ textAlign: "center" }}>
-          <h2 className="wf-h2" style={{ margin: 0 }}>
+          <h2 className="wf-h2 wf-h2--center" style={{ margin: "0 auto" }}>
             {t("howCta")}
           </h2>
           <div style={{ marginTop: 28 }}>

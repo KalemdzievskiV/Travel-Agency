@@ -30,12 +30,28 @@ export function Prose({
   return (
     <>
       {paragraphs.map((para, i) => (
-        <p key={i} style={{ margin: i === 0 ? 0 : `${gap} 0 0`, ...style }}>
+        <p
+          key={i}
+          // A paragraph that is nothing but one emphasised run is the brief's
+          // "strong final sentence" — one step up in size and 600, never a
+          // second headline. A `**run**` inside a sentence stays inline.
+          className={isWhollyEmphasised(para) ? "wf-strong-line" : undefined}
+          style={{ margin: i === 0 ? 0 : `${gap} 0 0`, ...style }}
+        >
           {emphasise(para)}
         </p>
       ))}
     </>
   );
+}
+
+/** True when the paragraph opens and closes one `**…**` run and holds nothing else. */
+function isWhollyEmphasised(para: string): boolean {
+  const t = para.trim();
+  if (!t.startsWith("**") || !t.endsWith("**") || t.length < 5) return false;
+  // Exactly one run: splitting yields ["", <run>, ""].
+  const parts = t.split(/\*\*([\s\S]+?)\*\*/g);
+  return parts.length === 3 && parts[0] === "" && parts[2] === "";
 }
 
 /**

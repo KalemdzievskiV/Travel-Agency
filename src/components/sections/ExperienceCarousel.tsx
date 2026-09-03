@@ -123,7 +123,7 @@ export function ExperienceCarousel({
                 display: "block",
                 fontFamily: "var(--wf-font-sans)",
                 fontSize: 12,
-                fontWeight: 700,
+                fontWeight: 600,
                 letterSpacing: "0.18em",
                 textTransform: "uppercase",
                 /* 3.1: "сивото кое што треба да е зелено" — the light band's
@@ -141,10 +141,9 @@ export function ExperienceCarousel({
             style={{
               fontFamily: "var(--wf-font-display)",
               fontWeight: 400,
-              fontSize: "clamp(26px, 3.4vw, 42px)",
-              lineHeight: 1.05,
+              fontSize: "var(--wf-h2-size)",
+              lineHeight: "var(--wf-h2-leading)",
               letterSpacing: "0",
-              textTransform: "uppercase",
               margin: "0 auto",
               maxWidth: "22ch",
             }}

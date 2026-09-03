@@ -91,14 +91,23 @@ styles cannot hold media queries**, so follow this split:
   headline's weight comes from its size and Oswald's condensed shapes, not from
   thicker strokes. Manrope 400/500/600/700 for navigation, body, buttons,
   labels, prices, filters, forms and footer. Body is 17px at 1.65 leading.
-  **Display headings are UPPERCASE** since the client's 3.1 corrections — the
-  case lives on `.wf-h1` / `.wf-h2` / `.wf-h2--cta`, so write copy in sentence
-  case in `messages/` and `src/content/` and let the class shout it. Card
-  titles (`.wf-h3`) stay sentence case.
-  **Eyebrows** are 11px, 700, UPPERCASE, `.14em` tracking.
-  Use the role classes (`.wf-h1`, `.wf-h2`, `.wf-h2--cta`, `.wf-h3`,
-  `.wf-eyebrow`) and the tokens in `src/styles/wayfare/typography.css` rather
-  than restating sizes — that file carries the desktop/tablet/mobile figures.
+  **Sentence case everywhere except eyebrows, labels and buttons** — the
+  client's SIZE brief: "Не uppercase ако не е намерен graphic treatment". (The
+  3.1 corrections had asked for uppercase headings; SIZE supersedes them.)
+  **Eyebrows** are 11px, 600, UPPERCASE, `.14em` tracking.
+  **The scale is locked by the client's SIZE brief** (3 Sep 2026) and is not
+  yours to nudge: H1 52 homepage / 46 internal, subtitle 24, H2 30, lead 18,
+  body 17 at ≥1440, stepping down through four named bands to 34/20/24/17/16 on
+  a phone — body never below 16px. Weights are 400 body, **500 H1/H2/subtitle**,
+  600 emphasis/CTA/labels/card titles; 700 is out of editorial pages.
+  Measures: container 1240, body 620 (680 for a wider intro), headline 850–900.
+  Section-to-section padding 80–88px, not 120–150.
+  Use the role classes (`.wf-h1` + `.wf-h1--internal`, `.wf-h2` +
+  `.wf-h2--center` / `--cta`, `.wf-h3`, `.wf-subtitle`, `.wf-section-subtitle`,
+  `.wf-lead`, `.wf-eyebrow`) and the tokens in
+  `src/styles/wayfare/typography.css` rather than restating sizes. Note the role
+  classes carry `max-width` and `margin-inline: auto`, so an inline `margin: 0`
+  will knock a centred heading off-centre — pass `margin: "0 auto"`.
 - **Shape:** restrained radii — `--wf-radius-md` (4px) for cards/buttons; pills
   only for chips and circular icon buttons. Luxury reads square-ish.
 - **Depth:** hairline borders (`1px var(--wf-border)`) over heavy shadows; soft,
@@ -113,9 +122,8 @@ styles cannot hold media queries**, so follow this split:
 ## Brand voice (write copy this way)
 - Speak as **"we"**, address the reader as **"you"**. Warm, editorial, never salesy.
 - **British English** ("personalised", "tailor-made", "favourite").
-- Lead with **feeling**, not logistics. **Write** everything in sentence case —
-  including headings, which the role classes uppercase for you. Headlines short
-  and set in Oswald.
+- Lead with **feeling**, not logistics. Sentence case everywhere; UPPERCASE only
+  for eyebrows, small labels and buttons. Headlines short and set in Oswald.
 - CTAs are verbs of intent: "Plan my trip", "Start your journey", "Enquire now"
   — never "Submit" / "Click here".
 - Concrete, credible specifics ("no planning fees", "within 24 hours"). Avoid
