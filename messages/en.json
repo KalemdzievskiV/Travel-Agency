@@ -476,7 +476,14 @@
       "sun": "Sunday"
     },
     "introChannels": "We can arrange the conversation over email, phone, Viber or WhatsApp — whenever suits you best.",
-    "introCallNow": "Prefer to talk right now? Call us on <phone></phone>."
+    "introCallNow": "Prefer to talk right now? Call us on <phone></phone>.",
+    "inspireMe": "Not sure yet? That's fine too. Inspire me.",
+    "flexibleDates": "My dates are flexible.",
+    "channelLegend": "How would you most like to talk?",
+    "channelEmail": "Email",
+    "channelPhone": "Phone",
+    "channelViber": "Viber",
+    "channelWhatsapp": "WhatsApp"
   },
   "destinationsMenu": {
     "allDestinations": "All destinations",

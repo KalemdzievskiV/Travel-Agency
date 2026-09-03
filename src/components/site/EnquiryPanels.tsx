@@ -3,7 +3,7 @@
 import React from "react";
 import { Phone, Clock } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { Button, Eyebrow } from "@/components/ui";
+import { Button, Checkbox, CheckboxGroup, Eyebrow } from "@/components/ui";
 import { Link } from "@/i18n/navigation";
 import { site } from "@/content/site";
 import { useOpeningHoursMessage } from "@/lib/hours";
@@ -26,7 +26,8 @@ const CHILD_AGES = Array.from({ length: 11 }, (_, i) => String(i + 2).padStart(2
 const controlStyle: React.CSSProperties = {
   width: "100%",
   fontFamily: "var(--wf-font-sans)",
-  fontSize: 15,
+  // 3.1 asked for the select prompts and the empty boxes to come down a step.
+  fontSize: 14,
   color: "var(--wf-ink-900)",
   background: "var(--wf-paper)",
   border: "1px solid var(--wf-border-strong)",
@@ -45,7 +46,7 @@ const subLabelStyle: React.CSSProperties = {
 function Field({ label, htmlFor, required = false, children }: { label: string; htmlFor?: string; required?: boolean; children: React.ReactNode }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
-      <label htmlFor={htmlFor} style={{ fontSize: 13, fontWeight: 500, color: "var(--wf-ink-700)" }}>
+      <label htmlFor={htmlFor} style={{ fontSize: 13, fontWeight: 700, color: "var(--wf-ink-900)" }}>
         {label}
         {required && <span aria-hidden style={{ color: "var(--wf-accent-ink)", marginLeft: 3 }}>*</span>}
       </label>
@@ -165,6 +166,8 @@ export function EnquiryPanels({
   const [sent, setSent] = React.useState(false);
   const [childCount, setChildCount] = React.useState(0);
   const [childAges, setChildAges] = React.useState<string[]>([]);
+  // Controlled so the "инспирирај ме" checkbox and the dropdown stay one answer.
+  const [destination, setDestination] = React.useState(presetDestination || "");
 
   const setChildren = (c: number) => {
     setChildCount(c);
@@ -245,23 +248,22 @@ export function EnquiryPanels({
             {hoursMsg}
           </Eyebrow>
         )}
+        {/* TODO(3.1): "Stavi pozadina od novite krem nekoja" behind this
+            header — the cream boards have not arrived. The heading takes the
+            shared `.wf-h2` scale and its uppercase in the meantime. */}
         <h1
+          className="wf-h2"
           style={{
-            fontFamily: "var(--wf-font-display)",
-            fontWeight: 400,
-            fontSize: "clamp(30px, 5vw, 48px)",
-            lineHeight: 1.05,
-            letterSpacing: "0",
             margin: 0,
             color: "var(--wf-ink-900)",
           }}
         >
           {t.rich("title", { i: (chunks) => <span style={{ fontStyle: "italic" }}>{chunks}</span> })}
         </h1>
-        <p style={{ fontSize: 17, lineHeight: 1.65, color: "var(--wf-ink-700)", margin: "18px auto 0", maxWidth: 640 }}>
+        <p style={{ fontSize: 15.5, lineHeight: 1.65, color: "var(--wf-ink-700)", margin: "16px auto 0", maxWidth: 640 }}>
           {t("pageIntro")}
         </p>
-        <p style={{ fontSize: 17, lineHeight: 1.65, color: "var(--wf-ink-700)", margin: "14px auto 0", maxWidth: 640 }}>
+        <p style={{ fontSize: 15.5, lineHeight: 1.65, color: "var(--wf-ink-700)", margin: "12px auto 0", maxWidth: 640 }}>
           {t("introChannels")}
         </p>
         <p style={{ fontSize: 17, lineHeight: 1.65, color: "var(--wf-ink-700)", margin: "14px auto 0", maxWidth: 640 }}>
@@ -289,7 +291,14 @@ export function EnquiryPanels({
 
           {/* Where — destination dropdown */}
           <Field label={t("whereLabel")} htmlFor="destination" required>
-            <select id="destination" name="destination" defaultValue={presetDestination || ""} required style={controlStyle}>
+            <select
+              id="destination"
+              name="destination"
+              value={destination}
+              onChange={(e) => setDestination(e.target.value)}
+              required
+              style={controlStyle}
+            >
               <option value="" disabled>{t("whereSelect")}</option>
               {presetDestination && !destinations.includes(presetDestination) && (
                 <option value={presetDestination}>{presetDestination}</option>
@@ -300,6 +309,16 @@ export function EnquiryPanels({
               <option value="__undecided">{t("whereUndecided")}</option>
             </select>
           </Field>
+          {/* Ticking this is the same answer as picking "инспирирај ме" from the
+              list above, so it drives the select rather than posting a field of
+              its own — one answer, one value, however it was given. */}
+          <Checkbox
+            name="inspireMe"
+            checked={destination === "__undecided"}
+            onChange={(e) => setDestination(e.target.checked ? "__undecided" : "")}
+          >
+            {t("inspireMe")}
+          </Checkbox>
 
           {/* When — month + year */}
           <Field label={t("whenLabel")} htmlFor="month" required>
@@ -318,6 +337,7 @@ export function EnquiryPanels({
               </select>
             </div>
           </Field>
+          <Checkbox name="flexibleDates">{t("flexibleDates")}</Checkbox>
 
           {/* How long — free text */}
           <TextField label={t("durationLabel")} name="duration" placeholder={t("durationPlaceholder")} required />
@@ -390,16 +410,7 @@ export function EnquiryPanels({
             <TextField label={t("firstName")} name="firstName" placeholder={t("firstName")} required />
             <TextField label={t("lastName")} name="lastName" placeholder={t("lastName")} required />
           </div>
-          <div className="wf-form-grid">
-            <TextField label={t("emailLabel")} name="email" type="email" placeholder={t("emailPlaceholder")} required />
-            <TextField
-              label={t("confirmEmailLabel")}
-              name="confirmEmail"
-              type="email"
-              placeholder={t("emailPlaceholder")}
-              required
-            />
-          </div>
+          <TextField label={t("emailLabel")} name="email" type="email" placeholder={t("emailPlaceholder")} required />
           <Field label={t("telephoneLabel")} htmlFor="phone" required>
             <div style={{ display: "flex", gap: 8 }}>
               <select
@@ -416,24 +427,20 @@ export function EnquiryPanels({
             </div>
           </Field>
 
-          <label
-            style={{
-              display: "flex",
-              alignItems: "flex-start",
-              gap: 10,
-              fontSize: 13.5,
-              color: "var(--wf-ink-700)",
-              lineHeight: 1.5,
-              cursor: "pointer",
-            }}
-          >
-            <input
-              type="checkbox"
-              name="newsletter"
-              style={{ width: 17, height: 17, marginTop: 2, accentColor: "var(--wf-coral-500)" }}
-            />
-            {t("newsletter")}
-          </label>
+          {/* Where "потврдете ја е-адресата" used to be. 3.1 asked for that
+              field to go and for this to take its place. */}
+          <CheckboxGroup
+            legend={t("channelLegend")}
+            name="channel"
+            options={[
+              { value: "email", label: t("channelEmail") },
+              { value: "phone", label: t("channelPhone") },
+              { value: "viber", label: t("channelViber") },
+              { value: "whatsapp", label: t("channelWhatsapp") },
+            ]}
+          />
+
+          <Checkbox name="newsletter">{t("newsletter")}</Checkbox>
 
           <div style={{ textAlign: "center", marginTop: 6 }}>
             <Button type="submit" variant="primary" size="lg">
