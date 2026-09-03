@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useTranslations } from "next-intl";
-import { Button, Eyebrow } from "@/components/ui";
+import { Button, Checkbox, CheckboxGroup, Eyebrow } from "@/components/ui";
 import { Link } from "@/i18n/navigation";
 import { AirportCombobox } from "./AirportCombobox";
 
@@ -69,6 +69,8 @@ export function FlightTicketsForm() {
         </Field>
       </div>
 
+      <Checkbox name="flexibleDates">{t("flexibleDates")}</Checkbox>
+
       <div className="wf-form-grid">
         <Field label={t("name")} htmlFor="name"><input id="name" name="name" required placeholder={t("name")} style={control} /></Field>
         <Field label={t("phone")} htmlFor="phone"><input id="phone" name="phone" type="tel" required placeholder={t("phone")} style={control} /></Field>
@@ -77,6 +79,17 @@ export function FlightTicketsForm() {
       <Field label={t("note")} htmlFor="note">
         <textarea id="note" name="note" rows={3} placeholder={t("notePlaceholder")} style={{ ...control, resize: "vertical", lineHeight: 1.5 }} />
       </Field>
+
+      <CheckboxGroup
+        legend={t("channelLegend")}
+        name="channel"
+        options={[
+          { value: "email", label: t("channelEmail") },
+          { value: "phone", label: t("channelPhone") },
+          { value: "viber", label: t("channelViber") },
+          { value: "whatsapp", label: t("channelWhatsapp") },
+        ]}
+      />
 
       <div style={{ textAlign: "center", marginTop: 6 }}>
         <Button type="submit" variant="primary" size="lg">{t("submit")}</Button>

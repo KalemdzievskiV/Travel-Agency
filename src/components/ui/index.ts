@@ -14,4 +14,5 @@ export { Card } from "./Card";
 export { DestinationCard } from "./DestinationCard";
 export { Icon } from "./Icon";
 export { Prose, emphasise } from "./Prose";
+export { Checkbox, CheckboxGroup } from "./Checkbox";
 export type { IconName } from "./Icon";

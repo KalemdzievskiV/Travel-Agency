@@ -68,7 +68,8 @@
       "Groups": "Groups",
       "Honeymoon": "Honeymoon",
       "Solo": "Solo"
-    }
+    },
+    "intro": "You don't need a destination in mind. Pick whatever suits you best and take it from there."
   },
   "explore": {
     "title": "Explore our trips",
@@ -221,12 +222,14 @@
     "heroSub": "Tell us about your perfect journey. Everything else is ours to take care of.",
     "heroCta": "Describe your journey",
     "introLead": "A journey is more than a destination.",
-    "introBody": "Whether you're planning a family safari, a romantic honeymoon or a solo adventure, our team builds a wholly personalised programme around what you're after — to satisfy your urge to explore. To follow your passions. To push your own limits.",
+    "introBody": "Whether you're planning a family safari, a romantic honeymoon or a solo adventure, our team builds a wholly personalised programme around what you're after — to satisfy your urge to explore. To follow your passions. To push your own limits. **We are experts in the art of travel and we know every corner of the world, which makes us the right partner for the journey you've been dreaming of.**",
     "introClose": "We are experts in the art of travel and we know every corner of the world, which makes us the right partner for the journey you've been dreaming of.",
     "whoQuestion": "Not where, but who's travelling?",
     "howQuestion": "Not where, but how?",
     "readMore": "Read more",
-    "readLess": "Read less"
+    "readLess": "Read less",
+    "whoEyebrow": "Who are you travelling with?",
+    "howEyebrow": "How do you want to travel?"
   },
   "experiencesMenu": {
     "who": "Who's travelling",
@@ -385,7 +388,22 @@
     "finePrint": "The form sends your details straight to our team. We reply quickly.",
     "sentTitle": "Your request is on its way",
     "sentBody": "We'll send you our best offer as soon as possible.",
-    "backHome": "Back to home"
+    "backHome": "Back to home",
+    "subtitle": "The real question is how best to get there.",
+    "flexibleDates": "My dates are flexible.",
+    "channelLegend": "How would you most like to talk?",
+    "channelEmail": "Email",
+    "channelPhone": "Phone",
+    "channelViber": "Viber",
+    "channelWhatsapp": "WhatsApp",
+    "whyTitle": "Why book through bookit?",
+    "whyLead": "Because the cheapest flight is not always the best one.",
+    "why1Title": "A better route",
+    "why1Body": "We don't only look at the fare. We look at journey time, connections and how practical the whole route is.",
+    "why2Title": "The whole picture",
+    "why2Body": "Baggage, ticket conditions and the extras are part of the choice, not something to discover later.",
+    "why3Title": "A person when you need one",
+    "why3Body": "When you have a question about your booking, you know exactly who to ask."
   },
   "enquiry": {
     "close": "Back to home",
