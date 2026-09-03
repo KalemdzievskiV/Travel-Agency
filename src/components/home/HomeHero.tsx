@@ -102,13 +102,16 @@ export function HomeHero() {
         {/* Subtitle is Manrope, deliberately not Oswald — the contrast between
             the big display heading and clean, very readable secondary text is
             the whole principle the brief borrows from Black Tomato. */}
+        {/* "може да е исто по мала меѓутоа да биде во еден ред" — a step down
+            and, from ~900px up, on a single line. The 560px cap forced it to
+            two; `max-content` lets it size to the sentence, and the cap comes
+            back below that width where one line would not fit anyway. */}
         <p
+          className="wf-hero-sub"
           style={{
-            fontSize: "clamp(16px, 2vw, 18px)",
-            lineHeight: 1.4,
+            lineHeight: 1.45,
             color: "rgba(255,255,255,0.85)",
-            margin: "22px auto 0",
-            maxWidth: 560,
+            margin: "18px auto 0",
           }}
         >
           {t("hero.intro")}

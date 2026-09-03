@@ -4,6 +4,7 @@ import { StartYourJourney } from "@/components/home/StartYourJourney";
 import { ExploreTrips } from "@/components/home/ExploreTrips";
 import { WhyBookit } from "@/components/home/WhyBookit";
 import { EnquireButton } from "@/components/site/EnquireButton";
+import { emphasise } from "@/components/ui";
 import { getDestinations, getTrips } from "@/lib/queries/public";
 import { getExperienceCategories } from "@/lib/queries/experiences";
 import { journeyTabs } from "@/content/site";
@@ -83,10 +84,10 @@ export default async function HomePage({
         }}
       >
         <div className="wf-wrap" style={{ maxWidth: 1040, textAlign: "center" }}>
-          {/* "Секое патување започнува со чувство" — named in the brief as a
-              main section heading, so Oswald 400 at 48–58px rather than the
-              small tracked-out sans label it was. Sentence case, as written in
-              `messages/`; the uppercase here was presentational. */}
+          {/* "Секое патување започнува со чувство" — a main section heading, so
+              it takes `.wf-h2`, which carries both the size and the uppercase
+              3.1 asked for ("ХЕДИНГОТ ДА Е СО ГОЛЕМИ БУКВИ ЦЕЛ"). The copy in
+              `messages/` stays sentence case. */}
           <h2 className="wf-h2" style={{ color: "var(--wf-ink-900)", margin: 0 }}>
             {t("intro.heading")}
           </h2>
@@ -95,7 +96,7 @@ export default async function HomePage({
               display: "grid",
               gap: "clamp(18px, 3vw, 26px)",
               margin: "clamp(28px, 4vw, 40px) 0 0",
-              fontSize: "clamp(16px, 1.7vw, 18px)",
+              fontSize: "clamp(15px, 1.5vw, 16.5px)",
               lineHeight: 1.7,
               color: "var(--wf-ink-700)",
             }}
@@ -103,7 +104,7 @@ export default async function HomePage({
             <p style={{ margin: 0 }}>
               {t.rich("intro.p1", { i: (chunks) => <em>{chunks}</em> })}
             </p>
-            <p style={{ margin: 0 }}>{t("intro.p2")}</p>
+            <p style={{ margin: 0 }}>{emphasise(t("intro.p2"))}</p>
           </div>
           <div style={{ marginTop: "clamp(28px, 4vw, 40px)", display: "flex", justifyContent: "center" }}>
             <EnquireButton size="lg" className="wf-cta-mono">

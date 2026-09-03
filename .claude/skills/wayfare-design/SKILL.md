@@ -91,6 +91,10 @@ styles cannot hold media queries**, so follow this split:
   headline's weight comes from its size and Oswald's condensed shapes, not from
   thicker strokes. Manrope 400/500/600/700 for navigation, body, buttons,
   labels, prices, filters, forms and footer. Body is 17px at 1.65 leading.
+  **Display headings are UPPERCASE** since the client's 3.1 corrections — the
+  case lives on `.wf-h1` / `.wf-h2` / `.wf-h2--cta`, so write copy in sentence
+  case in `messages/` and `src/content/` and let the class shout it. Card
+  titles (`.wf-h3`) stay sentence case.
   **Eyebrows** are 11px, 700, UPPERCASE, `.14em` tracking.
   Use the role classes (`.wf-h1`, `.wf-h2`, `.wf-h2--cta`, `.wf-h3`,
   `.wf-eyebrow`) and the tokens in `src/styles/wayfare/typography.css` rather
@@ -109,8 +113,9 @@ styles cannot hold media queries**, so follow this split:
 ## Brand voice (write copy this way)
 - Speak as **"we"**, address the reader as **"you"**. Warm, editorial, never salesy.
 - **British English** ("personalised", "tailor-made", "favourite").
-- Lead with **feeling**, not logistics. Sentence case everywhere; UPPERCASE only
-  for eyebrows/labels. Headlines short and set in Oswald.
+- Lead with **feeling**, not logistics. **Write** everything in sentence case —
+  including headings, which the role classes uppercase for you. Headlines short
+  and set in Oswald.
 - CTAs are verbs of intent: "Plan my trip", "Start your journey", "Enquire now"
   — never "Submit" / "Click here".
 - Concrete, credible specifics ("no planning fees", "within 24 hours"). Avoid

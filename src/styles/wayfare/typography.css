@@ -64,17 +64,21 @@
      desktop/tablet/mobile figures for the display sizes, and clamp() is how
      inline styles honour them (they can't carry a media query). */
 
-  /* Hero H1 — Oswald 400, 44–54 mobile / 60–72 tablet / 72–100 desktop. */
-  --wf-h1-size: clamp(44px, 7vw, 100px);
+  /* Hero H1 — Oswald 400, 32–40 mobile / 46–58 tablet / 58–64 desktop.
+     Revision 3.1 brought the whole display scale down a step: "да е помал
+     текстот, ова делува многу големо како да е цела страна тоа". The three
+     display roles moved together so the hierarchy between them is unchanged;
+     body sizes are untouched. */
+  --wf-h1-size: clamp(32px, 4.6vw, 64px);
   --wf-h1-leading: var(--wf-leading-hero);
   --wf-h1-tracking: var(--wf-tracking-display);
 
-  /* Large CTA heading — Oswald 400, 38–46 mobile / 56–70 desktop. */
-  --wf-cta-size: clamp(38px, 5vw, 68px);
+  /* Large CTA heading — Oswald 400, 26–32 mobile / 38–44 desktop. */
+  --wf-cta-size: clamp(26px, 3.2vw, 44px);
   --wf-cta-leading: 0.98;
 
-  /* Section H2 — Oswald 400, 36 mobile / 48–58 desktop. */
-  --wf-h2-size: clamp(36px, 4.4vw, 54px);
+  /* Section H2 — Oswald 400, 26 mobile / 34–38 desktop. */
+  --wf-h2-size: clamp(26px, 3vw, 38px);
   --wf-h2-leading: var(--wf-leading-tight);
   --wf-h2-tracking: var(--wf-tracking-normal);
 

@@ -46,6 +46,20 @@ export function StartYourJourney({ tabs }: { tabs: JourneyTab[] }) {
         <h2 className="wf-h2" style={{ color: "var(--wf-ink-900)", textAlign: "center", margin: 0 }}>
           {tr("journey.heading")}
         </h2>
+        {/* 3.1 asked for a line here, between the heading and the tab rail:
+            "Под него над поделбата да има помал текст". */}
+        <p
+          style={{
+            fontSize: "clamp(14px, 1.5vw, 16px)",
+            lineHeight: 1.6,
+            color: "var(--wf-ink-700)",
+            textAlign: "center",
+            maxWidth: 620,
+            margin: "clamp(12px, 2vw, 16px) auto 0",
+          }}
+        >
+          {tr("journey.intro")}
+        </p>
 
         {/* Tabs */}
         <div

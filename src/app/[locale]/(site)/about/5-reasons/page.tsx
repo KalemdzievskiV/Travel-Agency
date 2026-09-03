@@ -45,7 +45,7 @@ export default async function FiveReasonsPage({
             {t("ctaReadyWhen")}
           </h2>
           <div style={{ marginTop: 28 }}>
-            <Button variant="primary" size="lg" as="a" href="/trip-finder">
+            <Button variant="primary" size="lg" as="a" href="/trip-finder" className="wf-cta-mono--light">
               {tc("planMyTrip")}
             </Button>
           </div>

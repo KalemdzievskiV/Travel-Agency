@@ -111,7 +111,7 @@ export default async function AboutPage({
             {t("ctaReadyNew")}
           </h2>
           <div style={{ marginTop: 28 }}>
-            <Button variant="primary" size="lg" as="a" href="/trip-finder">
+            <Button variant="primary" size="lg" as="a" href="/trip-finder" className="wf-cta-mono">
               {tc("planMyTrip")}
             </Button>
           </div>

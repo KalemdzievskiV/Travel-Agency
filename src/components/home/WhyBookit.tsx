@@ -89,13 +89,16 @@ export async function WhyBookit() {
         }}
       >
         <div className="wf-wrap wf-wrap--default">
-          {/* "Спремни сте да започнете?" — the brief's large CTA heading:
-              Oswald 400, a step above a section heading. */}
-          <h2 className="wf-h2 wf-h2--cta" style={{ margin: 0 }}>
+          {/* Three centred lines since 3.1 — "со помали букви (сите големи)
+              централизирано" — so the band states the idea, asks the question
+              and answers it. They are one string with line breaks rather than
+              three keys: the break points are part of the copy, and a
+              translator needs to move them with the words. */}
+          <h2 className="wf-h2 wf-h2--cta wf-h2--cta-stack" style={{ margin: 0, whiteSpace: "pre-line" }}>
             {t("why.ctaHeading")}
           </h2>
           <div style={{ marginTop: "clamp(24px, 4vw, 34px)" }}>
-            <EnquireButton size="lg">
+            <EnquireButton size="lg" className="wf-cta-mono">
               {/* Its own key: the landing page now carries two different CTAs
                   the brief names separately — "Раскажи ни што замислуваш" under
                   the intro (common.getInTouch) and this one closing the page. */}

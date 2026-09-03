@@ -77,8 +77,12 @@
   color: #fff;
   font-family: var(--wf-font-sans);
   font-weight: 700;
-  font-size: 15px;
-  letter-spacing: 0.02em;
+  /* Matched to the Button primitive, token for token: 3.1 flagged the hero
+     pair as "различна големина на фонт". Padding already agreed; the label was
+     15px/0.02em against the button's 12px/0.09em uppercase. */
+  font-size: var(--wf-button-size);
+  letter-spacing: var(--wf-tracking-button);
+  text-transform: uppercase;
   line-height: 1;
   text-decoration: none;
   transition: background 0.2s var(--wf-ease-out), color 0.2s var(--wf-ease-out);
@@ -129,33 +133,51 @@
   }
 }
 
-/* ── Mobile-only mono CTA ─────────────────────────────────────────
-   The client's mobile brief asks for one accented control per screen — the
-   "start here" button in the header — with every other CTA black-and-white
-   ("исто црно бело со транзиција како горното"). These classes restate the
-   `primary` Button's colour vars below 860px only; desktop keeps the accent
-   fill it has today. The hover pair is kept so the invert still reads on the
-   handful of touch devices that fire it, and on a narrow desktop window.
+/* ── Mono CTA ─────────────────────────────────────────────────────
+   One accented control per screen — the "start here" button in the header —
+   with every other CTA black-and-white. This began as a mobile-only rule from
+   the mobile brief; revision 3.1 asks for it at every width ("Зелено да биде
+   само горе десно. Другово е црно со бело... кога ќе се допре значи обратно"),
+   so the media query is gone and these restate the `primary` Button's colour
+   vars wherever a CTA opts in.
+
+   Opting in is per call site, not automatic: the header's button deliberately
+   does not carry the class, and form submits keep the accent. The pages 3.1
+   named are the landing hero, the landing intro, the landing CTA band, the
+   experiences hero, /about and /about/5-reasons.
 
    Two cuts, because the CTAs sit on opposite grounds:
      .wf-cta-mono        ink fill  → inverts to white   (light sections, photos)
      .wf-cta-mono--light white fill → inverts to ink    (dark panels and bands)
    Black on a dark navy panel would be the literal reading of "црно бело" and
    also unreadable; --light is that same pair the other way up. */
-@media (max-width: 860px) {
-  .wf-cta-mono {
-    --wf-btn-bg: var(--wf-ink-900);
-    --wf-btn-fg: var(--wf-text-on-dark);
-    --wf-btn-bg-hover: #fff;
-    --wf-btn-fg-hover: var(--wf-ink-900);
-    --wf-btn-bd-hover: var(--wf-ink-900);
-  }
-  .wf-cta-mono--light {
-    --wf-btn-bg: #fff;
-    --wf-btn-fg: var(--wf-ink-900);
-    --wf-btn-bg-hover: var(--wf-ink-900);
-    --wf-btn-fg-hover: var(--wf-text-on-dark);
-    --wf-btn-bd-hover: #fff;
+.wf-cta-mono {
+  --wf-btn-bg: var(--wf-ink-900);
+  --wf-btn-fg: var(--wf-text-on-dark);
+  --wf-btn-bg-hover: #fff;
+  --wf-btn-fg-hover: var(--wf-ink-900);
+  --wf-btn-bd-hover: var(--wf-ink-900);
+}
+.wf-cta-mono--light {
+  --wf-btn-bg: #fff;
+  --wf-btn-fg: var(--wf-ink-900);
+  --wf-btn-bg-hover: var(--wf-ink-900);
+  --wf-btn-fg-hover: var(--wf-text-on-dark);
+  --wf-btn-bd-hover: #fff;
+}
+
+/* ── Hero sub-line ────────────────────────────────────────────────
+   3.1: "Реченицата што е под него може да е исто по мала меѓутоа да биде во
+   еден ред." Below 900px the sentence cannot fit one line at any readable
+   size, so it keeps a reading cap and wraps; above it, `max-content` sizes the
+   paragraph to the sentence so it sets on one line. */
+.wf-hero-sub {
+  font-size: clamp(14px, 1.6vw, 16px);
+  max-width: 560px;
+}
+@media (min-width: 900px) {
+  .wf-hero-sub {
+    max-width: max-content;
   }
 }
 

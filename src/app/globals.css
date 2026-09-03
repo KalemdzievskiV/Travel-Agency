@@ -115,13 +115,23 @@ body {
 
    OSWALD = наслови. MANROPE = сè останато. Nothing here mixes the two. */
 
-/* Hero H1 — Oswald 400. The one heading allowed to be this big. */
+/* Hero H1 — Oswald 400. The one heading allowed to be this big.
+
+   Uppercase since revision 3.1, which asked for it on every heading it went
+   past ("исто хедингот се со големи букви", repeated on the landing page, the
+   experiences hub, за нас, 5 причини and како функционира). It is applied on
+   the role class, not in `messages/` or `src/content/`, so the copy stays
+   sentence case for translators and for anywhere a heading is reused as plain
+   text. This reverses the design system's original "sentence case everywhere"
+   rule for display headings — eyebrows and labels were already uppercase, and
+   body copy is unaffected. */
 .wf-h1 {
   font-family: var(--wf-font-display);
   font-weight: 400;
   font-size: var(--wf-h1-size);
   line-height: var(--wf-h1-leading);
   letter-spacing: var(--wf-h1-tracking);
+  text-transform: uppercase;
 }
 
 /* Section H2 — Oswald 400, the main heading font across the site. */
@@ -131,6 +141,7 @@ body {
   font-size: var(--wf-h2-size);
   line-height: var(--wf-h2-leading);
   letter-spacing: var(--wf-h2-tracking);
+  text-transform: uppercase;
 }
 
 /* Large CTA heading — Oswald 400, a step above H2 where a band is a call to
@@ -138,6 +149,16 @@ body {
 .wf-h2--cta {
   font-size: var(--wf-cta-size);
   line-height: var(--wf-cta-leading);
+}
+
+/* The same band when the copy is a stack of short lines rather than one
+   headline. 3.1 rewrote the landing CTA as three centred statements, and the
+   display leading (0.98) is set for a heading that wraps once or not at all —
+   three full-width lines at that size close up into a block. Smaller, with
+   leading that lets the lines read as separate sentences. */
+.wf-h2--cta-stack {
+  font-size: clamp(18px, 2.1vw, 28px);
+  line-height: 1.32;
 }
 
 /* Card / category title — Oswald 500, the one place the medium cut is used. */
