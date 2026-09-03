@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Button, Eyebrow } from "@/components/ui";
+import { Button, Eyebrow, Prose } from "@/components/ui";
 import { Link } from "@/i18n/navigation";
 import { ExperienceTabs } from "@/components/sections/ExperienceTabs";
 import { ExperienceCarousel } from "@/components/sections/ExperienceCarousel";
-import { ExpandableProse } from "@/components/sections/ExpandableProse";
 import { getExperienceCategories } from "@/lib/queries/experiences";
 import { experiencesHeroImage } from "@/content/site";
 import { backdrop, pageBackdrop, pageBoard } from "@/content/media";
@@ -75,31 +74,20 @@ export default async function ExperiencesPage({
           className="wf-wrap wf-wrap--default"
           style={{ position: "relative", color: "#fff", paddingTop: "var(--wf-header-h)" }}
         >
+          {/* TODO(3.1): "да биде во зелено" for this label is not achievable
+              here. Over the bright half of the masthead photograph the light
+              accent sits at 1.76:1 and only reaches 3.96:1 with the scrim at
+              0.78, which would flatten the picture — an 11px label needs 4.5:1.
+              It stays white; the accent eyebrow the brief also asks for ("сивото
+              кое што треба да е зелено") is the band below, on white, where it
+              reads. Worth putting back to the client. */}
           <Eyebrow tone="light">{t("eyebrow")}</Eyebrow>
-          <h1
-            style={{
-              fontFamily: "var(--wf-font-display)",
-              fontWeight: 400,
-              fontSize: "clamp(34px, 5.6vw, 68px)",
-              letterSpacing: "-0.01em",
-              lineHeight: 1.04,
-              textTransform: "uppercase",
-              margin: "14px 0 0",
-            }}
-          >
+          {/* `.wf-h1` rather than an inline clamp, so this hero moves with the
+              display scale 3.1 brought down instead of staying at 68px. */}
+          <h1 className="wf-h1" style={{ letterSpacing: "-0.01em", margin: "14px 0 0" }}>
             {t("heroTitle")}
           </h1>
-          <p
-            style={{
-              fontSize: "clamp(17px, 2vw, 21px)",
-              lineHeight: 1.6,
-              color: "rgba(255,255,255,0.88)",
-              margin: "18px auto 0",
-              maxWidth: 620,
-            }}
-          >
-            {t("heroSub")}
-          </p>
+          {/* The line that sat here is gone: "Делот под хедингот текстот тргни го." */}
           <div style={{ marginTop: "clamp(24px, 3.2vw, 36px)", display: "flex", justifyContent: "center" }}>
             <Link href="/make-an-enquiry" style={{ textDecoration: "none" }}>
               <Button as="span" variant="primary" size="lg" className="wf-cta-mono">
@@ -138,24 +126,22 @@ export default async function ExperiencesPage({
                 fontWeight: 500,
                 // A step down, per the client — it was competing with the hero
                 // title a screen above it.
-                fontSize: "clamp(19px, 2.2vw, 26px)",
+                fontSize: "clamp(17px, 1.9vw, 22px)",
                 lineHeight: 1.25,
                 letterSpacing: "-0.005em",
+                textTransform: "uppercase",
                 color: "var(--wf-ink-900)",
                 margin: 0,
               }}
             >
               {t("introLead")}
             </p>
-            {/* One collapsible block rather than two loose paragraphs: in the
-                narrower column the pair runs long, and the client asked for the
-                overflow to sit behind a read-more the way the category pages
-                do. `pre-line` keeps the paragraph break inside the clamp. */}
-            <ExpandableProse
-              text={`${t("introBody")}\n\n${t("introClose")}`}
-              style={{ ...bodyStyle, whiteSpace: "pre-line" }}
-              lines={3}
-            />
+            {/* 3.1 rewrote this to a single short paragraph and asked for the
+                read-more to go with it ("Тука нема потреба од прочитај повеќе").
+                Its closing sentence is bolded, so it renders through Prose. */}
+            <div style={{ marginTop: 16 }}>
+              <Prose text={t("introBody")} style={{ ...bodyStyle, margin: 0 }} />
+            </div>
           </div>
         </div>
       </section>
@@ -164,7 +150,7 @@ export default async function ExperiencesPage({
         id="who"
         tone="dark"
         backgroundImage={backdrop.dark}
-        eyebrow={tMenu("who")}
+        eyebrow={t("whoEyebrow")}
         title={t("whoQuestion")}
         items={categories}
       />
@@ -174,7 +160,7 @@ export default async function ExperiencesPage({
         tone="light"
         backgroundImage={pageBoard("d4").src}
         backgroundPosition={pageBoard("d4").position}
-        eyebrow={tMenu("remarkable")}
+        eyebrow={t("howEyebrow")}
         title={t("howQuestion")}
         items={remarkable}
       />

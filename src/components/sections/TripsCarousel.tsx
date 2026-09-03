@@ -17,12 +17,15 @@ import { photoLayers } from "@/lib/photo";
  * Reused on the home page and each destination page — pass the intro copy in.
  */
 export function TripsCarousel({
+  id,
   trips,
   eyebrow,
   title,
   description,
   backgroundImage,
 }: {
+  /** Anchor target, when a page's tab rail links to this band. */
+  id?: string;
   trips: Trip[];
   eyebrow?: string;
   title: string;
@@ -75,6 +78,7 @@ export function TripsCarousel({
 
   return (
     <section
+      id={id}
       style={{
         // Longhands only — the ink field stays as the base colour so the band
         // still reads correctly if the backdrop is absent or fails to load.

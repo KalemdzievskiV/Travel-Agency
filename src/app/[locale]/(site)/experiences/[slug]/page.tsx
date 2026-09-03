@@ -153,19 +153,13 @@ export default async function ExperienceCategoryPage({
         </div>
       </section>
 
-      {/* Our recommendations */}
-      <section id="recommendations" style={{ ...plainBand, padding: "0 0 clamp(8px, 2vw, 16px)", ...anchorPad }}>
-        <div className="wf-wrap wf-wrap--wide" style={prose}>
-          {/* Heading only. The brief asks for "насловот наши препораки (само
-              како наслов)" with the suggestions listed straight underneath, so
-              the intro paragraph is deliberately not rendered. The copy still
-              lives in the database and the admin field still edits it — nothing
-              was deleted, only unhooked from the page. */}
-          <Eyebrow style={sectionLabel}>{t("recommendations")}</Eyebrow>
-        </div>
-      </section>
+      {/* "Одбрано од Bookit" used to head a section of its own here as well as
+          the trips band below it. 3.1: "Да го нема два пати одбрано од bookit,
+          само доле кашто е над патувања што ги сакаме да остане." The lone
+          heading is gone and the band it duplicated takes over the tab rail's
+          anchor. */}
       {c.trips.length > 0 && (
-        <TripsCarousel trips={c.trips} eyebrow={t("recommendations")} title={t("tripsHeading")} description={t("tripsIntro")} backgroundImage={backdrop.dark} />
+        <TripsCarousel id="recommendations" trips={c.trips} eyebrow={t("recommendations")} title={t("tripsHeading")} description={t("tripsIntro")} backgroundImage={backdrop.dark} />
       )}
 
       {/* FAQs */}

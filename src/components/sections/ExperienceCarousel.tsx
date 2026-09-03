@@ -126,7 +126,11 @@ export function ExperienceCarousel({
                 fontWeight: 700,
                 letterSpacing: "0.18em",
                 textTransform: "uppercase",
-                color: dark ? "var(--wf-coral-400)" : "var(--wf-ink-500)",
+                /* 3.1: "сивото кое што треба да е зелено" — the light band's
+                   eyebrow was ink-500 grey against the dark band's accent.
+                   Both are the accent now; the dark band keeps the lighter
+                   cut, which is what reads on ink. */
+                color: dark ? "var(--wf-coral-400)" : "var(--wf-accent-ink)",
                 marginBottom: 12,
               }}
             >
