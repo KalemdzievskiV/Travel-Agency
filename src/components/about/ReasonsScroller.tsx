@@ -8,7 +8,7 @@ import {
   useMotionValueEvent,
   useReducedMotion,
 } from "motion/react";
-import { Eyebrow } from "@/components/ui";
+import { Eyebrow, Prose } from "@/components/ui";
 import { useIsDesktop } from "./useIsDesktop";
 import { royalBluePanel as PANEL } from "@/content/media";
 import type { Reason, ReasonsIntro } from "@/content/about";
@@ -166,7 +166,7 @@ function ReasonsPinned({ reasons, intro }: { reasons: Reason[]; intro: ReasonsIn
                 style={{
                   fontFamily: "var(--wf-font-display)",
                   fontWeight: 400,
-                  fontSize: "clamp(48px, 8vw, 118px)",
+                  fontSize: "clamp(34px, 5.2vw, 76px)",
                   lineHeight: 0.95,
                   letterSpacing: "-0.01em",
                   color: "var(--wf-coral-400)",
@@ -181,7 +181,8 @@ function ReasonsPinned({ reasons, intro }: { reasons: Reason[]; intro: ReasonsIn
                   style={{
                     fontFamily: "var(--wf-font-sans)",
                     fontWeight: 500,
-                    fontSize: "clamp(24px, 2.8vw, 38px)",
+                    fontSize: "clamp(18px, 2vw, 26px)",
+                    textTransform: "uppercase",
                     lineHeight: 1.12,
                     letterSpacing: "-0.01em",
                     margin: "16px 0 0",
@@ -225,7 +226,7 @@ function ReasonsPinned({ reasons, intro }: { reasons: Reason[]; intro: ReasonsIn
                   style={{
                     fontFamily: "var(--wf-font-display)",
                     fontWeight: 400,
-                    fontSize: "clamp(30px, 3.4vw, 46px)",
+                    fontSize: "clamp(22px, 2.6vw, 32px)",
                     lineHeight: 1.05,
                     letterSpacing: "0",
                     margin: "16px 0 0",
@@ -233,17 +234,9 @@ function ReasonsPinned({ reasons, intro }: { reasons: Reason[]; intro: ReasonsIn
                 >
                   {reason.title}
                 </h2>
-                <p
-                  style={{
-                    fontSize: 17,
-                    lineHeight: 1.7,
-                    color: "rgba(244,239,231,0.82)",
-                    margin: "20px 0 0",
-                    whiteSpace: "pre-line",
-                  }}
-                >
-                  {reason.body}
-                </p>
+                <div style={{ margin: "18px 0 0" }}>
+                  <Prose text={reason.body} style={{ fontSize: 15.5, lineHeight: 1.7, color: "rgba(244,239,231,0.82)" }} />
+                </div>
               </div>
             </motion.div>
           )}
@@ -323,7 +316,7 @@ function ReasonsStack({ reasons, intro }: { reasons: Reason[]; intro: ReasonsInt
             style={{
               fontFamily: "var(--wf-font-display)",
               fontWeight: 400,
-              fontSize: "clamp(44px, 15vw, 88px)",
+              fontSize: "clamp(32px, 11vw, 60px)",
               lineHeight: 0.95,
               letterSpacing: "-0.01em",
               color: "var(--wf-coral-400)",
@@ -338,7 +331,8 @@ function ReasonsStack({ reasons, intro }: { reasons: Reason[]; intro: ReasonsInt
               style={{
                 fontFamily: "var(--wf-font-sans)",
                 fontWeight: 500,
-                fontSize: "clamp(22px, 5.5vw, 30px)",
+                fontSize: "clamp(17px, 4.4vw, 22px)",
+                textTransform: "uppercase",
                 lineHeight: 1.15,
                 letterSpacing: "-0.01em",
                 margin: "12px 0 0",
@@ -394,7 +388,7 @@ function ReasonsStack({ reasons, intro }: { reasons: Reason[]; intro: ReasonsInt
                 style={{
                   fontFamily: "var(--wf-font-display)",
                   fontWeight: 500,
-                  fontSize: "clamp(24px, 6vw, 32px)",
+                  fontSize: "clamp(19px, 5vw, 25px)",
                   lineHeight: 1.1,
                   letterSpacing: "-0.02em",
                   margin: "8px 0 0",
@@ -402,17 +396,9 @@ function ReasonsStack({ reasons, intro }: { reasons: Reason[]; intro: ReasonsInt
               >
                 {r.title}
               </h2>
-              <p
-                style={{
-                  fontSize: 17,
-                  lineHeight: 1.65,
-                  color: "rgba(244,239,231,0.82)",
-                  margin: "12px 0 0",
-                  whiteSpace: "pre-line",
-                }}
-              >
-                {r.body}
-              </p>
+              <div style={{ margin: "12px 0 0" }}>
+                <Prose text={r.body} style={{ fontSize: 15.5, lineHeight: 1.65, color: "rgba(244,239,231,0.82)" }} />
+              </div>
             </article>
           ))}
         </div>

@@ -32,18 +32,23 @@ export default async function FiveReasonsPage({
           surface rather than dropping to a flat, differently-toned dark. */}
       <section style={{ background: royalBluePanel, color: "var(--wf-text-on-dark)", padding: "clamp(64px, 9vw, 96px) 0" }}>
         <div className="wf-wrap wf-wrap--default" style={{ textAlign: "center" }}>
-          <h2
+          {/* Two headings since 3.1: "ПЕТ ПРИЧИНИ ПОДОЦНА… (ХЕДИНГ 1)" over
+              "Сега ни треба една од тебе. Каде сакаш да одиме? (хединг 2)". */}
+          <h2 className="wf-h2" style={{ margin: 0 }}>{t("ctaFiveLater")}</h2>
+          <p
             style={{
               fontFamily: "var(--wf-font-display)",
               fontWeight: 400,
-              fontSize: "clamp(28px, 4.5vw, 44px)",
-              lineHeight: 1.05,
+              fontSize: "clamp(18px, 2.1vw, 26px)",
+              lineHeight: 1.15,
               letterSpacing: "0",
-              margin: 0,
+              textTransform: "uppercase",
+              margin: "12px 0 0",
+              opacity: 0.92,
             }}
           >
             {t("ctaReadyWhen")}
-          </h2>
+          </p>
           <div style={{ marginTop: 28 }}>
             <Button variant="primary" size="lg" as="a" href="/trip-finder" className="wf-cta-mono--light">
               {tc("planMyTrip")}
