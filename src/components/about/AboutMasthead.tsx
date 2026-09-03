@@ -1,5 +1,5 @@
 import React from "react";
-import { Eyebrow } from "@/components/ui";
+import { Eyebrow, Prose } from "@/components/ui";
 import { ParallaxMedia } from "./ParallaxMedia";
 
 /**
@@ -57,17 +57,9 @@ export function AboutMasthead({
               {title}
             </h1>
             {intro && (
-              <p
-                style={{
-                  fontSize: "clamp(15px, 1.8vw, 18px)",
-                  lineHeight: 1.65,
-                  margin: "18px 0 0",
-                  maxWidth: 460,
-                  whiteSpace: "pre-line",
-                }}
-              >
-                {intro}
-              </p>
+              <div style={{ margin: "18px 0 0", maxWidth: 460 }}>
+                <Prose text={intro} style={{ fontSize: "clamp(14px, 1.6vw, 16px)", lineHeight: 1.65 }} />
+              </div>
             )}
           </div>
         </div>

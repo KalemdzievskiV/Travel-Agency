@@ -2,6 +2,7 @@ import React from "react";
 import { Eyebrow } from "@/components/ui";
 import { ParallaxMedia } from "./ParallaxMedia";
 import { Reveal } from "./Reveal";
+import { Prose } from "@/components/ui";
 import type { StoryRow as StoryRowData } from "@/content/about";
 
 /**
@@ -31,18 +32,12 @@ export function StoryRow({ eyebrow, title, body, grad, image, align }: StoryRowD
         >
           {title}
         </h3>
-        <p
-          style={{
-            fontSize: 17,
-            lineHeight: 1.65,
-            color: "var(--wf-ink-700)",
-            margin: "16px 0 0",
-            maxWidth: 520,
-            whiteSpace: "pre-line",
-          }}
-        >
-          {body}
-        </p>
+        <div style={{ margin: "16px 0 0", maxWidth: 520 }}>
+          <Prose
+            text={body}
+            style={{ fontSize: 15.5, lineHeight: 1.65, color: "var(--wf-ink-700)" }}
+          />
+        </div>
       </div>
     </Reveal>
   );

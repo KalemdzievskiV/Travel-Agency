@@ -162,6 +162,22 @@ export const aboutMastheadBand =
 export const aboutWorldImage = "/images/about/your-world.webp";
 
 /**
+ * The purpose band's ground, revision 3.1. It was a flat green gradient sitting
+ * directly above the (also green) values band — "Смени ја тука позадината да не
+ * биде вака зелено пошто под него има пак зелено" — and the client asked for the
+ * photograph from the closing "Твојот свет" band instead, that band being
+ * removed in the same pass.
+ *
+ * The scrim is doing legibility work, not decoration: the band centres white
+ * display copy over the middle of a saturated picture. 0.58 puts white at
+ * 6.6:1 over its brightest region; the FeatureBand that used to carry this
+ * photograph needed 0.55 for the same reason. Don't lighten it.
+ */
+export const aboutPurposePanel =
+  "linear-gradient(rgba(16,24,24,0.58), rgba(16,24,24,0.58))," +
+  ` url(${aboutWorldImage}) center/cover no-repeat, var(--wf-ink-900)`;
+
+/**
  * The plate beside "Зошто Bookit?" (client image BOOKIT, revision 3.1) — the
  * wordmark over a slot canyon. It is not part of the numbered ЗА НАС set below
  * because it is the one image with the logo burnt into it: it must not be

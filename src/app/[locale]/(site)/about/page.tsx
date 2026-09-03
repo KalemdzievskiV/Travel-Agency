@@ -4,12 +4,11 @@ import { Button } from "@/components/ui";
 import {
   AboutMasthead,
   StoryRow,
-  FeatureBand,
   PurposeScroller,
   ValuesScroller,
 } from "@/components/about";
 import { getAbout } from "@/content/about";
-import { pageBackdrop, plainBand } from "@/content/media";
+import { aboutPurposePanel, pageBackdrop, plainBand } from "@/content/media";
 
 export const metadata: Metadata = {
   title: "Who we are",
@@ -43,27 +42,45 @@ export default async function AboutPage({
         image={aboutPage.hero.image}
       />
 
-      {/* What we're about / our story — editorial alternating rows. The one
-          board on this page: 3.2 left "кои сме ние" to us and asked only that
-          it not be too much, so the About cluster carries a single D3 on each
-          page's body text and plain white everywhere else. */}
-      <section style={{ ...pageBackdrop("d3"), padding: "clamp(36px, 5.5vw, 64px) 0 clamp(40px, 6vw, 72px)" }}>
+      {/* How it began. The one board on this page: 3.2 left "кои сме ние" to us
+          and asked only that it not be too much, so the About cluster carries a
+          single D3 on each page's body text and plain white everywhere else. */}
+      <section style={{ ...pageBackdrop("d3"), padding: "clamp(36px, 5.5vw, 64px) 0 clamp(28px, 4vw, 48px)" }}>
+        <div className="wf-wrap wf-wrap--wide">
+          <StoryRow {...aboutPage.story[0]} />
+        </div>
+      </section>
+
+      {/* Why the name? Moved up out of the tail of the page: "Тука следно треба
+          да биде идеата зад името... па под ИДЕАТА ЗА ИМЕТО да дојде овој дел
+          што е моментално на скринов" — it now sits between how it began and
+          how we think, which is what follows it. */}
+      <section style={{ ...plainBand, padding: "clamp(28px, 4vw, 48px) 0" }}>
+        <div className="wf-wrap wf-wrap--wide">
+          <StoryRow {...aboutPage.name} />
+        </div>
+      </section>
+
+      {/* How we think, then what we do. */}
+      <section style={{ ...plainBand, padding: "clamp(28px, 4vw, 48px) 0 clamp(40px, 6vw, 72px)" }}>
         <div
           className="wf-wrap wf-wrap--wide"
           style={{ display: "grid", gap: "clamp(36px, 5.5vw, 64px)" }}
         >
-          {aboutPage.story.map((row) => (
+          {aboutPage.story.slice(1).map((row) => (
             <StoryRow key={row.title} {...row} />
           ))}
         </div>
       </section>
 
-      {/* Purpose — full-screen pinned, facets change on scroll */}
+      {/* Purpose — full-screen pinned, facets change on scroll. On the closing
+          band's photograph since 3.1, rather than a green field directly above
+          the green values band. */}
       <PurposeScroller
         eyebrow={aboutPage.purpose.eyebrow}
         statement={aboutPage.purpose.statement}
         facets={aboutPage.purpose.facets}
-        grad={aboutPage.purpose.grad}
+        grad={aboutPurposePanel}
       />
 
       {/* Values — pinned teal band; cards appear side by side as you scroll */}
@@ -73,41 +90,17 @@ export default async function AboutPage({
         values={aboutPage.values}
       />
 
-      {/* Why the name? */}
-      <section style={{ ...plainBand, padding: "clamp(64px, 9vw, 112px) 0" }}>
-        <div className="wf-wrap wf-wrap--wide">
-          <StoryRow {...aboutPage.name} />
-        </div>
-      </section>
+      {/* The closing "Твојот свет" band stood here. 3.1: "Оваа секција тргни
+          ја скроз." Its photograph is not lost — it is the purpose band's
+          ground now. The copy stays in `about.ts` under `world`, unrendered,
+          in case they want it back. */}
 
-      {/* Your world, your journey — closing feeling band. The scrim was 0.68,
-          tuned for the pale world map the client replaced in revision 3.1;
-          their photograph is dark to begin with, so it is dialled back to let
-          the picture read — white copy still clears 5.67:1 over its brightest
-          part. */}
-      <FeatureBand
-        eyebrow={aboutPage.world.eyebrow}
-        title={aboutPage.world.title}
-        body={aboutPage.world.body}
-        grad={aboutPage.world.grad}
-        image={aboutPage.world.image}
-        scrim={0.55}
-      />
-
-      {/* Primary CTA */}
-      <section style={{ ...plainBand, padding: "clamp(64px, 9vw, 104px) 0" }}>
+      {/* Primary CTA.
+          TODO(3.1): "И стави позадина од новите кремасти што ти ги пратив" —
+          the cream boards have not arrived, so this keeps plain white. */}
+      <section style={{ ...plainBand, padding: "clamp(52px, 7vw, 88px) 0" }}>
         <div className="wf-wrap wf-wrap--default" style={{ textAlign: "center" }}>
-          <h2
-            style={{
-              fontFamily: "var(--wf-font-display)",
-              fontWeight: 400,
-              fontSize: "clamp(28px, 4.5vw, 44px)",
-              lineHeight: 1.05,
-              letterSpacing: "0",
-              margin: 0,
-              color: "var(--wf-ink-900)",
-            }}
-          >
+          <h2 className="wf-h2" style={{ margin: 0, color: "var(--wf-ink-900)" }}>
             {t("ctaReadyNew")}
           </h2>
           <div style={{ marginTop: 28 }}>
