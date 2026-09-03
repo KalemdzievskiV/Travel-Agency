@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Button } from "@/components/ui";
+import { Button, emphasise } from "@/components/ui";
 import { WhySplit } from "@/components/about";
 import { getAbout } from "@/content/about";
 
@@ -29,15 +29,21 @@ export default async function WhyNotDiyPage({
         topics={whyNotDiy.topics}
       />
 
-      <section style={{ background: "var(--wf-ink-900)", color: "var(--wf-text-on-dark)", padding: "clamp(64px, 9vw, 96px) 0" }}>
+      {/* TODO(3.1): the client asked for one of the new cream boards here
+          ("Овде стави од кремастите позадини некоја"). Those files have not
+          arrived — D1–D4 are white, not cream — so the band keeps the ink
+          ground until they do. Swapping it means a light background and dark
+          type, not just a `backgroundImage`. */}
+      <section style={{ background: "var(--wf-ink-900)", color: "var(--wf-text-on-dark)", padding: "clamp(52px, 7vw, 80px) 0" }}>
         <div className="wf-wrap wf-wrap--default" style={{ textAlign: "center" }}>
           <p
             style={{
               fontFamily: "var(--wf-font-sans)",
               fontWeight: 500,
-              fontSize: "clamp(24px, 3.6vw, 36px)",
-              lineHeight: 1.2,
+              fontSize: "clamp(20px, 2.6vw, 28px)",
+              lineHeight: 1.25,
               letterSpacing: "-0.005em",
+              textTransform: "uppercase",
               maxWidth: 640,
               margin: "0 auto",
             }}
@@ -46,14 +52,14 @@ export default async function WhyNotDiyPage({
           </p>
           <p
             style={{
-              fontSize: "clamp(15px, 1.8vw, 17px)",
+              fontSize: "clamp(14px, 1.5vw, 15.5px)",
               lineHeight: 1.7,
               color: "rgba(233, 245, 246, 0.78)",
               maxWidth: 640,
-              margin: "18px auto 0",
+              margin: "16px auto 0",
             }}
           >
-            {whyNotDiy.closingBody}
+            {emphasise(whyNotDiy.closingBody)}
           </p>
           <div style={{ marginTop: 28 }}>
             <Button variant="primary" size="lg" as="a" href="/trip-finder">

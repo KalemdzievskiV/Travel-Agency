@@ -13,4 +13,5 @@ export type { SearchField } from "./SearchBar";
 export { Card } from "./Card";
 export { DestinationCard } from "./DestinationCard";
 export { Icon } from "./Icon";
+export { Prose, emphasise } from "./Prose";
 export type { IconName } from "./Icon";

@@ -33,7 +33,17 @@ export type Reason = { no: string; title: string; body: string; grad: string; im
 /** Opening title panel of the 5-reasons sequence (the reference's "WHY US?" slide). */
 export type ReasonsIntro = { big: string; eyebrow: string; title: string };
 export type ProcessStep = { no: string; title: string; body: string; grad: string; image: string };
-export type WhyTopic = { nav: string; title: string; body: string; grad: string; image: string };
+/**
+ * One topic of the "why not do it yourself?" sequence. `icon` names a glyph in
+ * WhySplit's TOPIC_ICONS rather than being looked up by position: the English
+ * and Macedonian topic lists are ordered differently and are different lengths,
+ * so a positional array silently mismatched them (the Macedonian "Hotels"
+ * topic drew a clock, which is what the 3.1 corrections flagged).
+ */
+export type WhyTopicIcon =
+  | "time" | "ideas" | "value" | "peace" | "watertight"
+  | "hotels" | "choice" | "details" | "support" | "price";
+export type WhyTopic = { nav: string; title: string; body: string; grad: string; image: string; icon: WhyTopicIcon };
 
 // ── Flagship: Who we are / Our purpose ──────────────────────────────
 export const aboutPage = {
@@ -178,7 +188,18 @@ export const reasons: Reason[] = [
 ];
 
 // ── Why book with us → Why not just do it yourself? ─────────────────
-export const whyNotDiy = {
+/**
+ * Typed explicitly rather than inferred: the Macedonian block below is declared
+ * `typeof whyNotDiy`, so an inferred literal type here would pin every locale
+ * to the English topics' exact `icon` strings.
+ */
+export type WhyNotDiy = {
+  hero: { eyebrow: string; title: string; intro: string; grad: string };
+  closing: string;
+  closingBody: string;
+  topics: WhyTopic[];
+};
+export const whyNotDiy: WhyNotDiy = {
   hero: {
     eyebrow: "Why book with us",
     title: "Why not just do it yourself?",
@@ -193,6 +214,7 @@ export const whyNotDiy = {
   topics: [
     {
       nav: "Time management",
+      icon: "time",
       title: "Your time is precious",
       body: "We invest the time you don't have, to create a journey where every detail answers what you actually want.\n\nWhether you want to see a familiar destination from a new angle, escape the everyday, indulge, take on a challenge or learn something new — we design each experience specifically for you.\n\nSo you come home rested, filled with new energy, and certain you made the very most of your precious free time.",
       grad: "linear-gradient(135deg,#15709B,#0E2A33)",
@@ -200,6 +222,7 @@ export const whyNotDiy = {
     },
     {
       nav: "Idea generation",
+      icon: "ideas",
       title: "Ideas that inspire",
       body: "Creating singular ideas is one of our greatest strengths. We know the world up close, and we have the knowledge, the experience and the real contacts to turn any journey into an experience that leaves a lasting impression.\n\nWe make sure you miss nothing that matters, and that you come home with memories you'll be talking about for months — even years.",
       grad: "linear-gradient(135deg,#1E7FB8,#123A40)",
@@ -207,6 +230,7 @@ export const whyNotDiy = {
     },
     {
       nav: "Money saving",
+      icon: "value",
       title: "More value for your budget",
       body: "What is the perfect journey worth? Our carefully considered programmes are full of singular ideas and experiences, shaped entirely around you.\n\nAt first glance the offer may look like a considerable investment, but every detail is chosen so you get the most value for your budget. Booking every service yourself would often cost you more — and there's every chance you'd miss something genuinely special.",
       grad: "linear-gradient(135deg,#0C747E,#0E2A33)",
@@ -214,6 +238,7 @@ export const whyNotDiy = {
     },
     {
       nav: "Peace of mind",
+      icon: "peace",
       title: "Nothing to worry about",
       body: "We are always there for you — discreetly in the background, ready to help if you have a question, need advice, or something unforeseen comes up.\n\nOr you can simply send us a postcard from some far-off island, just to tell us you're having a wonderful time.",
       grad: "linear-gradient(135deg,#3F8A2E,#10302A)",
@@ -221,12 +246,13 @@ export const whyNotDiy = {
     },
     {
       nav: "Watertight",
+      icon: "watertight",
       title: "Complete security",
       body: "Even in the event that one of our partners cannot deliver a service, we are protected — and so, therefore, are you.",
       grad: "linear-gradient(135deg,#11919B,#0E2A33)",
       image: "https://picsum.photos/seed/bookit-why-watertight/1400/1800",
     },
-  ] satisfies WhyTopic[],
+  ],
 };
 
 // ── Why book with us → How it all works ─────────────────────────────
@@ -428,50 +454,62 @@ const whyNotDiyMk: typeof whyNotDiy = {
     ...whyNotDiy.hero,
     eyebrow: "Зошто да патуваш со нас",
     title: "Кога да си резервираш сам?",
+    // One paragraph, as the client set it in 3.1 — the three-paragraph split
+    // was ours. Bold runs are theirs; em-dashes are gone at their request
+    // ("да нема цртички во текстот"), including the one before "тогаш".
     intro:
-      "Понекогаш навистина не ти требаме. Одиш три дена во Рим? Знаеш во кој хотел сакаш да престојуваш? Имаш директен лет и единствен план ти е добра храна и многу шетање? Резервирај го.\n\nНе секое патување има потреба од travel designer.\n\nНо кога има повеќе места, различни летови, приватни трансфери, посебни хотели, искуства, деца, прослава, далечна дестинација или едноставно сакаш некој друг добро да размисли за сè — тогаш Bookit почнува да има смисла.",
+      "**Понекогаш навистина не ти требаме.** Одиш три дена во Рим? Знаеш во кој хотел сакаш да престојуваш? Имаш директен лет и единствен план ти е добра храна и многу шетање? **Резервирај го.** Не секое патување има потреба од travel designer. Но кога има повеќе места, различни летови, приватни трансфери, посебни хотели, искуства, деца, прослава, далечна дестинација или едноставно сакаш некој друг добро да размисли за сè **тогаш Bookit почнува да има смисла.**",
   },
   closing: "Ти треба да го доживееш патувањето. Не да го менаџираш.",
   closingBody:
-    "Од првата идеја до моментот кога повторно ќе ја отклучиш вратата дома, ние ги поврзуваме деталите за ти да можеш да се концентрираш на единствениот дел што навистина е твој. Да бидеш таму.",
+    "Од првата идеја до моментот кога повторно ќе ја отклучиш вратата дома, ние ги поврзуваме деталите за ти да можеш да се концентрираш на единствениот дел што навистина е твој. **Да бидеш таму.**",
+  // 3.1: "и лево и десно истото" — the left rail carried short category words
+  // ("Хотели", "Време") against full sentences on the right. Both sides now
+  // read the same line, so `nav` is the title.
   topics: [
     {
       ...whyNotDiy.topics[0],
-      nav: "Хотели",
-      title: "Да резервираш хотел е лесно. Да знаеш кој хотел — не секогаш.",
-      body: "Еден има подобра локација. Друг подобри соби. Третиот изгледа прекрасно на фотографија, но едноставно не одговара на начинот на кој сакаш да патуваш. А четвртиот можеби никогаш немаше ни да го најдеш.\n\nНашата работа не е да ти дадеме повеќе опции. Туку да ги тргнеме погрешните.",
+      icon: "hotels",
+      nav: "Да резервираш хотел е лесно.",
+      title: "Да резервираш хотел е лесно.",
+      body: "**Да знаеш кој хотел не секогаш.** Еден има подобра локација. Друг подобри соби. Третиот изгледа прекрасно на фотографија, но едноставно не одговара на начинот на кој сакаш да патуваш. А четвртиот можеби никогаш немаше ни да го најдеш. **Нашата работа не е да ти дадеме повеќе опции. Туку да ги тргнеме погрешните.**",
     },
     {
       ...whyNotDiy.topics[1],
-      nav: "Време",
+      icon: "time",
+      nav: "47 tabs подоцна…",
       title: "47 tabs подоцна…",
-      body: "Еден hotel tab станал единаесет. Проверуваш дали има подобар лет. Читаш reviews. Споредуваш соби. Се обидуваш да откриеш дали три ноќи се многу или малку.\n\nИ повторно не си сосема сигурен.\n\nНие уживаме во тој дел. Истражувањето, споредувањето, проверувањето и спојувањето на сите детали е наша работа. Ти треба да ги донесеш добрите одлуки. Не да ги бараш сите можни опции.",
+      body: "Еден hotel таб станал единаесет. Проверуваш дали има подобар лет. Читаш reviews. Споредуваш соби. Се обидуваш да откриеш дали три ноќи се многу или малку. И повторно не си сосема сигурен. **Ние уживаме во тој дел.** Истражувањето, споредувањето, проверувањето и спојувањето на сите детали е наша работа. Ти треба да ги донесеш добрите одлуки. **Не да ги бараш сите можни опции.**",
     },
     {
       ...whyNotDiy.topics[2],
-      nav: "Избор",
+      icon: "choice",
+      nav: "Популарно не секогаш значи вистинско.",
       title: "Популарно не секогаш значи вистинско.",
-      body: "Најпознатиот хотел можеби не е твојот хотел. Најпопуларната тура можеби воопшто не е начинот на кој сакаш да го видиш местото. И она што е „must-see“ за еден човек може да биде целосно неважно за друг.\n\nЗатоа прво сакаме да дознаеме како патуваш. Колку брзаш. Колку планираш. Што те возбудува. Што би го прескокнал без размислување.\n\nДобро патување не се создава од најпопуларните избори. Туку од вистинската комбинација.",
+      body: "Најпознатиот хотел можеби не е твојот хотел. Најпопуларната тура можеби воопшто не е начинот на кој сакаш да го видиш местото. И она што е „must-see“ за еден човек може да биде целосно неважно за друг. Затоа прво сакаме да дознаеме како патуваш. Колку брзаш. Колку планираш. Што те возбудува. Што би го прескокнал без размислување. **Добро патување не се создава од најпопуларните избори. Туку од вистинската комбинација.**",
     },
     {
       ...whyNotDiy.topics[3],
-      nav: "Детали",
+      icon: "details",
+      nav: "Најдобрите детали се оние за кои не мораш да размислуваш.",
       title: "Најдобрите детали се оние за кои не мораш да размислуваш.",
-      body: "Дали трансферот знае дека летот доцни. Дали имаш доволно време помеѓу две врски. Дали check-out е во 11, а летот во 23:40. Дали собата навистина одговара на твоето семејство. Дали хотелот е на вистинското место за она што сакаш да го правиш.\n\nТие работи ретко завршуваат на фотографиите. Но често одлучуваат колку добро ќе се чувствува патувањето.\n\nНие се грижиме за нив. Ти не мораш.",
+      body: "Дали трансферот знае дека летот доцни. Дали имаш доволно време помеѓу две врски. Дали check-out е во 11, а летот во 23:40. Дали собата навистина одговара на твоето семејство. Дали хотелот е на вистинското место за она што сакаш да го правиш. **Тие работи ретко завршуваат на фотографиите. Но често одлучуваат колку добро ќе се чувствува патувањето.** Ние се грижиме за нив. Ти не мораш.",
     },
     {
       ...whyNotDiy.topics[4],
-      nav: "Поддршка",
-      title: "Добар план е важен. Некој зад него — уште повеќе.",
-      body: "Летови доцнат. Времето се менува. Понекогаш нешто едноставно не оди според планот.\n\nКога патуваш со Bookit, имаш човек кој го знае твоето патување и знае што треба да се случи следно.\n\nНе call centre. Не ticket number. Човек.\n\nНашата работа не завршува кога ќе ја направиш резервацијата.",
+      icon: "support",
+      nav: "Добриот план е важен.",
+      title: "Добриот план е важен.",
+      body: "**Некој зад него уште повеќе.** Летови доцнат. Времето се менува. Понекогаш нешто едноставно не оди според планот. Кога патуваш со **Bookit**, имаш човек кој го знае твоето патување и знае што треба да се случи следно. **Не call centre. Не ticket number. Човек.** Нашата работа не завршува кога ќе ја направиш резервацијата.",
     },
     // Sixth topic, new in 3.0 — the price question the brief asked to answer
     // head-on. No English counterpart to spread from, so it is written out in
     // full; the gradient continues the family above it.
     {
-      nav: "Цена",
+      icon: "price",
+      nav: "А што е со цената?",
       title: "А што е со цената?",
-      body: "Ќе биде ли поевтино ако резервираш сам? Понекогаш да.\n\nАко единственото мерило е најниската цена за лет и хотел, понекогаш ќе најдеш поевтина комбинација. Но најевтиното патување и најдобрата вредност не се иста работа.\n\nНаша работа е да го употребиме твојот буџет таму каде што прави разлика. Да знаеме каде вреди да потрошиш повеќе. Каде не вреди. И каде малата промена може да направи голема разлика.\n\nНе повеќе. Подобро.",
+      body: "**Ќе биде ли поевтино ако резервираш сам?** Понекогаш да. Ако единственото мерило е најниската цена за лет и хотел, понекогаш ќе најдеш поевтина комбинација. Но најевтиното патување и најдобрата вредност не се иста работа. Наша работа е да го употребиме твојот буџет таму каде што прави разлика. Да знаеме каде вреди да потрошиш повеќе. Каде не вреди. И каде малата промена може да направи голема разлика. **Не повеќе. Подобро.**",
       grad: "linear-gradient(135deg,#15709B,#0E2A33)",
       image: "https://picsum.photos/seed/bookit-why-price/1400/1800",
     },

@@ -8,10 +8,13 @@ import {
   useMotionValueEvent,
   useReducedMotion,
 } from "motion/react";
-import { ChevronDown, ChevronRight, Clock, Lightbulb, Wallet, ShieldCheck, BadgeCheck } from "lucide-react";
-import { Eyebrow } from "@/components/ui";
+import {
+  BadgeCheck, BedDouble, ChevronDown, ChevronRight, Clock, Compass,
+  Lightbulb, LifeBuoy, ListChecks, ShieldCheck, Wallet,
+} from "lucide-react";
+import { Eyebrow, Prose } from "@/components/ui";
 import { useIsDesktop } from "./useIsDesktop";
-import type { WhyTopic } from "@/content/about";
+import type { WhyTopic, WhyTopicIcon } from "@/content/about";
 import { pageBackdrop } from "@/content/media";
 
 /**
@@ -26,9 +29,28 @@ import { pageBackdrop } from "@/content/media";
  * screens with motion get the pin.
  */
 
-// One thin-stroke icon per topic, in content order (time, ideas, value, peace,
-// watertight). Falls back to the first if a topic is added without a match.
-const TOPIC_ICONS = [Clock, Lightbulb, Wallet, ShieldCheck, BadgeCheck];
+/**
+ * One thin-stroke icon per topic, looked up by the topic's own `icon` key.
+ *
+ * This was a positional array ordered for the English topics, which silently
+ * mismatched the Macedonian ones — they run hotels/time/choice/details/support/
+ * price, so "Да резервираш хотел е лесно" drew a clock, and the sixth topic ran
+ * off the end of the array and fell back to a clock as well. Both are what the
+ * 3.1 corrections asked about ("дали се логични да не бидат хотел а саат").
+ * Keying by name means a new topic is a type error, not a wrong picture.
+ */
+const TOPIC_ICONS: Record<WhyTopicIcon, typeof Clock> = {
+  time: Clock,
+  ideas: Lightbulb,
+  value: Wallet,
+  peace: ShieldCheck,
+  watertight: BadgeCheck,
+  hotels: BedDouble,
+  choice: Compass,
+  details: ListChecks,
+  support: LifeBuoy,
+  price: Wallet,
+};
 
 export function WhySplit({
   eyebrow,
@@ -41,7 +63,11 @@ export function WhySplit({
   intro: string;
   topics: WhyTopic[];
 }) {
-  const isDesktop = useIsDesktop();
+  // Height matters as much as width here: the pinned stage is one non-scrolling
+  // screen holding a heading, an intro and six topics, and below roughly 640px
+  // of viewport it clips them with no way to reach what's hidden. Short windows
+  // get the stacked layout, which scrolls.
+  const isDesktop = useIsDesktop("(min-width: 980px) and (min-height: 640px)");
   const reduced = useReducedMotion();
 
   // SSR and first client paint render the stacked layout (isDesktop === null),
@@ -64,13 +90,22 @@ export function WhySplit({
   return <WhyPinned eyebrow={eyebrow} title={title} intro={intro} topics={topics} />;
 }
 
+/**
+ * 3.1 asked for this page's left column to come down a step and for the title
+ * to run uppercase. The size is not only taste: at 1366×768 — the window the
+ * client reviews in — the old 56px heading, a 17px intro and six topics did not
+ * fit the pinned stage, and everything past the third topic was clipped away
+ * inside `overflow: hidden` with no way to scroll to it. Case is applied here,
+ * not in `about.ts`, so the copy stays sentence case for translators.
+ */
 const headingStyle: React.CSSProperties = {
   fontFamily: "var(--wf-font-display)",
   fontWeight: 400,
-  fontSize: "clamp(34px, 4.6vw, 56px)",
-  lineHeight: 1.05,
+  fontSize: "clamp(26px, 2.6vw, 34px)",
+  lineHeight: 1.08,
   letterSpacing: "0",
-  margin: "16px 0 0",
+  textTransform: "uppercase",
+  margin: "12px 0 0",
   color: "var(--wf-ink-900)",
 };
 
@@ -104,7 +139,7 @@ function WhyPinned({ eyebrow, title, intro, topics }: { eyebrow: string; title: 
   };
 
   const topic = topics[active];
-  const Icon = TOPIC_ICONS[active] ?? TOPIC_ICONS[0];
+  const Icon = TOPIC_ICONS[topic.icon];
 
   return (
     <section
@@ -134,18 +169,18 @@ function WhyPinned({ eyebrow, title, intro, topics }: { eyebrow: string; title: 
             paddingRight: "clamp(32px, 5vw, 64px)",
           }}
         >
-          <div style={{ maxWidth: 460 }}>
+          <div style={{ maxWidth: 480 }}>
             <Eyebrow>{eyebrow}</Eyebrow>
             <h1 style={headingStyle}>{title}</h1>
-            <p style={{ fontSize: 17, lineHeight: 1.65, color: "var(--wf-ink-500)", margin: "18px 0 0", whiteSpace: "pre-line" }}>
-              {intro}
-            </p>
+            <div style={{ margin: "14px 0 0" }}>
+              <Prose text={intro} style={{ fontSize: 14, lineHeight: 1.6, color: "var(--wf-ink-500)" }} />
+            </div>
 
             <div
               role="tablist"
               aria-orientation="vertical"
               aria-label={title}
-              style={{ marginTop: "clamp(28px, 4vw, 44px)", display: "flex", flexDirection: "column" }}
+              style={{ marginTop: "clamp(18px, 2.4vw, 26px)", display: "flex", flexDirection: "column" }}
             >
               {topics.map((t, i) => {
                 const on = i === active;
@@ -167,17 +202,18 @@ function WhyPinned({ eyebrow, title, intro, topics }: { eyebrow: string; title: 
                       border: "none",
                       cursor: "pointer",
                       textAlign: "left",
-                      padding: "12px 0",
+                      padding: "8px 0",
                       fontFamily: "var(--wf-font-sans)",
-                      fontSize: 15,
+                      fontSize: 12.5,
                       fontWeight: 700,
+                      lineHeight: 1.35,
                       textTransform: "uppercase",
-                      letterSpacing: "0.12em",
+                      letterSpacing: "0.08em",
                       color: on ? "var(--wf-accent-ink)" : "var(--wf-ink-700)",
                       transition: "color .2s var(--wf-ease-out)",
                     }}
                   >
-                    <span>{t.nav}</span>
+                    <span style={{ flex: 1 }}>{t.nav}</span>
                     <ChevronRight
                       size={18}
                       strokeWidth={2}
@@ -230,24 +266,25 @@ function WhyPinned({ eyebrow, title, intro, topics }: { eyebrow: string; title: 
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -16 }}
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              style={{ position: "relative", maxWidth: 460 }}
+              style={{ position: "relative", maxWidth: 480 }}
             >
-              <Icon size={40} strokeWidth={1.25} aria-hidden style={{ opacity: 0.9 }} />
+              <Icon size={32} strokeWidth={1.25} aria-hidden style={{ opacity: 0.9 }} />
               <h2
                 style={{
                   fontFamily: "var(--wf-font-display)",
                   fontWeight: 400,
-                  fontSize: "clamp(26px, 3.6vw, 40px)",
-                  lineHeight: 1.05,
+                  fontSize: "clamp(22px, 2.6vw, 32px)",
+                  lineHeight: 1.08,
                   letterSpacing: "0",
-                  margin: "clamp(20px, 3vw, 28px) 0 0",
+                  textTransform: "uppercase",
+                  margin: "clamp(14px, 2vw, 20px) 0 0",
                 }}
               >
                 {topic.title}
               </h2>
-              <p style={{ fontSize: 18, lineHeight: 1.7, margin: "16px 0 0", opacity: 0.92, whiteSpace: "pre-line" }}>
-                {topic.body}
-              </p>
+              <div style={{ margin: "14px 0 0", opacity: 0.92 }}>
+                <Prose text={topic.body} style={{ fontSize: 15.5, lineHeight: 1.65 }} />
+              </div>
             </motion.div>
           </AnimatePresence>
         </div>
@@ -285,23 +322,24 @@ function WhyStack({
         <div style={{ maxWidth: 460 }}>
           <Eyebrow>{eyebrow}</Eyebrow>
           <h1 style={headingStyle}>{title}</h1>
-          <p style={{ fontSize: 17, lineHeight: 1.65, color: "var(--wf-ink-500)", margin: "18px 0 0", whiteSpace: "pre-line" }}>
-            {intro}
-          </p>
+          <div style={{ margin: "16px 0 0" }}>
+            <Prose text={intro} style={{ fontSize: 15, lineHeight: 1.65, color: "var(--wf-ink-500)" }} />
+          </div>
         </div>
 
         <div style={{ display: "grid", gap: "clamp(28px, 6vw, 44px)", marginTop: "clamp(40px, 8vw, 64px)" }}>
           {topics.map((t, i) => {
-            const Icon = TOPIC_ICONS[i] ?? TOPIC_ICONS[0];
+            const Icon = TOPIC_ICONS[t.icon];
             const isOpen = !collapsible || open === i;
             const heading = (
               <h2
                 style={{
                   fontFamily: "var(--wf-font-display)",
                   fontWeight: 500,
-                  fontSize: "clamp(24px, 6vw, 32px)",
-                  lineHeight: 1.1,
-                  letterSpacing: "-0.02em",
+                  fontSize: "clamp(20px, 5vw, 26px)",
+                  lineHeight: 1.15,
+                  letterSpacing: "0",
+                  textTransform: "uppercase",
                   margin: collapsible ? 0 : "16px 0 0",
                   textAlign: "left",
                 }}
@@ -351,9 +389,9 @@ function WhyStack({
                     which `height: auto` cannot. */}
                 <div className={`wf-whystack__reveal${isOpen ? " is-open" : ""}`} aria-hidden={!isOpen}>
                   <div>
-                    <p style={{ fontSize: 17, lineHeight: 1.7, margin: "12px 0 0", opacity: 0.92, whiteSpace: "pre-line" }}>
-                      {t.body}
-                    </p>
+                    <div style={{ margin: "12px 0 0", opacity: 0.92 }}>
+                      <Prose text={t.body} style={{ fontSize: 15.5, lineHeight: 1.7 }} />
+                    </div>
                   </div>
                 </div>
               </article>
