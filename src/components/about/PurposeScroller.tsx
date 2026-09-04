@@ -4,7 +4,6 @@ import React from "react";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent, useReducedMotion } from "motion/react";
 import { Eyebrow } from "@/components/ui";
 import { useIsDesktop } from "./useIsDesktop";
-import { Reveal } from "./Reveal";
 import { ScrollRevealText } from "./ScrollRevealText";
 
 /**
@@ -56,11 +55,26 @@ const statementStyle: React.CSSProperties = {
   maxWidth: 900,
 };
 
+/**
+ * The facets read as the answers to the statement, so they carry weight of
+ * their own: Manrope 600 (body family stays body family) a step up in size,
+ * and a fuller ink-on-dark than ordinary secondary copy.
+ */
+const facetStyle: React.CSSProperties = {
+  margin: "0 auto",
+  maxWidth: 760,
+  fontSize: "clamp(19px, 2.6vw, 27px)",
+  fontWeight: 600,
+  lineHeight: 1.45,
+  color: "rgba(233, 245, 246, 0.94)",
+};
+
 /* ── Desktop: pinned, scroll-driven stage ─────────────────────────── */
 function PurposePinned({ eyebrow, statement, facets, grad }: { eyebrow: string; statement: string; facets: string[]; grad: string }) {
   const trackRef = React.useRef<HTMLElement>(null);
   const [active, setActive] = React.useState(0);
   const n = facets.length;
+  const slice = 1 / n;
 
   const { scrollYProgress } = useScroll({
     target: trackRef,
@@ -72,8 +86,20 @@ function PurposePinned({ eyebrow, statement, facets, grad }: { eyebrow: string; 
     setActive((prev) => (prev === i ? prev : i));
   });
 
+  // Each facet fills across its own slice of the pinned track. The first one
+  // waits for the statement to finish so the question still lands before its
+  // answers; the rest start as soon as they swap in. Both end well inside the
+  // slice, leaving the fully lit line on screen to be read before the swap.
+  const facetRange: [number, number] =
+    active === 0
+      ? [slice * 0.48, slice * 0.92]
+      : [(active + 0.06) * slice, (active + 0.55) * slice];
+
   return (
-    <section ref={trackRef} aria-label={eyebrow} style={{ height: `${n * 65}vh`, position: "relative" }}>
+    // 80vh of track per facet: the word-by-word fill is scroll-scrubbed, so
+    // each slice needs enough travel for the statement and then its facet to
+    // fill at the Wayfare "calm and slow" pace rather than snapping.
+    <section ref={trackRef} aria-label={eyebrow} style={{ height: `${n * 80}vh`, position: "relative" }}>
       <div
         style={{
           position: "sticky",
@@ -95,36 +121,33 @@ function PurposePinned({ eyebrow, statement, facets, grad }: { eyebrow: string; 
               ("да се пополнуваат буквите ... така ти е направено прашањето на
               мобилната верзија"), scrubbed off the pinned track rather than the
               paragraph's own position — see ScrollRevealText's `progress` note.
-              It finishes just before the first facet swaps at 1/n, so the
-              question lands first and the answers follow, in that order. */}
+              It finishes inside the first facet's slice, so the question lands
+              first and the answers follow, in that order. */}
           <ScrollRevealText
             text={statement}
             style={statementStyle}
             progress={scrollYProgress}
-            range={[0.02, (1 / n) * 0.9]}
+            range={[0.02, slice * 0.4]}
           />
 
-          <div style={{ position: "relative", minHeight: "clamp(96px, 14vh, 128px)", marginTop: "clamp(28px, 5vw, 48px)" }}>
+          <div style={{ position: "relative", minHeight: "clamp(120px, 18vh, 172px)", marginTop: "clamp(28px, 5vw, 48px)" }}>
             <AnimatePresence mode="wait">
-              <motion.p
+              {/* A div, not a <p> — ScrollRevealText renders the paragraph. */}
+              <motion.div
                 key={active}
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -14 }}
                 transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                style={{
-                  position: "absolute",
-                  left: 0,
-                  right: 0,
-                  margin: "0 auto",
-                  maxWidth: 640,
-                  fontSize: "clamp(17px, 2.2vw, 22px)",
-                  lineHeight: 1.6,
-                  color: "rgba(233, 245, 246, 0.86)",
-                }}
+                style={{ position: "absolute", left: 0, right: 0 }}
               >
-                {facets[active]}
-              </motion.p>
+                <ScrollRevealText
+                  text={facets[active]}
+                  style={facetStyle}
+                  progress={scrollYProgress}
+                  range={facetRange}
+                />
+              </motion.div>
             </AnimatePresence>
           </div>
 
@@ -175,29 +198,19 @@ function PurposeStack({
         ) : (
           <p style={statementStyle}>{statement}</p>
         )}
-        <div style={{ display: "grid", gap: "clamp(18px, 4vw, 28px)", marginTop: "clamp(32px, 7vw, 48px)" }}>
-          {facets.map((f, i) => {
-            const para = (
-              <p
-                style={{
-                  margin: "0 auto",
-                  maxWidth: 600,
-                  fontSize: "clamp(16px, 2.2vw, 20px)",
-                  lineHeight: 1.6,
-                  color: "rgba(233, 245, 246, 0.86)",
-                }}
-              >
+        <div style={{ display: "grid", gap: "clamp(22px, 5vw, 34px)", marginTop: "clamp(32px, 7vw, 48px)" }}>
+          {facets.map((f) =>
+            // On phones each facet fills as it scrolls through the viewport —
+            // the same word-by-word reveal as the statement above it, in place
+            // of the old one-shot fade-up.
+            animated ? (
+              <ScrollRevealText key={f} text={f} style={facetStyle} />
+            ) : (
+              <p key={f} style={facetStyle}>
                 {f}
               </p>
-            );
-            return animated ? (
-              <Reveal key={f} delay={i * 0.08}>
-                {para}
-              </Reveal>
-            ) : (
-              <React.Fragment key={f}>{para}</React.Fragment>
-            );
-          })}
+            ),
+          )}
         </div>
       </div>
     </section>
