@@ -33,9 +33,22 @@ function Word({
 export function ScrollRevealText({
   text,
   style,
+  progress,
+  range = [0, 1],
 }: {
   text: string;
   style?: React.CSSProperties;
+  /**
+   * Drive the reveal from an outer scroll progress instead of this paragraph's
+   * own position in the viewport. A pinned stage needs this: while the stage is
+   * stuck to the top of the screen the paragraph does not move through the
+   * viewport at all, so its own `useScroll` freezes mid-way and the words never
+   * finish filling. Pass the pinned track's progress and the reveal scrubs with
+   * the scroll that actually happens.
+   */
+  progress?: MotionValue<number>;
+  /** Which slice of that outer progress the reveal runs across. */
+  range?: [number, number];
 }) {
   const ref = React.useRef<HTMLParagraphElement>(null);
   const reduced = useReducedMotion();
@@ -43,6 +56,12 @@ export function ScrollRevealText({
     target: ref,
     offset: ["start 0.85", "end 0.55"],
   });
+  // Both are computed every render — hooks can't be conditional — and the
+  // remapped outer progress simply wins when one is supplied. useTransform
+  // clamps to the output range by default, so the words hold at full opacity
+  // once `range` is passed rather than over-running.
+  const outer = useTransform(progress ?? scrollYProgress, range, [0, 1]);
+  const driver = progress ? outer : scrollYProgress;
   const words = text.split(" ");
 
   if (reduced) {
@@ -55,7 +74,7 @@ export function ScrollRevealText({
         const start = i / words.length;
         const end = start + 1 / words.length;
         return (
-          <Word key={i} progress={scrollYProgress} range={[start, end]}>
+          <Word key={i} progress={driver} range={[start, end]}>
             {w}
           </Word>
         );

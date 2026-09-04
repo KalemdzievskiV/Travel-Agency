@@ -57,7 +57,9 @@ export function DestinationGrid({
           onSale={showsSaleBadge(d)}
           meta={
             d.bestMonths.length
-              ? t("best", { months: d.bestMonths.map(monthLabel).join(", ") })
+              // Middle dots, not commas, per the client's correction:
+              // "Најдобро време: октомври · ноември · март · април".
+              ? t("best", { months: d.bestMonths.map(monthLabel).join(" · ") })
               : undefined
           }
           ratio={ratio}

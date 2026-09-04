@@ -263,9 +263,6 @@ export function EnquiryPanels({
         <p style={{ fontSize: 15.5, lineHeight: 1.65, color: "var(--wf-ink-700)", margin: "16px auto 0", maxWidth: 640 }}>
           {t("pageIntro")}
         </p>
-        <p style={{ fontSize: 15.5, lineHeight: 1.65, color: "var(--wf-ink-700)", margin: "12px auto 0", maxWidth: 640 }}>
-          {t("introChannels")}
-        </p>
         <p style={{ fontSize: 17, lineHeight: 1.65, color: "var(--wf-ink-700)", margin: "14px auto 0", maxWidth: 640 }}>
           {t.rich("introCallNow", { phone: () => phoneLink })}
         </p>

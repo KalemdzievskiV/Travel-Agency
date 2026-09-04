@@ -35,6 +35,7 @@ export function RegionExperienceFinder({
 }) {
   const t = useTranslations("regionPage");
   const tt = useTranslations("tripFinder");
+  const td = useTranslations("destinationPage");
   const tf = useTranslations("feelings");
   const tm = useTranslations("months");
   // Fall back to the raw value for feelings/months not in the dictionary.
@@ -136,6 +137,9 @@ export function RegionExperienceFinder({
             {tt("takeMeThere")}
           </Button>
         </div>
+        <p style={{ fontSize: 13, color: "rgba(255,255,255,0.75)", margin: "14px 0 0" }}>
+          {td("reassure")}
+        </p>
       </div>
     </section>
   );

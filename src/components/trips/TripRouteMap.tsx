@@ -6,22 +6,32 @@ import "leaflet/dist/leaflet.css";
 import type { MapStop } from "./showcase-shared";
 
 /**
- * The basemap. OpenStreetMap's own tiles, because they need no key: CARTO's
- * `light_all`, which this used, now stamps "API KEY REQUIRED" across every tile
- * it serves keyless (verified: their CDN returns the watermarked tile with a
- * 200). It only looked correct in dev because a developer's browser still had
- * clean tiles cached, which is why this surfaced as a deployed-site bug.
+ * The basemap. Esri's Light Gray canvas, in two layers: the ground, then the
+ * labels on top. Both are keyless.
  *
- * OSM's raster tiles are more colourful than CARTO's grey, so `.wf-map`
- * desaturates the tile pane in CSS to get the quiet basemap back (markers and
- * the route line sit in other panes, untouched).
+ * Why not the obvious two:
+ * - OpenStreetMap's own raster tiles (what this used) label every place in the
+ *   *local* language, so an Egypt route came out in Arabic. There is no
+ *   language switch on those tiles — it needs a different provider.
+ * - CARTO's `light_all` labels in English but now stamps "API KEY REQUIRED"
+ *   across every tile it serves keyless (verified: their CDN returns the
+ *   watermarked tile with a 200). Their clean tiles are a paid key:
+ *   `https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png?api_key=…`.
  *
- * If the CARTO look is ever wanted verbatim, it is a paid key on their side:
- * `https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png?api_key=…`.
+ * Esri splits ground and labels into two services, hence two tileLayers — the
+ * base alone renders no place names at all. Note the reversed {y}/{x} order in
+ * their URL template. The canvas is already the quiet grey this map wants, so
+ * unlike OSM it needs no desaturation in CSS.
+ *
+ * If Esri's terms ever become a problem for commercial use, the clean swap is a
+ * keyed provider (MapTiler/Stadia/CARTO), which also brings real per-language
+ * labels rather than English-only.
  */
-const TILE_URL = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
-const TILE_ATTRIBUTION =
-  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+const TILE_URL =
+  "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}";
+const LABEL_TILE_URL =
+  "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}";
+const TILE_ATTRIBUTION = "&copy; Esri";
 
 /**
  * TripRouteMap — the route on a column-sized map: markers, a dashed line
@@ -63,7 +73,14 @@ export function TripRouteMap({
       map = L.map(elRef.current, { scrollWheelZoom: false, zoomControl: true, attributionControl: true });
       mapRef.current = map;
 
-      L.tileLayer(TILE_URL, { maxZoom: 19, attribution: TILE_ATTRIBUTION }).addTo(map);
+      // Ground first, then labels over it — see the note on LABEL_TILE_URL.
+      // Esri's canvas only serves to z16, so `maxNativeZoom` caps what is
+      // *requested* while `maxZoom` keeps the map zoomable past it: Leaflet
+      // upscales the z16 tile rather than asking for one that 404s and leaves
+      // the map blank.
+      const tiles = { maxNativeZoom: 16, maxZoom: 19 } as const;
+      L.tileLayer(TILE_URL, { ...tiles, attribution: TILE_ATTRIBUTION }).addTo(map);
+      L.tileLayer(LABEL_TILE_URL, tiles).addTo(map);
 
       const idle = L.divIcon({ className: "", html: '<span class="wf-mappin"></span>', iconSize: [16, 16], iconAnchor: [8, 8] });
       const activeIcon = L.divIcon({ className: "", html: '<span class="wf-mappin wf-mappin--active"></span>', iconSize: [24, 24], iconAnchor: [12, 12] });

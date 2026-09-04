@@ -133,7 +133,7 @@ export async function RegionLanding({
               color: "var(--wf-ink-900)",
             }}
           >
-            {t("countries")}
+            {t("countriesHeading")}
           </h2>
           {destinations.length > 0 ? (
             <CountryGrid items={destinations} initialCount={6} />

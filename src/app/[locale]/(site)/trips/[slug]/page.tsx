@@ -45,7 +45,7 @@ export default async function TripPage({
     getTranslations("common"),
   ]);
 
-  // Suggested accommodation — hotels for the trip's first destination — and the
+  // "Where we'd stay" — hotels for the trip's first destination — and the
   // closing "similar experiences" band. Independent, so fetch them together.
   const [suggestedHotels, similarTrips] = await Promise.all([
     destinations[0]
@@ -201,22 +201,39 @@ export default async function TripPage({
         introText={t("layoutIntroPlaceholder")}
       />
 
-      {/* Important notes (ВАЖНИ НАПОМЕНИ) — D4, per 3.2. */}
+      {/* What you need to know (ШТО ТРЕБА ДА ЗНАЕШ) — D4, per 3.2. Its own
+          eyebrow rather than the page's shared "На ова патување": this block
+          is the pre-departure one, and the client asked for it to say so. */}
       {(trip.included.length > 0 || trip.notIncluded.length > 0 || trip.visaNotes) && (
         <section style={{ ...pageBackdrop("d4"), padding: "clamp(40px, 6vw, 72px) 0 clamp(48px, 7vw, 72px)" }}>
           <div className="wf-wrap wf-wrap--wide">
             <div style={{ marginBottom: "clamp(24px, 4vw, 40px)" }}>
-              <SectionHead eyebrow={t("onThisJourney")} title={t("importantNotes")} align="center" />
+              <SectionHead eyebrow={t("beforeYouGo")} title={t("importantNotes")} align="center" />
+              {/* Italic lede, the same caption treatment the region and country
+                  pages give their opening line. */}
+              <p
+                style={{
+                  fontFamily: "var(--wf-font-sans)",
+                  fontStyle: "italic",
+                  fontSize: "clamp(14.5px, 1.5vw, 16px)",
+                  lineHeight: 1.75,
+                  color: "var(--wf-ink-700)",
+                  maxWidth: 620,
+                  margin: "clamp(12px, 1.8vw, 16px) auto 0",
+                  textAlign: "center",
+                }}
+              >
+                {t("notesIntro")}
+              </p>
             </div>
             <div className="wf-grid wf-grid-3">
-              {trip.included.length > 0 && <NotesCol title={t("included")} items={trip.included} />}
-              {trip.notIncluded.length > 0 && <NotesCol title={t("notIncluded")} items={trip.notIncluded} />}
-              {trip.visaNotes && (
-                <div>
-                  <SubHead>{t("visaNotes")}</SubHead>
-                  <p style={{ margin: 0, fontSize: 15.5, lineHeight: 1.65, color: "var(--wf-ink-700)", whiteSpace: "pre-line" }}>{trip.visaNotes}</p>
-                </div>
+              {trip.included.length > 0 && (
+                <NotesCard tone="included" title={t("included")} items={trip.included} />
               )}
+              {trip.notIncluded.length > 0 && (
+                <NotesCard tone="excluded" title={t("notIncluded")} items={trip.notIncluded} />
+              )}
+              {trip.visaNotes && <NotesCard tone="entry" title={t("visaNotes")} body={trip.visaNotes} />}
             </div>
           </div>
         </section>
@@ -252,7 +269,7 @@ export default async function TripPage({
         </div>
       </section>
 
-      {/* Suggested accommodation (ПРЕДЛОГ СМЕСТУВАЊЕ) — plain white: a
+      {/* Where we'd stay (КАДЕ БИ ОДСЕДНАЛЕ НИЕ) — plain white: a
           programme carries two boards now, D3 on the text and D4 on the
           notes, and nothing else. */}
       {suggestedHotels.length > 0 && (
@@ -289,24 +306,74 @@ export default async function TripPage({
   );
 }
 
-function SubHead({ children }: { children: React.ReactNode }) {
-  return (
-    <h3 style={{ fontFamily: "var(--wf-font-sans)", fontSize: 12, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--wf-coral-600)", margin: "0 0 14px" }}>
-      {children}
-    </h3>
-  );
-}
+/**
+ * The "what you need to know" trio. One hue per card at the client's request —
+ * included green, not included orange, entry/visa blue — drawn from the same
+ * --wf-value-* set the values band and the flight-tickets cards use rather than
+ * new one-off hexes. The card itself stays white, as those bands do, so the
+ * colour lands on the title alone.
+ */
+const NOTE_TONES = {
+  included: "var(--wf-value-2)",
+  excluded: "var(--wf-value-1)",
+  entry: "var(--wf-value-4)",
+} as const;
 
-function NotesCol({ title, items }: { title: string; items: string[] }) {
+function NotesCard({
+  title,
+  tone,
+  items,
+  body,
+}: {
+  title: string;
+  tone: keyof typeof NOTE_TONES;
+  /** A bulleted card (included / not included); `body` is the prose variant. */
+  items?: string[];
+  body?: string;
+}) {
   return (
-    <div>
-      <SubHead>{title}</SubHead>
-      <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 10 }}>
-        {items.map((it) => (
-          <li key={it} style={{ fontSize: 15.5, lineHeight: 1.55, color: "var(--wf-ink-700)" }}>{it}</li>
-        ))}
-      </ul>
-    </div>
+    <article
+      style={{
+        // Equal-height cards across the row even when one list runs longer.
+        height: "100%",
+        background: "var(--wf-paper)",
+        borderRadius: "var(--wf-radius-md)",
+        padding: "clamp(20px, 2.4vw, 28px)",
+        // --wf-paper and --wf-cream are both #FFFFFF, so on this band a plain
+        // white card is invisible and reads as the bare column it replaced.
+        // The hairline and a whisper of lift are what make it a card; the top
+        // rule puts the card's hue to structural use rather than tinting a
+        // label alone.
+        border: "var(--wf-border-hairline)",
+        borderTop: `3px solid ${NOTE_TONES[tone]}`,
+        boxShadow: "var(--wf-shadow-xs)",
+      }}
+    >
+      <h3
+        style={{
+          fontFamily: "var(--wf-font-sans)",
+          fontSize: 12,
+          fontWeight: 700,
+          letterSpacing: "0.14em",
+          textTransform: "uppercase",
+          color: NOTE_TONES[tone],
+          margin: "0 0 14px",
+        }}
+      >
+        {title}
+      </h3>
+      {items ? (
+        <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 10 }}>
+          {items.map((it) => (
+            <li key={it} style={{ fontSize: 15.5, lineHeight: 1.55, color: "var(--wf-ink-700)" }}>{it}</li>
+          ))}
+        </ul>
+      ) : (
+        <p style={{ margin: 0, fontSize: 15.5, lineHeight: 1.65, color: "var(--wf-ink-700)", whiteSpace: "pre-line" }}>
+          {body}
+        </p>
+      )}
+    </article>
   );
 }
 

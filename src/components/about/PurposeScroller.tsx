@@ -91,7 +91,18 @@ function PurposePinned({ eyebrow, statement, facets, grad }: { eyebrow: string; 
           <Eyebrow tone="light" style={{ textAlign: "center" }}>
             {eyebrow}
           </Eyebrow>
-          <p style={statementStyle}>{statement}</p>
+          {/* The same word-by-word fill the phone already runs on this line
+              ("да се пополнуваат буквите ... така ти е направено прашањето на
+              мобилната верзија"), scrubbed off the pinned track rather than the
+              paragraph's own position — see ScrollRevealText's `progress` note.
+              It finishes just before the first facet swaps at 1/n, so the
+              question lands first and the answers follow, in that order. */}
+          <ScrollRevealText
+            text={statement}
+            style={statementStyle}
+            progress={scrollYProgress}
+            range={[0.02, (1 / n) * 0.9]}
+          />
 
           <div style={{ position: "relative", minHeight: "clamp(96px, 14vh, 128px)", marginTop: "clamp(28px, 5vw, 48px)" }}>
             <AnimatePresence mode="wait">
