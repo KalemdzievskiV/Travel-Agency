@@ -78,14 +78,19 @@
      here in its own right: orange, green, teal, whatever the accent does next.
 
      The three name tones are checked against the white card they sit on:
-     orange 4.53:1, green 5.19:1, teal 6.22:1. The heading tone is decorative
-     (it sits large on the teal ground and is not the accessible name of
-     anything), so it deliberately runs quiet. */
+     orange 4.53:1, green 5.19:1, teal 6.22:1. The heading used to run tonal
+     and quiet against the teal band; the client asked for it in plain white
+     instead. */
   --wf-values-bg:      #2A5750;   /* the band itself */
-  --wf-values-heading: #3E7168;   /* the big display title, tonal on the band */
-  --wf-value-1: #C94F33;  /* be curious    — the client's orange, held independently */
-  --wf-value-2: #43793F;  /* be thoughtful */
-  --wf-value-3: #2A6B62;  /* be humble     — the band's own hue, darkened */
+  --wf-values-heading: #FFFFFF;   /* the big display title, white on the band */
+  --wf-value-1: #C94F33;  /* значи лично      — the client's orange, held independently */
+  --wf-value-2: #43793F;  /* но подобро */
+  --wf-value-3: #2A6B62;  /* не се детали     — the band's own hue, darkened */
+  /* Two more tones added when the band grew from 3 values to 5 (КОРЕКЦИИ
+     3.1.1). Checked at the same small-kicker-text bar as the three above —
+     both clear 4.5:1 on the white card. */
+  --wf-value-4: #3D6690;  /* што мислиме */
+  --wf-value-5: #63405A;  /* заслужува почит */
 
   /* — Aliases (use these in components) ———————————— */
   --wf-bg:              var(--wf-cream);

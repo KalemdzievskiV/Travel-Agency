@@ -20,8 +20,8 @@
   },
   "common": {
     "enquireNow": "START HERE",
-    "getInTouch": "Get in touch",
-    "planMyTrip": "PLAN A TRIP",
+    "getInTouch": "Tell us what you have in mind",
+    "planMyTrip": "CREATE YOUR JOURNEY",
     "exploreOurTrips": "EXPLORE DESTINATIONS",
     "viewMore": "View more",
     "openMenu": "Open menu",
@@ -46,19 +46,19 @@
   },
   "hero": {
     "eyebrow": "Tailor-made · Est. 2014",
-    "title": "The world on your terms",
-    "intro": "creators of your journeys for over 15 years",
+    "title": "Journeys that begin with you",
+    "intro": "We don’t just choose where you’ll go. We shape how you’ll experience the world.",
     "scroll": "Scroll"
   },
   "intro": {
-    "heading": "Every journey starts with a feeling",
-    "p1": "The world is vast and full of places worth experiencing. But we are surrounded by too much information: see this, do that, don’t miss this. The more choice we have, the more easily we feel lost. And rarely does anyone ask the question that matters most — <i>how do you want to feel while you travel?</i>",
-    "p2": "We create wholly personalised journeys, with no ready-made templates and no off-the-shelf packages. Whether you’re a couple in search of adventure, a family wanting to explore the world together or a solo traveller after something extraordinary, we shape every detail around you. So let’s begin. Let’s create something truly special."
+    "heading": "Every journey begins with a feeling.",
+    "p1": "Sometimes you don’t know exactly where you want to go. But you know what you’re missing. Maybe you want to escape somewhere far away. Slow down. Discover something new. Or simply feel the excitement of travel again.",
+    "p2": "That’s why we don’t start with a ready-made itinerary. We start with you. Tell us how you want to travel, what inspires you, and what you don’t want to miss. We’ll create the rest."
   },
   "journey": {
-    "heading": "Start your journey",
+    "heading": "Where should we begin?",
     "tabs": {
-      "traveller": "Who travels",
+      "traveller": "Who's travelling",
       "popular": "Most popular",
       "month": "By month"
     },
@@ -69,36 +69,35 @@
       "Honeymoon": "Honeymoon",
       "Solo": "Solo"
     },
-    "intro": "You don't need a destination in mind. Pick whatever suits you best and take it from there."
+    "intro": "You don't need to have a destination in mind.\nChoose what feels right for you and get inspired."
   },
   "explore": {
-    "title": "Explore our trips",
-    "subtitle": "Uncommon experiences that inspire the mind.",
+    "title": "A few ideas to get you started.",
+    "subtitle": "No packages. No rules. Just places where your story can begin. Can't see what you have in mind? Good. We'll create it.",
     "exploreTrip": "Explore trip",
     "nights": "{count, plural, one {# night} other {# nights}}"
   },
   "why": {
-    "heading": "Why bookit?",
+    "heading": "We know the world. But first, we want to get to know you.",
     "reasons": {
-      "award": "Made by professionals",
-      "quote": "We create for free",
-      "map": "Made to your wishes",
-      "support": "24/7 support",
-      "guide": "Experts in every destination"
+      "award": "Made for you",
+      "quote": "First-hand knowledge",
+      "map": "The details are our job",
+      "support": "We're here when you travel",
+      "guide": "Real people"
     },
-    "ctaHeading": "Ready to start?",
+    "ctaHeading": "Your next journey doesn't have to start with a destination.\nHave a place in mind? Great. Don't? Even better.\nTell us what you're imagining. We'll create it together.",
     "ctaButton": "CREATE YOUR JOURNEY"
   },
   "about": {
     "word": "About us",
-    "valuesTitle": "Our values",
-    "valuesIntro": "These three values guide everything we do, wherever the journey takes us.",
-    "ctaReadyNew": "Ready to feel something new?",
-    "startJourney": "Start your journey",
-    "ctaReadyWhen": "Ready when you are",
-    "whyNotCta": "Start your journey",
-    "howTitle": "What to know before you write to us",
-    "howCta": "It starts with a single conversation",
+    "valuesTitle": "A few things we believe in",
+    "ctaReadyNew": "Enough about us. Where do you want to go?",
+    "startJourney": "Create your journey",
+    "ctaReadyWhen": "Now we need one from you. Where do you want to go?",
+    "whyNotCta": "Create your journey",
+    "howTitle": "What should you know before you write to us?",
+    "howCta": "Step 00 — Say hello.",
     "regenP1": "A fuller account of our commitments is on its way.",
     "regenP2": "In the meantime, we’d be glad to talk through how we work with local hosts, guides and communities on every journey.",
     "regenCta": "Plan a journey with us",
@@ -150,7 +149,7 @@
     "itinerary": "Itinerary",
     "from": "from",
     "nowFrom": "now from",
-    "onSale": "ON SALE",
+    "onSale": "BOOKIT SELECT",
     "days": "{count, plural, one {# day} other {# days}}"
   },
   "feelings": {
@@ -219,24 +218,24 @@
     "faqs": "FAQs",
     "tripsHeading": "Trips we love",
     "tripsIntro": "A few journeys to spark ideas — each tailored, altered and refined until it's yours.",
-    "heroTitle": "Find your perfect experience",
-    "heroSub": "Tell us about your perfect journey. Everything else is ours to take care of.",
-    "heroCta": "Describe your journey",
-    "introLead": "A journey is more than a destination.",
-    "introBody": "Whether you're planning a family safari, a romantic honeymoon or a solo adventure, our team builds a wholly personalised programme around what you're after — to satisfy your urge to explore. To follow your passions. To push your own limits. **We are experts in the art of travel and we know every corner of the world, which makes us the right partner for the journey you've been dreaming of.**",
-    "introClose": "We are experts in the art of travel and we know every corner of the world, which makes us the right partner for the journey you've been dreaming of.",
-    "whoQuestion": "Not where, but who's travelling?",
-    "howQuestion": "Not where, but how?",
+    "heroTitle": "Don't just choose where. Choose how.",
+    "heroSub": "Who you're travelling with, what moves you and how you want to feel — that's where the journey begins.",
+    "heroCta": "Create your journey",
+    "introLead": "The journey doesn't start with a map. It starts with what you want from it.",
+    "introBody": "Maybe you want time just for the two of you. Maybe you want the kids to finally forget about their screens. Maybe you're drawn to the wilderness, the sea, the food, the unknown — or simply the feeling of being far away from everyday life again.",
+    "introClose": "Tell us what moves you. We'll find where it takes you.",
+    "whoQuestion": "Different company. A different journey.",
+    "howQuestion": "Follow what draws you in.",
     "readMore": "Read more",
     "readLess": "Read less",
     "whoEyebrow": "Who are you travelling with?",
     "howEyebrow": "How do you want to travel?"
   },
   "experiencesMenu": {
-    "who": "Who's travelling",
-    "remarkable": "Remarkable experiences",
-    "finder": "Trip finder",
-    "onSale": "On sale",
+    "who": "Who you're travelling with",
+    "remarkable": "How you want to travel",
+    "finder": "Find your journey",
+    "onSale": "Bookit Select",
     "viewAll": "All experiences"
   },
   "tripPage": {
@@ -324,7 +323,7 @@
       "privacy": "Privacy policy"
     },
     "newsletter": {
-      "heading": "Be the first to know",
+      "heading": "Sometimes all you need is one good idea.",
       "namePlaceholder": "Your name",
       "placeholder": "Your email",
       "cta": "Subscribe",
@@ -370,9 +369,9 @@
     "otherHotels": "Other hotels in {place}"
   },
   "flightTickets": {
-    "eyebrow": "Flight tickets",
-    "title": "Find your flight",
-    "intro": "Tell us where and when you'd like to fly and we'll send you our best offer.",
+    "eyebrow": "Flights",
+    "title": "Getting from A to B is the easy part.",
+    "intro": "Tell us where and when you want to travel. We'll review the options and recommend the flight that makes the most sense for your budget, timing, and way of travelling.",
     "from": "From",
     "fromPlaceholder": "City or airport",
     "to": "To",
@@ -390,29 +389,29 @@
     "sentTitle": "Your request is on its way",
     "sentBody": "We'll send you our best offer as soon as possible.",
     "backHome": "Back to home",
-    "subtitle": "The real question is how best to get there.",
+    "subtitle": "The real question is how\nto get there best.",
     "flexibleDates": "My dates are flexible.",
     "channelLegend": "How would you most like to talk?",
     "channelEmail": "Email",
     "channelPhone": "Phone",
     "channelViber": "Viber",
     "channelWhatsapp": "WhatsApp",
-    "whyTitle": "Why book through bookit?",
-    "whyLead": "Because the cheapest flight is not always the best one.",
+    "whyTitle": "Why book with bookit?",
+    "whyLead": "Because the cheapest flight isn't always the best one.",
     "why1Title": "A better route",
-    "why1Body": "We don't only look at the fare. We look at journey time, connections and how practical the whole route is.",
+    "why1Body": "We look beyond the price. We consider total travel time, connections, and how practical the entire journey is.",
     "why2Title": "The whole picture",
-    "why2Body": "Baggage, ticket conditions and the extras are part of the choice, not something to discover later.",
-    "why3Title": "A person when you need one",
-    "why3Body": "When you have a question about your booking, you know exactly who to ask."
+    "why2Body": "Baggage, fare conditions, and additional costs are part of the decision, not something you should discover later.",
+    "why3Title": "A real person when you need one",
+    "why3Body": "When you have a question about your booking, you know exactly who to turn to."
   },
   "enquiry": {
     "close": "Back to home",
     "thankYou": "Thank you",
     "sentTitle": "Your enquiry is on its way",
     "sentBody": "We’ll match you with a bookit travel expert and be in touch within 24 hours to set up a time to talk — over email, phone or video, whatever suits you. In the meantime, you can reach us any time on <phone></phone>.",
-    "title": "Your journey starts <i>here</i>.",
-    "pageIntro": "Send us your details through the form below and our team will be in touch shortly. We'll pair you with a Bookit travel designer who will help you plan your ideal trip.",
+    "title": "Step 00. <i>Say hello.</i>",
+    "pageIntro": "You don't need a finished plan. A destination is enough. A time of year is enough. Even “I want to go somewhere far away in October” is enough. Tell us what you know so far, and one of our travel designers will take it from there.",
     "yourTrip": "Your trip",
     "idealLength": "Ideal length",
     "priceFrom": "Price from",

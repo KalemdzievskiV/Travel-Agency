@@ -83,10 +83,11 @@ export default async function AboutPage({
         grad={aboutPurposePanel}
       />
 
-      {/* Values — pinned teal band; cards appear side by side as you scroll */}
+      {/* Values — pinned teal band; cards appear side by side as you scroll.
+          No subtitle under the heading any more (КОРЕКЦИИ 3.1.1, "под НЕМА
+          друго"). */}
       <ValuesScroller
         title={t("valuesTitle")}
-        intro={t("valuesIntro")}
         values={aboutPage.values}
       />
 

@@ -142,7 +142,11 @@ export default async function ExperienceCategoryPage({
               essay. The CTA sits outside the copy guard on purpose: the client
               asked for it on every experience, and four categories currently
               have no concept text at all. */}
-          <div style={{ maxWidth: 820, marginInline: "auto", marginTop: "clamp(24px, 3vw, 32px)" }}>
+          {/* Narrowed from 820 per a later correction, applied to every
+              category — kept modest (not as tight as the 760/580 columns
+              elsewhere) since the client also asked that longer concept
+              copy not fragment into many short lines once expanded. */}
+          <div style={{ maxWidth: 700, marginInline: "auto", marginTop: "clamp(24px, 3vw, 32px)" }}>
             {c.concept && (
               <ExpandableProse text={c.concept} style={{ ...bodyStyle, textAlign: "left" }} lines={3} />
             )}

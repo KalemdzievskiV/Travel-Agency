@@ -56,6 +56,7 @@ export function StartYourJourney({ tabs }: { tabs: JourneyTab[] }) {
             textAlign: "center",
             maxWidth: 620,
             margin: "clamp(12px, 2vw, 16px) auto 0",
+            whiteSpace: "pre-line",
           }}
         >
           {tr("journey.intro")}

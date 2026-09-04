@@ -3,9 +3,15 @@ import { Reveal } from "./Reveal";
 import type { ValueColumn } from "@/content/about";
 
 /**
- * One value card: the kicker and the name in the value's own hue, then the
- * lead line and the body in ink. White card, so it reads the same on the teal
+ * One value card: kicker and title are two halves of a single line ("Помалку"
+ * / "Но подобро" reads as "Помалку, но подобро"), both set in the value's own
+ * hue, then the body in ink. White card, so it reads the same on the teal
  * band as it would anywhere else.
+ *
+ * Sized down from the original 3-card band (КОРЕКЦИИ 3.1.1, "направи ги
+ * помали") now that there are five of them in a row rather than three, and
+ * the bold caps "lead" line the 3-card version carried between title and
+ * body is gone — the kicker+title pair does that job now.
  *
  * `height: 100%` so a row of cards squares off even when one body runs longer
  * — the pinned stage reveals them side by side and ragged bottoms show.
@@ -17,16 +23,16 @@ export function ValueCard({ value }: { value: ValueColumn }) {
         height: "100%",
         background: "var(--wf-paper)",
         borderRadius: "var(--wf-radius-md)",
-        padding: "clamp(22px, 2.6vw, 32px)",
+        padding: "clamp(16px, 1.8vw, 22px)",
       }}
     >
       <span
         style={{
           display: "block",
           fontFamily: "var(--wf-font-sans)",
-          fontSize: 11,
+          fontSize: 10,
           fontWeight: 700,
-          letterSpacing: "0.16em",
+          letterSpacing: "0.14em",
           textTransform: "uppercase",
           color: value.tone,
         }}
@@ -37,36 +43,22 @@ export function ValueCard({ value }: { value: ValueColumn }) {
         style={{
           fontFamily: "var(--wf-font-display)",
           fontWeight: 400,
-          fontSize: "clamp(28px, 3.4vw, 40px)",
-          lineHeight: 1.02,
+          fontSize: "clamp(19px, 2.1vw, 25px)",
+          lineHeight: 1.05,
           letterSpacing: "0",
           textTransform: "uppercase",
           color: value.tone,
-          margin: "6px 0 0",
+          margin: "4px 0 0",
         }}
       >
         {value.title}
       </h3>
       <p
         style={{
-          fontFamily: "var(--wf-font-sans)",
-          fontSize: 13,
-          fontWeight: 700,
-          lineHeight: 1.45,
-          letterSpacing: "0.04em",
-          textTransform: "uppercase",
-          color: "var(--wf-ink-900)",
-          margin: "16px 0 0",
-        }}
-      >
-        {value.lead}
-      </p>
-      <p
-        style={{
-          fontSize: 15,
-          lineHeight: 1.7,
+          fontSize: 13.5,
+          lineHeight: 1.6,
           color: "var(--wf-ink-700)",
-          margin: "12px 0 0",
+          margin: "10px 0 0",
         }}
       >
         {value.body}
@@ -76,15 +68,15 @@ export function ValueCard({ value }: { value: ValueColumn }) {
 }
 
 /**
- * ValueColumns — the three value cards in a row (stepping to two/one column on
- * smaller screens via wf-grid). The static path: the pinned stage in
- * ValuesScroller reveals the same cards one at a time instead.
+ * ValueColumns — the five value cards in a row (stepping down via wf-grid-5).
+ * The static path: the pinned stage in ValuesScroller reveals the same cards
+ * one at a time instead.
  */
 export function ValueColumns({ values }: { values: ValueColumn[] }) {
   return (
-    <div className="wf-grid wf-grid-3">
+    <div className="wf-grid wf-grid-5">
       {values.map((v, i) => (
-        <Reveal key={v.title} delay={i * 0.16} y={36}>
+        <Reveal key={v.title} delay={i * 0.12} y={36}>
           <ValueCard value={v} />
         </Reveal>
       ))}

@@ -431,8 +431,8 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
-/* Top-right corner: one thing only, per the client — the sale pill if there is
-   one, otherwise the nights label. The price lives on the title row below. */
+/* Top-right corner: the nights label, on every card. The price lives on the
+   title row below. */
 .wf-trip-card__corner {
   position: absolute;
   top: 14px;
@@ -441,6 +441,14 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 6px;
+  z-index: 2;
+}
+/* Top-left corner: the Bookit Select pill, so it never covers the nights
+   label on the right — both read at once, per the client's correction. */
+.wf-trip-card__corner--left {
+  position: absolute;
+  top: 14px;
+  left: 14px;
   z-index: 2;
 }
 .wf-trip-card__corner-price {
@@ -851,15 +859,20 @@
 .wf-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .wf-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .wf-grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+/* Five smaller value cards in one row on wide screens — the values band
+   correction ("направи ги помали и нека бидат 5"). */
+.wf-grid-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 
 @media (max-width: 980px) {
   .wf-grid-3,
   .wf-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .wf-grid-5 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (max-width: 640px) {
   .wf-grid-2,
   .wf-grid-3,
   .wf-grid-4 { grid-template-columns: 1fr; gap: 18px; }
+  .wf-grid-5 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 }
 
 /* Opt-in: a grid that becomes a swipe row on a phone instead of a single

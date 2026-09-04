@@ -117,9 +117,11 @@ export default async function ExperiencesPage({
         }}
       >
         <div className="wf-wrap wf-wrap--wide">
-          {/* 980, the destination pages' reading column: the client asked for
-              this block to stop running the full width of the page. */}
-          <div style={{ maxWidth: 980, marginInline: "auto", textAlign: "center" }}>
+          {/* Narrowed further per a later correction ("да не биде волку
+              широко ... како на другите места по тесно") — down from the
+              980 destination-page reading column to match the narrower
+              intro columns used elsewhere (flight-tickets, enquiry). */}
+          <div style={{ maxWidth: 760, marginInline: "auto", textAlign: "center" }}>
             <p
               style={{
                 fontFamily: "var(--wf-font-sans)",

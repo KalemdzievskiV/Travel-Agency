@@ -17,17 +17,19 @@ export type StoryRow = {
 };
 
 /**
- * One card in the About page's "our values" band. `kicker` is the small word
- * that runs above the name ("be" / „бидете"), `lead` the bold line under it,
- * and `tone` picks one of the --wf-value-* hues — this band is the one place
- * on the site carrying three accents rather than one, at the client's request.
+ * One card in the About page's "values" band. `kicker` and `title` are two
+ * halves of one line — "ПОМАЛКУ" / "НО ПОДОБРО" reads as "Помалку, но
+ * подобро" — rather than a label over a word, which is why there's no
+ * separate bold "lead" line any more (КОРЕКЦИИ 3.1.1 dropped it when the
+ * band grew from 3 cards to 5). `tone` picks one of the --wf-value-* hues —
+ * this band is the one place on the site carrying five accents rather than
+ * one, at the client's request.
  */
 export type ValueColumn = {
   kicker: string;
   title: string;
-  lead: string;
   body: string;
-  tone: "var(--wf-value-1)" | "var(--wf-value-2)" | "var(--wf-value-3)";
+  tone: "var(--wf-value-1)" | "var(--wf-value-2)" | "var(--wf-value-3)" | "var(--wf-value-4)" | "var(--wf-value-5)";
 };
 export type Reason = { no: string; title: string; body: string; grad: string; image: string };
 /** Opening title panel of the 5-reasons sequence (the reference's "WHY US?" slide). */
@@ -48,10 +50,10 @@ export type WhyTopic = { nav: string; title: string; body: string; grad: string;
 // ── Flagship: Who we are / Our purpose ──────────────────────────────
 export const aboutPage = {
   hero: {
-    eyebrow: "Who we are",
-    title: "We are a team of people who genuinely know the world of travel",
+    eyebrow: "About us",
+    title: "We didn't start Bookit to sell more trips.",
     intro:
-      "Our mission is to create unforgettable experiences that carefully connect our clients with the world, and inspire them to explore it with curiosity, respect and a sense of wonder.",
+      "We started it to create better ones. We believe the best journeys don't begin with an offer, a package, or a list of hotels. They begin with the person who's travelling — with what they want, what they're drawn to, and how they want to feel when they return home. **That's Bookit. Journeys that begin with you.**",
     grad: "var(--wf-brand-gradient-deep)",
     band: aboutMastheadBand,
     image: aboutPhoto[0],
@@ -59,25 +61,25 @@ export const aboutPage = {
 
   story: [
     {
-      eyebrow: "How it began",
-      title: "It all started with a feeling",
-      body: "bookit was founded in 2026 by two friends who wanted to change the world of standard package deals and journeys that all look alike.\n\nOur aim is to grow into award-winning creators of personalised journeys, conceived with inspiration, creativity and exceptional attention to every detail.\n\nFor us, the most important question has always been: how do you want to feel? Everything else is in the details.",
+      eyebrow: "How it started",
+      title: "Bookit is new. The people behind it aren't.",
+      body: "Bookit started in 2026 with one simple idea: travel deserves more than ready-made packages and endless catalogue options.\n\nBehind Bookit is a team with more than 15 years of experience in the world of travel — years spent planning, solving problems, discovering, and learning what truly makes a journey a good one.\n\nWe created Bookit to use all that knowledge differently. Fewer templates. More listening. Less “this is the offer.” More “what do you have in mind?”\n\n**Because we don't just want to send you somewhere. We want to find the right somewhere for you.**",
       grad: "linear-gradient(135deg,#5a6b86,#2a3550)",
       image: aboutPhoto[1],
       align: "right",
     },
     {
       eyebrow: "How we think",
-      title: "Singular, different and bold",
-      body: "We create experiences that leave a lasting impression. The journeys we create shape us too — an idea we learned from the legendary travel writer Bruce Chatwin, who spoke of the importance of living with a constant desire to discover.\n\nWhen we plan a journey, we set out to remove every obstacle standing between you and the world. Because you aren't only looking for the familiar, but for the unexpected, the unknown, and everything still waiting to be discovered.\n\nBut real knowledge stands behind every great adventure. Over the years we've built a team of people who live for travel — curious explorers with impeccable organisation and attention to every detail.\n\nThey are the people who will help you find the right path — even when the finest experience begins precisely with getting a little lost.",
+      title: "A good journey doesn't need more. It needs better.",
+      body: "Not more cities. Not more hotels. Not more things you “have to” see. Just a better rhythm. A better choice. A better moment.\n\nSometimes we'll tell you to stay one more night. Sometimes to skip what everyone else visits. And sometimes to leave an afternoon completely unplanned.\n\n**Because our job is to shape the journey. Not to fill it.**",
       grad: "linear-gradient(135deg,#7a6a52,#2c2418)",
       image: aboutPhoto[2],
       align: "left",
     },
     {
       eyebrow: "What we do",
-      title: "We'll show you the world — in a wholly new light",
-      body: "We create journeys for those who want to draw genuinely close to the world, far from the tourist traps and the lists of places merely to be ticked off.\n\nInstead, we open space for deeper, more honest and more personal encounters with different cultures, traditions and ways of life.\n\nToday we arrange journeys across all seven continents, and we create each one from the very beginning. Which is exactly why no two journeys are ever the same.\n\nTrekking with the tribes of Borneo, discovering traditional leatherwork in Morocco, or living the thrilling atmosphere of the Palio in Siena. The world is vast, wild and full of surprises. Your journeys should be too.",
+      title: "You bring the idea. We connect the dots.",
+      body: "Flights. Hotels. That little hotel you didn't know existed. A guide who knows which street to take before everyone else arrives. A great restaurant for the third night, not the first. A transfer that's there exactly when it needs to be.\n\nAnd enough space between it all so the journey never feels like a schedule.\n\n**Every Bookit journey is built from the ground up, around the person who'll experience it.**",
       grad: "linear-gradient(135deg,#4f6f57,#1d2c20)",
       image: aboutPhoto[3],
       align: "right",
@@ -85,38 +87,47 @@ export const aboutPage = {
   ] satisfies StoryRow[],
 
   purpose: {
-    eyebrow: "Our purpose",
-    statement: "To take people on journeys they will remember for ever",
+    eyebrow: "Our standard",
+    statement: "Would we recommend the same journey to someone we love?",
     grad: "var(--wf-brand-gradient-deep)",
     // Supporting facets that cross-fade as you scroll the pinned statement.
     facets: [
-      "For our travellers, a journey is more than visiting somewhere new — it is an experience that changes how they see the world, and themselves.",
-      "With our partners on the ground we build fair, long-standing relationships that succeed together.",
-      "The places we are privileged to visit, we take care to protect and to leave better than we found them.",
+      "If the answer isn't yes, it isn't good enough.",
+      "We want to work with people we value, partners we trust, and places that treat us with respect.",
+      "We don't just want you to come home happy. We want you to start thinking about where to go next.",
     ],
   },
 
   values: [
     {
-      kicker: "Be",
-      title: "Curious",
-      lead: "Our world is wide, varied and full of possibility",
-      body: "We like to ask questions. How could this be better? Where next? What is genuinely possible, and what do our travellers actually want? Put simply: we love questions, and we value the people who bring new ideas.",
+      kicker: "Personal",
+      title: "Means personal",
+      body: "If every traveller is different, there's no reason two journeys should look the same.",
       tone: "var(--wf-value-1)",
     },
     {
-      kicker: "Be",
-      title: "Thoughtful",
-      lead: "Because attention begins with thinking",
-      body: "Good things come to those who think. And in our world, to think is to care — not only for our travellers, but for one another, and for the planet we all share.",
+      kicker: "Less",
+      title: "But better",
+      body: "We don't measure a journey by how many places you'll visit.",
       tone: "var(--wf-value-2)",
     },
     {
-      kicker: "Be",
-      title: "Humble",
-      lead: "Let others do the talking",
-      body: "We don't let success carry us away, and we don't follow the noise around us. We are confident in what we do, dignified and calm under pressure, proud of what we achieve but never arrogant.",
+      kicker: "The details",
+      title: "Aren't details",
+      body: "A good transfer. The right room. A better flight time. Those are exactly the things that make everything feel effortless.",
       tone: "var(--wf-value-3)",
+    },
+    {
+      kicker: "We'll tell you",
+      title: "What we think",
+      body: "If something isn't worth it, we'll tell you. If there's a better way, we'll suggest it.",
+      tone: "var(--wf-value-4)",
+    },
+    {
+      kicker: "The world",
+      title: "Deserves respect",
+      body: "Towards the places we visit, the people who welcome us, and the way we travel through their home.",
+      tone: "var(--wf-value-5)",
     },
   ] satisfies ValueColumn[],
 
@@ -124,7 +135,7 @@ export const aboutPage = {
   name: {
     eyebrow: "The idea behind the name",
     title: "Why Bookit?",
-    body: "Every journey begins as an idea, but it becomes real the moment you say: “Book it.” That moment is exactly where the name Bookit comes from.\n\nBookit is the instant a daydream gets a date on it, a destination becomes a plan, and the plan becomes a journey. Our job is to make that decision easy, and to see that everything which follows is carefully considered, personal and worth remembering.",
+    body: "Every journey has a moment when it stops being just an idea. When “one day I'd love to…” becomes “let's book it.” That moment is Bookit.\n\nWhen the dream gets a date. When the place becomes a plan. When the excitement begins. **Our job is to make sure everything that comes after feels worth that decision.**",
     grad: "linear-gradient(135deg,#6a4f6a,#241a24)",
     image: aboutNameImage,
     align: "left",
@@ -144,44 +155,53 @@ export const aboutPage = {
 // Photography is the client's own set (see `@/content/media`), one per reason
 // in order; the gradients stay as the fallback behind them.
 export const reasonsIntro: ReasonsIntro = {
-  big: "WHY US?",
+  big: "5 REASONS WHY BOOKIT?",
   eyebrow: "What sets us apart",
-  title: "5 reasons to book your journey with bookit",
+  title: "You don't need more options. You need the right ones.",
 };
 
 export const reasons: Reason[] = [
   {
     no: "01",
-    title: "People who make the difference",
-    body: "We believe an extraordinary team stands behind every unforgettable journey. Our genuine love of travel and our commitment to creating singular experiences are what set us apart in this industry.\n\nWith curiosity, care and a personal approach, we build meaningful, long-standing relationships founded on trust with every client.",
+    title: "First, we listen.",
+    body: "We don't start with a hotel. Or a flight. Or a ready-made package. We start with you.\n\nHow you want to travel. What you want to see. How much time you want to slow down. What you'd never choose. And what would make this journey feel truly yours. Then we build everything around that.\n\n**Because to us, tailor-made doesn't mean changing a hotel in a fixed itinerary. It means starting with a blank page.**",
     grad: "linear-gradient(135deg,#3f6f7a,#1d3c45)",
     image: reasonPhoto[0],
   },
   {
     no: "02",
-    title: "Experiences you won't find elsewhere",
-    body: "Years of experience, creativity and a carefully built network of partners let us create journeys that simply don't appear in standard offerings.\n\nOur team opens the door to special places, authentic experiences and thoughtfully considered details that turn every journey into something rich and unforgettable.",
+    title: "We'll tell you what we really think.",
+    body: "Sometimes the best service is not simply saying “yes.”\n\nIf it's worth staying one more night, we'll tell you. If a hotel looks better on Instagram than it does in real life, we'll tell you. If there's a better route, a better time to go, or simply a better way to do it, we'll suggest it.\n\n**We're not here just to book what you ask for. We're here to help you choose better.**",
     grad: "linear-gradient(135deg,#5a6b86,#2a3550)",
     image: reasonPhoto[1],
   },
   {
     no: "03",
-    title: "Exceptional partners",
-    body: "Our long-standing, close partnerships with trusted local experts are what distinguish us from the rest.\n\nBecause of that closeness, services are created specifically for us — carefully adapted to what our clients need and to our own creative ideas for singular journeys.",
+    title: "Your time is for travel.",
+    body: "**Not for 47 open tabs.** You can compare hotels yourself. Read hundreds of reviews. Check whether the transfer will get you to the airport in time. Search for a restaurant that's actually worth it, or find out whether that TikTok “hidden gem” is still hidden. Or you can simply tell us what you're looking for.\n\n**We'll do the research, the checking, and connect all the details. You'll get the options that actually make sense.**",
     grad: "linear-gradient(135deg,#7a6a52,#2c2418)",
     image: reasonPhoto[2],
   },
   {
     no: "04",
-    title: "Creativity that inspires",
-    body: "We stand out through an original approach, striking content and inventive ideas that keep changing the way journeys are experienced.\n\nThrough contemporary marketing, new concepts, a vision for the future of travel and singular partnerships, we inspire our audience to discover the world in a different, more exciting and more considered way.",
+    title: "You can do it yourself. You just don't have to.",
+    body: "Bookit exists for the time you don't want to spend on planning, the details you don't want to double-check, and the places you might not find on your own.",
+    grad: "linear-gradient(135deg,#15709B,#0E2A33)",
+    // Client-supplied photo (КОРЕКЦИИ 3.1.1, "слика бр. 2") — a lone hiker's
+    // footprints up a dune, replacing the picsum placeholder.
+    image: "/images/about/reason-alone.png",
+  },
+  {
+    no: "05",
+    title: "The details are never just details.",
+    body: "The right flight. The right room. A transfer waiting when it should be. A guide who knows the place, not just the itinerary. A restaurant reservation on the night it actually makes sense to be there.\n\nOn their own, they're small things. **Together, they're the difference between a trip you've organised and a journey that simply works.**\n\nWe work with carefully selected partners and places we trust, so you never have to think about what's happening behind the scenes.",
     grad: "linear-gradient(135deg,#4f6f57,#1d2c20)",
     image: reasonPhoto[3],
   },
   {
-    no: "05",
-    title: "Made to measure",
-    body: "We create wholly personalised journeys, carefully shaped around the wishes, needs and expectations of each client.\n\nWith honest recommendations, a personal approach and attention to every detail, we aim for each journey to be better than imagined. What sets us apart is our love of building long-term relationships with our clients, and of improving what comes next on the strength of their feedback.",
+    no: "06",
+    title: "And when you set off, we're still here.",
+    body: "Our job doesn't end when your booking confirmation arrives.\n\nBefore you travel, we check the details. While you're away, you know who to call. And if something changes — a flight, a transfer, the weather, or the plan — you're not left to sort it out on your own from the other side of the world.\n\n**The best support is the kind you rarely need. But when you do, it makes all the difference.**",
     grad: "linear-gradient(135deg,#6a4f6a,#241a24)",
     image: reasonPhoto[4],
   },
@@ -201,56 +221,67 @@ export type WhyNotDiy = {
 };
 export const whyNotDiy: WhyNotDiy = {
   hero: {
-    eyebrow: "Why book with us",
-    title: "Why not just do it yourself?",
+    eyebrow: "Why travel with us",
+    title: "When should you book it yourself?",
     intro:
-      "If all you need is flights and a place to stay, you can book that online today in a few clicks.\n\nBut if you want your precious free time to genuinely be worth it — the journey to enrich you and leave a lasting impression — you need a trusted partner with real experience, knowledge and a feel for every detail.\n\nThat is where we come in.",
+      "**Sometimes, you really don't need us.** Going to Rome for three days? Know exactly which hotel you want? Found a direct flight and have a simple plan for a few good restaurants? **Book it.** Not every journey needs a travel designer. But when there are more places, different flights, private transfers, special hotels, experiences, kids, celebrations, long-haul destinations, or simply when someone else needs to think everything through — **that's when Bookit starts to make sense.**",
     grad: "linear-gradient(135deg,#5a6b86,#16130f)",
   },
-  closing: "The journey is yours. We take care of everything else.",
+  closing: "You should experience the journey. Not manage it.",
   closingBody:
-    "From the planning to the last detail, we look after everything that might otherwise pull your attention away from what matters most — enjoying the journey completely.",
-  // Five reasons not to go it alone — pinned, scroll-driven like the reference.
+    "From the first idea to the moment you unlock your front door again, we connect all the details so you can focus on the one part that truly belongs to you: **being there.**",
+  // Six reasons not to go it alone — pinned, scroll-driven like the reference.
+  // Slide backgrounds follow the client's numbered palette (КОРЕКЦИИ, p.5):
+  // 1 #C06B4E, 2 #397F78, 3 #82964C, 4 #567FA4, 5 #7C526C, 6 #C8893F — one
+  // per topic, in order, each paired with a matching deep shade for depth.
   topics: [
     {
-      nav: "Time management",
-      icon: "time",
-      title: "Your time is precious",
-      body: "We invest the time you don't have, to create a journey where every detail answers what you actually want.\n\nWhether you want to see a familiar destination from a new angle, escape the everyday, indulge, take on a challenge or learn something new — we design each experience specifically for you.\n\nSo you come home rested, filled with new energy, and certain you made the very most of your precious free time.",
-      grad: "linear-gradient(135deg,#15709B,#0E2A33)",
+      nav: "Booking a hotel is easy.",
+      icon: "hotels",
+      title: "Booking a hotel is easy.",
+      body: "**Choosing the right hotel isn't always.** One has a better location. Another has better rooms. A third looks amazing in photos but simply doesn't suit the way you want to travel. And the fourth might be the one you would never find on your own.\n\n**Our job isn't to give you more options. It's to remove the wrong ones.**",
+      grad: "linear-gradient(135deg,#C06B4E,#2A1811)",
       image: "https://picsum.photos/seed/bookit-why-time/1400/1800",
     },
     {
-      nav: "Idea generation",
-      icon: "ideas",
-      title: "Ideas that inspire",
-      body: "Creating singular ideas is one of our greatest strengths. We know the world up close, and we have the knowledge, the experience and the real contacts to turn any journey into an experience that leaves a lasting impression.\n\nWe make sure you miss nothing that matters, and that you come home with memories you'll be talking about for months — even years.",
-      grad: "linear-gradient(135deg,#1E7FB8,#123A40)",
+      nav: "47 tabs later…",
+      icon: "time",
+      title: "47 tabs later…",
+      body: "One hotel tab turns into eleven. You check if there's a better flight. Read reviews. Compare rooms. Try to work out whether three nights are too many or too few. And somehow, you still don't feel sure.\n\n**We enjoy this part.** The research, the comparing, the checking, and connecting all the details — that's our job. We bring you the options that make sense.\n\n**Not every possible option.**",
+      grad: "linear-gradient(135deg,#397F78,#0E201E)",
       image: "https://picsum.photos/seed/bookit-why-ideas/1400/1800",
     },
     {
-      nav: "Money saving",
-      icon: "value",
-      title: "More value for your budget",
-      body: "What is the perfect journey worth? Our carefully considered programmes are full of singular ideas and experiences, shaped entirely around you.\n\nAt first glance the offer may look like a considerable investment, but every detail is chosen so you get the most value for your budget. Booking every service yourself would often cost you more — and there's every chance you'd miss something genuinely special.",
-      grad: "linear-gradient(135deg,#0C747E,#0E2A33)",
+      nav: "Popular doesn't always mean right.",
+      icon: "choice",
+      title: "Popular doesn't always mean right.",
+      body: "The best-known hotel may not be the right hotel for you. The most popular tour may not be the way you want to experience a place. And what's a “must-see” for one person can be completely irrelevant to another.\n\nThat's why we first get to know how you travel. How much you want to see. How much you want to slow down. What excites you. What you'd skip without a second thought.\n\n**A great journey isn't built from the most popular choices. It's built from the right combination.**",
+      grad: "linear-gradient(135deg,#82964C,#1A1E0F)",
       image: "https://picsum.photos/seed/bookit-why-value/1400/1800",
     },
     {
-      nav: "Peace of mind",
-      icon: "peace",
-      title: "Nothing to worry about",
-      body: "We are always there for you — discreetly in the background, ready to help if you have a question, need advice, or something unforeseen comes up.\n\nOr you can simply send us a postcard from some far-off island, just to tell us you're having a wonderful time.",
-      grad: "linear-gradient(135deg,#3F8A2E,#10302A)",
+      nav: "The best details are the ones you don't have to think about.",
+      icon: "details",
+      title: "The best details are the ones you don't have to think about.",
+      body: "Will the transfer know if your flight is delayed? Is there enough time between two connections? Is check-out at 11 when your flight is at 23:40? Does the room actually work for your family? Is the hotel in the right location for what you want to do?\n\n**These things rarely end up in the photos. But they often decide how good a journey feels.**\n\nWe take care of them. So you don't have to.",
+      grad: "linear-gradient(135deg,#567FA4,#162029)",
       image: "https://picsum.photos/seed/bookit-why-peace/1400/1800",
     },
     {
-      nav: "Watertight",
-      icon: "watertight",
-      title: "Complete security",
-      body: "Even in the event that one of our partners cannot deliver a service, we are protected — and so, therefore, are you.",
-      grad: "linear-gradient(135deg,#11919B,#0E2A33)",
+      nav: "A good plan matters.",
+      icon: "support",
+      title: "A good plan matters.",
+      body: "**The person behind it matters even more.** Flights get delayed. Weather changes. Sometimes things simply don't go according to plan.\n\nWhen you travel with Bookit, you have someone who knows who you are, knows your journey, and knows what needs to happen next.\n\n**Not a call centre. Not a ticket number. A person.** Our job doesn't end when you make the booking.",
+      grad: "linear-gradient(135deg,#7C526C,#1B1218)",
       image: "https://picsum.photos/seed/bookit-why-watertight/1400/1800",
+    },
+    {
+      nav: "And what about the price?",
+      icon: "price",
+      title: "And what about the price?",
+      body: "**Will it be cheaper if you book it yourself?** Sometimes, yes. If the only measure is the lowest price for a flight and hotel, you may occasionally find a cheaper combination.\n\nBut the cheapest journey and the best value are not the same thing. Our job is to use your budget where it makes a difference — to know where it's worth spending more, where it isn't, and where a small change can make a big difference.\n\n**Not more. Better.**",
+      grad: "linear-gradient(135deg,#C8893F,#281B0D)",
+      image: "https://picsum.photos/seed/bookit-why-price/1400/1800",
     },
   ],
 };
@@ -259,50 +290,50 @@ export const whyNotDiy: WhyNotDiy = {
 export const howItWorks: ProcessStep[] = [
   {
     no: "01",
-    title: "A place for ideas and inspiration",
-    body: "This website is a place for ideas and inspiration — the space where every new journey begins. You can browse destinations alphabetically through our A–Z list, or use the Trip Finder if you'd rather discover something new and unexpected.",
+    title: "Start anywhere.",
+    body: "Maybe you already know you want to go to Japan. Maybe you only know you want sunshine in February. Or maybe you have a photo, a hotel, or a place you saw somewhere and just can't get out of your head.\n\n**That's more than enough to begin.**\n\nExplore our destinations and experiences, use the Trip Finder, or simply come to us with your idea. You don't need to have a finished plan. **That's what we're here for.**",
     grad: "linear-gradient(135deg,#3f6f7a,#1d3c45)",
     image: processPhoto[0],
   },
   {
     no: "02",
-    title: "Nothing here is fixed",
-    body: "Nothing you see here is set in stone. When you get in touch, we treat every suggested programme as a starting point for inspiration, not a rigid plan. Your journey will be carefully and precisely shaped around you, around what you want, and around the people you're travelling with.",
+    title: "Tell us a little more than just “where.”",
+    body: "Where you want to go matters. But we also want to know **how** you want to travel.\n\nSlow or full of movement? A hotel in the centre or somewhere away from it all? A plan for every day or room for spontaneity? A family trip, honeymoon, adventure, or simply an escape?\n\n**The better we understand you, the less your journey will feel like someone else's.**",
     grad: "linear-gradient(135deg,#5a6b86,#2a3550)",
     image: processPhoto[1],
   },
   {
     no: "03",
-    title: "Tell us your idea",
-    body: "If you have an idea you don't see here, do share it with us. Unless it involves robbing the Louvre, we can — and gladly will — try to arrange very nearly anything.",
+    title: "Then we talk.",
+    body: "The form is just the beginning.\n\nSomeone from our team will get in touch to better understand the journey — what matters to you, what doesn't, what you've already seen, and what you want this trip to feel like.\n\nThere's no script. No sales pitch. **Just a good conversation about where we could go from here.**",
     grad: "linear-gradient(135deg,#7a6a52,#2c2418)",
     image: processPhoto[2],
   },
   {
     no: "04",
-    title: "We can arrange almost anything",
-    body: "When we say we can arrange anything, we mean it — from timeless adventures like a family safari in Botswana, to the wholly unusual, like being left in the middle of the Amazon rainforest with nothing but a GPS phone in your hand.\n\nWhether you're after classic elegance or an adventure beyond every boundary, we'll turn your idea into an unforgettable journey.",
+    title: "We connect the dots.",
+    body: "The destination is only one part of it.\n\nThen come the itinerary, the right pace, the hotels, flights, transfers, the people you'll meet, and the experiences worth making part of the journey.\n\nFrom all of that, we create a first proposal built around you. Not a catalogue of twenty hotels. Not ten different itineraries. **One carefully considered idea to start with.**",
     grad: "linear-gradient(135deg,#4f6f57,#1d2c20)",
     image: processPhoto[3],
   },
   {
     no: "05",
-    title: "Look for the green",
-    body: "Wherever you notice bookit's distinctive green, that's your sign you can click and go further. Use the “Plan a trip” buttons across the site to reach us through our online form.",
+    title: "The first proposal doesn't have to be the final one.",
+    body: "Maybe you want one more night by the sea. Maybe a hotel just doesn't feel right. Maybe you spotted something in the meantime and now want it to be part of the plan.\n\nGreat. We change it. Refine it. Add to it. Rethink it.\n\n**Until you look at the journey and think: “Yes. This feels like us.”**",
     grad: "linear-gradient(135deg,#6a4f6a,#241a24)",
     image: processPhoto[4],
   },
   {
     no: "06",
-    title: "We start planning straight away",
-    body: "The moment you send the form, we begin planning your journey. One of our travel experts will be in touch with a first proposal. From there we refine it together until we've created a journey that answers exactly what you wanted.",
+    title: "And then, book it.",
+    body: "Once everything feels right, we turn the idea into reality.\n\nWe take care of the bookings and organisation, connect all the pieces, and make sure everything behind the scenes works exactly as it should.\n\n**All that's left for you is the best part before the journey begins — looking forward to it.**",
     grad: "linear-gradient(135deg,#3f5a4f,#161f18)",
     image: processPhoto[5],
   },
   {
     no: "07",
-    title: "We stay with you throughout",
-    body: "We never leave you alone in the process. We're here to perfect your programme together until every detail is exactly as you imagined it.\n\nAnd once the journey begins, we remain available — one call is all it takes, should you need us.",
+    title: "Now stop planning.",
+    body: "**And start travelling.**\n\nBefore you leave, you'll have all the information you need. While you're away, there's still someone behind the journey who knows your plan. And if something changes or you simply need something, you'll know exactly who to call.\n\n**From here, your job is very simple.** Be there.",
     grad: "linear-gradient(135deg,#3f6f7a,#16130f)",
     image: processPhoto[6],
   },
@@ -373,31 +404,40 @@ const aboutPageMk: typeof aboutPage = {
       "Не сакаме само да те вратиме дома задоволен. Сакаме да почнеш да размислуваш каде одиме следно.",
     ],
   },
-  // Client-supplied copy (FINAL 3.1), verbatim. Revision 3.0 proposes five
-  // different values in its place — left alone pending a decision, since
-  // replacing approved copy and adding two more colour tones is not a
-  // like-for-like swap.
+  // Superseded by КОРЕКЦИИ 3.1.1: the client settled the open 3-vs-5-values
+  // decision noted above in favour of five, each card now one line split
+  // across kicker + title ("Помалку" / "Но подобро" reads as one sentence),
+  // with no separate "lead" line under it.
   values: [
     {
-      kicker: "Бидете",
-      title: "Љубопитни",
-      lead: "Нашиот свет е голем, разновиден и полн со можности",
-      body: "Сакаме да поставуваме прашања. Како ова може да биде подобро? Каде понатаму? Што е навистина возможно и што навистина сакаат нашите патници? Едноставно кажано, ги сакаме прашањата и ги цениме луѓето што носат нови идеи и иновации.",
+      kicker: "Лично",
+      title: "Значи лично",
+      body: "Ако секој патник е различен, нема причина две патувања да изгледаат исто.",
       tone: "var(--wf-value-1)",
     },
     {
-      kicker: "Бидете",
-      title: "Промислени",
-      lead: "Затоа што вниманието започнува со размислување",
-      body: "Добрите работи им се случуваат на оние што размислуваат. А во нашиот свет, да размислуваш значи да се грижиш. Не само за нашите патници, туку и едни за други. И за планетата што сите ја делиме.",
+      kicker: "Помалку",
+      title: "Но подобро",
+      body: "Не го мериме патувањето според бројот на места што ќе ги посетиш.",
       tone: "var(--wf-value-2)",
     },
     {
-      kicker: "Бидете",
-      title: "Скромни",
-      lead: "Нека другите зборуваат за вас",
-      body: "Не дозволуваме успехот да нè понесе и не се водиме по вревата околу нас. Имаме самодоверба во она што го правиме, остануваме достоинствени и смирени под притисок, горди на нашите достигнувања, но никогаш арогантни.",
+      kicker: "Деталите",
+      title: "Не се детали",
+      body: "Добар трансфер, вистинската соба, подобар час на лет, токму тие работи прават сè да изгледа лесно.",
       tone: "var(--wf-value-3)",
+    },
+    {
+      kicker: "Ќе ти кажеме",
+      title: "Што мислиме",
+      body: "Ако нешто не вреди, ќе ти кажеме. Ако постои подобар начин, ќе го предложиме.",
+      tone: "var(--wf-value-4)",
+    },
+    {
+      kicker: "Светот",
+      title: "Заслужува почит",
+      body: "Кон местата што ги посетуваме, луѓето што нè пречекуваат и начинот на кој патуваме низ нивниот дом.",
+      tone: "var(--wf-value-5)",
     },
   ],
   name: {
@@ -420,7 +460,7 @@ const reasonsIntroMk: ReasonsIntro = {
   title: "Не ти требаат повеќе опции. Ти требаат вистинските.",
 };
 
-// The `no` field carries 01–05, so these titles must not repeat the number.
+// The `no` field carries 01–06, so these titles must not repeat the number.
 const reasonsMk: Reason[] = [
   {
     ...reasons[0],
@@ -452,16 +492,23 @@ const reasonsMk: Reason[] = [
     title: "Можеш и сам. Само не мораш",
     body: "Bookit постои за времето што не сакаш да го потрошиш на организација, деталите што не сакаш да ги проверуваш двапати и местата што можеби немаше сам да ги најдеш.",
     grad: "linear-gradient(135deg,#15709B,#0E2A33)",
-    image: "https://picsum.photos/seed/bookit-reason-alone/1400/1800",
+    // Client-supplied photo (КОРЕКЦИИ 3.1.1, "слика бр. 2") — a lone hiker's
+    // footprints up a dune, replacing the picsum placeholder.
+    image: "/images/about/reason-alone.png",
   },
   {
-    ...reasons[3],
+    // Indices shifted +1 from the original "01–05" spread when reason "04"
+    // above was inserted as a new sixth object rather than reusing a slot —
+    // reasons[3] is now that "04" entry (was reasons[3] = old EN "04" before
+    // the insert), so this must reach one further to keep landing on the
+    // English "05" ("The details are never just details").
+    ...reasons[4],
     no: "05",
     title: "Деталите не се детали",
     body: "Вистинскиот лет. Вистинската соба. Трансфер што те чека кога треба. Водич што го познава местото, не само програмата. Резервација во ресторан во вечерта кога навистина има смисла да бидеш таму.\n\nПоединечно се мали работи. **Заедно се разликата помеѓу патување што си го организирал и патување што едноставно функционира.**\n\nРаботиме со внимателно избрани партнери и локалци на кои им веруваме, за ти да не мора да размислуваш што се случува зад сцената.",
   },
   {
-    ...reasons[4],
+    ...reasons[5],
     no: "06",
     title: "И кога ќе тргнеш, ние остануваме тука",
     body: "Нашата работа не завршува кога ќе стигне потврдата за резервација.\n\nПред патувањето ги проверуваме деталите. Додека патуваш, знаеш кому да се јавиш. А ако нешто се промени лет, трансфер, време или план не остануваш сам да го решаваш од другиот крај на светот.\n\n**Најдобрата поддршка е онаа што ретко ќе ти треба. Но кога ќе ти затреба, прави огромна разлика.**",
@@ -529,7 +576,7 @@ const whyNotDiyMk: typeof whyNotDiy = {
       nav: "А што е со цената?",
       title: "А што е со цената?",
       body: "**Ќе биде ли поевтино ако резервираш сам?** Понекогаш да. Ако единственото мерило е најниската цена за лет и хотел, понекогаш ќе најдеш поевтина комбинација. Но најевтиното патување и најдобрата вредност не се иста работа. Наша работа е да го употребиме твојот буџет таму каде што прави разлика. Да знаеме каде вреди да потрошиш повеќе. Каде не вреди. И каде малата промена може да направи голема разлика. **Не повеќе. Подобро.**",
-      grad: "linear-gradient(135deg,#15709B,#0E2A33)",
+      grad: "linear-gradient(135deg,#C8893F,#281B0D)",
       image: "https://picsum.photos/seed/bookit-why-price/1400/1800",
     },
   ],

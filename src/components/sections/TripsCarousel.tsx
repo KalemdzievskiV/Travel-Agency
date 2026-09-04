@@ -151,19 +151,20 @@ export function TripsCarousel({
                   />
                   <div className="wf-trip-card__scrim" aria-hidden />
                   {/* The price has left this corner for the title row below,
-                      per the client — the sale pill keeps it, and the nights
-                      label stands in when there is no sale. */}
-                  <div className="wf-trip-card__corner">
-                    {showsSaleBadge(trip) ? (
+                      per the client. The Select pill sits top-left so the
+                      nights label on the right stays visible on every card,
+                      sale ones included. */}
+                  {showsSaleBadge(trip) && (
+                    <div className="wf-trip-card__corner--left">
                       <Link href="/on-sale" className="wf-trip-card__sale" aria-label={tc("onSale")}>
                         {/* No flame — see the note on DestinationCard's badge. */}
                         {tc("onSale")}
                       </Link>
-                    ) : (
-                      trip.durationDays != null &&
-                      trip.durationDays > 0 && (
-                        <span className="wf-trip-card__nights">{t("nights", { count: trip.durationDays })}</span>
-                      )
+                    </div>
+                  )}
+                  <div className="wf-trip-card__corner">
+                    {trip.durationDays != null && trip.durationDays > 0 && (
+                      <span className="wf-trip-card__nights">{t("nights", { count: trip.durationDays })}</span>
                     )}
                   </div>
                   <Link href={`/trips/${trip.slug}`} className="wf-trip-card__link">

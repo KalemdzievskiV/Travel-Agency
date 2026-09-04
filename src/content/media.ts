@@ -196,6 +196,17 @@ export const ctaPlasterPanel =
   " url(/images/background/cta-plaster.webp) center/cover no-repeat, var(--wf-ink-900)";
 
 /**
+ * The "why book with Bookit" band on /flight-tickets (client image 1,
+ * КОРЕКЦИИ 3.1.1, "да се стави позадина бр.1") — a jet's contrail against a
+ * dark night sky, replacing the flat teal placeholder. Already near-black, so
+ * the scrim is light: just enough to guarantee the white cards' 4.5:1 stays
+ * true regardless of where the photo's own brightest cloud lands behind them.
+ */
+export const flightsWhyPanel =
+  "linear-gradient(rgba(6,10,16,0.35), rgba(6,10,16,0.35))," +
+  " url(/images/background/flight-tickets-why.png) center/cover no-repeat, var(--wf-ink-900)";
+
+/**
  * The five ЗА НАС photographs, numbered as the client sent them. They land on
  * the portrait slots of /about, top to bottom: the masthead and the three story
  * rows. Number 5 held "why the name?" until revision 3.1 gave that slot its own

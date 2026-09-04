@@ -18,24 +18,23 @@ import type { ValueColumn } from "@/content/about";
  */
 export function ValuesScroller({
   title,
-  intro,
   values,
 }: {
   title: string;
-  intro: string;
   values: ValueColumn[];
 }) {
   const isDesktop = useIsDesktop();
   const reduced = useReducedMotion();
 
   if (!isDesktop || reduced) {
-    return <ValuesStack title={title} intro={intro} values={values} />;
+    return <ValuesStack title={title} values={values} />;
   }
-  return <ValuesPinned title={title} intro={intro} values={values} />;
+  return <ValuesPinned title={title} values={values} />;
 }
 
-/* ── The band's own head: big tonal title, then the line beneath it ─ */
-function ValuesHead({ title, intro }: { title: string; intro: string }) {
+/* ── The band's own head: just the big tonal title now — КОРЕКЦИИ 3.1.1
+   dropped the second heading/subtitle line under it ("под НЕМА друго"). ── */
+function ValuesHead({ title }: { title: string }) {
   return (
     <div style={{ maxWidth: 780 }}>
       <h2
@@ -52,26 +51,12 @@ function ValuesHead({ title, intro }: { title: string; intro: string }) {
       >
         {title}
       </h2>
-      <p
-        style={{
-          fontFamily: "var(--wf-font-sans)",
-          fontSize: "clamp(12px, 1.3vw, 14px)",
-          fontWeight: 700,
-          lineHeight: 1.55,
-          letterSpacing: "0.1em",
-          textTransform: "uppercase",
-          color: "rgba(255,255,255,0.92)",
-          margin: "clamp(14px, 1.8vw, 20px) 0 0",
-        }}
-      >
-        {intro}
-      </p>
     </div>
   );
 }
 
 /* ── Desktop: pinned, cards accumulate on scroll ──────────────────── */
-function ValuesPinned({ title, intro, values }: { title: string; intro: string; values: ValueColumn[] }) {
+function ValuesPinned({ title, values }: { title: string; values: ValueColumn[] }) {
   const trackRef = React.useRef<HTMLElement>(null);
   const [visible, setVisible] = React.useState(1);
   const n = values.length;
@@ -100,9 +85,9 @@ function ValuesPinned({ title, intro, values }: { title: string; intro: string; 
         }}
       >
         <div className="wf-wrap wf-wrap--wide" style={{ width: "100%" }}>
-          <ValuesHead title={title} intro={intro} />
+          <ValuesHead title={title} />
           <div
-            className="wf-grid wf-grid-3"
+            className="wf-grid wf-grid-5"
             style={{ marginTop: "clamp(28px, 4vw, 48px)", alignItems: "stretch" }}
           >
             {values.map((v, i) => {
@@ -126,11 +111,11 @@ function ValuesPinned({ title, intro, values }: { title: string; intro: string; 
 }
 
 /* ── Mobile / SSR / reduced-motion: static revealed grid ──────────── */
-function ValuesStack({ title, intro, values }: { title: string; intro: string; values: ValueColumn[] }) {
+function ValuesStack({ title, values }: { title: string; values: ValueColumn[] }) {
   return (
     <section style={{ background: "var(--wf-values-bg)", padding: "clamp(56px, 9vw, 112px) 0" }}>
       <div className="wf-wrap wf-wrap--wide">
-        <ValuesHead title={title} intro={intro} />
+        <ValuesHead title={title} />
         <div style={{ marginTop: "clamp(28px, 5vw, 48px)" }}>
           <ValueColumns values={values} />
         </div>

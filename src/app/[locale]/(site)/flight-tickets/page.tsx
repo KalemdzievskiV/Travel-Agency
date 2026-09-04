@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Eyebrow } from "@/components/ui";
 import { FlightTicketsForm } from "@/components/site/FlightTicketsForm";
-import { pageBackdrop } from "@/content/media";
+import { pageBackdrop, flightsWhyPanel } from "@/content/media";
 
 export const metadata: Metadata = {
   title: "Flight tickets",
@@ -43,6 +43,7 @@ export default async function FlightTicketsPage({
                 color: "var(--wf-ink-700)",
                 margin: "10px auto 0",
                 maxWidth: 620,
+                whiteSpace: "pre-line",
               }}
             >
               {t("subtitle")}
@@ -55,12 +56,10 @@ export default async function FlightTicketsPage({
 
       {/* "Зошто преку Bookit?" — new in 3.1, asked for as a band under the form
           in the same shape as the values band ("ova da se otvara kako slednava
-          slika, boite isti"): teal ground, white cards.
-
-          TODO(3.1): the client also asked for one of the new cream boards
-          behind it ("позадината може да е некоја од новите што ти ги пратив").
-          Those files have not arrived, so it carries the flat teal for now. */}
-      <section style={{ background: "var(--wf-values-bg)", color: "var(--wf-text-on-dark)", padding: "clamp(48px, 7vw, 88px) 0" }}>
+          slika, boite isti"): white cards, card titles in the values band's
+          own hues. The flat teal placeholder is now the client's own photo
+          (КОРЕКЦИИ 3.1.1, "позадина бр.1") — see flightsWhyPanel. */}
+      <section style={{ background: flightsWhyPanel, color: "var(--wf-text-on-dark)", padding: "clamp(48px, 7vw, 88px) 0" }}>
         <div className="wf-wrap wf-wrap--wide">
           <div style={{ textAlign: "center", maxWidth: 720, margin: "0 auto clamp(28px, 4vw, 44px)" }}>
             <h2 className="wf-h2" style={{ margin: 0 }}>{t("whyTitle")}</h2>
@@ -68,8 +67,11 @@ export default async function FlightTicketsPage({
               {t("whyLead")}
             </p>
           </div>
+          {/* Card titles pick up the same three hues as the values band —
+              "боите тука да се како на другото ... Портокалова, Сина, Зелена" —
+              cards themselves stay white/paper, per that band's own convention. */}
           <div className="wf-grid wf-grid-3">
-            {([1, 2, 3] as const).map((n) => (
+            {([1, 2, 3] as const).map((n, i) => (
               <article
                 key={n}
                 style={{
@@ -85,7 +87,7 @@ export default async function FlightTicketsPage({
                     fontSize: "clamp(20px, 2.2vw, 26px)",
                     lineHeight: 1.05,
                     textTransform: "uppercase",
-                    color: "var(--wf-accent-ink)",
+                    color: ["var(--wf-value-1)", "var(--wf-value-3)", "var(--wf-value-2)"][i],
                     margin: 0,
                   }}
                 >

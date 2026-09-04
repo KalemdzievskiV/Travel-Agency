@@ -93,9 +93,29 @@ export async function WhyBookit() {
               централизирано" — so the band states the idea, asks the question
               and answers it. They are one string with line breaks rather than
               three keys: the break points are part of the copy, and a
-              translator needs to move them with the words. */}
-          <h2 className="wf-h2 wf-h2--cta wf-h2--cta-stack" style={{ margin: 0, whiteSpace: "pre-line" }}>
-            {t("why.ctaHeading")}
+              translator needs to move them with the words. A later correction
+              asked for the outer two lines smaller and the middle one bold
+              and a step larger, so the split happens here rather than in the
+              copy — each `\n`-separated line becomes its own block span. */}
+          <h2 className="wf-h2 wf-h2--cta wf-h2--cta-stack" style={{ margin: 0 }}>
+            {t("why.ctaHeading")
+              .split("\n")
+              .map((line, i, lines) => {
+                const isMiddle = lines.length === 3 && i === 1;
+                return (
+                  <span
+                    key={i}
+                    style={{
+                      display: "block",
+                      fontWeight: isMiddle ? 700 : 400,
+                      fontSize: isMiddle ? "clamp(21px, 2.7vw, 34px)" : "clamp(15px, 1.6vw, 21px)",
+                      marginTop: i === 0 ? 0 : "0.3em",
+                    }}
+                  >
+                    {line}
+                  </span>
+                );
+              })}
           </h2>
           <div style={{ marginTop: "clamp(24px, 4vw, 34px)" }}>
             <EnquireButton size="lg" className="wf-cta-mono">
