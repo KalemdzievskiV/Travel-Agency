@@ -1226,8 +1226,9 @@
   gap: 12px;
   width: 100%;
   background: none;
+  /* No rule between the rows — the client asked for the lines out of the phone
+     menu; the row padding does the separating. */
   border: none;
-  border-bottom: 1px solid var(--wf-divider);
   cursor: pointer;
   text-align: left;
   text-decoration: none;
