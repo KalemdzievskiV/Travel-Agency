@@ -1547,10 +1547,9 @@
   gap: clamp(20px, 4vw, 44px);
   flex-wrap: wrap;
   padding-block: 18px;
-  /* A rail is navigation, not prose. Pressing and dragging a label started a
-     text selection, and a selection dragged inside a scroll container pans it —
-     which is why the tabs slid sideways under the finger even when they all
-     fit. Nothing here is worth selecting, so the drag has nothing to grab. */
+  /* A rail is navigation, not prose: no selecting the labels, so a press-and-
+     drag with a mouse can't drag-select its way along the row, and no scroll
+     chaining out of a rail that does scroll. */
   user-select: none;
   -webkit-user-select: none;
   overscroll-behavior-inline: contain;
@@ -1573,23 +1572,23 @@
 .wf-pagetabs__link:hover { color: var(--wf-ink-900); }
 
 @media (max-width: 860px) {
-  /* One line that scrolls. `justify-content: center` would put the first tab
-     out of reach once the row overflows, so the row starts at the leading edge
-     and the two end tabs carry auto margins instead: they centre a short rail
-     (three tabs on a destination page) and resolve to 0 the moment the tabs
-     overflow, leaving every one of them scrollable to. The row is also the
-     .wf-wrap, so its own padding-inline is the gutter the end tabs come to
-     rest against in the overflowing case. */
+  /* One line that scrolls, centred while the tabs fit. `safe` is what makes
+     that possible: plain `center` would push the first tab past the leading
+     edge of the scroll container, out of reach, once the tabs overflow, and
+     `safe` falls back to flex-start exactly then. Centring with auto margins
+     on the end tabs was tried and reverted — an end margin counts towards a
+     scroll container's scrollable area, so the rail could be dragged sideways
+     by the width of that margin even with every tab already on screen. The
+     first declaration is the fallback for UAs that don't parse `safe`. */
   .wf-pagetabs__row {
     flex-wrap: nowrap;
     justify-content: flex-start;
+    justify-content: safe center;
     overflow-x: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
   .wf-pagetabs__row::-webkit-scrollbar { display: none; }
-  .wf-pagetabs__row > :first-child { margin-inline-start: auto; }
-  .wf-pagetabs__row > :last-child { margin-inline-end: auto; }
   .wf-pagetabs__link {
     flex: 0 0 auto;
     /* Black, not grey — the accent stays on the active tab's underline. */
@@ -1627,7 +1626,11 @@
 }
 .wf-exptabs__row {
   display: flex;
-  justify-content: center;
+  /* See .wf-pagetabs__row: centred while the tabs fit, flex-start once they
+     overflow, and no auto margins — those add draggable slack to a scroll
+     container. The plain value is the fallback for UAs without `safe`. */
+  justify-content: flex-start;
+  justify-content: safe center;
   gap: clamp(18px, 3vw, 44px);
   overflow-x: auto;
   scrollbar-width: none;
@@ -1663,14 +1666,9 @@
 }
 
 /* On a phone this rail reads as the same component as the destination-page one
-   (.wf-pagetabs): black labels, the accent on the active tab, and the row
-   centred while it fits. Centring outright would put the first tab out of reach
-   once the tabs overflow, so the end tabs carry auto margins instead — they
-   centre a short rail and resolve to 0 the moment it has to scroll. */
+   (.wf-pagetabs): black labels and the accent on the active tab. The centring
+   is shared with it too, and lives on .wf-exptabs__row above. */
 @media (max-width: 860px) {
-  .wf-exptabs__row { justify-content: flex-start; }
-  .wf-exptabs__row > :first-child { margin-inline-start: auto; }
-  .wf-exptabs__row > :last-child { margin-inline-end: auto; }
   .wf-exptabs__link {
     letter-spacing: 0.14em;
     color: var(--wf-ink-900);
