@@ -1632,6 +1632,13 @@
   justify-content: flex-start;
   justify-content: safe center;
   gap: clamp(18px, 3vw, 44px);
+  /* Soaks up the links' `margin-bottom: -1px`. `overflow-x: auto` makes the
+     used overflow-y `auto` too, so that single pixel of vertical overflow
+     turned the rail into a vertical scroller as well — and a scrollable box
+     rubber-bands under a finger on iOS, which is the rail drifting up and down
+     when you drag it. With the padding, the underline still sits on the rail's
+     border and there is nothing to scroll but sideways. */
+  padding-bottom: 1px;
   overflow-x: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -1669,19 +1676,10 @@
    (.wf-pagetabs): black labels and the accent on the active tab. The centring
    is shared with it too, and lives on .wf-exptabs__row above. */
 @media (max-width: 860px) {
-  /* The two link-outs (trip finder, Bookit Select) leave the rail here. All
-     four labels measure 791px against ~350px of phone screen, so the rail
-     could only carry them by scrolling — and a rail that slides under the
-     finger reads as broken. The remaining pair are the two bands this rail
-     actually tracks; both link-outs sit in the Experiences menu. */
-  .wf-exptabs__link--out { display: none; }
   .wf-exptabs__link {
-    /* Fluid, so the pair still fits one line on a 320px screen. */
-    font-size: clamp(10px, 3.1vw, 13px);
-    letter-spacing: 0.08em;
+    letter-spacing: 0.14em;
     color: var(--wf-ink-900);
   }
-  .wf-exptabs__row { gap: clamp(12px, 4vw, 18px); }
   .wf-exptabs__link--on {
     color: var(--wf-accent-ink);
     border-bottom-color: var(--wf-coral-500);

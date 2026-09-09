@@ -49,32 +49,26 @@ export function ExperienceTabs({ tabs }: { tabs: ExperienceTab[] }) {
 
   return (
     <nav className="wf-exptabs" aria-label="Experiences">
-      <div className="wf-wrap wf-wrap--wide">
-        <div className="wf-exptabs__row">
-          {tabs.map((tab) =>
-            tab.section ? (
-              <a
-                key={tab.section}
-                href={`#${tab.section}`}
-                className={`wf-exptabs__link${active === tab.section ? " wf-exptabs__link--on" : ""}`}
-                aria-current={active === tab.section ? "true" : undefined}
-              >
-                {tab.label}
-              </a>
-            ) : (
-              // Marked as a link-out: the phone rail drops these, since four
-              // labels can only share a phone's width by scrolling. Both are a
-              // tap away in the Experiences menu.
-              <Link
-                key={tab.href}
-                href={tab.href ?? "/"}
-                className="wf-exptabs__link wf-exptabs__link--out"
-              >
-                {tab.label}
-              </Link>
-            ),
-          )}
-        </div>
+      {/* The row is the .wf-wrap itself, as on PageTabs: the scroll container
+          then carries the page gutter as its own padding, so the first and last
+          tabs come to rest against it instead of flush against the screen. */}
+      <div className="wf-wrap wf-wrap--wide wf-exptabs__row">
+        {tabs.map((tab) =>
+          tab.section ? (
+            <a
+              key={tab.section}
+              href={`#${tab.section}`}
+              className={`wf-exptabs__link${active === tab.section ? " wf-exptabs__link--on" : ""}`}
+              aria-current={active === tab.section ? "true" : undefined}
+            >
+              {tab.label}
+            </a>
+          ) : (
+            <Link key={tab.href} href={tab.href ?? "/"} className="wf-exptabs__link">
+              {tab.label}
+            </Link>
+          ),
+        )}
       </div>
     </nav>
   );
