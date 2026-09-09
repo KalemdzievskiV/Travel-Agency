@@ -33,6 +33,11 @@ type DestinationCardProps = {
    * card keeps its portrait proportion as the grid column widens — at a pinned
    * 520px these went nearly square on a large screen. `height` still wins if a
    * caller genuinely needs a fixed size.
+   *
+   * Left unset, the shape comes from `--wf-dcard-ratio` (2 / 3 unless an
+   * ancestor says otherwise), which is how a breakpoint can reshape the card —
+   * this style is inline, and inline styles cannot hold a media query. Passing
+   * a ratio pins it inline and opts out of that.
    */
   ratio?: string;
   height?: number;
@@ -127,7 +132,7 @@ export function DestinationCard({
   onSale = false,
   rating,
   badge,
-  ratio = "2 / 3",
+  ratio = "var(--wf-dcard-ratio, 2 / 3)",
   height,
   onClick,
 }: DestinationCardProps) {

@@ -16,6 +16,7 @@ export function DestinationGrid({
   columns = 4,
   fitToItems = true,
   scrollOnMobile = false,
+  compactOnMobile = false,
 }: {
   items: Destination[];
   /** Card shape; defaults to the shared portrait ratio on DestinationCard. */
@@ -33,6 +34,13 @@ export function DestinationGrid({
    * Off by default: the listing pages want the grid at every width.
    */
   scrollOnMobile?: boolean;
+  /**
+   * Below 640px, shorten the cards from the 2:3 portrait to the reference's
+   * shallower shape. Opt-in: full-width 2:3 cards are a screen and a half each
+   * on the all-destinations listing, where you scroll past one at a time, but
+   * they are the right shape in the narrower columns everywhere else.
+   */
+  compactOnMobile?: boolean;
 }) {
   const router = useRouter();
   const t = useTranslations("cards");
@@ -44,7 +52,11 @@ export function DestinationGrid({
   // the cards their normal size pass fitToItems={false}.
   const cols = fitToItems ? Math.max(2, Math.min(columns, items.length)) : columns;
   return (
-    <div className={`wf-grid wf-grid-${cols}${scrollOnMobile ? " wf-grid--scroll" : ""}`}>
+    <div
+      className={`wf-grid wf-grid-${cols}${scrollOnMobile ? " wf-grid--scroll" : ""}${
+        compactOnMobile ? " wf-grid--compact" : ""
+      }`}
+    >
       {items.map((d) => (
         <DestinationCard
           key={d.slug}

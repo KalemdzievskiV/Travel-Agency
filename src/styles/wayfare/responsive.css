@@ -877,6 +877,13 @@
   .wf-grid-3,
   .wf-grid-4 { grid-template-columns: 1fr; gap: 18px; }
   .wf-grid-5 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  /* "Картичките да бидат помали како кај нив" — a full-width card at the shared
+     2:3 portrait stands a screen and a half tall on a phone, so the listing
+     shows one at a time and reads as a stack of posters. The reference's card
+     is 1.11× its own width; 9/10 puts ours on the same proportion, at the same
+     ~90% of the viewport it already spans. Opt-in via DestinationGrid's
+     `compactOnMobile`, so only the all-destinations listing changes. */
+  .wf-grid--compact { --wf-dcard-ratio: 9 / 10; }
 }
 
 /* Opt-in: a grid that becomes a swipe row on a phone instead of a single

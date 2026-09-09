@@ -83,13 +83,13 @@ export default async function DestinationsPage({
                         {reg.label}
                       </Link>
                     </h2>
-                    <DestinationGrid items={items} />
+                    <DestinationGrid items={items} compactOnMobile />
                   </div>
                 );
               })}
             </>
           ) : (
-            <DestinationGrid items={destinations} />
+            <DestinationGrid items={destinations} compactOnMobile />
           )}
         </div>
       </section>
