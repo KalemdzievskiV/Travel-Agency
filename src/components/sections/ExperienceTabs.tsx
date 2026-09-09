@@ -62,7 +62,14 @@ export function ExperienceTabs({ tabs }: { tabs: ExperienceTab[] }) {
                 {tab.label}
               </a>
             ) : (
-              <Link key={tab.href} href={tab.href ?? "/"} className="wf-exptabs__link">
+              // Marked as a link-out: the phone rail drops these, since four
+              // labels can only share a phone's width by scrolling. Both are a
+              // tap away in the Experiences menu.
+              <Link
+                key={tab.href}
+                href={tab.href ?? "/"}
+                className="wf-exptabs__link wf-exptabs__link--out"
+              >
                 {tab.label}
               </Link>
             ),
