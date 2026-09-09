@@ -13,6 +13,7 @@ export function HotelGrid({
   columns = 4,
   ratio,
   scrollOnMobile = false,
+  compactOnMobile = false,
 }: {
   items: Hotel[];
   columns?: 2 | 3 | 4;
@@ -24,13 +25,24 @@ export function HotelGrid({
    * Off by default: the listing pages want the grid at every width.
    */
   scrollOnMobile?: boolean;
+  /**
+   * Below 640px, shorten the cards from the 2:3 portrait to the reference's
+   * shallower shape — same opt-in as DestinationGrid. For the stacked bands: a
+   * full-width 2:3 card is a screen and a half tall, so you scroll past one
+   * hotel at a time. The swipe rows don't need it; they are already narrow.
+   */
+  compactOnMobile?: boolean;
 }) {
   const router = useRouter();
   // Don't leave an empty column: fewer items than columns squeezed every
   // card into a narrow slot and made them read small.
   const cols = Math.max(2, Math.min(columns, items.length));
   return (
-    <div className={`wf-grid wf-grid-${cols}${scrollOnMobile ? " wf-grid--scroll" : ""}`}>
+    <div
+      className={`wf-grid wf-grid-${cols}${scrollOnMobile ? " wf-grid--scroll" : ""}${
+        compactOnMobile ? " wf-grid--compact" : ""
+      }`}
+    >
       {items.map((h) => (
         <DestinationCard
           key={h.slug}

@@ -81,7 +81,7 @@ export default async function HotelPage({
           <div style={{ marginBottom: 36 }}>
             <SectionHead eyebrow={t("eyebrow")} title={t("otherHotels", { place: hotel.destinationTitle ?? "" })} />
           </div>
-          <HotelGrid items={others} />
+          <HotelGrid items={others} compactOnMobile />
         </div>
       )}
     </section>
