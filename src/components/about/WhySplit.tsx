@@ -9,13 +9,32 @@ import {
   useReducedMotion,
 } from "motion/react";
 import {
-  BadgeCheck, BedDouble, ChevronDown, ChevronRight, Clock, Compass,
+  BadgeCheck, BedDouble, ChevronRight, Clock, Compass,
   Lightbulb, LifeBuoy, ListChecks, ShieldCheck, Wallet,
 } from "lucide-react";
 import { Eyebrow, Prose } from "@/components/ui";
 import { useIsDesktop } from "./useIsDesktop";
 import type { WhyTopic, WhyTopicIcon } from "@/content/about";
 import { pageBackdrop } from "@/content/media";
+
+/**
+ * The flat colour an opened phone row is painted in.
+ *
+ * Topics carry a `grad` for the desktop panel — the client's numbered palette
+ * hue run into a deep shade for depth. That gradient is built for a tall panel;
+ * across a short full-width phone band it runs to near-black within a couple of
+ * lines and reads as mud, so the phone list takes the hue on its own, as the
+ * reference does. It is mixed down towards the ink so white body copy clears
+ * 4.5:1 on all six — the palette's amber and olive are too light neat. 66%
+ * is the ratio that clears it: the amber, the lightest, lands at 4.66:1.
+ *
+ * Read from `grad` rather than added as a second content field so the palette
+ * still has one definition per topic.
+ */
+function topicTone(grad: string) {
+  const hue = grad.match(/#(?:[0-9a-f]{6}|[0-9a-f]{3})/i)?.[0];
+  return hue ? `color-mix(in srgb, ${hue} 66%, var(--wf-ink-900))` : grad;
+}
 
 /**
  * WhySplit — pinned, scroll-driven tab split (modelled on Black Tomato's "why
@@ -295,11 +314,13 @@ function WhyPinned({ eyebrow, title, intro, topics }: { eyebrow: string; title: 
 
 /* ── Mobile / SSR / reduced-motion: accessible stacked layout ─────── */
 /**
- * `collapsible` turns the five topics into an accordion — the client's note on
- * page 16 of the mobile brief: "да не бидат вака сувопарни него со опаѓачко
- * мени како кај нив". Five fully-expanded coloured panels is most of a phone
- * screen each; the reference collapses them to a titled row you open. Only
- * phones pass it, so the SSR and reduced-motion renders are untouched.
+ * `collapsible` switches the topics from six coloured panels to the reference's
+ * phone list — a thin-stroke icon, the topic in bold uppercase and a coral
+ * chevron on the right, on the plain white ground, opening in place. Six
+ * fully-expanded gradient panels is most of a phone screen each, which is the
+ * client's note on page 16 of the mobile brief ("да не бидат вака сувопарни
+ * него со опаѓачко мени како кај нив"). Only phones pass it, so the SSR and
+ * reduced-motion renders keep the cards they render today.
  */
 function WhyStack({
   eyebrow,
@@ -314,8 +335,68 @@ function WhyStack({
   topics: WhyTopic[];
   collapsible?: boolean;
 }) {
-  // First topic open, so the section never reads as a wall of shut drawers.
-  const [open, setOpen] = React.useState(0);
+  // Nothing open to begin with: the reference's list reads as a contents page
+  // you choose from, and six shut rows all fit one screen where one open card
+  // plus five shut ones does not.
+  const [open, setOpen] = React.useState(-1);
+
+  if (collapsible) {
+    return (
+      <section style={{ ...pageBackdrop("d3"), padding: "var(--wf-page-top) 0 clamp(48px, 8vw, 80px)" }}>
+        <div className="wf-wrap wf-wrap--wide">
+          <Eyebrow>{eyebrow}</Eyebrow>
+          <h1 style={headingStyle}>{title}</h1>
+          <div style={{ margin: "16px 0 0" }}>
+            <Prose text={intro} style={{ fontSize: 15, lineHeight: 1.65, color: "var(--wf-ink-500)" }} />
+          </div>
+
+          <div className="wf-whylist">
+            {topics.map((t, i) => {
+              const Icon = TOPIC_ICONS[t.icon];
+              const isOpen = open === i;
+              return (
+                <div key={t.nav} className="wf-whylist__item">
+                  <button
+                    type="button"
+                    className="wf-whylist__row"
+                    aria-expanded={isOpen}
+                    onClick={() => setOpen((prev) => (prev === i ? -1 : i))}
+                  >
+                    <Icon size={22} strokeWidth={1.25} aria-hidden className="wf-whylist__icon" />
+                    <span className="wf-whylist__label">{t.nav}</span>
+                    <ChevronRight
+                      size={20}
+                      strokeWidth={2}
+                      aria-hidden
+                      className={`wf-whylist__chevron${isOpen ? " is-open" : ""}`}
+                    />
+                  </button>
+                  {/* Grid-rows 0fr→1fr animates a height the content decides,
+                      which `height: auto` cannot. The full-bleed negative
+                      margin lives on this element, not on the band inside it:
+                      the inner wrapper is `overflow: hidden` for the height
+                      animation, and would clip the band back to the gutter. */}
+                  <div className={`wf-whylist__reveal${isOpen ? " is-open" : ""}`} aria-hidden={!isOpen}>
+                    <div>
+                      {/* The topic's own palette colour, so an opened row reads
+                          as that topic at both sizes. */}
+                      <div className="wf-whylist__body" style={{ background: topicTone(t.grad) }}>
+                        <Prose
+                          text={t.body}
+                          style={{ fontSize: 15, lineHeight: 1.65, color: "var(--wf-text-on-dark)" }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section style={{ ...pageBackdrop("d3"), padding: "var(--wf-page-top) 0 clamp(48px, 8vw, 80px)" }}>
       <div className="wf-wrap wf-wrap--wide">
@@ -328,25 +409,8 @@ function WhyStack({
         </div>
 
         <div style={{ display: "grid", gap: "clamp(28px, 6vw, 44px)", marginTop: "clamp(40px, 8vw, 64px)" }}>
-          {topics.map((t, i) => {
+          {topics.map((t) => {
             const Icon = TOPIC_ICONS[t.icon];
-            const isOpen = !collapsible || open === i;
-            const heading = (
-              <h2
-                style={{
-                  fontFamily: "var(--wf-font-display)",
-                  fontWeight: 500,
-                  fontSize: "clamp(20px, 5vw, 26px)",
-                  lineHeight: 1.15,
-                  letterSpacing: "0",
-                  textTransform: "uppercase",
-                  margin: collapsible ? 0 : "16px 0 0",
-                  textAlign: "left",
-                }}
-              >
-                {t.title}
-              </h2>
-            );
             return (
               <article
                 key={t.nav}
@@ -357,42 +421,23 @@ function WhyStack({
                   padding: "clamp(28px, 7vw, 40px)",
                 }}
               >
-                {collapsible ? (
-                  <button
-                    type="button"
-                    className="wf-whystack__toggle"
-                    aria-expanded={isOpen}
-                    onClick={() => setOpen((prev) => (prev === i ? -1 : i))}
-                  >
-                    <span className="wf-whystack__head">
-                      <Icon size={30} strokeWidth={1.25} aria-hidden style={{ opacity: 0.9, flex: "none" }} />
-                      {heading}
-                    </span>
-                    <ChevronDown
-                      size={22}
-                      strokeWidth={1.5}
-                      aria-hidden
-                      style={{
-                        flex: "none",
-                        transform: isOpen ? "rotate(180deg)" : "none",
-                        transition: "transform .25s var(--wf-ease-out)",
-                      }}
-                    />
-                  </button>
-                ) : (
-                  <>
-                    <Icon size={36} strokeWidth={1.25} aria-hidden style={{ opacity: 0.9 }} />
-                    {heading}
-                  </>
-                )}
-                {/* Grid-rows 0fr→1fr animates a height the content decides,
-                    which `height: auto` cannot. */}
-                <div className={`wf-whystack__reveal${isOpen ? " is-open" : ""}`} aria-hidden={!isOpen}>
-                  <div>
-                    <div style={{ margin: "12px 0 0", opacity: 0.92 }}>
-                      <Prose text={t.body} style={{ fontSize: 15.5, lineHeight: 1.7 }} />
-                    </div>
-                  </div>
+                <Icon size={36} strokeWidth={1.25} aria-hidden style={{ opacity: 0.9 }} />
+                <h2
+                  style={{
+                    fontFamily: "var(--wf-font-display)",
+                    fontWeight: 500,
+                    fontSize: "clamp(20px, 5vw, 26px)",
+                    lineHeight: 1.15,
+                    letterSpacing: "0",
+                    textTransform: "uppercase",
+                    margin: "16px 0 0",
+                    textAlign: "left",
+                  }}
+                >
+                  {t.title}
+                </h2>
+                <div style={{ margin: "12px 0 0", opacity: 0.92 }}>
+                  <Prose text={t.body} style={{ fontSize: 15.5, lineHeight: 1.7 }} />
                 </div>
               </article>
             );

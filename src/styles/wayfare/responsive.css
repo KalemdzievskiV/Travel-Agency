@@ -384,14 +384,17 @@
   text-decoration: none;
   scroll-snap-align: start;
 }
-/* "Да се направи големината на програмите исто како кај нив" — at phone width
-   ours stood a 240px-wide card 360px tall, half again the height of the
-   reference's. Sized to the viewport instead, on a shallower ratio, so the card
-   is shorter and the next one peeks further in. */
+/* "Да се направи големината на програмите исто како кај нив" — sized against the
+   reference's phone card, which is 73% of the viewport wide and 1.10 viewports
+   tall. An earlier pass read it as *shorter* and put ours on 3/4 at 66% of the
+   row, which came out 62% of the viewport and 0.83 viewports tall — a third
+   smaller than the reference in both directions. The row runs past the right
+   gutter, so 77% of it is 73% of the viewport; 2/3 then gives the height, and
+   restores the portrait the DestinationCard grid uses. */
 @media (max-width: 640px) {
   .wf-trip-card {
-    flex-basis: 66%;
-    aspect-ratio: 3 / 4;
+    flex-basis: 77%;
+    aspect-ratio: 2 / 3;
   }
 }
 
@@ -1714,37 +1717,153 @@
   text-shadow: 0 2px 18px rgba(14, 42, 51, 0.55);
 }
 
-/* ── "Why not do it yourself" — phone accordion ───────────────────
+/* ── "How it all works" — phone pinned stage ──────────────────────
+   Markup in src/components/about/ProcessSteps.tsx (ProcessMobile). Only
+   phones taller than 600px render it, so none of this reaches the desktop
+   stage or the numbered-list fallback. */
+.wf-processm {
+  position: sticky;
+  top: var(--wf-header-h);
+  /* svh, not vh: on iOS/Android the address bar makes vh taller than what is
+     actually on screen, which would push the copy panel off the bottom. */
+  height: calc(100svh - var(--wf-header-h));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--wf-ink-900);
+  color: var(--wf-text-on-dark);
+}
+.wf-processm__stage {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  /* The flexible row: it gives height back to the copy on a short phone, but
+     never shrinks below a picture worth showing. */
+  flex: 1 1 auto;
+  min-height: clamp(200px, 34vh, 360px);
+}
+.wf-processm__scrim {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 62%;
+  background: linear-gradient(to bottom, rgba(14, 42, 51, 0.55), rgba(14, 42, 51, 0));
+}
+.wf-processm__title {
+  position: relative;
+  flex: none;
+  margin: 0;
+  padding: clamp(16px, 3.4vh, 34px) clamp(20px, 5vw, 32px) 0;
+  text-align: center;
+  font-family: var(--wf-font-display);
+  font-weight: 400;
+  font-size: clamp(20px, 5.6vw, 30px);
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-shadow: 0 2px 20px rgba(14, 42, 51, 0.5);
+}
+.wf-processm__ringwrap {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  padding: clamp(10px, 2.5vh, 24px) 0 clamp(14px, 3vh, 30px);
+}
+/* Content-sized: the panel is exactly as tall as the step it holds, and the
+   photograph above it takes the rest of the pin. Reserving the tallest step's
+   height instead leaves dead ground under the short ones. */
+.wf-processm__copy {
+  flex: 0 0 auto;
+  padding: clamp(16px, 4vw, 26px) clamp(20px, 5vw, 32px) clamp(20px, 4.5vw, 32px);
+}
+.wf-processm__step {
+  font-family: var(--wf-font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--wf-coral-400);
+}
+.wf-processm__heading {
+  margin: 8px 0 0;
+  font-family: var(--wf-font-display);
+  font-weight: 500;
+  font-size: clamp(18px, 5vw, 24px);
+  line-height: 1.12;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+/* ── "Why not do it yourself" — phone list ────────────────────────
    Markup in src/components/about/WhySplit.tsx (WhyStack, collapsible). Only
-   phones render the toggle, so none of this can reach the desktop layouts. */
-.wf-whystack__toggle {
+   phones render the list, so none of this can reach the desktop layouts.
+
+   A row is an icon, the topic in bold uppercase and a coral chevron on white,
+   separated by hairlines; opening one drops a full-bleed band in that topic's
+   colour beneath it. */
+.wf-whylist {
+  margin-top: clamp(28px, 7vw, 44px);
+}
+/* Hairlines between rows, and one closing the list, as in the reference. */
+.wf-whylist__item { border-top: 1px solid var(--wf-border); }
+.wf-whylist__item:last-child { border-bottom: 1px solid var(--wf-border); }
+.wf-whylist__row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 14px;
   width: 100%;
-  padding: 0;
+  /* ≥44px tall at every size: this is the only way into the copy on a phone. */
+  padding: 13px 0;
   background: none;
   border: none;
   cursor: pointer;
-  color: inherit;
   text-align: left;
+  color: var(--wf-ink-900);
 }
-.wf-whystack__head {
-  display: flex;
-  align-items: center;
-  gap: 14px;
+.wf-whylist__icon {
+  flex: none;
+  color: var(--wf-ink-700);
+}
+.wf-whylist__label {
+  flex: 1;
   min-width: 0;
+  font-family: var(--wf-font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
-.wf-whystack__reveal {
+.wf-whylist__chevron {
+  flex: none;
+  color: var(--wf-accent-ink);
+  transition: transform 0.25s var(--wf-ease-out);
+}
+.wf-whylist__chevron.is-open { transform: rotate(90deg); }
+
+/* Grid-rows 0fr→1fr animates a height the content decides, which `height:
+   auto` cannot. The negative gutter is here rather than on the band itself
+   because the child below is `overflow: hidden` for that animation and would
+   clip a wider band back to the text column. */
+.wf-whylist__reveal {
   display: grid;
   grid-template-rows: 0fr;
+  margin-inline: calc(-1 * clamp(20px, 5vw, 32px));
   transition: grid-template-rows 0.32s var(--wf-ease-out);
 }
-.wf-whystack__reveal.is-open { grid-template-rows: 1fr; }
-.wf-whystack__reveal > div { overflow: hidden; }
+.wf-whylist__reveal.is-open { grid-template-rows: 1fr; }
+.wf-whylist__reveal > div { overflow: hidden; }
+/* The opened panel runs edge to edge in the topic's own colour, so the copy is
+   read against the colour rather than the white list. Its own gutter puts the
+   text back on the same left edge as the rows above it. */
+.wf-whylist__body {
+  padding: clamp(20px, 5.5vw, 28px) clamp(20px, 5vw, 32px) clamp(24px, 6vw, 32px);
+}
 @media (prefers-reduced-motion: reduce) {
-  .wf-whystack__reveal { transition: none; }
+  .wf-whylist__chevron,
+  .wf-whylist__reveal { transition: none; }
 }
 
 /* ── About: masthead (big word + lead, image overlapping the seam) ── */
