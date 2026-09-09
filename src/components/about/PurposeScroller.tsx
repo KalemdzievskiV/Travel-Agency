@@ -10,8 +10,16 @@ import { ScrollRevealText } from "./ScrollRevealText";
  * PurposeScroller — the purpose statement as a full-screen pinned stage
  * (modelled on Black Tomato's about-us purpose section): the background and the
  * headline stay fixed while the supporting facet cross-fades as you scroll.
- * Server render, small screens and reduced-motion fall back to a static band
- * listing every facet.
+ * Server render and reduced-motion fall back to a static band listing every
+ * facet.
+ *
+ * Phones run the pinned stage as well ("да не е едно друго трето сите у исто,
+ * да доаѓа прашањето прво на целава позадина како се полнат буквите, па првиот
+ * одговор на цел екран"). They used to get the whole statement and all three
+ * facets stacked in one band, each filling as it passed the viewport — so the
+ * question and its answers were lit at the same time, which is the thing the
+ * client asked to be rid of. The stage is the same component at both widths;
+ * only the metrics differ (see `.wf-purpose__*` in responsive.css).
  */
 export function PurposeScroller({
   eyebrow,
@@ -24,23 +32,15 @@ export function PurposeScroller({
   facets: string[];
   grad: string;
 }) {
-  const isDesktop = useIsDesktop();
+  // The stage holds the question, one answer and the dots inside one 100svh
+  // pane that clips its overflow, so it needs a viewport tall enough for all
+  // three: a phone in landscape keeps the static band, as does the server
+  // render (the hook is `null` until mounted, so both agree on the band).
+  const canPin = useIsDesktop("(min-height: 600px)");
   const reduced = useReducedMotion();
 
-  if (!isDesktop || reduced) {
-    return (
-      <PurposeStack
-        eyebrow={eyebrow}
-        statement={statement}
-        facets={facets}
-        grad={grad}
-        // Phones get the statement on the scroll-scrubbed reveal the pinned
-        // stage uses, rather than as flat static type — the client's page 15
-        // note ("погледни ги транзициите кај нив ... да се смени"). SSR and
-        // reduced-motion keep the static paragraph.
-        animated={isDesktop === false}
-      />
-    );
+  if (!canPin || reduced) {
+    return <PurposeStack eyebrow={eyebrow} statement={statement} facets={facets} grad={grad} />;
   }
   return <PurposePinned eyebrow={eyebrow} statement={statement} facets={facets} grad={grad} />;
 }
@@ -69,7 +69,7 @@ const facetStyle: React.CSSProperties = {
   color: "rgba(233, 245, 246, 0.94)",
 };
 
-/* ── Desktop: pinned, scroll-driven stage ─────────────────────────── */
+/* ── Pinned, scroll-driven stage (every width once mounted) ───────── */
 function PurposePinned({ eyebrow, statement, facets, grad }: { eyebrow: string; statement: string; facets: string[]; grad: string }) {
   const trackRef = React.useRef<HTMLElement>(null);
   const [active, setActive] = React.useState(0);
@@ -101,10 +101,10 @@ function PurposePinned({ eyebrow, statement, facets, grad }: { eyebrow: string; 
     // fill at the Wayfare "calm and slow" pace rather than snapping.
     <section ref={trackRef} aria-label={eyebrow} style={{ height: `${n * 80}vh`, position: "relative" }}>
       <div
+        className="wf-purpose__stage"
         style={{
           position: "sticky",
           top: 0,
-          height: "100vh",
           background: grad,
           color: "var(--wf-text-on-dark)",
           display: "flex",
@@ -130,7 +130,7 @@ function PurposePinned({ eyebrow, statement, facets, grad }: { eyebrow: string; 
             range={[0.02, slice * 0.4]}
           />
 
-          <div style={{ position: "relative", minHeight: "clamp(120px, 18vh, 172px)", marginTop: "clamp(28px, 5vw, 48px)" }}>
+          <div className="wf-purpose__facet" style={{ position: "relative", marginTop: "clamp(28px, 5vw, 48px)" }}>
             <AnimatePresence mode="wait">
               {/* A div, not a <p> — ScrollRevealText renders the paragraph. */}
               <motion.div
@@ -173,19 +173,17 @@ function PurposePinned({ eyebrow, statement, facets, grad }: { eyebrow: string; 
   );
 }
 
-/* ── Mobile / SSR / reduced-motion: static band, all facets listed ── */
+/* ── SSR / reduced-motion: static band, all facets listed ─────────── */
 function PurposeStack({
   eyebrow,
   statement,
   facets,
   grad,
-  animated = false,
 }: {
   eyebrow: string;
   statement: string;
   facets: string[];
   grad: string;
-  animated?: boolean;
 }) {
   return (
     <section style={{ background: grad, color: "var(--wf-text-on-dark)", padding: "clamp(72px, 14vw, 120px) 0" }}>
@@ -193,24 +191,13 @@ function PurposeStack({
         <Eyebrow tone="light" style={{ textAlign: "center" }}>
           {eyebrow}
         </Eyebrow>
-        {animated ? (
-          <ScrollRevealText text={statement} style={statementStyle} />
-        ) : (
-          <p style={statementStyle}>{statement}</p>
-        )}
+        <p style={statementStyle}>{statement}</p>
         <div style={{ display: "grid", gap: "clamp(22px, 5vw, 34px)", marginTop: "clamp(32px, 7vw, 48px)" }}>
-          {facets.map((f) =>
-            // On phones each facet fills as it scrolls through the viewport —
-            // the same word-by-word reveal as the statement above it, in place
-            // of the old one-shot fade-up.
-            animated ? (
-              <ScrollRevealText key={f} text={f} style={facetStyle} />
-            ) : (
-              <p key={f} style={facetStyle}>
-                {f}
-              </p>
-            ),
-          )}
+          {facets.map((f) => (
+            <p key={f} style={facetStyle}>
+              {f}
+            </p>
+          ))}
         </div>
       </div>
     </section>

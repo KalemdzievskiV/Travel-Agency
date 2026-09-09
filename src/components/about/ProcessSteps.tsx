@@ -180,21 +180,24 @@ function ProcessPinned({ steps, title }: { steps: ProcessStep[]; title: string }
               >
                 Step {step.no}
               </span>
+              {/* Title and copy are back at the sizes they ran at before the 3.1
+                  corrections brought them "down a step" (and set the titles
+                  uppercase): the client has asked for the earlier reading on
+                  the desktop stage. The phone stage below keeps its own scale. */}
               <h3
                 style={{
                   fontFamily: "var(--wf-font-display)",
                   fontWeight: 500,
-                  fontSize: "clamp(19px, 2vw, 26px)",
-                  lineHeight: 1.12,
-                  letterSpacing: "0",
-                  textTransform: "uppercase",
+                  fontSize: "clamp(24px, 2.4vw, 34px)",
+                  lineHeight: 1.1,
+                  letterSpacing: "-0.02em",
                   margin: "12px 0 0",
                 }}
               >
                 {step.title}
               </h3>
               <div style={{ margin: "16px 0 0" }}>
-                <Prose text={step.body} style={{ fontSize: 15, lineHeight: 1.7, color: "rgba(244,239,231,0.82)" }} />
+                <Prose text={step.body} style={{ fontSize: 17, lineHeight: 1.7, color: "rgba(244,239,231,0.82)" }} />
               </div>
             </motion.div>
           </AnimatePresence>

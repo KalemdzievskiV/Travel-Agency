@@ -38,8 +38,6 @@ type DrawerItem = {
   href?: string;
   /** Pushes a deeper panel instead of navigating. */
   panel?: string;
-  /** Renders as a small uppercase group heading rather than a row. */
-  heading?: boolean;
   /** Emphasised row — the "all of X" entry that opens each section's hub. */
   lead?: boolean;
 };
@@ -72,13 +70,15 @@ export function MobileNav({
 
   // Reset to the root whenever the drawer is closed, so reopening never lands
   // the visitor three panels deep in a section they have since navigated away
-  // from. Deferred to the close transition so the reset isn't visible.
+  // from. Held until the drawer is fully off-screen (a shade past the 0.65s
+  // slide in responsive.css) so the panels aren't seen swapping back on the
+  // way out — the closed drawer stays painted, so a reset mid-slide shows.
   React.useEffect(() => {
     if (open) return;
     const id = setTimeout(() => {
       setStack([]);
       setBack(false);
-    }, 320);
+    }, 700);
     return () => clearTimeout(id);
   }, [open]);
 
@@ -131,36 +131,50 @@ export function MobileNav({
     };
   }
 
-  // Experiences — "кај нас нека стојат сите подкатегории што ги имаме", so both
-  // category families are listed in full under their own headings.
+  // Experiences — the two category families are groups of their own, so they
+  // drill down the way the continents do rather than spilling their categories
+  // into the Experiences panel under a heading. That keeps the four entries the
+  // desktop rail carries — the two groups, the trip finder and Bookit Select —
+  // at one level, instead of reading as though the two links belonged to
+  // whichever heading happened to precede them. Order follows the desktop rail:
+  // the finder sits between the groups, Bookit Select closes the list.
   panels.experiences = {
     title: navLabel("/experiences"),
     items: [
       { key: "all", label: t("experiencesMenu.viewAll"), href: "/experiences", lead: true },
       ...(experienceCategories.length
-        ? [
-            { key: "h-who", label: t("experiencesMenu.who"), heading: true },
-            ...experienceCategories.map((c) => ({
-              key: `who-${c.slug}`,
-              label: c.title,
-              href: `/experiences/${c.slug}`,
-            })),
-          ]
-        : []),
-      ...(remarkableCategories.length
-        ? [
-            { key: "h-rem", label: t("experiencesMenu.remarkable"), heading: true },
-            ...remarkableCategories.map((c) => ({
-              key: `rem-${c.slug}`,
-              label: c.title,
-              href: `/experiences/${c.slug}`,
-            })),
-          ]
+        ? [{ key: "who", label: t("experiencesMenu.who"), panel: "experiences:who" }]
         : []),
       { key: "finder", label: t("experiencesMenu.finder"), href: "/trip-finder" },
+      ...(remarkableCategories.length
+        ? [{ key: "remarkable", label: t("experiencesMenu.remarkable"), panel: "experiences:remarkable" }]
+        : []),
       { key: "sale", label: t("experiencesMenu.onSale"), href: "/on-sale" },
     ],
   };
+  // "кај нас нека стојат сите подкатегории што ги имаме" — each group lists its
+  // categories in full, one panel deeper. Neither group has a page of its own,
+  // so there is no "all of X" lead row to pin above them.
+  if (experienceCategories.length) {
+    panels["experiences:who"] = {
+      title: t("experiencesMenu.who"),
+      items: experienceCategories.map((c) => ({
+        key: c.slug,
+        label: c.title,
+        href: `/experiences/${c.slug}`,
+      })),
+    };
+  }
+  if (remarkableCategories.length) {
+    panels["experiences:remarkable"] = {
+      title: t("experiencesMenu.remarkable"),
+      items: remarkableCategories.map((c) => ({
+        key: c.slug,
+        label: c.title,
+        href: `/experiences/${c.slug}`,
+      })),
+    };
+  }
 
   // About — the two groups; the one with pages under it drills one deeper
   // ("Истото е и Зошто да патувате со нас делот").
@@ -260,11 +274,7 @@ export function MobileNav({
             className={`wf-drawer__panel${back ? " wf-drawer__panel--back" : ""}`}
           >
             {current.items.map((item) =>
-              item.heading ? (
-                <span key={item.key} className="wf-drawer__heading">
-                  {item.label}
-                </span>
-              ) : item.panel ? (
+              item.panel ? (
                 <button
                   key={item.key}
                   type="button"

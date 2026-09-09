@@ -355,7 +355,7 @@ function WhyStack({
               const Icon = TOPIC_ICONS[t.icon];
               const isOpen = open === i;
               return (
-                <div key={t.nav} className="wf-whylist__item">
+                <div key={t.nav}>
                   <button
                     type="button"
                     className="wf-whylist__row"

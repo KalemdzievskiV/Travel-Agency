@@ -1142,26 +1142,46 @@
   background: rgba(20, 18, 16, 0.42);
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.32s var(--wf-ease-out), visibility 0.32s;
+  /* Same duration as the drawer, so the two land together. */
+  transition: opacity 0.65s var(--wf-ease-out), visibility 0.65s;
 }
 .wf-drawer__scrim.is-open { opacity: 1; visibility: visible; }
 
 .wf-drawer {
   position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
+  /* Full screen: the drawer only ever renders below 861px, where a 420px panel
+     left a strip of the page showing down the right-hand edge. */
+  inset: 0;
   z-index: 97;
-  width: min(100vw, 420px);
   display: flex;
   flex-direction: column;
   background: var(--wf-cream);
   transform: translateX(-100%);
-  visibility: hidden;
-  transition: transform 0.34s var(--wf-ease-out), visibility 0.34s;
+  /* The closed drawer waits off-screen *painted*. It used to be
+     `visibility: hidden`, and a hidden subtree is not painted — so the first
+     frames of the slide went on rendering the menu (logo, ten rows, the CTA)
+     instead of moving it, which is what made the opening stutter. Now the
+     paint is already done and opening is a transform and nothing else.
+     `inert` on the element (MobileNav) keeps the closed menu out of the tab
+     order and the accessibility tree; pointer-events do the same for taps.
+
+     No `will-change: transform` here: it holds the drawer on a compositor
+     layer permanently, and text on a composited layer loses subpixel
+     antialiasing — the menu's type came out visibly lighter than the rest of
+     the site. The transform transition promotes the layer for the length of
+     the slide on its own, which is when it is actually wanted. */
+  pointer-events: none;
+  transition: transform 0.65s var(--wf-ease-out);
   overscroll-behavior: contain;
 }
-.wf-drawer.is-open { transform: translateX(0); visibility: visible; }
+.wf-drawer.is-open { transform: translateX(0); pointer-events: auto; }
+
+/* Above the burger's breakpoint the drawer can never open, and there is no
+   reason to pay for keeping it painted. */
+@media (min-width: 861px) {
+  .wf-drawer,
+  .wf-drawer__scrim { display: none; }
+}
 
 /* Header row: the wordmark at the root, a BACK control once a panel is open. */
 .wf-drawer__top {
@@ -1242,15 +1262,6 @@
 }
 .wf-drawer__row > svg { flex: none; color: var(--wf-ink-500); }
 .wf-drawer__row--lead { color: var(--wf-accent-ink); }
-.wf-drawer__heading {
-  padding: 22px 0 6px;
-  font-family: var(--wf-font-sans);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--wf-ink-500);
-}
 
 /* Pinned foot — phone, the MK/EN pair the client asked to keep, and the CTA. */
 .wf-drawer__foot {
@@ -1555,10 +1566,13 @@
 .wf-pagetabs__link:hover { color: var(--wf-ink-900); }
 
 @media (max-width: 860px) {
-  /* One line that scrolls. Centring a scroll container puts its first item out
-     of reach, so the row starts at the leading edge once it can overflow; the
-     row is also the .wf-wrap, so its own padding-inline is the gutter the
-     first and last tabs come to rest against. */
+  /* One line that scrolls. `justify-content: center` would put the first tab
+     out of reach once the row overflows, so the row starts at the leading edge
+     and the two end tabs carry auto margins instead: they centre a short rail
+     (three tabs on a destination page) and resolve to 0 the moment the tabs
+     overflow, leaving every one of them scrollable to. The row is also the
+     .wf-wrap, so its own padding-inline is the gutter the end tabs come to
+     rest against in the overflowing case. */
   .wf-pagetabs__row {
     flex-wrap: nowrap;
     justify-content: flex-start;
@@ -1567,11 +1581,30 @@
     -ms-overflow-style: none;
   }
   .wf-pagetabs__row::-webkit-scrollbar { display: none; }
+  .wf-pagetabs__row > :first-child { margin-inline-start: auto; }
+  .wf-pagetabs__row > :last-child { margin-inline-end: auto; }
   .wf-pagetabs__link {
     flex: 0 0 auto;
     /* Black, not grey — the accent stays on the active tab's underline. */
     color: var(--wf-ink-900);
   }
+}
+
+/* ── About: pinned purpose stage ──────────────────────────────────
+   The scroll-driven stage on /about (PurposeScroller). It runs at every width
+   now, so its two fixed metrics live here rather than inline: the pane fills
+   the *small* viewport, so a phone's collapsing browser chrome can never crop
+   the stage, and the facet slot — whose paragraphs are absolutely positioned so
+   one can cross-fade over the next — reserves enough height for the longest
+   answer at that width, keeping the progress dots still while they swap. */
+.wf-purpose__stage {
+  height: 100vh;
+  height: 100svh;
+}
+.wf-purpose__facet { min-height: clamp(120px, 18vh, 172px); }
+@media (max-width: 860px) {
+  /* Narrower column, so the same sentence runs to two or three more lines. */
+  .wf-purpose__facet { min-height: clamp(220px, 34svh, 300px); }
 }
 
 /* ── Experiences hub in-page toolbar ──────────────────────────────
@@ -1594,11 +1627,6 @@
   -ms-overflow-style: none;
 }
 .wf-exptabs__row::-webkit-scrollbar { display: none; }
-/* Below this the rail overflows and has to scroll — centring a scroll
-   container makes its leading item unreachable, so fall back to the start. */
-@media (max-width: 720px) {
-  .wf-exptabs__row { justify-content: flex-start; }
-}
 .wf-exptabs__link {
   flex: 0 0 auto;
   display: inline-flex;
@@ -1620,6 +1648,25 @@
 .wf-exptabs__link--on {
   color: var(--wf-ink-900);
   border-bottom-color: var(--wf-ink-900);
+}
+
+/* On a phone this rail reads as the same component as the destination-page one
+   (.wf-pagetabs): black labels, the accent on the active tab, and the row
+   centred while it fits. Centring outright would put the first tab out of reach
+   once the tabs overflow, so the end tabs carry auto margins instead — they
+   centre a short rail and resolve to 0 the moment it has to scroll. */
+@media (max-width: 860px) {
+  .wf-exptabs__row { justify-content: flex-start; }
+  .wf-exptabs__row > :first-child { margin-inline-start: auto; }
+  .wf-exptabs__row > :last-child { margin-inline-end: auto; }
+  .wf-exptabs__link {
+    letter-spacing: 0.14em;
+    color: var(--wf-ink-900);
+  }
+  .wf-exptabs__link--on {
+    color: var(--wf-accent-ink);
+    border-bottom-color: var(--wf-coral-500);
+  }
 }
 
 /* ── Experience carousels ("not where, but who / how") ────────────
@@ -1808,15 +1855,13 @@
    Markup in src/components/about/WhySplit.tsx (WhyStack, collapsible). Only
    phones render the list, so none of this can reach the desktop layouts.
 
-   A row is an icon, the topic in bold uppercase and a coral chevron on white,
-   separated by hairlines; opening one drops a full-bleed band in that topic's
-   colour beneath it. */
+   A row is an icon, the topic in bold uppercase and a coral chevron on white;
+   opening one drops a full-bleed band in that topic's colour beneath it.
+   No rules between the rows: the icon, the label and the chevron carry a row
+   on their own, the same way the phone menu's rows do. */
 .wf-whylist {
   margin-top: clamp(28px, 7vw, 44px);
 }
-/* Hairlines between rows, and one closing the list, as in the reference. */
-.wf-whylist__item { border-top: 1px solid var(--wf-border); }
-.wf-whylist__item:last-child { border-bottom: 1px solid var(--wf-border); }
 .wf-whylist__row {
   display: flex;
   align-items: center;
