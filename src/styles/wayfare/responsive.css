@@ -1547,6 +1547,13 @@
   gap: clamp(20px, 4vw, 44px);
   flex-wrap: wrap;
   padding-block: 18px;
+  /* A rail is navigation, not prose. Pressing and dragging a label started a
+     text selection, and a selection dragged inside a scroll container pans it —
+     which is why the tabs slid sideways under the finger even when they all
+     fit. Nothing here is worth selecting, so the drag has nothing to grab. */
+  user-select: none;
+  -webkit-user-select: none;
+  overscroll-behavior-inline: contain;
 }
 .wf-pagetabs__link {
   text-decoration: none;
@@ -1625,6 +1632,11 @@
   overflow-x: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  /* See .wf-pagetabs__row: no text selection, so a drag on a label can't pan
+     the rail, and no scroll chaining out of it. */
+  user-select: none;
+  -webkit-user-select: none;
+  overscroll-behavior-inline: contain;
 }
 .wf-exptabs__row::-webkit-scrollbar { display: none; }
 .wf-exptabs__link {
