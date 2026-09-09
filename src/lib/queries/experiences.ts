@@ -10,7 +10,7 @@ import {
   filterOptions,
   filterGroups,
 } from "@/db/schema";
-import { toTrip } from "./public";
+import { toTrip, withTripPlaces } from "./public";
 import type {
   ExperienceCategory,
   ExperienceCategoryDetail,
@@ -87,7 +87,7 @@ async function tripsForWho(whoOptionKey: string) {
         .innerJoin(tripsTable, eq(tripFilterOptions.tripId, tripsTable.id))
         .where(and(eq(filterGroups.key, "who"), eq(filterOptions.key, whoOptionKey), eq(tripsTable.published, true)))
         .orderBy(asc(tripsTable.sortOrder), asc(tripsTable.id));
-      if (rows.length) return rows.map((r) => toTrip(r.trip));
+      if (rows.length) return withTripPlaces(rows.map((r) => toTrip(r.trip)));
     } catch {
       // taxonomy tables may not exist yet — fall through to defaults
     }
@@ -98,7 +98,7 @@ async function tripsForWho(whoOptionKey: string) {
     .where(eq(tripsTable.published, true))
     .orderBy(asc(tripsTable.sortOrder), asc(tripsTable.id))
     .limit(6);
-  return fb.map((r) => toTrip(r));
+  return withTripPlaces(fb.map((r) => toTrip(r)));
 }
 
 export async function getExperienceCategoryBySlug(

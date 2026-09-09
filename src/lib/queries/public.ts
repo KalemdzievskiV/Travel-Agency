@@ -19,6 +19,7 @@ import type {
   Faq,
   Testimonial,
   Trip,
+  TripPlace,
 } from "@/content/types";
 import { deriveTripFacets } from "./filters";
 
@@ -123,6 +124,8 @@ export function toTrip(r: TripRow, mk = false): Trip {
     image: r.image ?? undefined,
     images: r.images,
     feelings: r.feelings,
+    // Filled in by withTripPlaces where a caller needs it; see the Trip type.
+    places: [],
     itinerary: r.itinerary,
     departures: r.departures,
     included: mk && r.includedMk && r.includedMk.length ? r.includedMk : r.included,
@@ -199,13 +202,65 @@ export async function getTestimonials(): Promise<Testimonial[]> {
   return rows.map(toTestimonial);
 }
 
+/**
+ * Fill in `places` — the destinations each trip visits, with their region — for
+ * trips already built by `toTrip`.
+ *
+ * A post-pass over a finished list rather than a join inside each query: trips
+ * are assembled in half a dozen places (home, a destination's trips, similar
+ * trips, an experience's recommendations), and every one of them would
+ * otherwise need the same three-table join and the same de-duplication. One
+ * batched query keyed by slug keeps that in a single place, and the queries
+ * that never render a card are left alone.
+ */
+export async function withTripPlaces<T extends Trip>(items: T[]): Promise<T[]> {
+  if (items.length === 0) return items;
+  const [links, mk, regionMap] = await Promise.all([
+    db
+      .select({
+        slug: tripsTable.slug,
+        title: destinationsTable.title,
+        titleMk: destinationsTable.titleMk,
+        regionId: destinationsTable.regionId,
+        region: destinationsTable.region,
+      })
+      .from(tripDestinationsTable)
+      .innerJoin(tripsTable, eq(tripDestinationsTable.tripId, tripsTable.id))
+      .innerJoin(destinationsTable, eq(tripDestinationsTable.destinationId, destinationsTable.id))
+      .where(
+        and(
+          inArray(
+            tripsTable.slug,
+            items.map((t) => t.slug),
+          ),
+          eq(destinationsTable.published, true),
+        ),
+      )
+      .orderBy(asc(tripDestinationsTable.position)),
+    localeIsMk(),
+    getRegionMap(),
+  ]);
+
+  const bySlug = new Map<string, TripPlace[]>();
+  for (const l of links) {
+    const region = l.regionId != null ? regionMap.get(l.regionId) : undefined;
+    const arr = bySlug.get(l.slug) ?? [];
+    arr.push({
+      title: mk && l.titleMk ? l.titleMk : l.title,
+      region: region ? (mk && region.labelMk ? region.labelMk : region.label) : l.region,
+    });
+    bySlug.set(l.slug, arr);
+  }
+  return items.map((t) => ({ ...t, places: bySlug.get(t.slug) ?? [] }));
+}
+
 export async function getTrips(): Promise<Trip[]> {
   const rows = await db
     .select()
     .from(tripsTable)
     .where(eq(tripsTable.published, true))
     .orderBy(asc(tripsTable.sortOrder), asc(tripsTable.id));
-  return rows.map((r) => toTrip(r));
+  return withTripPlaces(rows.map((r) => toTrip(r)));
 }
 
 /**
@@ -390,10 +445,10 @@ export async function getSimilarTrips(slug: string, limit = 8): Promise<Trip[]> 
       .where(and(ne(tripsTable.id, current.id), eq(tripsTable.published, true)))
       .orderBy(asc(tripsTable.sortOrder), asc(tripsTable.id))
       .limit(limit);
-    return rows.map((r) => toTrip(r));
+    return withTripPlaces(rows.map((r) => toTrip(r)));
   }
 
-  return Array.from(bySlug.values()).slice(0, limit);
+  return withTripPlaces(Array.from(bySlug.values()).slice(0, limit));
 }
 
 // Trips (products) that visit a given destination — bridges guide → product.
@@ -408,5 +463,5 @@ export async function getTripsForDestination(slug: string): Promise<Trip[]> {
     )
     .where(and(eq(destinationsTable.slug, slug), eq(tripsTable.published, true)))
     .orderBy(asc(tripsTable.sortOrder), asc(tripsTable.id));
-  return rows.map((r) => toTrip(r.trip));
+  return withTripPlaces(rows.map((r) => toTrip(r.trip)));
 }

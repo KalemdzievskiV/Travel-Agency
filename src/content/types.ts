@@ -108,6 +108,13 @@ export type Testimonial = {
   where: string;
 };
 
+/**
+ * A destination a trip visits, as the cards need it: the place and the region
+ * it sits in. Both, because the trip card shows the region while the trip page
+ * lists the places, and neither is derivable from the other.
+ */
+export type TripPlace = { title: string; region: string };
+
 // A trip is the concrete, sellable product: fixed length, price, day-by-day
 // itinerary, and departure dates. It visits one or more destinations.
 export type Trip = {
@@ -125,6 +132,13 @@ export type Trip = {
   /** Gallery images (URLs) for the trip carousel. */
   images: string[];
   feelings: string[];
+  /**
+   * Destinations this trip visits, in itinerary order. Only filled in by the
+   * queries that feed a card — `withTripPlaces` in `lib/queries/public.ts` —
+   * so a trip fetched for anything else carries an empty list rather than an
+   * extra join nobody reads.
+   */
+  places: TripPlace[];
   /** Day-by-day plan, one entry per day/stage. */
   itinerary: string[];
   /** Fixed departure dates. */

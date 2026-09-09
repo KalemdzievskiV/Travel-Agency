@@ -169,7 +169,17 @@ export function TripsCarousel({
                   </div>
                   <Link href={`/trips/${trip.slug}`} className="wf-trip-card__link">
                   <div className="wf-trip-card__body">
-                    {trip.feelings?.[0] && <span className="wf-trip-card__eyebrow">{trip.feelings[0]}</span>}
+                    {/* The region, not the feeling the card used to show: the
+                        trip titles already name the country ("Egypt: The Nile
+                        & the Pyramids"), so the place above them is the region
+                        — which is also the eyebrow DestinationCard uses, so the
+                        two card families read the same way. Falls back to the
+                        feeling for a trip with no destination linked yet. */}
+                    {(trip.places?.[0]?.region ?? trip.feelings?.[0]) && (
+                      <span className="wf-trip-card__eyebrow">
+                        {trip.places?.[0]?.region ?? trip.feelings[0]}
+                      </span>
+                    )}
                     <div className="wf-trip-card__titlerow">
                       <h3 className="wf-trip-card__title">{trip.title}</h3>
                       {displayPrice(trip) && (
