@@ -4,8 +4,6 @@ import { getLocale } from "next-intl/server";
 import { db } from "@/db";
 import {
   destinations as destinationsTable,
-  experiences as experiencesTable,
-  testimonials as testimonialsTable,
   trips as tripsTable,
   tripDestinations as tripDestinationsTable,
   tripFilterOptions,
@@ -13,14 +11,7 @@ import {
   filterGroups,
   regions as regionsTable,
 } from "@/db/schema";
-import type {
-  Destination,
-  Experience,
-  Faq,
-  Testimonial,
-  Trip,
-  TripPlace,
-} from "@/content/types";
+import type { Destination, Faq, Trip, TripPlace } from "@/content/types";
 import { deriveTripFacets } from "./filters";
 
 /** A trip plus the facet keys ("group:option") it matches, for filtering. */
@@ -28,8 +19,6 @@ export type TripWithFacets = Trip & { facets: string[] };
 
 // Map DB rows to the existing content-facing shapes so components are unchanged.
 type DestinationRow = typeof destinationsTable.$inferSelect;
-type ExperienceRow = typeof experiencesTable.$inferSelect;
-type TestimonialRow = typeof testimonialsTable.$inferSelect;
 
 type RegionInfo = { label: string; labelMk: string | null; slug: string };
 
@@ -93,21 +82,6 @@ function parseFaqs(lines: string[]): Faq[] {
     .filter((f) => f.q);
 }
 
-function toExperience(r: ExperienceRow): Experience {
-  return {
-    slug: r.slug,
-    eyebrow: r.eyebrow,
-    title: r.title,
-    body: r.body,
-    grad: r.grad ?? "",
-    image: r.image ?? undefined,
-  };
-}
-
-function toTestimonial(r: TestimonialRow): Testimonial {
-  return { quote: r.quote, who: r.who, where: r.where };
-}
-
 type TripRow = typeof tripsTable.$inferSelect;
 
 export function toTrip(r: TripRow, mk = false): Trip {
@@ -147,25 +121,6 @@ export async function getDestinations(): Promise<Destination[]> {
   return rows.map((r) => toDestination(r, mk, regionMap));
 }
 
-/**
- * Destinations for an explicit list of ids, returned in the order given — the
- * admin's chosen order for a category's "favourite destinations" band, which a
- * plain `inArray` query would not preserve.
- */
-export async function getDestinationsByIds(ids: number[]): Promise<Destination[]> {
-  if (!ids.length) return [];
-  const [rows, mk, regionMap] = await Promise.all([
-    db
-      .select()
-      .from(destinationsTable)
-      .where(and(inArray(destinationsTable.id, ids), eq(destinationsTable.published, true))),
-    localeIsMk(),
-    getRegionMap(),
-  ]);
-  const byId = new Map(rows.map((r) => [r.id, toDestination(r, mk, regionMap)]));
-  return ids.map((id) => byId.get(id)).filter((d): d is Destination => d != null);
-}
-
 export async function getDestinationBySlug(
   slug: string,
 ): Promise<Destination | undefined> {
@@ -182,24 +137,6 @@ export async function getDestinationBySlug(
   if (!row) return undefined;
   const [mk, regionMap] = await Promise.all([localeIsMk(), getRegionMap()]);
   return toDestination(row, mk, regionMap);
-}
-
-export async function getExperiences(): Promise<Experience[]> {
-  const rows = await db
-    .select()
-    .from(experiencesTable)
-    .where(eq(experiencesTable.published, true))
-    .orderBy(asc(experiencesTable.sortOrder), asc(experiencesTable.id));
-  return rows.map(toExperience);
-}
-
-export async function getTestimonials(): Promise<Testimonial[]> {
-  const rows = await db
-    .select()
-    .from(testimonialsTable)
-    .where(eq(testimonialsTable.published, true))
-    .orderBy(asc(testimonialsTable.sortOrder), asc(testimonialsTable.id));
-  return rows.map(toTestimonial);
 }
 
 /**

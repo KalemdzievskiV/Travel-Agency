@@ -58,7 +58,6 @@ export async function saveTrip(formData: FormData) {
     slug,
     title,
     summary: str(formData, "summary"),
-    description: str(formData, "description"),
     durationDays: Number.isFinite(durationDays) && durationDays > 0 ? durationDays : null,
     priceFrom: str(formData, "priceFrom"),
     onSale: formData.get("onSale") === "on",

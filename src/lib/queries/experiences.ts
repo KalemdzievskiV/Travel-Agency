@@ -4,7 +4,6 @@ import { getLocale } from "next-intl/server";
 import { db } from "@/db";
 import {
   experienceCategories as categoriesTable,
-  remarkableExperiences as remarkableTable,
   trips as tripsTable,
   tripFilterOptions,
   filterOptions,
@@ -16,7 +15,6 @@ import type {
   ExperienceCategoryDetail,
   ExperienceKind,
   Faq,
-  RemarkableExperience,
 } from "@/content/types";
 
 type CategoryRow = typeof categoriesTable.$inferSelect;
@@ -123,33 +121,4 @@ export async function getExperienceCategoryBySlug(
     faqs: parseFaqs(faqSource),
     trips,
   };
-}
-
-/** Published remarkable experiences, in order — for the hub's НЕОБИЧНИ ИСКУСТВА grid. */
-export async function getRemarkableExperiences(): Promise<RemarkableExperience[]> {
-  try {
-    const mk = await localeIsMk();
-    const rows = await db
-      .select({
-        exp: remarkableTable,
-        tripSlug: tripsTable.slug,
-      })
-      .from(remarkableTable)
-      .leftJoin(tripsTable, eq(remarkableTable.tripId, tripsTable.id))
-      .where(eq(remarkableTable.published, true))
-      .orderBy(asc(remarkableTable.sortOrder), asc(remarkableTable.id));
-
-    const pick = (en: string, mkVal: string | null | undefined) => (mk && mkVal ? mkVal : en);
-    return rows.map(({ exp: r, tripSlug }) => ({
-      slug: r.slug,
-      title: pick(r.title, r.titleMk),
-      teaser: pick(r.teaser, r.teaserMk),
-      description: pick(r.description, r.descriptionMk),
-      grad: r.grad ?? "",
-      image: r.image ?? undefined,
-      tripSlug: tripSlug ?? undefined,
-    }));
-  } catch {
-    return [];
-  }
 }

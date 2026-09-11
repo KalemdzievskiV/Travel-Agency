@@ -5,7 +5,6 @@ import {
   filterGroups as groupsTable,
   filterOptions as optionsTable,
   tripFilterOptions,
-  destinationFilterOptions,
 } from "@/db/schema";
 import { months } from "@/content/site";
 
@@ -125,13 +124,5 @@ export async function getTripOptionIds(tripId: number): Promise<number[]> {
     .select({ optionId: tripFilterOptions.optionId })
     .from(tripFilterOptions)
     .where(eq(tripFilterOptions.tripId, tripId));
-  return rows.map((r) => r.optionId);
-}
-
-export async function getDestinationOptionIds(destinationId: number): Promise<number[]> {
-  const rows = await db
-    .select({ optionId: destinationFilterOptions.optionId })
-    .from(destinationFilterOptions)
-    .where(eq(destinationFilterOptions.destinationId, destinationId));
   return rows.map((r) => r.optionId);
 }

@@ -32,7 +32,6 @@ export function TripForm({
           hint="Leave blank to generate from the title."
         />
         <TextField label="Summary" name="summary" defaultValue={t?.summary} hint="One-line card summary." />
-        <TextAreaField label="Description" name="description" defaultValue={t?.description} rows={4} />
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
           <TextField label="Duration (days)" name="durationDays" type="number" defaultValue={t?.durationDays ?? ""} />

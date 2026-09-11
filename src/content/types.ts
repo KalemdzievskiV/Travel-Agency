@@ -91,17 +91,6 @@ export type Hotel = {
 
 export type HotelDetail = Hotel & { description: string };
 
-export type RemarkableExperience = {
-  slug: string;
-  title: string;
-  teaser: string;
-  description: string;
-  grad: string;
-  image?: string;
-  /** Slug of the trip this experience showcases, if any — the card links to it. */
-  tripSlug?: string;
-};
-
 export type Testimonial = {
   quote: string;
   who: string;

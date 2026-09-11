@@ -7,12 +7,9 @@ const links: [string, string][] = [
   ["Dashboard", "/admin"],
   ["Regions", "/admin/regions"],
   ["Destinations", "/admin/destinations"],
-  ["Experiences", "/admin/experiences"],
   ["Exp. categories", "/admin/experience-categories"],
-  ["Testimonials", "/admin/testimonials"],
   ["Trips", "/admin/trips"],
   ["Hotels", "/admin/hotels"],
-  ["Remarkable", "/admin/remarkable"],
   ["Filters", "/admin/filters"],
 ];
 

@@ -45,8 +45,6 @@ export async function saveHotel(formData: FormData) {
     teaser: str(formData, "teaser"),
     description: str(formData, "description"),
     destinationId: Number(formData.get("destinationId")) || null,
-    lat: numOrNull(formData, "lat"),
-    lng: numOrNull(formData, "lng"),
     images: linesToArray(formData.get("images")),
     priceFrom: str(formData, "priceFrom"),
     stars: numOrNull(formData, "stars"),

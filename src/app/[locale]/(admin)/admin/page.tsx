@@ -2,24 +2,24 @@ import Link from "next/link";
 import { db } from "@/db";
 import {
   destinations,
-  experiences,
-  testimonials,
+  experienceCategories,
+  hotels,
   trips,
 } from "@/db/schema";
 
 export default async function AdminDashboardPage() {
-  const [destCount, expCount, testCount, tripCount] = await Promise.all([
+  const [destCount, tripCount, hotelCount, categoryCount] = await Promise.all([
     db.$count(destinations),
-    db.$count(experiences),
-    db.$count(testimonials),
     db.$count(trips),
+    db.$count(hotels),
+    db.$count(experienceCategories),
   ]);
 
   const cards: { label: string; count: number; href: string }[] = [
     { label: "Destinations", count: destCount, href: "/admin/destinations" },
-    { label: "Experiences", count: expCount, href: "/admin/experiences" },
-    { label: "Testimonials", count: testCount, href: "/admin/testimonials" },
     { label: "Trips", count: tripCount, href: "/admin/trips" },
+    { label: "Hotels", count: hotelCount, href: "/admin/hotels" },
+    { label: "Exp. categories", count: categoryCount, href: "/admin/experience-categories" },
   ];
 
   return (

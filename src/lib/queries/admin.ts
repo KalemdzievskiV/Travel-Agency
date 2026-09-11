@@ -3,11 +3,8 @@ import { asc, eq } from "drizzle-orm";
 import { db } from "@/db";
 import {
   destinations,
-  experiences,
   experienceCategories,
   hotels,
-  remarkableExperiences,
-  testimonials,
   trips,
   tripDestinations,
 } from "@/db/schema";
@@ -26,22 +23,6 @@ export async function getDestination(id: number) {
     .select()
     .from(destinations)
     .where(eq(destinations.id, id))
-    .limit(1);
-  return row;
-}
-
-export function listExperiences() {
-  return db
-    .select()
-    .from(experiences)
-    .orderBy(asc(experiences.sortOrder), asc(experiences.id));
-}
-
-export async function getExperience(id: number) {
-  const [row] = await db
-    .select()
-    .from(experiences)
-    .where(eq(experiences.id, id))
     .limit(1);
   return row;
 }
@@ -68,38 +49,6 @@ export function listHotels() {
 
 export async function getHotel(id: number) {
   const [row] = await db.select().from(hotels).where(eq(hotels.id, id)).limit(1);
-  return row;
-}
-
-export function listRemarkableExperiences() {
-  return db
-    .select()
-    .from(remarkableExperiences)
-    .orderBy(asc(remarkableExperiences.sortOrder), asc(remarkableExperiences.id));
-}
-
-export async function getRemarkableExperience(id: number) {
-  const [row] = await db
-    .select()
-    .from(remarkableExperiences)
-    .where(eq(remarkableExperiences.id, id))
-    .limit(1);
-  return row;
-}
-
-export function listTestimonials() {
-  return db
-    .select()
-    .from(testimonials)
-    .orderBy(asc(testimonials.sortOrder), asc(testimonials.id));
-}
-
-export async function getTestimonial(id: number) {
-  const [row] = await db
-    .select()
-    .from(testimonials)
-    .where(eq(testimonials.id, id))
-    .limit(1);
   return row;
 }
 

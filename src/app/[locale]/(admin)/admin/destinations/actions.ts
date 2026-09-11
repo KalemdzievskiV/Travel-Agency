@@ -2,15 +2,9 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { and, eq, inArray } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { db } from "@/db";
-import {
-  destinations,
-  destinationFilterOptions,
-  filterOptions,
-  filterGroups,
-  regions,
-} from "@/db/schema";
+import { destinations, regions } from "@/db/schema";
 import { requireUser } from "@/lib/session";
 import { slugify, linesToArray } from "@/lib/slug";
 import { uploadImage } from "@/lib/uploads";
@@ -53,22 +47,6 @@ export async function saveDestination(formData: FormData) {
     ? (await db.select({ label: regions.label }).from(regions).where(eq(regions.id, regionId)).limit(1))[0]?.label ?? ""
     : "";
 
-  const optionIds = formData
-    .getAll("optionIds")
-    .map((v) => Number(v))
-    .filter((n) => Number.isFinite(n) && n > 0);
-
-  // Keep the legacy feelings[] column in sync with the Feeling taxonomy group.
-  const feelingLabels = optionIds.length
-    ? (
-        await db
-          .select({ label: filterOptions.label })
-          .from(filterOptions)
-          .innerJoin(filterGroups, eq(filterOptions.groupId, filterGroups.id))
-          .where(and(inArray(filterOptions.id, optionIds), eq(filterGroups.key, "feeling")))
-      ).map((r) => r.label)
-    : [];
-
   const values = {
     slug,
     region: regionLabel,
@@ -77,51 +55,31 @@ export async function saveDestination(formData: FormData) {
     teaser: str(formData, "teaser"),
     intro: str(formData, "intro"),
     badge: str(formData, "badge"),
-    whenToGo: str(formData, "whenToGo"),
     priceFrom: str(formData, "priceFrom"),
     onSale: formData.get("onSale") === "on",
     salePriceFrom: str(formData, "salePriceFrom"),
     grad: str(formData, "grad") || null,
     lat: numOrNull(formData, "lat"),
     lng: numOrNull(formData, "lng"),
-    highlights: linesToArray(formData.get("highlights")),
     bestMonths: linesToArray(formData.get("bestMonths")),
     generalNotes: linesToArray(formData.get("generalNotes")),
     generalNotesMk: linesToArray(formData.get("generalNotesMk")),
-    feelings: feelingLabels,
     titleMk: str(formData, "titleMk") || null,
     teaserMk: str(formData, "teaserMk") || null,
     introMk: str(formData, "introMk") || null,
-    whenToGoMk: str(formData, "whenToGoMk") || null,
     badgeMk: str(formData, "badgeMk") || null,
-    highlightsMk: linesToArray(formData.get("highlightsMk")),
     published: formData.get("published") === "on",
     sortOrder: Number(formData.get("sortOrder") ?? 0) || 0,
     updatedAt: new Date(),
   };
 
-  let destinationId: number;
   if (id) {
     await db
       .update(destinations)
       .set(uploaded ? { ...values, image: uploaded } : values)
       .where(eq(destinations.id, id));
-    destinationId = id;
   } else {
-    const [row] = await db
-      .insert(destinations)
-      .values({ ...values, image: uploaded })
-      .returning({ id: destinations.id });
-    destinationId = row.id;
-  }
-
-  // Replace filter tags.
-  await db.delete(destinationFilterOptions).where(eq(destinationFilterOptions.destinationId, destinationId));
-  if (optionIds.length) {
-    await db
-      .insert(destinationFilterOptions)
-      .values(optionIds.map((optionId) => ({ destinationId, optionId })))
-      .onConflictDoNothing();
+    await db.insert(destinations).values({ ...values, image: uploaded });
   }
 
   revalidateDestinations(slug);

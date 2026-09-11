@@ -50,11 +50,6 @@ export function HotelForm({
         </div>
         <TextAreaField label="Style tags" name="style" defaultValue={h?.style.join("\n")} rows={3} hint="One per line, e.g. Beachfront, Boutique, Adults-only." />
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
-          <TextField label="Latitude" name="lat" defaultValue={h?.lat ?? ""} placeholder="37.30" hint="For maps. Decimal degrees." />
-          <TextField label="Longitude" name="lng" defaultValue={h?.lng ?? ""} placeholder="23.16" />
-        </div>
-
         <ImageField currentUrl={h?.image} />
         <TextAreaField label="Gallery images" name="images" defaultValue={h?.images.join("\n")} rows={4} hint="One image URL per line." />
         <TextField label="Gradient (fallback)" name="grad" defaultValue={h?.grad} hint="CSS gradient shown when no image is set." />

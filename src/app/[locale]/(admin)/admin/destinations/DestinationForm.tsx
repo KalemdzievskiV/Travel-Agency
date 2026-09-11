@@ -1,20 +1,14 @@
 import { TextField, TextAreaField, CheckboxField, FormCard, Field } from "@/components/admin/ui";
 import { SubmitButton, ImageField } from "@/components/admin/controls";
-import { FilterTagPicker } from "@/components/admin/FilterTagPicker";
-import type { FilterGroupWithOptions } from "@/lib/queries/filters";
 import type { Destination, Region } from "@/db/schema";
 import { saveDestination } from "./actions";
 
 export function DestinationForm({
   destination,
   regions = [],
-  filterGroups = [],
-  selectedOptionIds = [],
 }: {
   destination?: Destination;
   regions?: Region[];
-  filterGroups?: FilterGroupWithOptions[];
-  selectedOptionIds?: number[];
 }) {
   const d = destination;
   return (
@@ -59,8 +53,6 @@ export function DestinationForm({
         <TextField label="Teaser" name="teaser" defaultValue={d?.teaser} hint="One-line card summary." />
         <TextAreaField label="Intro" name="intro" defaultValue={d?.intro} rows={4} hint="Editorial guide to the place." />
 
-        <TextAreaField label="When to go" name="whenToGo" defaultValue={d?.whenToGo} rows={3} hint="A short editorial note on the best season." />
-
         <TextField
           label="Price from"
           name="priceFrom"
@@ -85,7 +77,6 @@ export function DestinationForm({
           </div>
         </Field>
 
-        <TextAreaField label="Don't miss" name="highlights" defaultValue={d?.highlights.join("\n")} rows={4} hint="One per line." />
         <TextAreaField label="Best months" name="bestMonths" defaultValue={d?.bestMonths.join("\n")} rows={4} hint="One per line (e.g. May)." />
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
@@ -115,13 +106,7 @@ export function DestinationForm({
         </div>
         <TextField label="Teaser (MK)" name="teaserMk" defaultValue={d?.teaserMk ?? ""} />
         <TextAreaField label="Intro (MK)" name="introMk" defaultValue={d?.introMk ?? ""} rows={4} />
-        <TextAreaField label="When to go (MK)" name="whenToGoMk" defaultValue={d?.whenToGoMk ?? ""} rows={3} />
-        <TextAreaField label="Don't miss (MK)" name="highlightsMk" defaultValue={(d?.highlightsMk ?? []).join("\n")} rows={4} hint="One per line." />
         <TextAreaField label="General notes / FAQ (MK)" name="generalNotesMk" defaultValue={(d?.generalNotesMk ?? []).join("\n")} rows={5} hint="One per line as 'Question | Answer'." />
-
-        <Field label="Filters" hint="Tag this destination so travellers can filter to it. Feeling tags also feed the trip finder.">
-          <FilterTagPicker groups={filterGroups} selected={selectedOptionIds} />
-        </Field>
 
         <ImageField currentUrl={d?.image} />
         <TextField label="Gradient (fallback)" name="grad" defaultValue={d?.grad} hint="CSS gradient shown when no image is set." />

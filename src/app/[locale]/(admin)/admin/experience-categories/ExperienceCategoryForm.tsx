@@ -37,7 +37,6 @@ export function ExperienceCategoryForm({
         <TextAreaField label="Hero text" name="heroText" defaultValue={c?.heroText} rows={2} hint="Short intro shown at the top." />
 
         <TextAreaField label="Concept" name="concept" defaultValue={c?.concept} rows={6} hint="The main editorial copy." />
-        <TextAreaField label="Our recommendations" name="recommendations" defaultValue={c?.recommendations} rows={5} />
         <TextAreaField
           label="FAQs"
           name="faqs"
@@ -74,9 +73,7 @@ export function ExperienceCategoryForm({
           <TextField label="Subtitle (MK)" name="subtitleMk" defaultValue={c?.subtitleMk ?? ""} />
         </div>
         <TextAreaField label="Hero text (MK)" name="heroTextMk" defaultValue={c?.heroTextMk ?? ""} rows={2} />
-        <TextAreaField label="Concept (MK)" name="conceptMk" defaultValue={c?.conceptMk ?? ""} rows={6} />
-        <TextAreaField label="Our recommendations (MK)" name="recommendationsMk" defaultValue={c?.recommendationsMk ?? ""} rows={5} />
-        <TextAreaField label="FAQs (MK)" name="faqsMk" defaultValue={(c?.faqsMk ?? []).join("\n")} rows={6} hint="One per line as 'Question | Answer'." />
+        <TextAreaField label="Concept (MK)" name="conceptMk" defaultValue={c?.conceptMk ?? ""} rows={6} />        <TextAreaField label="FAQs (MK)" name="faqsMk" defaultValue={(c?.faqsMk ?? []).join("\n")} rows={6} hint="One per line as 'Question | Answer'." />
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, alignItems: "end" }}>
           <TextField label="Sort order" name="sortOrder" type="number" defaultValue={c?.sortOrder ?? 0} />
