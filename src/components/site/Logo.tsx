@@ -13,7 +13,6 @@ const {
   ratio: LOGO_RATIO,
   bFraction: B_FRACTION,
   markEndFraction: MARK_END_FRACTION,
-  markLift: MARK_LIFT,
 } = BRAND_ART[BRAND];
 
 /**
@@ -30,8 +29,9 @@ const {
  * reverses on the way back up. The letters travel rather than simply fading:
  * each sits pinned to the right edge of a box that narrows to nothing, so the
  * b is dragged out past the logo's left edge and "okit" is dragged in behind
- * the compass. The compass rises as it goes, since in the wordmark it sits on
- * the baseline below the b's ascender, and alone it should sit centred.
+ * the compass. The clip edge feathers as the box narrows, so the letters
+ * dissolve into it instead of being sliced by a hard line. The compass stays
+ * put on the baseline, level with the letters either side of it.
  */
 export function Logo({
   light = false,
@@ -65,12 +65,25 @@ export function Logo({
   /**
    * A run of letters that folds away on collapse. Pinned right: as the box
    * narrows, the artwork is dragged left with it and clipped, so the letters
-   * read as moving rather than as being cut off. Both letter colours are
+   * read as moving rather than as being cut off. The clip's left edge is a
+   * gradient that widens from nothing on collapse (--wf-fold-feather), so at
+   * rest the letters are whole and in motion they fade out as they cross it.
+   * Both letter colours are
    * stacked and cross-faded, so the header's light/dark swap stays a fade — a
    * straight file swap pops while the header background is still fading.
    */
   const fold = (offset: number, w: number) => (
-    <span aria-hidden className="wf-logo__fold" style={{ width: collapsed ? 0 : w, height }}>
+    <span
+      aria-hidden
+      className="wf-logo__fold"
+      style={
+        {
+          width: collapsed ? 0 : w,
+          height,
+          "--wf-fold-feather": `${collapsed ? Math.round(w * 0.6) : 0}px`,
+        } as React.CSSProperties
+      }
+    >
       <span className="wf-logo__fold-inner" style={{ width: w, height, opacity: collapsed ? 0 : 1 }}>
         <span
           className="wf-logo__part wf-logo__art"
@@ -92,10 +105,7 @@ export function Logo({
       <span
         aria-hidden
         className="wf-logo__part wf-logo__mark"
-        style={{
-          ...slice(ART_INK, bWidth, markWidth),
-          transform: collapsed ? `translateY(${-Math.round(height * MARK_LIFT)}px)` : "none",
-        }}
+        style={slice(ART_INK, bWidth, markWidth)}
       />
       {fold(markEnd, restWidth)}
     </span>

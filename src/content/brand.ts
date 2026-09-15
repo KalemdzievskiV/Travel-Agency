@@ -25,12 +25,6 @@ type BrandArt = {
   bFraction: number;
   /** Where the compass "o" ends — the gap before the second "o". */
   markEndFraction: number;
-  /**
-   * How far the compass rises when it stands alone, as a fraction of the
-   * height: it sits low in the wordmark, below the b's ascender, so this
-   * lifts its centre to the logo's centre.
-   */
-  markLift: number;
   favicon: string;
 };
 
@@ -46,7 +40,6 @@ export const BRAND_ART: Record<Brand, BrandArt> = {
     ratio: 1128 / 324,
     bFraction: 0.2132,
     markEndFraction: 0.4326,
-    markLift: 0.128,
     favicon: "/brand/bookit-icon-lime.svg",
   },
   /* From `public/images/CRNO 2.png` and `BELO 2.png` (these two do register),
@@ -58,7 +51,6 @@ export const BRAND_ART: Record<Brand, BrandArt> = {
     ratio: 1188 / 340,
     bFraction: 0.2125,
     markEndFraction: 0.4322,
-    markLift: 0.129,
     favicon: "/brand/bookit-icon-orange.svg",
   },
 };
