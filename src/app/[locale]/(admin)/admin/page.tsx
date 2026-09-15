@@ -37,7 +37,7 @@ export default async function AdminDashboardPage() {
       </h1>
       <p style={{ color: "var(--wf-ink-500)", margin: "0 0 32px" }}>
         Manage the content that powers bookit.{" "}
-        <Link href="/" style={{ color: "var(--wf-coral-600)" }}>
+        <Link href="/" style={{ color: "var(--wf-accent-ink)" }}>
           View the site
         </Link>
       </p>

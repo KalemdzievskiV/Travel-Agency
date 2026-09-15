@@ -1,23 +1,24 @@
 import Link from "next/link";
 
 /**
- * The client's 2026 wordmark, prepared from `public/images/Novo logo zeleno i
- * belo_00000.png`: the artwork's black drop-shadow stripped off, the mark
- * trimmed, and the letters flattened to one colour so they can be read on
- * either ground. The B keeps the artwork as drawn — the blue-to-green gradient
- * with the aeroplane knocked out of it, so the page colour shows through the
- * plane. Two files, identical but for the letters:
+ * The client's 2026 wordmark, prepared from `public/images/CRNO 1.png`: trimmed
+ * to the artwork, the letters kept in the client's black, and the compass "o"
+ * recoloured from the file's #D3D942 to the requested #D5DF43. The needle is
+ * knocked out, so the page colour shows through it. Two files, identical but
+ * for the letters (the white one is derived from the black rather than taken
+ * from `BELO 1.png`, whose letters are drawn at a slightly different scale and
+ * would not register during the cross-fade):
  */
-const ART_INK = "/brand/bookit-logo-2026-ink.png";     /* ink "ookit", for light grounds */
-const ART_LIGHT = "/brand/bookit-logo-2026-white.png"; /* white "ookit", for dark grounds */
+const ART_INK = "/brand/bookit-logo-2026-v2-ink.png";     /* ink letters, for light grounds */
+const ART_LIGHT = "/brand/bookit-logo-2026-v2-white.png"; /* white letters, for dark grounds */
 
-const LOGO_RATIO = 480 / 170; // intrinsic aspect ratio of the prepared artwork
+const LOGO_RATIO = 1128 / 324; // intrinsic aspect ratio of the prepared artwork
 
 /**
- * Where the B ends. Measured off the artwork itself: the B occupies x 1–242 of
- * 807 and the first "o" starts at 253, so the cut falls in the gap between them.
+ * Where the B ends. Measured off the artwork itself: the b occupies x 0–234 of
+ * 1128 and the compass "o" starts at 247, so the cut falls in the gap between them.
  */
-const B_FRACTION = 0.3073;
+const B_FRACTION = 0.2132;
 
 /**
  * bookit logo. `size` sets the rendered height in px; width scales to the
@@ -62,8 +63,17 @@ export function Logo({
 
   const img = (
     <span className="wf-logo" role="img" aria-label="bookit" style={{ height }}>
-      {/* The B is identical in both files, so it needs no light/dark swap. */}
-      <span aria-hidden className="wf-logo__part wf-logo__b" style={slice(ART_INK, 0, bWidth)} />
+      {/* The b is a letter, so it cross-fades with the rest of the word. */}
+      <span aria-hidden className="wf-logo__b" style={{ width: bWidth, height }}>
+        <span
+          className="wf-logo__part wf-logo__art"
+          style={{ ...slice(ART_INK, 0, bWidth), opacity: light ? 0 : 1 }}
+        />
+        <span
+          className="wf-logo__part wf-logo__art"
+          style={{ ...slice(ART_LIGHT, 0, bWidth), opacity: light ? 1 : 0 }}
+        />
+      </span>
       <span aria-hidden className="wf-logo__rest" style={{ width: collapsed ? 0 : restWidth, height }}>
         {/* Pinned right: as the box narrows, the artwork is dragged left with
             it and clipped against the B, so the letters read as moving rather

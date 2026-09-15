@@ -35,7 +35,7 @@ export function Testimonials({ items }: { items: Testimonial[] }) {
             color: "var(--wf-ink-700)",
           }}
         >
-          {t.who} · <span style={{ color: "var(--wf-coral-600)" }}>{t.where}</span>
+          {t.who} · <span style={{ color: "var(--wf-accent-ink)" }}>{t.where}</span>
         </div>
         <div
           style={{

@@ -7,12 +7,12 @@ import React from "react";
  * Variants: primary (accent), dark (ink), outline, ghost, link, accentLocked.
  * Ported from the Wayfare design system.
  *
- * `primary` is the site's one CTA appearance, per the client: accent fill with
- * white type, inverting to a white fill with accent type on hover. Every button
- * that leads to the enquiry form uses it, the header's included. The white
- * label is the sanctioned --wf-text-on-accent-white exception (the green accent
- * is light, so white on it is 2.50:1); the inverted state takes the darker
- * --wf-accent-ink, since the bright accent is unreadable as type on white.
+ * `primary` is the site's one CTA appearance, per the client: accent fill,
+ * inverting to a white fill with accent type on hover. Every button that leads
+ * to the enquiry form uses it, the header's included. The white resting label
+ * is the sanctioned --wf-text-on-accent-white exception (see colors.css);
+ * the inverted state takes the darker --wf-accent-ink, since the bright accent
+ * is unreadable as type on white.
  *
  * `accentLocked` is the same fill holding one appearance through every state,
  * with no hover invert. Nothing uses it — kept as a one-line way back if a

@@ -29,6 +29,7 @@
   transition: background-color 400ms var(--wf-ease-out);
 }
 .wf-logo .wf-logo__b {
+  position: relative;
   flex: none;
 }
 .wf-logo .wf-logo__rest {

@@ -133,7 +133,7 @@ export function TripFinderResults({
             {hasSelection && (
               <button
                 onClick={clearAll}
-                style={{ background: "none", border: "none", cursor: "pointer", color: "var(--wf-coral-600)", fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase" }}
+                style={{ background: "none", border: "none", cursor: "pointer", color: "var(--wf-accent-ink)", fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase" }}
               >
                 {t("clearAll")}
               </button>

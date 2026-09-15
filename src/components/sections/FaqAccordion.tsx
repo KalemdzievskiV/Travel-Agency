@@ -46,7 +46,7 @@ export function FaqAccordion({ items }: { items: Faq[] }) {
                   flexShrink: 0,
                   transform: isOpen ? "rotate(180deg)" : "none",
                   transition: "transform .25s var(--wf-ease-out)",
-                  color: "var(--wf-coral-600)",
+                  color: "var(--wf-accent-ink)",
                 }}
               />
             </button>

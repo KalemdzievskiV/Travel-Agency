@@ -179,7 +179,7 @@ export function EnquiryPanels({
   };
 
   const phoneLink = (
-    <a href={`tel:${site.phone.replace(/\s+/g, "")}`} style={{ color: "var(--wf-coral-600)" }}>
+    <a href={`tel:${site.phone.replace(/\s+/g, "")}`} style={{ color: "var(--wf-accent-ink)" }}>
       {site.phone}
     </a>
   );
@@ -472,7 +472,7 @@ export function EnquiryPanels({
           </div>
           <a
             href={`tel:${site.phone.replace(/\s+/g, "")}`}
-            style={{ color: "var(--wf-coral-600)", fontSize: 18, fontWeight: 700, textDecoration: "none" }}
+            style={{ color: "var(--wf-accent-ink)", fontSize: 18, fontWeight: 700, textDecoration: "none" }}
           >
             {site.phone}
           </a>

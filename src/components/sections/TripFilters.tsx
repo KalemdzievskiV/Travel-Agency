@@ -64,7 +64,7 @@ export function TripFilters({ groups }: { groups: FilterGroupUI[] }) {
               background: "none",
               border: "none",
               cursor: "pointer",
-              color: "var(--wf-coral-600)",
+              color: "var(--wf-accent-ink)",
               fontSize: 13,
               fontWeight: 700,
             }}
@@ -104,7 +104,7 @@ export function TripFilters({ groups }: { groups: FilterGroupUI[] }) {
               <span>
                 {g.label}
                 {sel.size > 0 && (
-                  <span style={{ color: "var(--wf-coral-600)", marginLeft: 8 }}>{sel.size}</span>
+                  <span style={{ color: "var(--wf-accent-ink)", marginLeft: 8 }}>{sel.size}</span>
                 )}
               </span>
               <ChevronDown
