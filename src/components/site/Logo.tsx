@@ -1,24 +1,14 @@
 import Link from "next/link";
+import { BRAND, BRAND_ART } from "@/content/brand";
 
 /**
- * The client's 2026 wordmark, prepared from `public/images/CRNO 1.png`: trimmed
- * to the artwork, the letters kept in the client's black, and the compass "o"
- * recoloured from the file's #D3D942 to the requested #D5DF43. The needle is
- * knocked out, so the page colour shows through it. Two files, identical but
- * for the letters (the white one is derived from the black rather than taken
- * from `BELO 1.png`, whose letters are drawn at a slightly different scale and
- * would not register during the cross-fade):
+ * The client's 2026 wordmark, in whichever colourway `BRAND` selects (see
+ * src/content/brand.ts). Two files per colourway, identical but for the
+ * letters — ink for light grounds, white for dark — with the compass "o"'s
+ * needle knocked out so the page colour shows through it.
  */
-const ART_INK = "/brand/bookit-logo-2026-v2-ink.png";     /* ink letters, for light grounds */
-const ART_LIGHT = "/brand/bookit-logo-2026-v2-white.png"; /* white letters, for dark grounds */
-
-const LOGO_RATIO = 1128 / 324; // intrinsic aspect ratio of the prepared artwork
-
-/**
- * Where the B ends. Measured off the artwork itself: the b occupies x 0–234 of
- * 1128 and the compass "o" starts at 247, so the cut falls in the gap between them.
- */
-const B_FRACTION = 0.2132;
+const { ink: ART_INK, light: ART_LIGHT, ratio: LOGO_RATIO, bFraction: B_FRACTION } =
+  BRAND_ART[BRAND];
 
 /**
  * bookit logo. `size` sets the rendered height in px; width scales to the

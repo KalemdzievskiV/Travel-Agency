@@ -4,6 +4,7 @@ import { Oswald, Manrope } from "next/font/google";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
+import { BRAND, BRAND_ART } from "@/content/brand";
 import "../globals.css";
 
 // Display headline font — Oswald (Google Fonts), a condensed grotesque. Drives
@@ -54,6 +55,7 @@ export const metadata: Metadata = {
   description:
     "bookit is a tailor-made travel studio in North Macedonia. Personalised journeys designed around how you want to feel — not where the crowds go.",
   metadataBase: new URL(siteUrl),
+  icons: { icon: BRAND_ART[BRAND].favicon },
   openGraph: {
     title: "bookit — Tailor-made journeys",
     description:
@@ -78,7 +80,11 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   return (
-    <html lang={locale} className={`${display.variable} ${sans.variable} h-full`}>
+    <html
+      lang={locale}
+      data-brand={BRAND}
+      className={`${display.variable} ${sans.variable} h-full`}
+    >
       <body className="min-h-full bg-cream text-ink">
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>

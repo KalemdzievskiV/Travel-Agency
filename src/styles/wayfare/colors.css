@@ -11,6 +11,11 @@
    so type sitting on it is ink, not white (`--wf-text-on-accent`), and the
    accent as *type* on white needs the darker cut in `--wf-accent-ink`.
    Fills, rules and underlines keep the bright #D5DF43.
+
+   Two colourways while the client chooses: the lime values below are the
+   base, and the `[data-brand="orange"]` block at the end restates only the
+   accent tokens for #FF5C34. `data-brand` is set on <html> from BRAND in
+   src/content/brand.ts, which also swaps the logo artwork and favicon.
    ============================================================ */
 :root {
   /* — Brand accent: lime #D5DF43 ——————————————————————————— */
@@ -133,4 +138,25 @@
   --wf-border-strong:   var(--wf-ink-300);
   --wf-divider:         var(--wf-ink-100);
   --wf-focus-ring:      var(--wf-accent-ink);   /* the bright lime is too faint as a ring on white */
+}
+
+/* — Orange colourway: #FF5C34 ——————————————————————————————
+   The alternative to lime, matching the orange compass in the second logo
+   set. Only the accent-derived tokens change; roles hold as documented above.
+
+   #FF5C34 is 3.07:1 on white and 5.18:1 against ink, so it stays a light
+   accent: ink for type sitting on it (--wf-text-on-accent, unchanged), and the
+   deep cut for accent text on white (#C13715, 5.49:1 on white, 4.98:1 on the
+   050 wash). Button labels stay white by the client's choice — 3.07:1 here. */
+:root[data-brand="orange"] {
+  --wf-coral-700: #C13715;   /* pressed / deep accent — also the accent as type */
+  --wf-coral-600: #E94A24;   /* hover (a fill) */
+  --wf-coral-500: #FF5C34;   /* primary accent */
+  --wf-coral-400: #FF8466;   /* lighter accent, hover-on-dark */
+  --wf-coral-200: #FFCEC2;   /* tint / focus ring backing */
+  --wf-coral-050: #FFF1ED;   /* faint wash, hover surfaces */
+
+  --wf-brand-blue:          #FF5C34;
+  --wf-brand-gradient:      linear-gradient(135deg, #FF5C34, #C13715);
+  --wf-brand-gradient-deep: linear-gradient(140deg, #39170E, #222222);
 }
