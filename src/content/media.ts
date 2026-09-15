@@ -178,12 +178,20 @@ export const aboutPurposePanel =
   ` url(${aboutWorldImage}) center/cover no-repeat, var(--wf-ink-900)`;
 
 /**
- * The plate beside "Зошто Bookit?" (client image BOOKIT, revision 3.1) — the
- * wordmark over a slot canyon. It is not part of the numbered ЗА НАС set below
+ * The plate beside "Зошто Bookit?" (client image `FINAL - ABOUT US`, which
+ * replaced revision 3.1's BOOKIT for the 2026 logo) — the wordmark over a
+ * slot canyon. It is not part of the numbered ЗА НАС set below
  * because it is the one image with the logo burnt into it: it must not be
  * cropped hard or picked up by the newsletter popup, which wants a person.
+ *
+ * The client's file is only 686px wide, and the plate shows ~580px wide — so
+ * on a 2x or 3x screen it was stretched and the wordmark went soft. This copy
+ * is the photo upscaled 2x with the wordmark redrawn on top from the sharp
+ * logo artwork (`BELO 2.png`, fitted to the original's position and size),
+ * which is where the loss showed; the canyon itself is smooth enough to take
+ * the upscale.
  */
-export const aboutNameImage = "/images/about/why-bookit.webp";
+export const aboutNameImage = "/images/about/why-bookit-2026@2x.webp";
 
 /**
  * The blue plaster behind the "make this itinerary yours" card on every trip
