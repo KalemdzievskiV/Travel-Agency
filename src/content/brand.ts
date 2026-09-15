@@ -23,6 +23,14 @@ type BrandArt = {
    * in the empty gap between the b and the compass "o".
    */
   bFraction: number;
+  /** Where the compass "o" ends — the gap before the second "o". */
+  markEndFraction: number;
+  /**
+   * How far the compass rises when it stands alone, as a fraction of the
+   * height: it sits low in the wordmark, below the b's ascender, so this
+   * lifts its centre to the logo's centre.
+   */
+  markLift: number;
   favicon: string;
 };
 
@@ -30,22 +38,27 @@ export const BRAND_ART: Record<Brand, BrandArt> = {
   /* From `public/images/CRNO 1.png`, compass recoloured #D3D942 → #D5DF43.
      The white file is derived from the black one: `BELO 1.png` draws its
      letters at a slightly different scale, which would not register in the
-     header's cross-fade. b spans x 0–234 of 1128, the "o" starts at 247. */
+     header's cross-fade. b spans x 0–234 of 1128, the compass 247–481 (y 86–321
+     of 324), the second "o" starts at 495. */
   lime: {
     ink: "/brand/bookit-logo-2026-lime-ink.png",
     light: "/brand/bookit-logo-2026-lime-white.png",
     ratio: 1128 / 324,
     bFraction: 0.2132,
+    markEndFraction: 0.4326,
+    markLift: 0.128,
     favicon: "/brand/bookit-icon-lime.svg",
   },
   /* From `public/images/CRNO 2.png` and `BELO 2.png` (these two do register),
-     compass recoloured #F15D38 → #FF5C34. b spans x 0–246 of 1188, the "o"
-     starts at 259. */
+     compass recoloured #F15D38 → #FF5C34. b spans x 0–246 of 1188, the compass
+     259–506 (y 90–338 of 340), the second "o" starts at 521. */
   orange: {
     ink: "/brand/bookit-logo-2026-orange-ink.png",
     light: "/brand/bookit-logo-2026-orange-white.png",
     ratio: 1188 / 340,
     bFraction: 0.2125,
+    markEndFraction: 0.4322,
+    markLift: 0.129,
     favicon: "/brand/bookit-icon-orange.svg",
   },
 };

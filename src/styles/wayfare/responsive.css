@@ -7,13 +7,14 @@
    Breakpoints: 980 (tablet) · 860 (nav) · 720 (search) · 640/520 (phone)
    ============================================================ */
 
-/* ── Logo (wordmark + its collapse-to-B scroll transition) ────────
-   The mark is two CSS masks of the same artwork: the B, and "ookit". On
-   scroll the second box narrows to nothing while the artwork inside stays
-   pinned to its right edge, so the letters slide left and vanish behind the
-   B rather than fading on the spot. Colours live inline (they depend on
-   whether the header is over a hero); the motion lives here so it can be
-   dropped for reduced-motion. */
+/* ── Logo (wordmark + its collapse-to-icon scroll transition) ────
+   The mark is three slices of the same artwork: the b, the compass "o", and
+   "okit". On scroll the two letter boxes narrow to nothing while the artwork
+   inside each stays pinned to its right edge, so the letters slide left and
+   vanish — the b past the logo's edge, "okit" behind the compass — rather than
+   fading on the spot, and the compass is left as the icon. Colours live
+   inline (they depend on whether the header is over a hero); the motion lives
+   here so it can be dropped for reduced-motion. */
 .wf-logo {
   display: inline-flex;
   align-items: center;
@@ -28,18 +29,19 @@
      pops while the header background is still fading. */
   transition: background-color 400ms var(--wf-ease-out);
 }
-.wf-logo .wf-logo__b {
-  position: relative;
+.wf-logo .wf-logo__mark {
   flex: none;
+  /* Rises to centre in step with the letters folding away. */
+  transition: transform 450ms cubic-bezier(0.65, 0, 0.35, 1);
 }
-.wf-logo .wf-logo__rest {
+.wf-logo .wf-logo__fold {
   position: relative;
   flex: none;
   overflow: hidden;
   /* 450ms, ease-in-out, no overshoot — the client asked for fluid, not bouncy. */
   transition: width 450ms cubic-bezier(0.65, 0, 0.35, 1);
 }
-.wf-logo .wf-logo__rest-inner {
+.wf-logo .wf-logo__fold-inner {
   position: absolute;
   top: 0;
   right: 0;
@@ -59,8 +61,9 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .wf-logo .wf-logo__part,
-  .wf-logo .wf-logo__rest,
-  .wf-logo .wf-logo__rest-inner,
+  .wf-logo .wf-logo__mark,
+  .wf-logo .wf-logo__fold,
+  .wf-logo .wf-logo__fold-inner,
   .wf-logo .wf-logo__art {
     transition: none;
   }
