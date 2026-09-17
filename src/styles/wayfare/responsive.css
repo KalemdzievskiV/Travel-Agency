@@ -1568,6 +1568,10 @@
   overscroll-behavior-inline: contain;
 }
 .wf-pagetabs__link {
+  position: relative;
+  /* Room for the underline on every tab, not just the current one, so the
+     row's height doesn't depend on which tab is on. */
+  padding-bottom: 6px;
   text-decoration: none;
   font-family: var(--wf-font-sans);
   font-size: 13px;
@@ -1577,12 +1581,30 @@
   color: var(--wf-ink-700);
   transition: color 0.2s var(--wf-ease-out);
 }
-.wf-pagetabs__link--on {
-  color: var(--wf-accent-ink);
-  border-bottom: 2px solid var(--wf-coral-500);
-  padding-bottom: 4px;
+/* The header's underline (.wf-navlink::after): wipes in from the left on hover
+   and stays on the section you're in, moving as you scroll past each one. */
+.wf-pagetabs__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--wf-coral-500);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.24s var(--wf-ease-out);
 }
+.wf-pagetabs__link:hover::after,
+.wf-pagetabs__link:focus-visible::after,
+.wf-pagetabs__link--on::after {
+  transform: scaleX(1);
+}
+.wf-pagetabs__link--on { color: var(--wf-accent-ink); }
 .wf-pagetabs__link:hover { color: var(--wf-ink-900); }
+@media (prefers-reduced-motion: reduce) {
+  .wf-pagetabs__link::after { transition: none; }
+}
 
 @media (max-width: 860px) {
   /* One line that scrolls, centred while the tabs fit. `safe` is what makes
