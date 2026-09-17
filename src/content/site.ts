@@ -82,10 +82,11 @@ export const press: string[] = [
   "BALKAN INSIGHT",
 ];
 
-// Trip-finder "how do you want to feel?" facet. These are stable keys, not
-// display text — trips and destinations are tagged with them in the database,
-// so renaming one orphans its tagged rows. The wording shown to visitors lives
-// in the `feelings` namespace of the dictionaries; order here is display order.
+// Trip-finder "how do you want to feel?" facet — FALLBACK ONLY. The live list
+// is the Feeling group in Admin → Filters (see getFeelingOptions), where the
+// options can be renamed and reordered; this is used only if that group is
+// missing or the database is down. Labels come from the `feelings` dictionary
+// namespace, and the lower-cased value is the option key.
 export const feelings: string[] = [
   "Contentment", // Опуштено / Relaxed
   "Challenged", // Возбудено / Excited

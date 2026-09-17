@@ -14,10 +14,11 @@ function num(formData: FormData, key: string): number {
   const n = Number(formData.get(key));
   return Number.isFinite(n) ? n : 0;
 }
+// Option labels show up across the site — the trip finder, its dropdown on
+// every region page, the results filters, the admin trip form — so refresh the
+// lot rather than chase each (locale-prefixed) path.
 function revalidate() {
-  revalidatePath("/admin/filters");
-  revalidatePath("/trips");
-  revalidatePath("/destinations");
+  revalidatePath("/", "layout");
 }
 
 export async function createGroup(formData: FormData) {
@@ -63,8 +64,27 @@ export async function createOption(formData: FormData) {
   const key = slugify(str(formData, "key") || label);
   await db
     .insert(filterOptions)
-    .values({ groupId, key, label, sortOrder: num(formData, "sortOrder") })
+    .values({ groupId, key, label, labelMk: str(formData, "labelMk") || null, sortOrder: num(formData, "sortOrder") })
     .onConflictDoNothing();
+  revalidate();
+}
+
+/** Rename or reorder an option. The key is deliberately not editable: trips
+ * are tagged by option, and links like ?feeling=freedom use the key, so
+ * renaming keeps every tag and link working. */
+export async function updateOption(formData: FormData) {
+  await requireUser();
+  const label = str(formData, "label");
+  if (!label) throw new Error("Label is required");
+  await db
+    .update(filterOptions)
+    .set({
+      label,
+      labelMk: str(formData, "labelMk") || null,
+      sortOrder: num(formData, "sortOrder"),
+      updatedAt: new Date(),
+    })
+    .where(eq(filterOptions.id, num(formData, "id")));
   revalidate();
 }
 

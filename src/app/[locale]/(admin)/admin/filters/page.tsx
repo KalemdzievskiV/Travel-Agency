@@ -6,6 +6,7 @@ import {
   updateGroup,
   deleteGroup,
   createOption,
+  updateOption,
   deleteOption,
 } from "./actions";
 
@@ -20,6 +21,12 @@ export default async function AdminFiltersPage() {
         Experience) and options within it, then tag trips/destinations on their edit pages.
         Duration and Price per person are derived automatically from each trip and don&rsquo;t
         need a group here.
+      </p>
+      <p style={{ color: "var(--wf-ink-500)", margin: "0 0 24px", maxWidth: 640 }}>
+        The <strong>Feeling</strong> group is the trip finder&rsquo;s &ldquo;Што ти недостасува?&rdquo;
+        dropdown: its options, names and order are what visitors see. Rename an option here
+        rather than deleting and re-adding it &mdash; deleting removes it from every trip tagged
+        with it.
       </p>
 
       {/* New group */}
@@ -63,18 +70,23 @@ export default async function AdminFiltersPage() {
                     key={o.id}
                     style={{
                       display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
+                      alignItems: "flex-end",
                       gap: 12,
-                      padding: "8px 12px",
+                      padding: "10px 12px",
                       background: "var(--wf-cream)",
                       borderRadius: "var(--wf-radius-md)",
                     }}
                   >
-                    <span style={{ fontSize: 15, color: "var(--wf-ink-900)" }}>
-                      {o.label}{" "}
-                      <span style={{ color: "var(--wf-ink-400)", fontSize: 13 }}>({o.key})</span>
-                    </span>
+                    <form
+                      action={updateOption}
+                      style={{ display: "grid", gridTemplateColumns: "1.2fr 1.2fr 0.5fr auto", gap: 12, alignItems: "end", flex: 1, minWidth: 0 }}
+                    >
+                      <input type="hidden" name="id" value={o.id} />
+                      <TextField label={`Name (MK) · ${o.key}`} name="labelMk" defaultValue={o.labelMk} placeholder={o.label} />
+                      <TextField label="Name (EN)" name="label" defaultValue={o.label} required />
+                      <TextField label="Sort" name="sortOrder" type="number" defaultValue={o.sortOrder} />
+                      <SubmitButton>Save</SubmitButton>
+                    </form>
                     <DeleteButton action={deleteOption} id={o.id} />
                   </div>
                 ))
@@ -84,11 +96,12 @@ export default async function AdminFiltersPage() {
             {/* Add option */}
             <form
               action={createOption}
-              style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr 0.7fr auto", gap: 14, alignItems: "end", marginTop: 14 }}
+              style={{ display: "grid", gridTemplateColumns: "1.2fr 1.2fr 1fr 0.5fr auto", gap: 14, alignItems: "end", marginTop: 14 }}
             >
               <input type="hidden" name="groupId" value={g.id} />
-              <TextField label="New option" name="label" required placeholder="e.g. Couples" />
-              <TextField label="Key" name="key" hint="Auto from label if blank." />
+              <TextField label="New option (EN)" name="label" required placeholder="e.g. Couples" />
+              <TextField label="Name (MK)" name="labelMk" placeholder="e.g. Парови" />
+              <TextField label="Key" name="key" hint="Auto from EN name if blank. Can't be changed later." />
               <TextField label="Sort" name="sortOrder" type="number" defaultValue={g.options.length} />
               <SubmitButton>Add option</SubmitButton>
             </form>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { TripFinderLanding } from "@/components/sections/TripFinderLanding";
+import { getFeelingOptions } from "@/lib/queries/filters";
 
 export const metadata: Metadata = {
   title: "Trip finder",
@@ -15,5 +16,5 @@ export default async function TripFinderPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  return <TripFinderLanding />;
+  return <TripFinderLanding feelings={await getFeelingOptions()} />;
 }

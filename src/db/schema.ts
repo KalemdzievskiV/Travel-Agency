@@ -325,8 +325,11 @@ export const filterOptions = pgTable(
     groupId: integer("group_id")
       .notNull()
       .references(() => filterGroups.id, { onDelete: "cascade" }),
+    // `key` is what trips are matched on and what goes in the URL — it never
+    // changes. `label` / `labelMk` are what visitors read, and can be renamed.
     key: text("key").notNull(),
     label: text("label").notNull(),
+    labelMk: text("label_mk"),
     sortOrder: integer("sort_order").notNull().default(0),
     createdAt: timestamp("created_at").notNull().defaultNow(),
     updatedAt: timestamp("updated_at").notNull().defaultNow(),

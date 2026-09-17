@@ -4,7 +4,8 @@ import React from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui";
-import { feelings, months } from "@/content/site";
+import { months } from "@/content/site";
+import type { FeelingOption } from "@/lib/queries/filters";
 
 const selectStyle: React.CSSProperties = {
   flex: "1 1 260px",
@@ -23,23 +24,25 @@ const selectStyle: React.CSSProperties = {
  * (modelled on Black Tomato's region finder). Full-bleed hero image, two
  * selects (feeling + month), and a CTA that hands off to the trip finder
  * results page with the chosen feeling/when pre-applied as filters.
+ *
+ * `feelings` comes from Admin → Filters → Feeling (getFeelingOptions).
  */
 export function RegionExperienceFinder({
   regionLabel,
   image,
   grad,
+  feelings,
 }: {
   regionLabel: string;
+  feelings: FeelingOption[];
   image?: string | null;
   grad?: string | null;
 }) {
   const t = useTranslations("regionPage");
   const tt = useTranslations("tripFinder");
   const td = useTranslations("destinationPage");
-  const tf = useTranslations("feelings");
   const tm = useTranslations("months");
-  // Fall back to the raw value for feelings/months not in the dictionary.
-  const feelingLabel = (f: string) => (tf.has(f) ? tf(f) : f);
+  // Fall back to the raw value for months not in the dictionary.
   const monthLabel = (m: string) => (tm.has(m) ? tm(m) : m);
 
   const router = useRouter();
@@ -112,8 +115,8 @@ export function RegionExperienceFinder({
           >
             <option value="">{tt("feelingPlaceholder")}</option>
             {feelings.map((f) => (
-              <option key={f} value={f}>
-                {feelingLabel(f)}
+              <option key={f.key} value={f.key}>
+                {f.label}
               </option>
             ))}
           </select>

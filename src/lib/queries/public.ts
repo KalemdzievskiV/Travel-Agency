@@ -282,7 +282,7 @@ export async function getTripsWithFacets(): Promise<TripWithFacets[]> {
     ...toTrip(r),
     facets: [
       ...(byTrip.get(r.id) ?? []),
-      ...deriveTripFacets(r.durationDays, r.priceFrom, r.feelings, r.departures),
+      ...deriveTripFacets(r.durationDays, r.priceFrom, r.departures),
     ],
   }));
 }

@@ -2,9 +2,9 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { and, eq, inArray } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { db } from "@/db";
-import { trips, tripDestinations, tripFilterOptions, filterOptions, filterGroups } from "@/db/schema";
+import { trips, tripDestinations, tripFilterOptions } from "@/db/schema";
 import { requireUser } from "@/lib/session";
 import { slugify, linesToArray } from "@/lib/slug";
 import { uploadImage } from "@/lib/uploads";
@@ -38,18 +38,6 @@ export async function saveTrip(formData: FormData) {
     .map((v) => Number(v))
     .filter((n) => Number.isFinite(n) && n > 0);
 
-  // Keep the legacy feelings[] column in sync with the Feeling taxonomy group,
-  // so the trip finder / destinations browser keep working off it.
-  const feelingLabels = optionIds.length
-    ? (
-        await db
-          .select({ label: filterOptions.label })
-          .from(filterOptions)
-          .innerJoin(filterGroups, eq(filterOptions.groupId, filterGroups.id))
-          .where(and(inArray(filterOptions.id, optionIds), eq(filterGroups.key, "feeling")))
-      ).map((r) => r.label)
-    : [];
-
   // Geocode itinerary places typed as "City | notes" into "City | lat | lng | notes".
   const itinerary = await enrichItineraryLines(linesToArray(formData.get("itinerary")));
 
@@ -64,7 +52,6 @@ export async function saveTrip(formData: FormData) {
     salePriceFrom: str(formData, "salePriceFrom"),
     grad: str(formData, "grad") || null,
     images: linesToArray(formData.get("images")),
-    feelings: feelingLabels,
     itinerary,
     departures: linesToArray(formData.get("departures")),
     included: linesToArray(formData.get("included")),

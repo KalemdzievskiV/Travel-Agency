@@ -1,14 +1,21 @@
 import "server-only";
 import { asc, eq } from "drizzle-orm";
+import { getLocale, getTranslations } from "next-intl/server";
 import { db } from "@/db";
 import {
   filterGroups as groupsTable,
   filterOptions as optionsTable,
   tripFilterOptions,
 } from "@/db/schema";
-import { months } from "@/content/site";
+import { feelings, months } from "@/content/site";
 
-export type FilterOptionLite = { id: number; key: string; label: string };
+export type FilterOptionLite = {
+  id: number;
+  key: string;
+  label: string;
+  labelMk?: string | null;
+  sortOrder?: number;
+};
 export type FilterGroupWithOptions = {
   id: number;
   key: string;
@@ -43,12 +50,12 @@ export const derivedGroups: { key: string; label: string; options: FilterOptionL
 ];
 
 /** Which derived facet keys a trip matches, given its own fields. Covers
- * duration/price bands plus the finder facets (feeling, and the months its
- * departures fall in) so the finder's ?feeling=&when= params filter here. */
+ * duration/price bands plus the months its departures fall in, so the finder's
+ * ?when= param filters here. Feelings are not derived: they're tags like any
+ * other taxonomy group, so ?feeling= matches on the option key. */
 export function deriveTripFacets(
   durationDays: number | null,
   priceFrom: string,
-  feelings: string[] = [],
   departures: string[] = [],
 ): string[] {
   const out: string[] = [];
@@ -64,7 +71,6 @@ export function deriveTripFacets(
     else if (n < 10000) out.push("price:5000-10000");
     else out.push("price:10000-plus");
   }
-  for (const f of feelings) out.push(`feeling:${f}`);
   // Derive the months a trip runs from its free-text departure dates.
   const monthsHit = new Set<string>();
   for (const dep of departures) {
@@ -82,7 +88,7 @@ function mapGroup(g: {
   label: string;
   published: boolean;
   sortOrder: number;
-  options: { id: number; key: string; label: string }[];
+  options: { id: number; key: string; label: string; labelMk: string | null; sortOrder: number }[];
 }): FilterGroupWithOptions {
   return {
     id: g.id,
@@ -90,7 +96,7 @@ function mapGroup(g: {
     label: g.label,
     published: g.published,
     sortOrder: g.sortOrder,
-    options: g.options.map((o) => ({ id: o.id, key: o.key, label: o.label })),
+    options: g.options.map((o) => ({ id: o.id, key: o.key, label: o.label, labelMk: o.labelMk, sortOrder: o.sortOrder })),
   };
 }
 
@@ -125,4 +131,34 @@ export async function getTripOptionIds(tripId: number): Promise<number[]> {
     .from(tripFilterOptions)
     .where(eq(tripFilterOptions.tripId, tripId));
   return rows.map((r) => r.optionId);
+}
+
+/** An option's label in the visitor's language: the Macedonian label when
+ * there is one, else the (English) label. */
+export function localisedLabel(o: { label: string; labelMk?: string | null }, mk: boolean): string {
+  return mk && o.labelMk ? o.labelMk : o.label;
+}
+
+export type FeelingOption = { key: string; label: string };
+
+/** The trip finder's "how do you want to feel?" choices, in the visitor's
+ * language: the options of the admin's Feeling filter group, in its order, so
+ * renaming or reordering them there changes the dropdown. Falls back to the
+ * built-in list if the group is missing or the database can't be reached, so
+ * the finder never renders empty. */
+export async function getFeelingOptions(): Promise<FeelingOption[]> {
+  const mk = (await getLocale()) === "mk";
+  try {
+    const group = await db.query.filterGroups.findFirst({
+      where: eq(groupsTable.key, "feeling"),
+      with: { options: { orderBy: [asc(optionsTable.sortOrder), asc(optionsTable.id)] } },
+    });
+    if (group && group.options.length > 0) {
+      return group.options.map((o) => ({ key: o.key, label: localisedLabel(o, mk) }));
+    }
+  } catch {
+    // fall through to the built-in list
+  }
+  const t = await getTranslations("feelings");
+  return feelings.map((f) => ({ key: f.toLowerCase(), label: t.has(f) ? t(f) : f }));
 }

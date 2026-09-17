@@ -6,6 +6,7 @@ import { CountryGrid } from "@/components/sections/CountryGrid";
 import { pageBackdrop, plainBand } from "@/content/media";
 import { PageTabs } from "./PageTabs";
 import { RegionExperienceFinder } from "@/components/sections/RegionExperienceFinder";
+import { getFeelingOptions } from "@/lib/queries/filters";
 import type { Region } from "@/db/schema";
 import type { Destination } from "@/content/types";
 
@@ -23,6 +24,7 @@ export async function RegionLanding({
 }) {
   const t = await getTranslations("regionPage");
   const tn = await getTranslations("nav");
+  const feelings = await getFeelingOptions();
 
   return (
     <>
@@ -149,6 +151,7 @@ export async function RegionLanding({
           regionLabel={region.label}
           image={region.image}
           grad={region.grad}
+          feelings={feelings}
         />
       )}
     </>

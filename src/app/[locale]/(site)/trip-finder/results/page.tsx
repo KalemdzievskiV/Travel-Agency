@@ -4,8 +4,8 @@ import { TripGrid } from "@/components/sections/TripGrid";
 import { TripFinderResults } from "@/components/sections/TripFinderResults";
 import { type FilterGroupUI } from "@/components/sections/TripFilters";
 import { getTripsWithFacets, getTripDestinationOptions } from "@/lib/queries/public";
-import { getFilterGroups, derivedGroups } from "@/lib/queries/filters";
-import { feelings as feelingKeys, months as monthKeys } from "@/content/site";
+import { getFilterGroups, getFeelingOptions, derivedGroups, localisedLabel } from "@/lib/queries/filters";
+import { months as monthKeys } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Trip finder",
@@ -24,18 +24,19 @@ export default async function TripFinderPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const [trips, taxonomy, destOptions, tf, tFeel, tMonth] = await Promise.all([
+  const [trips, taxonomy, feelingOptions, destOptions, tf, tMonth] = await Promise.all([
     getTripsWithFacets(),
     getFilterGroups(),
+    getFeelingOptions(),
     getTripDestinationOptions(),
     getTranslations("filters"),
-    getTranslations("feelings"),
     getTranslations("months"),
   ]);
+  const mk = locale === "mk";
   const sp = await searchParams;
 
   // Translate DB/derived filter labels where a translation exists, else keep the
-  // stored English label.
+  // stored label. A Macedonian label set in the admin beats the dictionary.
   const groupLabel = (key: string, fallback: string) => (tf.has(`groups.${key}`) ? tf(`groups.${key}`) : fallback);
   const optionLabel = (groupKey: string, optKey: string, fallback: string) =>
     tf.has(`${groupKey}.${optKey}`) ? tf(`${groupKey}.${optKey}`) : fallback;
@@ -46,7 +47,8 @@ export default async function TripFinderPage({
     {
       key: "feeling",
       label: tf("feeling"),
-      options: feelingKeys.map((f) => ({ key: f, label: tFeel.has(f) ? tFeel(f) : f })),
+      // Straight from Admin → Filters → Feeling, as in the finder dropdowns.
+      options: feelingOptions,
     },
     {
       key: "when",
@@ -54,11 +56,18 @@ export default async function TripFinderPage({
       options: monthKeys.map((m) => ({ key: m, label: tMonth.has(m) ? tMonth(m) : m })),
     },
     ...(destOptions.length > 0 ? [{ key: "destination", label: tf("destination"), options: destOptions }] : []),
-    // Editorial taxonomy groups, minus any that duplicate the finder facets
-    // we build above (e.g. the taxonomy also ships a "feeling" group).
+    // Editorial taxonomy groups, minus the ones built above (the Feeling group
+    // is already the first facet).
     ...taxonomy
       .filter((g) => g.options.length > 0 && g.key !== "feeling" && g.key !== "when")
-      .map((g) => ({ key: g.key, label: groupLabel(g.key, g.label), options: g.options.map((o) => ({ key: o.key, label: optionLabel(g.key, o.key, o.label) })) })),
+      .map((g) => ({
+        key: g.key,
+        label: groupLabel(g.key, g.label),
+        options: g.options.map((o) => ({
+          key: o.key,
+          label: mk && o.labelMk ? localisedLabel(o, mk) : optionLabel(g.key, o.key, o.label),
+        })),
+      })),
     ...derivedGroups.map((g) => ({ key: g.key, label: groupLabel(g.key, g.label), options: g.options.map((o) => ({ key: o.key, label: optionLabel(g.key, o.key, o.label) })) })),
   ];
 
@@ -68,7 +77,9 @@ export default async function TripFinderPage({
     .map((g) => {
       const raw = sp[g.key];
       const val = typeof raw === "string" ? raw : Array.isArray(raw) ? raw.join(",") : "";
-      return [g.key, val.split(",").filter(Boolean)] as const;
+      // Feeling keys are lower-case; older links carried "Freedom" etc.
+      const opts = val.split(",").filter(Boolean);
+      return [g.key, g.key === "feeling" ? opts.map((o) => o.toLowerCase()) : opts] as const;
     })
     .filter(([, opts]) => opts.length > 0);
 
