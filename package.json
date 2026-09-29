@@ -23,7 +23,8 @@
     "db:seed-hotels": "tsx --env-file=.env.local scripts/seed-hotels.ts",
     "db:seed-remarkable": "tsx scripts/seed-remarkable.ts",
     "db:seed-remarkable-categories": "tsx --env-file=.env.local scripts/seed-remarkable-categories.ts",
-    "db:create-admin": "tsx scripts/create-admin.ts"
+    "db:create-admin": "tsx scripts/create-admin.ts",
+    "db:restore": "tsx scripts/restore-backup.ts"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.11.2",
@@ -31,6 +32,7 @@
     "bcryptjs": "^3.0.3",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.45.2",
+    "fflate": "^0.8.3",
     "leaflet": "^1.9.4",
     "lucide-react": "^1.21.0",
     "motion": "^12.40.0",

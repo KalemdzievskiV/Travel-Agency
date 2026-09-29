@@ -6,9 +6,12 @@ import {
   hotels,
   trips,
 } from "@/db/schema";
+import { getSessionUser } from "@/lib/session";
+import { BackupPanel } from "@/components/admin/BackupPanel";
 
 export default async function AdminDashboardPage() {
-  const [destCount, tripCount, hotelCount, categoryCount] = await Promise.all([
+  const [user, destCount, tripCount, hotelCount, categoryCount] = await Promise.all([
+    getSessionUser(),
     db.$count(destinations),
     db.$count(trips),
     db.$count(hotels),
@@ -83,6 +86,8 @@ export default async function AdminDashboardPage() {
           </Link>
         ))}
       </div>
+
+      {user?.role === "admin" && <BackupPanel />}
     </div>
   );
 }

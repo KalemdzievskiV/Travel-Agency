@@ -77,6 +77,28 @@ git push origin main
 - **Content edits** (destinations/trips/etc.) are done in `/admin` and show on the
   live site immediately (on-demand revalidation) — no redeploy needed.
 
+## Backup & moving to another host
+**Studio → Dashboard → Download backup** (admins only) saves a `.zip` with every
+table (`data.json`) and every uploaded image (`images/`). The browser fetches the
+images straight from Vercel Blob, so the zip never passes through a function.
+Keep the file private — it includes admin logins (password hashes).
+
+To bring it up on a new host, point `.env.local` (or the shell) at the **new, empty**
+database and run:
+
+```bash
+npm run db:restore -- ./bookit-backup-2026-10-01-1200.zip
+```
+
+It migrates the schema, then inserts every row with its original id. Images:
+`--images=auto` (default) uploads them to the Blob store in `BLOB_READ_WRITE_TOKEN`
+if set, otherwise writes them to `public/uploads` (VPS / any host with a disk);
+`--images=keep` leaves the URLs pointing at the old Blob store. It refuses to write
+into a database that already has content unless you pass `--wipe`.
+
+Not in the backup: env vars (`AUTH_SECRET` etc. — set them fresh) and the hero
+film (`NEXT_PUBLIC_HERO_VIDEO_URL`, re-upload with `npm run upload:hero`).
+
 ## Local development
 ```bash
 docker start bookit-pg          # or: docker run -d --name bookit-pg -e POSTGRES_USER=bookit -e POSTGRES_PASSWORD=bookit -e POSTGRES_DB=bookit -p 5434:5432 postgres:16
