@@ -19,6 +19,9 @@ type Status =
 // origin), so the zip never passes through a Vercel Function or its body cap.
 const CONCURRENCY = 4;
 
+// Switched off for now; flip to true to let admins download backups again.
+const BACKUP_ENABLED = false;
+
 export function BackupPanel() {
   const [status, setStatus] = useState<Status>({ kind: "idle" });
   const working = status.kind === "working";
@@ -121,7 +124,7 @@ export function BackupPanel() {
         private: it contains login details.
       </p>
       <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
-        <Button variant="dark" size="md" onClick={download} disabled={working}>
+        <Button variant="dark" size="md" onClick={download} disabled={!BACKUP_ENABLED || working}>
           {working ? "Preparing…" : "Download backup"}
         </Button>
         {status.kind !== "idle" && (
