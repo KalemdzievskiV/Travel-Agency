@@ -89,27 +89,25 @@ export async function WhyBookit() {
         }}
       >
         <div className="wf-wrap wf-wrap--default">
-          {/* Three centred lines since 3.1 — "со помали букви (сите големи)
-              централизирано" — so the band states the idea, asks the question
-              and answers it. They are one string with line breaks rather than
-              three keys: the break points are part of the copy, and a
-              translator needs to move them with the words. A later correction
-              asked for the outer two lines smaller and the middle one bold
-              and a step larger, so the split happens here rather than in the
-              copy — each `\n`-separated line becomes its own block span. */}
+          {/* The question in two bold lines, then the answer smaller beneath
+              (3.2: "Имаш место на ум? / Или само чувство?"). One string with
+              line breaks rather than separate keys: the break points are part
+              of the copy, and a translator needs to move them with the words.
+              The last line is the small one; every line before it is bold. */}
           <h2 className="wf-h2 wf-h2--cta wf-h2--cta-stack" style={{ margin: 0 }}>
             {t("why.ctaHeading")
               .split("\n")
               .map((line, i, lines) => {
-                const isMiddle = lines.length === 3 && i === 1;
+                const isAnswer = lines.length > 1 && i === lines.length - 1;
                 return (
                   <span
                     key={i}
                     style={{
                       display: "block",
-                      fontWeight: isMiddle ? 700 : 400,
-                      fontSize: isMiddle ? "clamp(21px, 2.7vw, 34px)" : "clamp(15px, 1.6vw, 21px)",
-                      marginTop: i === 0 ? 0 : "0.3em",
+                      fontWeight: isAnswer ? 400 : 700,
+                      fontSize: isAnswer ? "clamp(15px, 1.6vw, 21px)" : "clamp(24px, 3.2vw, 40px)",
+                      lineHeight: 1.12,
+                      marginTop: i === 0 ? 0 : isAnswer ? "clamp(14px, 1.8vw, 20px)" : "0.1em",
                     }}
                   >
                     {line}

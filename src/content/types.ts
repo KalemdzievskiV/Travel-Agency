@@ -136,4 +136,16 @@ export type Trip = {
   included: string[];
   notIncluded: string[];
   visaNotes: string;
+  /** Optional excursions (ФАКУЛТАТИВИ), already resolved to the reader's language. */
+  excursions: Excursion[];
+};
+
+/** One optional excursion on a trip page's "За ова ќе раскажуваш" slider. */
+export type Excursion = {
+  image: string;
+  label: string;
+  eyebrow: string;
+  title: string;
+  price: string;
+  body: string;
 };

@@ -99,6 +99,34 @@
       "when": 1789642172268,
       "tag": "0013_feeling_labels",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1790758410537,
+      "tag": "0014_trip_excursions",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1790766099096,
+      "tag": "0015_trip_title_summary_mk",
+      "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1790766336168,
+      "tag": "0016_trip_description_mk",
+      "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1790766864542,
+      "tag": "0017_trip_itinerary_mk",
+      "breakpoints": true
     }
   ]
 }

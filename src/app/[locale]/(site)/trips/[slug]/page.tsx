@@ -9,11 +9,13 @@ import { TripsCarousel } from "@/components/sections/TripsCarousel";
 import { HotelGrid } from "@/components/sections/HotelGrid";
 import { type MapStop, type MapDay } from "@/components/trips/showcase-shared";
 import { TripShowcase } from "@/components/trips/TripShowcase";
+import { TripExcursions } from "@/components/trips/TripExcursions";
 import { EnquireButton } from "@/components/site/EnquireButton";
 import { getTripWithDestinations, getSimilarTrips } from "@/lib/queries/public";
 import { getHotelsForDestination } from "@/lib/queries/hotels";
-import { splitDayPrefix } from "@/lib/itinerary";
+import { parseItinerary, dayLabel } from "@/lib/itinerary";
 import { months as MONTHS } from "@/content/site";
+import { formatPrice } from "@/content/pricing";
 import { backdrop, ctaPlasterPanel, pageBackdrop, plainBand } from "@/content/media";
 
 export async function generateMetadata({
@@ -59,7 +61,19 @@ export default async function TripPage({
     trip.departures.some((dep) => new RegExp(`\\b${m}`, "i").test(dep)),
   ).map((m) => (tm.has(m) ? tm(m) : m));
   const whenValue = tripMonths.length ? tripMonths.join(", ") : t("flexible");
-  const priceValue = trip.priceFrom || t("onEnquiry");
+  // On sale: the normal price struck through with the sale price under it —
+  // the trip page is the one place the client wants both shown (3.2).
+  const salePrice = trip.onSale ? formatPrice(trip.salePriceFrom) : "";
+  const regularPrice = formatPrice(trip.priceFrom);
+  const priceValue: React.ReactNode =
+    salePrice && regularPrice ? (
+      <>
+        <s style={{ color: "var(--wf-ink-400)", textDecorationThickness: 1 }}>{regularPrice}</s>
+        <span style={{ display: "block", marginTop: 4, color: "var(--wf-accent)" }}>{salePrice}</span>
+      </>
+    ) : (
+      salePrice || regularPrice || t("onEnquiry")
+    );
   const howLongValue = trip.durationDays ? tc("days", { count: trip.durationDays }) : "—";
 
   // Gallery — fall back to the hero image if no gallery has been added.
@@ -67,32 +81,23 @@ export default async function TripPage({
   // A still image shown beside the itinerary while the map is hidden.
   const staticImg = galleryImages[1] ?? galleryImages[0] ?? trip.image ?? "";
 
-  // Route map. Each itinerary line can carry its own place + coordinates:
-  //   "Rio de Janeiro | -22.91 | -43.17 | Christ the Redeemer, Copacabana"
+  // Route map. Each itinerary line can carry its own place + coordinates, in
+  // Macedonian or English (see lib/itinerary.ts for the forms it accepts):
+  //   "Ден 1 - 3 Скопје | 41.99 | 21.43 | Краток опис"
   // giving true city-to-city stops in itinerary order (so a single-country trip
   // can still move between cities). A line without coordinates is a description
   // day that stays at the previous stop. Trips whose itinerary has no coordinates
   // fall back to country-level pins from the linked destinations, so older,
   // free-text itineraries keep working.
-  type ParsedDay = { title: string; label: string | null; lat: number | null; lng: number | null; body: string };
-  const parsed: ParsedDay[] = trip.itinerary.map((line) => {
-    const parts = line.split("|").map((s) => s.trim());
-    const lat = Number(parts[1]);
-    const lng = Number(parts[2]);
-    if (parts.length >= 3 && parts[1] !== "" && parts[2] !== "" && Number.isFinite(lat) && Number.isFinite(lng)) {
-      const sp = splitDayPrefix(parts[0]);
-      return { title: sp.place, label: sp.label, lat, lng, body: parts.slice(3).join(" | ") };
-    }
-    // No coordinates (yet) — still split "[Day label] Place | notes" cleanly.
-    const sp = parts.length > 1 ? splitDayPrefix(parts[0]) : { label: null, place: "" };
-    return {
-      title: sp.place,
-      label: sp.label,
-      lat: null,
-      lng: null,
-      body: parts.length > 1 ? parts.slice(1).join(" | ") : line,
-    };
-  });
+  //
+  // Day labels are rebuilt from the numbers in the reader's language, so a line
+  // typed "Ден 1 - 3" reads "Days 1–3" in English. A line without a day number
+  // continues from the one before it ("Ден 1 - 3", then "Ден 4").
+  const dayWords = { day: t("day"), days: t("days") };
+  const parsed = parseItinerary(trip.itinerary).map((p) => ({
+    ...p,
+    label: p.from != null ? dayLabel(p.from, p.to, dayWords) : null,
+  }));
   const hasStructured = parsed.some((p) => p.lat != null && p.lng != null);
 
   let stops: MapStop[] = [];
@@ -102,12 +107,12 @@ export default async function TripPage({
     let cur = -1;
     const dayStop = parsed.map((p) => {
       if (p.lat != null && p.lng != null) {
-        stops.push({ name: p.title || `Stop ${stops.length + 1}`, slug: "", lat: p.lat, lng: p.lng });
+        stops.push({ name: p.place || `Stop ${stops.length + 1}`, slug: "", lat: p.lat, lng: p.lng });
         cur = stops.length - 1;
       }
       return cur;
     });
-    days = parsed.map((p, i) => ({ n: i + 1, text: p.body || p.title, stopIndex: Math.max(0, dayStop[i]), label: p.label }));
+    days = parsed.map((p, i) => ({ n: p.n, text: p.body || p.place, stopIndex: Math.max(0, dayStop[i]), label: p.label }));
   } else {
     // Fallback: country-level pins from the trip's linked destinations. Days are
     // matched to a stop by naming it, else spread evenly across the stops.
@@ -132,9 +137,10 @@ export default async function TripPage({
         return cur;
       });
       const n = trip.itinerary.length;
-      days = trip.itinerary.map((text, i) => ({
-        n: i + 1,
-        text,
+      days = parsed.map((p, i) => ({
+        n: p.n,
+        label: p.label,
+        text: [p.place, p.body].filter(Boolean).join(" — "),
         stopIndex: anyMatch ? Math.max(0, Math.min(matched[i], stops.length - 1)) : Math.floor((i / n) * stops.length),
       }));
     } else {
@@ -198,45 +204,71 @@ export default async function TripPage({
           map: t("mapHeading"),
           day: t("day"),
         }}
-        introText={t("layoutIntroPlaceholder")}
+        introText={trip.description}
       />
 
-      {/* What you need to know (ШТО ТРЕБА ДА ЗНАЕШ) — D4, per 3.2. Its own
-          eyebrow rather than the page's shared "На ова патување": this block
-          is the pre-departure one, and the client asked for it to say so. */}
+      {/* What you need to know (ШТО ТРЕБА ДА ЗНАЕШ) — D4, per 3.2. Three
+          cards after the client's reference video (IMG_0299): included on
+          ink, not included on the light frame, visa and entry on the orange.
+          Side by side on desktop, stacked on phones. */}
       {(trip.included.length > 0 || trip.notIncluded.length > 0 || trip.visaNotes) && (
         <section style={{ ...pageBackdrop("d4"), padding: "clamp(40px, 6vw, 72px) 0 clamp(48px, 7vw, 72px)" }}>
           <div className="wf-wrap wf-wrap--wide">
             <div style={{ marginBottom: "clamp(24px, 4vw, 40px)" }}>
-              <SectionHead eyebrow={t("beforeYouGo")} title={t("importantNotes")} align="center" />
-              {/* Italic lede, the same caption treatment the region and country
-                  pages give their opening line. */}
-              <p
-                style={{
-                  fontFamily: "var(--wf-font-sans)",
-                  fontStyle: "italic",
-                  fontSize: "clamp(14.5px, 1.5vw, 16px)",
-                  lineHeight: 1.75,
-                  color: "var(--wf-ink-700)",
-                  maxWidth: 620,
-                  margin: "clamp(12px, 1.8vw, 16px) auto 0",
-                  textAlign: "center",
-                }}
-              >
-                {t("notesIntro")}
-              </p>
+              <SectionHead eyebrow={t("beforeYouGo")} title={t("importantNotes")} intro={t("notesIntro")} />
             </div>
-            <div className="wf-grid wf-grid-3">
+            <div className="wf-notes">
               {trip.included.length > 0 && (
-                <NotesCard tone="included" title={t("included")} items={trip.included} />
+                <NotesCard
+                  tone="dark"
+                  eyebrow={t("includedEyebrow")}
+                  title={t("includedTitle")}
+                  sub={t("includedSub")}
+                  rows={trip.included.map((text) => ({ text }))}
+                />
               )}
               {trip.notIncluded.length > 0 && (
-                <NotesCard tone="excluded" title={t("notIncluded")} items={trip.notIncluded} />
+                <NotesCard
+                  tone="light"
+                  eyebrow={t("notIncludedEyebrow")}
+                  title={t("notIncludedTitle")}
+                  sub={t("notIncludedSub")}
+                  rows={trip.notIncluded.map((text) => ({ text }))}
+                />
               )}
-              {trip.visaNotes && <NotesCard tone="entry" title={t("visaNotes")} body={trip.visaNotes} />}
+              {trip.visaNotes && (
+                <NotesCard
+                  tone="accent"
+                  eyebrow={t("visaEyebrow")}
+                  title={t("visaTitle")}
+                  sub={t("visaSub")}
+                  rows={visaRows(trip.visaNotes)}
+                />
+              )}
             </div>
+            {/* Payment currency, in the accent, under the three cards (3.2). */}
+            <p className="wf-notes__payment">{t("paymentNote")}</p>
           </div>
         </section>
+      )}
+
+      {/* Optional excursions (ФАКУЛТАТИВИ) — "За ова ќе раскажуваш", per the
+          client's reference videos: one photo at a time, its copy changing
+          with it. Edited per trip in Admin → Trips; hidden when there are none. */}
+      {trip.excursions.length > 0 && (
+        <TripExcursions
+          items={trip.excursions}
+          labels={{
+            eyebrow: t("excursionsEyebrow"),
+            title: t("excursionsTitle"),
+            intro: t("excursionsIntro"),
+            perPerson: t("excursionsPerPerson"),
+            note: t("excursionsNote"),
+            noteSub: t("excursionsNoteSub"),
+            prev: t("excursionsPrev"),
+            next: t("excursionsNext"),
+          }}
+        />
       )}
 
       {/* Make this itinerary yours (enquire, pre-filled with this trip). No
@@ -307,79 +339,66 @@ export default async function TripPage({
 }
 
 /**
- * The "what you need to know" trio. One hue per card at the client's request —
- * included green, not included orange, entry/visa blue — drawn from the same
- * --wf-value-* set the values band and the flight-tickets cards use rather than
- * new one-off hexes. The card itself stays white, as those bands do, so the
- * colour lands on the title alone.
+ * Visa & entry notes as rows. Each line of the admin field is one row, and a
+ * line written "Label | text" (e.g. "Пасош | Провери ја важноста…") gets its
+ * label above the text, as in the client's reference. Plain prose still works:
+ * it becomes a single row.
  */
-const NOTE_TONES = {
-  included: "var(--wf-value-2)",
-  excluded: "var(--wf-value-1)",
-  entry: "var(--wf-value-4)",
-} as const;
+function visaRows(notes: string): NoteRow[] {
+  return notes
+    .split("\n")
+    .map((l) => l.trim())
+    .filter(Boolean)
+    .map((l) => {
+      const k = l.indexOf("|");
+      return k > 0 ? { label: l.slice(0, k).trim(), text: l.slice(k + 1).trim() } : { text: l };
+    });
+}
 
+type NoteRow = { label?: string; text: string };
+
+/**
+ * One card of the "what you need to know" trio. The tone sets the whole card —
+ * ink, the light frame, or the orange — and the styling lives on the
+ * `wf-note` classes in responsive.css. The title ends on a full stop in the
+ * accent (ink on the orange card, where the accent would vanish).
+ */
 function NotesCard({
-  title,
   tone,
-  items,
-  body,
+  eyebrow,
+  title,
+  sub,
+  rows,
 }: {
+  tone: "dark" | "light" | "accent";
+  eyebrow: string;
   title: string;
-  tone: keyof typeof NOTE_TONES;
-  /** A bulleted card (included / not included); `body` is the prose variant. */
-  items?: string[];
-  body?: string;
+  sub: string;
+  rows: NoteRow[];
 }) {
   return (
-    <article
-      style={{
-        // Equal-height cards across the row even when one list runs longer.
-        height: "100%",
-        background: "var(--wf-paper)",
-        borderRadius: "var(--wf-radius-md)",
-        padding: "clamp(20px, 2.4vw, 28px)",
-        // --wf-paper and --wf-cream are both #FFFFFF, so on this band a plain
-        // white card is invisible and reads as the bare column it replaced.
-        // The hairline and a whisper of lift are what make it a card; the top
-        // rule puts the card's hue to structural use rather than tinting a
-        // label alone.
-        border: "var(--wf-border-hairline)",
-        borderTop: `3px solid ${NOTE_TONES[tone]}`,
-        boxShadow: "var(--wf-shadow-xs)",
-      }}
-    >
-      <h3
-        style={{
-          fontFamily: "var(--wf-font-sans)",
-          fontSize: 12,
-          fontWeight: 700,
-          letterSpacing: "0.14em",
-          textTransform: "uppercase",
-          color: NOTE_TONES[tone],
-          margin: "0 0 14px",
-        }}
-      >
+    <article className={`wf-note wf-note--${tone}`}>
+      <p className="wf-note__eyebrow">{eyebrow}</p>
+      <h3 className="wf-note__title">
         {title}
+        <span className="wf-note__dot">.</span>
       </h3>
-      {items ? (
-        <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 10 }}>
-          {items.map((it) => (
-            <li key={it} style={{ fontSize: 15.5, lineHeight: 1.55, color: "var(--wf-ink-700)" }}>{it}</li>
-          ))}
-        </ul>
-      ) : (
-        <p style={{ margin: 0, fontSize: 15.5, lineHeight: 1.65, color: "var(--wf-ink-700)", whiteSpace: "pre-line" }}>
-          {body}
-        </p>
-      )}
+      <p className="wf-note__sub">{sub}</p>
+      <ul className="wf-note__list">
+        {rows.map((r, k) => (
+          <li key={k}>
+            {r.label && <span className="wf-note__label">{r.label}</span>}
+            {r.text}
+          </li>
+        ))}
+      </ul>
     </article>
   );
 }
 
 type FactTone = 1 | 2 | 3;
 
-function Fact({ label, value, tone = 1 }: { label: string; value: string; tone?: FactTone }) {
+function Fact({ label, value, tone = 1 }: { label: string; value: React.ReactNode; tone?: FactTone }) {
   return (
     <div>
       <div

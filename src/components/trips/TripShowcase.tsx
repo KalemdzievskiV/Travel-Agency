@@ -27,11 +27,14 @@ export function TripShowcase({ images, title, grad, staticImg, stops, days, labe
         }}
       >
         <div className="wf-wrap wf-wrap--wide">
-          <div style={{ maxWidth: 760, marginInline: "auto", textAlign: "center", marginBottom: "clamp(20px, 3vw, 32px)" }}>
-            <p style={{ fontSize: "clamp(16px, 1.9vw, 18px)", lineHeight: 1.75, color: "var(--wf-ink-700)", margin: 0 }}>
-              {introText}
-            </p>
-          </div>
+          {/* The trip's intro from Admin → Trips; nothing when it's empty. */}
+          {introText && (
+            <div style={{ maxWidth: 760, marginInline: "auto", textAlign: "center", marginBottom: "clamp(20px, 3vw, 32px)" }}>
+              <p style={{ fontSize: "clamp(16px, 1.9vw, 18px)", lineHeight: 1.75, color: "var(--wf-ink-700)", margin: 0, whiteSpace: "pre-line" }}>
+                {introText}
+              </p>
+            </div>
+          )}
           <SectionHead eyebrow={labels.eyebrow} title={labels.itinerary} />
         </div>
       </section>

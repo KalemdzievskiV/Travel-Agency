@@ -9,8 +9,28 @@ import {
   timestamp,
   uniqueIndex,
   primaryKey,
+  jsonb,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
+
+/**
+ * One optional excursion on a trip. Text fields have an `…Mk` twin that the
+ * public page prefers in Macedonian, the same fallback the other trip fields use.
+ */
+export type TripExcursion = {
+  image: string;
+  /** Chip over the photo, e.g. "Day 4 · Luxor". */
+  label: string;
+  labelMk: string;
+  eyebrow: string;
+  eyebrowMk: string;
+  title: string;
+  titleMk: string;
+  /** Free text like priceFrom, e.g. "€90". Shown with "/ person". */
+  price: string;
+  body: string;
+  bodyMk: string;
+};
 
 // ── Auth ──────────────────────────────────────────────────────────
 export const userRole = pgEnum("user_role", ["admin", "editor"]);
@@ -219,6 +239,11 @@ export const trips = pgTable(
     title: text("title").notNull(),
     summary: text("summary").notNull().default(""),
     description: text("description").notNull().default(""),
+    // Macedonian title, card summary and intro (`description`, the opening
+    // paragraph on the trip page); the English ones stand in when empty.
+    titleMk: text("title_mk"),
+    summaryMk: text("summary_mk"),
+    descriptionMk: text("description_mk"),
     durationDays: integer("duration_days"),
     priceFrom: text("price_from").notNull().default(""),
     // Sale pricing. `onSale` is set by hand per item — deliberately not derived
@@ -236,6 +261,9 @@ export const trips = pgTable(
     feelings: text("feelings").array().notNull().default([]),
     // The sellable product: a day-by-day plan and fixed departure dates.
     itinerary: text("itinerary").array().notNull().default([]),
+    // The same plan in Macedonian, geocoded on its own. Each language falls
+    // back to the other when empty, so filling in just one covers both sites.
+    itineraryMk: text("itinerary_mk").array().notNull().default([]),
     departures: text("departures").array().notNull().default([]),
     // "Important notes" (ВАЖНИ НАПОМЕНИ): what's included / not included (one
     // item per line) and a free-text visa & entry note.
@@ -245,6 +273,9 @@ export const trips = pgTable(
     includedMk: text("included_mk").array(),
     notIncludedMk: text("not_included_mk").array(),
     visaNotesMk: text("visa_notes_mk"),
+    // Optional excursions (ФАКУЛТАТИВИ) — the "За ова ќе раскажуваш" slider:
+    // one picture per excursion with the copy that goes with it, in order.
+    excursions: jsonb("excursions").$type<TripExcursion[]>().notNull().default([]),
     published: boolean("published").notNull().default(true),
     sortOrder: integer("sort_order").notNull().default(0),
     createdAt: timestamp("created_at").notNull().defaultNow(),

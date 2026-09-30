@@ -87,9 +87,9 @@ type TripRow = typeof tripsTable.$inferSelect;
 export function toTrip(r: TripRow, mk = false): Trip {
   return {
     slug: r.slug,
-    title: r.title,
-    summary: r.summary,
-    description: r.description,
+    title: (mk && r.titleMk) || r.title,
+    summary: (mk && r.summaryMk) || r.summary,
+    description: (mk && r.descriptionMk) || r.description,
     durationDays: r.durationDays,
     priceFrom: r.priceFrom,
     onSale: r.onSale,
@@ -100,11 +100,21 @@ export function toTrip(r: TripRow, mk = false): Trip {
     feelings: r.feelings,
     // Filled in by withTripPlaces where a caller needs it; see the Trip type.
     places: [],
-    itinerary: r.itinerary,
+    itinerary: mk
+      ? (r.itineraryMk.length ? r.itineraryMk : r.itinerary)
+      : (r.itinerary.length ? r.itinerary : r.itineraryMk),
     departures: r.departures,
     included: mk && r.includedMk && r.includedMk.length ? r.includedMk : r.included,
     notIncluded: mk && r.notIncludedMk && r.notIncludedMk.length ? r.notIncludedMk : r.notIncluded,
     visaNotes: mk && r.visaNotesMk ? r.visaNotesMk : r.visaNotes,
+    excursions: (r.excursions ?? []).map((x) => ({
+      image: x.image,
+      label: (mk && x.labelMk) || x.label,
+      eyebrow: (mk && x.eyebrowMk) || x.eyebrow,
+      title: (mk && x.titleMk) || x.title,
+      price: x.price,
+      body: (mk && x.bodyMk) || x.body,
+    })),
   };
 }
 
@@ -192,12 +202,13 @@ export async function withTripPlaces<T extends Trip>(items: T[]): Promise<T[]> {
 }
 
 export async function getTrips(): Promise<Trip[]> {
+  const mk = await localeIsMk();
   const rows = await db
     .select()
     .from(tripsTable)
     .where(eq(tripsTable.published, true))
     .orderBy(asc(tripsTable.sortOrder), asc(tripsTable.id));
-  return withTripPlaces(rows.map((r) => toTrip(r)));
+  return withTripPlaces(rows.map((r) => toTrip(r, mk)));
 }
 
 /**
@@ -236,6 +247,7 @@ export async function getOnSaleDestinations(): Promise<Destination[]> {
 // Trips with their facet keys attached (taxonomy tags + derived duration/price),
 // for the filterable /trips listing.
 export async function getTripsWithFacets(): Promise<TripWithFacets[]> {
+  const mk = await localeIsMk();
   const rows = await db
     .select()
     .from(tripsTable)
@@ -279,7 +291,7 @@ export async function getTripsWithFacets(): Promise<TripWithFacets[]> {
   }
 
   return rows.map((r) => ({
-    ...toTrip(r),
+    ...toTrip(r, mk),
     facets: [
       ...(byTrip.get(r.id) ?? []),
       ...deriveTripFacets(r.durationDays, r.priceFrom, r.departures),
@@ -341,6 +353,7 @@ export async function getTripWithDestinations(
 // A trip with no shared destinations falls back to other published trips, so the
 // band is never empty on a page that has neighbours to show.
 export async function getSimilarTrips(slug: string, limit = 8): Promise<Trip[]> {
+  const mk = await localeIsMk();
   const [current] = await db
     .select({ id: tripsTable.id })
     .from(tripsTable)
@@ -372,7 +385,7 @@ export async function getSimilarTrips(slug: string, limit = 8): Promise<Trip[]> 
         ),
       )
       .orderBy(asc(tripsTable.sortOrder), asc(tripsTable.id));
-    for (const r of rows) if (!bySlug.has(r.trip.slug)) bySlug.set(r.trip.slug, toTrip(r.trip));
+    for (const r of rows) if (!bySlug.has(r.trip.slug)) bySlug.set(r.trip.slug, toTrip(r.trip, mk));
   }
 
   if (bySlug.size === 0) {
@@ -382,7 +395,7 @@ export async function getSimilarTrips(slug: string, limit = 8): Promise<Trip[]> 
       .where(and(ne(tripsTable.id, current.id), eq(tripsTable.published, true)))
       .orderBy(asc(tripsTable.sortOrder), asc(tripsTable.id))
       .limit(limit);
-    return withTripPlaces(rows.map((r) => toTrip(r)));
+    return withTripPlaces(rows.map((r) => toTrip(r, mk)));
   }
 
   return withTripPlaces(Array.from(bySlug.values()).slice(0, limit));
@@ -390,6 +403,7 @@ export async function getSimilarTrips(slug: string, limit = 8): Promise<Trip[]> 
 
 // Trips (products) that visit a given destination — bridges guide → product.
 export async function getTripsForDestination(slug: string): Promise<Trip[]> {
+  const mk = await localeIsMk();
   const rows = await db
     .select({ trip: tripsTable })
     .from(tripDestinationsTable)
@@ -400,5 +414,5 @@ export async function getTripsForDestination(slug: string): Promise<Trip[]> {
     )
     .where(and(eq(destinationsTable.slug, slug), eq(tripsTable.published, true)))
     .orderBy(asc(tripsTable.sortOrder), asc(tripsTable.id));
-  return withTripPlaces(rows.map((r) => toTrip(r.trip)));
+  return withTripPlaces(rows.map((r) => toTrip(r.trip, mk)));
 }

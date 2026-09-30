@@ -1,6 +1,8 @@
 import { TextField, TextAreaField, CheckboxField, FormCard, Field } from "@/components/admin/ui";
 import { SubmitButton, ImageField } from "@/components/admin/controls";
 import { FilterTagPicker } from "@/components/admin/FilterTagPicker";
+import { ExcursionsEditor } from "@/components/admin/ExcursionsEditor";
+import { GalleryField } from "@/components/admin/GalleryField";
 import type { FilterGroupWithOptions } from "@/lib/queries/filters";
 import type { Trip } from "@/db/schema";
 import { saveTrip } from "./actions";
@@ -31,7 +33,11 @@ export function TripForm({
           defaultValue={t?.slug}
           hint="Leave blank to generate from the title."
         />
+        <TextField label="Title (MK)" name="titleMk" defaultValue={t?.titleMk ?? ""} hint="Shown on the Macedonian site. Leave blank to use the English title." />
         <TextField label="Summary" name="summary" defaultValue={t?.summary} hint="One-line card summary." />
+        <TextField label="Summary (MK)" name="summaryMk" defaultValue={t?.summaryMk ?? ""} hint="Shown on the Macedonian site. Leave blank to use the English summary." />
+        <TextAreaField label="Intro" name="description" defaultValue={t?.description} rows={4} hint="The short opening paragraph on the trip page, above the gallery and the day-by-day programme." />
+        <TextAreaField label="Intro (MK)" name="descriptionMk" defaultValue={t?.descriptionMk ?? ""} rows={4} hint="Shown on the Macedonian site. Leave blank to use the English intro." />
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
           <TextField label="Duration (days)" name="durationDays" type="number" defaultValue={t?.durationDays ?? ""} />
@@ -59,11 +65,18 @@ export function TripForm({
         </Field>
 
         <TextAreaField
-          label="Itinerary"
+          label="Itinerary (MK)"
+          name="itineraryMk"
+          defaultValue={(t?.itineraryMk ?? []).join("\n")}
+          rows={7}
+          hint="One stop per line: day(s), place, then a short description after a dash — e.g. 'Ден 1 - 3 Скопје - Краток опис за местото'. Leave out the day to continue from the line before. The map pin is looked up from the place name on save (this may take a moment); the line is then stored as 'Ден 1 - 3 Скопје | lat | lng | опис', and you can fix the coordinates there if a pin lands wrong. If this is empty, the Macedonian site uses the English itinerary."
+        />
+        <TextAreaField
+          label="Itinerary (EN)"
           name="itinerary"
           defaultValue={t?.itinerary.join("\n")}
           rows={7}
-          hint="One stop per line — 'Place | notes'. Coordinates are looked up automatically from the place name on save (type it like you'd search it, e.g. 'Cusco, Peru | The old Inca capital'). Optionally prefix a day label to show as-is, e.g. 'Days 1–5 Lima, Peru | ...' renders 'Days 1–5' (otherwise days auto-number). Saving may take a moment while it looks up new places; you can tweak the filled-in coordinates afterwards."
+          hint="Same format in English — e.g. 'Days 1 - 3 Skopje - A short description'. Optional: if empty, the English site uses the Macedonian itinerary (day labels still show in English)."
         />
         <TextAreaField
           label="Departures"
@@ -77,12 +90,14 @@ export function TripForm({
           <TextAreaField label="What's included" name="included" defaultValue={t?.included.join("\n")} rows={5} hint="One item per line." />
           <TextAreaField label="What's not included" name="notIncluded" defaultValue={t?.notIncluded.join("\n")} rows={5} hint="One item per line." />
         </div>
-        <TextAreaField label="Visa & entry notes" name="visaNotes" defaultValue={t?.visaNotes} rows={3} hint="Important notes, entry conditions, visa." />
+        <TextAreaField label="Visa & entry notes" name="visaNotes" defaultValue={t?.visaNotes} rows={5} hint="One row per line. Write 'Label | text' to show a label above it, e.g. 'Passport | Check its validity against the entry rules.'" />
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
           <TextAreaField label="Included (MK)" name="includedMk" defaultValue={(t?.includedMk ?? []).join("\n")} rows={5} />
           <TextAreaField label="Not included (MK)" name="notIncludedMk" defaultValue={(t?.notIncludedMk ?? []).join("\n")} rows={5} />
         </div>
-        <TextAreaField label="Visa & entry notes (MK)" name="visaNotesMk" defaultValue={t?.visaNotesMk ?? ""} rows={3} />
+        <TextAreaField label="Visa & entry notes (MK)" name="visaNotesMk" defaultValue={t?.visaNotesMk ?? ""} rows={5} hint="Same format, e.g. 'Пасош | Провери ја важноста според условите за влез на дестинацијата.'" />
+
+        <ExcursionsEditor initial={t?.excursions ?? []} />
 
         <Field label="Destinations" hint="Tick the destinations this trip visits.">
           <div
@@ -125,12 +140,9 @@ export function TripForm({
         </Field>
 
         <ImageField currentUrl={t?.image} />
-        <TextAreaField
-          label="Gallery images"
-          name="images"
-          defaultValue={t?.images.join("\n")}
-          rows={5}
-          hint="One image URL per line — shown in the trip's carousel. The hero image above stays the card image."
+        <GalleryField
+          initial={t?.images ?? []}
+          hint="Shown in the trip's carousel, in this order. Pick several photos at once; each uploads as soon as it's chosen (max 4 MB each). The hero image above stays the card image."
         />
         <TextField label="Gradient (fallback)" name="grad" defaultValue={t?.grad} hint="CSS gradient shown when no image is set." />
 

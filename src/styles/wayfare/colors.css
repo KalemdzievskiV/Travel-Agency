@@ -65,7 +65,7 @@
      per view" rule in the wayfare design system. Kept as tokens (not inline
      hex) and scoped to this row so the exception stays contained — do not
      reach for these elsewhere. */
-  --wf-fact-1: #CC5426;   /* Black Tomato orange  (.text--danger)    */
+  --wf-fact-1: #FF5C34;   /* the logo orange — one orange site-wide (client, 3.2) */
   --wf-fact-2: #379C8A;   /* Black Tomato turquoise (.text--turquoise) */
   --wf-fact-3: #1E6E9F;   /* Black Tomato blue    (.text--info)      */
 
@@ -89,7 +89,7 @@
      instead. */
   --wf-values-bg:      #2A5750;   /* the band itself */
   --wf-values-heading: #FFFFFF;   /* the big display title, white on the band */
-  --wf-value-1: #C94F33;  /* значи лично      — the client's orange, held independently */
+  --wf-value-1: #FF5C34;  /* значи лично      — the logo orange, held independently */
   --wf-value-2: #43793F;  /* но подобро */
   --wf-value-3: #2A6B62;  /* не се детали     — the band's own hue, darkened */
   /* Two more tones added when the band grew from 3 values to 5 (КОРЕКЦИИ
@@ -144,19 +144,21 @@
    The alternative to lime, matching the orange compass in the second logo
    set. Only the accent-derived tokens change; roles hold as documented above.
 
-   #FF5C34 is 3.07:1 on white and 5.18:1 against ink, so it stays a light
-   accent: ink for type sitting on it (--wf-text-on-accent, unchanged), and the
-   deep cut for accent text on white (#C13715, 5.49:1 on white, 4.98:1 on the
-   050 wash). Button labels stay white by the client's choice — 3.07:1 here. */
+   One orange, everywhere: the client asked (3.2) for the logo's #FF5C34 on
+   every title, eyebrow, rule, border and fill "без разлика", so the deep cut
+   for accent text (was #C13715), the hover (#E94A24) and the lighter step
+   (#FF8466) all hold the same value now. Deliberate, client-chosen deviation:
+   #FF5C34 as small type is 3.07:1 on white, below AA — do not quietly darken
+   it back. The 200 / 050 tints stay: they are washes behind content. */
 :root[data-brand="orange"] {
-  --wf-coral-700: #C13715;   /* pressed / deep accent — also the accent as type */
-  --wf-coral-600: #E94A24;   /* hover (a fill) */
+  --wf-coral-700: #FF5C34;   /* accent as type — the same logo orange */
+  --wf-coral-600: #FF5C34;   /* hover (a fill) */
   --wf-coral-500: #FF5C34;   /* primary accent */
-  --wf-coral-400: #FF8466;   /* lighter accent, hover-on-dark */
+  --wf-coral-400: #FF5C34;   /* hover-on-dark */
   --wf-coral-200: #FFCEC2;   /* tint / focus ring backing */
   --wf-coral-050: #FFF1ED;   /* faint wash, hover surfaces */
 
   --wf-brand-blue:          #FF5C34;
-  --wf-brand-gradient:      linear-gradient(135deg, #FF5C34, #C13715);
+  --wf-brand-gradient:      linear-gradient(135deg, #FF5C34, #FF5C34);
   --wf-brand-gradient-deep: linear-gradient(140deg, #39170E, #222222);
 }

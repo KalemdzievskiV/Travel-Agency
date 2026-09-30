@@ -75,6 +75,7 @@ export async function getExperienceCategories(
 
 // Trips tagged with a given "who" filter option; falls back to recent trips.
 async function tripsForWho(whoOptionKey: string) {
+  const mk = await localeIsMk();
   if (whoOptionKey) {
     try {
       const rows = await db
@@ -85,7 +86,7 @@ async function tripsForWho(whoOptionKey: string) {
         .innerJoin(tripsTable, eq(tripFilterOptions.tripId, tripsTable.id))
         .where(and(eq(filterGroups.key, "who"), eq(filterOptions.key, whoOptionKey), eq(tripsTable.published, true)))
         .orderBy(asc(tripsTable.sortOrder), asc(tripsTable.id));
-      if (rows.length) return withTripPlaces(rows.map((r) => toTrip(r.trip)));
+      if (rows.length) return withTripPlaces(rows.map((r) => toTrip(r.trip, mk)));
     } catch {
       // taxonomy tables may not exist yet — fall through to defaults
     }
@@ -96,7 +97,7 @@ async function tripsForWho(whoOptionKey: string) {
     .where(eq(tripsTable.published, true))
     .orderBy(asc(tripsTable.sortOrder), asc(tripsTable.id))
     .limit(6);
-  return withTripPlaces(fb.map((r) => toTrip(r)));
+  return withTripPlaces(fb.map((r) => toTrip(r, mk)));
 }
 
 export async function getExperienceCategoryBySlug(

@@ -4,7 +4,9 @@
  * Revision 3.0 added sale pricing to trips and destinations. The client's rule
  * is that a sale price *replaces* the normal one — no strikethrough, no "was /
  * now" pair — so there is exactly one price on screen at any time and exactly
- * one function that decides which. Keep it that way: the moment a component
+ * one function that decides which. One sanctioned exception (3.2): the trip
+ * page's facts row shows the normal price struck through above the sale price.
+ * Keep the rest that way: the moment a component
  * reaches for `priceFrom` directly, the two prices start drifting apart between
  * grids, carousels and detail pages.
  *

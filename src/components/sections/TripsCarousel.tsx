@@ -16,6 +16,9 @@ import { photoLayers } from "@/lib/photo";
  *
  * Reused on the home page and each destination page — pass the intro copy in.
  */
+/** Pause between automatic steps, in ms. */
+const AUTO_MS = 3000;
+
 export function TripsCarousel({
   id,
   trips,
@@ -39,15 +42,38 @@ export function TripsCarousel({
   const rowRef = React.useRef<HTMLDivElement>(null);
   const [atStart, setAtStart] = React.useState(true);
   const [atEnd, setAtEnd] = React.useState(false);
+  // Endless loop: once the real cards overflow the row, a second copy follows
+  // them, so the row can always glide forward and quietly jump back by one set
+  // when it passes the first. Off while everything fits, where nothing moves.
+  const [loop, setLoop] = React.useState(false);
+  const loopRef = React.useRef(false);
+  React.useEffect(() => {
+    loopRef.current = loop;
+  }, [loop]);
+
+  /** Width of one full set of cards — the distance of the silent loop jump. */
+  const setWidth = React.useCallback(() => {
+    const el = rowRef.current;
+    const clone = el?.querySelector<HTMLElement>("[data-clone]");
+    const first = el?.querySelector<HTMLElement>(".wf-trip-card");
+    return clone && first ? clone.offsetLeft - first.offsetLeft : 0;
+  }, []);
 
   const updateEdges = React.useCallback(() => {
     const el = rowRef.current;
     if (!el) return;
+    if (loopRef.current) {
+      // A loop has no ends — both arrows stay.
+      setAtStart(false);
+      setAtEnd(false);
+      return;
+    }
     // Not scrollable → treat as both edges so no arrow shows.
     const scrollable = el.scrollWidth - el.clientWidth > 4;
     setAtStart(!scrollable || el.scrollLeft <= 4);
     setAtEnd(!scrollable || el.scrollLeft + el.clientWidth >= el.scrollWidth - 4);
-  }, []);
+    if (scrollable && trips.length > 1) setLoop(true);
+  }, [trips.length]);
 
   React.useEffect(() => {
     const el = rowRef.current;
@@ -63,22 +89,133 @@ export function TripsCarousel({
       ro.disconnect();
       window.removeEventListener("resize", updateEdges);
     };
-  }, [updateEdges, trips.length]);
+  }, [updateEdges, trips.length, loop]);
+
+  // Glide: our own eased scroll rather than the browser's quick smooth scroll,
+  // so a step reads as a carousel moving, not a click. Scroll-snap is lifted
+  // for the duration (it would pull every frame back to a card) and restored
+  // after, and a pass into the copied set is folded back without a visible jump.
+  const anim = React.useRef<number | null>(null);
+  const gliding = React.useRef(false);
+  const lastMove = React.useRef(0);
+
+  const normalise = React.useCallback(() => {
+    const el = rowRef.current;
+    const w = setWidth();
+    if (!el || !loopRef.current || !w) return;
+    if (el.scrollLeft >= w - 1) el.scrollLeft -= w;
+  }, [setWidth]);
+
+  const glide = React.useCallback(
+    (dir: 1 | -1, ms: number) => {
+      const el = rowRef.current;
+      if (!el) return;
+      const card = el.querySelector<HTMLElement>(".wf-trip-card");
+      const step = card ? card.offsetWidth + 20 : el.clientWidth * 0.8;
+      if (anim.current) cancelAnimationFrame(anim.current);
+      el.style.scrollSnapType = "none";
+      gliding.current = true;
+      // Going back from the very start: hop forward one set first (it looks
+      // identical), so there's always room to glide left.
+      const w = setWidth();
+      if (loopRef.current && w && dir < 0 && el.scrollLeft < step) el.scrollLeft += w;
+      const from = el.scrollLeft;
+      // Land on a card edge even if a previous glide was cut short.
+      const to = Math.round((from + dir * step) / step) * step;
+      const t0 = performance.now();
+      const ease = (x: number) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+      const frame = (now: number) => {
+        const p = Math.min(1, (now - t0) / ms);
+        el.scrollLeft = from + (to - from) * ease(p);
+        if (p < 1) {
+          anim.current = requestAnimationFrame(frame);
+          return;
+        }
+        anim.current = null;
+        normalise();
+        el.style.scrollSnapType = "";
+        gliding.current = false;
+        lastMove.current = Date.now();
+        updateEdges();
+      };
+      anim.current = requestAnimationFrame(frame);
+    },
+    [normalise, setWidth, updateEdges],
+  );
 
   const page = (dir: 1 | -1) => {
-    const el = rowRef.current;
-    if (!el) return;
-    const card = el.querySelector<HTMLElement>(".wf-trip-card");
-    const gap = 20;
-    const step = card ? card.offsetWidth + gap : el.clientWidth * 0.8;
-    el.scrollBy({ left: dir * step, behavior: "smooth" });
+    glide(dir, 650);
+    lastMove.current = Date.now();
   };
+
+  // Auto-rotate: one card every AUTO_MS, gliding on round the loop. Holds while
+  // the reader is on the band (hover, touch, keyboard focus), while it's off
+  // screen or the tab is hidden, and never runs for reduced motion. Any manual
+  // move restarts the wait, so it never moves right after a click or swipe.
+  const sectionRef = React.useRef<HTMLElement>(null);
+  const held = React.useRef(false);
+  const hold = (on: boolean) => {
+    held.current = on;
+    lastMove.current = Date.now();
+  };
+  React.useEffect(() => {
+    const el = rowRef.current;
+    const section = sectionRef.current;
+    if (!el || !section || !loop) return;
+    let visible = false;
+    const io = new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      if (visible) lastMove.current = Date.now();
+    }, { threshold: 0.4 });
+    io.observe(section);
+    // Native swipes and trackpad scrolls count as a manual move, and fold back
+    // into the first set once they settle.
+    let settle = 0;
+    const onScroll = () => {
+      if (gliding.current) return;
+      lastMove.current = Date.now();
+      window.clearTimeout(settle);
+      settle = window.setTimeout(normalise, 160);
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    lastMove.current = Date.now();
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const tick = reduced
+      ? 0
+      : window.setInterval(() => {
+          if (!visible || held.current || document.hidden || gliding.current) return;
+          if (Date.now() - lastMove.current < AUTO_MS) return;
+          glide(1, 1400);
+        }, 250);
+    return () => {
+      io.disconnect();
+      el.removeEventListener("scroll", onScroll);
+      window.clearTimeout(settle);
+      if (tick) window.clearInterval(tick);
+    };
+  }, [loop, glide, normalise]);
+
+  React.useEffect(
+    () => () => {
+      if (anim.current) cancelAnimationFrame(anim.current);
+    },
+    [],
+  );
 
   if (trips.length === 0) return null;
 
   return (
     <section
       id={id}
+      ref={sectionRef}
+      onMouseEnter={() => hold(true)}
+      onMouseLeave={() => hold(false)}
+      onTouchStart={() => hold(true)}
+      onTouchEnd={() => hold(false)}
+      onFocus={() => hold(true)}
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) hold(false);
+      }}
       style={{
         // Longhands only — the ink field stays as the base colour so the band
         // still reads correctly if the backdrop is absent or fails to load.
@@ -142,8 +279,16 @@ export function TripsCarousel({
 
           <div className="wf-explore__viewport">
             <div ref={rowRef} className="wf-explore__row" onScroll={updateEdges}>
-              {trips.map((trip) => (
-                <div key={trip.slug} className="wf-trip-card">
+              {(loop ? [...trips, ...trips] : trips).map((trip, k) => (
+                // The copied set (k ≥ trips.length) is only there for the loop:
+                // hidden from assistive tech and out of the tab order.
+                <div
+                  key={`${trip.slug}-${k}`}
+                  className="wf-trip-card"
+                  data-clone={k === trips.length ? "" : undefined}
+                  aria-hidden={k >= trips.length || undefined}
+                  inert={k >= trips.length || undefined}
+                >
                   <div
                     className="wf-trip-card__img"
                     style={{ backgroundImage: photoLayers(trip.image, trip.grad) }}

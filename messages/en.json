@@ -86,7 +86,7 @@
       "support": "We're here when you travel",
       "guide": "Real people"
     },
-    "ctaHeading": "Your next journey doesn't have to start with a destination.\nHave a place in mind? Great. Don't? Even better.\nTell us what you're imagining. We'll create it together.",
+    "ctaHeading": "Have a place in mind?\nOr just a feeling?\nTell us what you're imagining. We'll create it together.",
     "ctaButton": "CREATE YOUR JOURNEY"
   },
   "about": {
@@ -255,7 +255,7 @@
     "planThis": "Plan this trip",
     "beforeYouGo": "Before you set off",
     "importantNotes": "What you need to know",
-    "notesIntro": "The key practical details for this trip, in one place.",
+    "notesIntro": "The key information for this trip, in one place.",
     "included": "What's included?",
     "notIncluded": "What's not included?",
     "visaNotes": "Notes, entry & visa",
@@ -265,8 +265,26 @@
     "reassure": "No planning fees · we'll reply right away",
     "viewAll": "VIEW ALL TRIPS",
     "galleryHeading": "Gallery",
-    "layoutIntroPlaceholder": "Placeholder text. A short introduction to the journey will sit here — a few lines on what makes this trip particular, before the gallery and the day-by-day programme.",
-    "mapHeading": "Map"
+    "mapHeading": "Map",
+    "excursionsEyebrow": "From the programme",
+    "excursionsTitle": "The stories you'll bring home",
+    "excursionsIntro": "We've picked out the ones we'd tell you, “You really have to try this.”",
+    "excursionsPerPerson": "person",
+    "excursionsNote": "These experiences aren't included in the trip's base price.",
+    "excursionsNoteSub": "This is how we picture it. We'll fit the excursions, days and prices to your trip.",
+    "excursionsPrev": "Previous",
+    "excursionsNext": "Next",
+    "includedEyebrow": "In the price of the trip",
+    "includedTitle": "What's included",
+    "includedSub": "We've already taken care of this.",
+    "notIncludedEyebrow": "Outside the base price",
+    "notIncludedTitle": "What's not included",
+    "notIncludedSub": "Worth keeping in mind, too.",
+    "visaEyebrow": "Before you go",
+    "visaTitle": "Visa and entry requirements",
+    "visaSub": "Let's sort out the important details.",
+    "paymentNote": "Payments are made in denars at a rate of €1 = 62 MKD.",
+    "days": "Days"
   },
   "filters": {
     "title": "Filters",

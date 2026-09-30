@@ -2435,3 +2435,246 @@
   user-select: text;
 }
 
+
+/* ── Trip page: optional excursions (ФАКУЛТАТИВИ) ─────────────────
+   "За ова ќе раскажуваш" — one excursion at a time. Head with the counter and
+   arrows at its right; below, photo and copy side by side on desktop, stacked
+   on phones (the client's reference video). Photos are stacked and crossfade;
+   the copy fades in with each one. */
+.wf-excursions__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px 32px;
+  margin-bottom: clamp(24px, 3.4vw, 40px);
+}
+.wf-excursions__controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+.wf-excursions__count {
+  font-family: var(--wf-font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--wf-ink-500);
+  min-width: 40px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.wf-excursions__arrow {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--wf-border-strong);
+  background: var(--wf-paper);
+  color: var(--wf-ink-900);
+  cursor: pointer;
+  transition: border-color 200ms var(--wf-ease-out), color 200ms var(--wf-ease-out);
+}
+.wf-excursions__arrow:hover,
+.wf-excursions__arrow--next { border-color: var(--wf-accent-ink); color: var(--wf-accent-ink); }
+.wf-excursions__arrow:focus-visible { outline: 2px solid var(--wf-accent-ink); outline-offset: 2px; }
+
+.wf-excursion {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: clamp(28px, 4vw, 56px);
+  align-items: center;
+}
+@media (max-width: 860px) {
+  .wf-excursion { grid-template-columns: 1fr; gap: 22px; }
+}
+.wf-excursion__media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: var(--wf-radius-md);
+  background: var(--wf-sand);
+  touch-action: pan-y;
+  user-select: none;
+}
+@media (max-width: 520px) {
+  .wf-excursion__media { aspect-ratio: 5 / 3; }
+}
+.wf-excursion__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 600ms var(--wf-ease-out);
+}
+.wf-excursion__img.is-on { opacity: 1; }
+.wf-excursion__label {
+  position: absolute;
+  top: clamp(12px, 1.6vw, 18px);
+  left: clamp(12px, 1.6vw, 18px);
+  padding: 6px 10px;
+  background: var(--wf-paper);
+  border-radius: var(--wf-radius-sm, 2px);
+  font-family: var(--wf-font-sans);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--wf-ink-900);
+}
+.wf-excursion__body { animation: wf-excursion-in 480ms var(--wf-ease-out) both; }
+@keyframes wf-excursion-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wf-excursion__img { transition: none; }
+  .wf-excursion__body { animation: none; }
+}
+.wf-excursion__eyebrow {
+  margin: 0 0 10px;
+  font-family: var(--wf-font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--wf-accent-ink);
+}
+.wf-excursion__titlerow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+.wf-excursion__title {
+  margin: 0;
+  font-family: var(--wf-font-display);
+  font-weight: 500;
+  font-size: clamp(22px, 2.4vw, 30px);
+  line-height: 1.15;
+  color: var(--wf-ink-900);
+}
+.wf-excursion__price {
+  margin: 0;
+  flex: none;
+  font-family: var(--wf-font-sans);
+  font-weight: 700;
+  font-size: clamp(18px, 1.8vw, 22px);
+  color: var(--wf-accent-ink);
+  white-space: nowrap;
+}
+.wf-excursion__price span {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--wf-ink-500);
+}
+.wf-excursion__text {
+  margin: 14px 0 0;
+  font-size: clamp(15px, 1.4vw, 16.5px);
+  line-height: 1.75;
+  color: var(--wf-ink-700);
+  white-space: pre-line;
+  max-width: 560px;
+}
+.wf-excursions__note {
+  margin-top: clamp(28px, 4vw, 44px);
+  padding-top: 18px;
+  border-top: 1px solid var(--wf-border);
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+.wf-excursions__note p { margin: 0; color: var(--wf-ink-700); }
+.wf-excursions__note p + p { margin-top: 6px; color: var(--wf-ink-500); }
+
+/* ── Trip page: "Што треба да знаеш" cards ─────────────────────────
+   After the client's reference video (IMG_0299): included on ink, not
+   included on the light frame, visa and entry on the orange. Three across on
+   desktop, one after another below 900px. Softer radius than the site's 4px
+   cards — the reference's, asked for as-is. */
+.wf-notes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(14px, 1.6vw, 22px);
+  align-items: stretch;
+}
+@media (max-width: 900px) {
+  .wf-notes { grid-template-columns: 1fr; }
+}
+.wf-note {
+  border-radius: 16px;
+  padding: clamp(24px, 2.6vw, 36px);
+  --wf-note-rule: var(--wf-border);
+}
+.wf-note--dark {
+  background: var(--wf-ink-900);
+  color: var(--wf-text-on-dark);
+  --wf-note-rule: rgba(255, 255, 255, 0.14);
+  --wf-note-muted: rgba(245, 245, 245, 0.62);
+}
+.wf-note--light {
+  background: var(--wf-ink-100);
+  color: var(--wf-ink-900);
+  --wf-note-rule: var(--wf-ink-300);
+  --wf-note-muted: var(--wf-ink-500);
+}
+.wf-note--accent {
+  background: var(--wf-accent);
+  color: #FFFFFF;
+  --wf-note-rule: rgba(255, 255, 255, 0.4);
+  --wf-note-muted: rgba(255, 255, 255, 0.88);
+}
+.wf-note__eyebrow {
+  margin: 0;
+  font-family: var(--wf-font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--wf-note-muted);
+}
+.wf-note__title {
+  margin: clamp(18px, 2vw, 26px) 0 0;
+  font-family: var(--wf-font-display);
+  font-weight: 400;
+  font-size: clamp(34px, 3.3vw, 46px);
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+.wf-note__dot { color: var(--wf-accent); }
+.wf-note--accent .wf-note__dot { color: var(--wf-ink-900); }
+.wf-note__sub {
+  margin: 14px 0 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--wf-note-muted);
+}
+.wf-note__list {
+  list-style: none;
+  margin: clamp(20px, 2.2vw, 26px) 0 0;
+  padding: 0;
+}
+.wf-note__list li {
+  padding: 15px 0;
+  border-top: 1px solid var(--wf-note-rule);
+  font-size: 15px;
+  line-height: 1.55;
+}
+.wf-note__list li:last-child { padding-bottom: 0; }
+.wf-note__label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: var(--wf-note-muted);
+}
+.wf-notes__payment {
+  margin: clamp(18px, 2.2vw, 26px) 0 0;
+  font-family: var(--wf-font-sans);
+  font-size: clamp(15px, 1.4vw, 16.5px);
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--wf-accent);
+}

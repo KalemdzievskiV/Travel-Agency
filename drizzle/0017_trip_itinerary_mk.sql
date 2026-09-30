@@ -1,0 +1,1 @@
+ALTER TABLE "trips" ADD COLUMN "itinerary_mk" text[] DEFAULT '{}' NOT NULL;
