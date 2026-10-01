@@ -2640,8 +2640,10 @@
   margin: clamp(18px, 2vw, 26px) 0 0;
   font-family: var(--wf-font-display);
   font-weight: 400;
-  font-size: clamp(34px, 3.3vw, 46px);
-  line-height: 1.05;
+  /* Same size as the section heading above the cards (ШТО ТРЕБА ДА ЗНАЕШ). */
+  font-size: var(--wf-h2-size);
+  line-height: var(--wf-h2-leading);
+  letter-spacing: var(--wf-h2-tracking);
   text-transform: uppercase;
 }
 .wf-note__dot { color: var(--wf-accent); }

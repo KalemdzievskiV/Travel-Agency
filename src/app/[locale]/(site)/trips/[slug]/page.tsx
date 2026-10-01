@@ -207,6 +207,25 @@ export default async function TripPage({
         introText={trip.description}
       />
 
+      {/* Optional excursions (ФАКУЛТАТИВИ) — "За ова ќе раскажуваш", per the
+          client's reference videos: one photo at a time, its copy changing
+          with it. Edited per trip in Admin → Trips; hidden when there are none. */}
+      {trip.excursions.length > 0 && (
+        <TripExcursions
+          items={trip.excursions}
+          labels={{
+            eyebrow: t("excursionsEyebrow"),
+            title: t("excursionsTitle"),
+            intro: t("excursionsIntro"),
+            perPerson: t("excursionsPerPerson"),
+            note: t("excursionsNote"),
+            noteSub: t("excursionsNoteSub"),
+            prev: t("excursionsPrev"),
+            next: t("excursionsNext"),
+          }}
+        />
+      )}
+
       {/* What you need to know (ШТО ТРЕБА ДА ЗНАЕШ) — D4, per 3.2. Three
           cards after the client's reference video (IMG_0299): included on
           ink, not included on the light frame, visa and entry on the orange.
@@ -250,25 +269,6 @@ export default async function TripPage({
             <p className="wf-notes__payment">{t("paymentNote")}</p>
           </div>
         </section>
-      )}
-
-      {/* Optional excursions (ФАКУЛТАТИВИ) — "За ова ќе раскажуваш", per the
-          client's reference videos: one photo at a time, its copy changing
-          with it. Edited per trip in Admin → Trips; hidden when there are none. */}
-      {trip.excursions.length > 0 && (
-        <TripExcursions
-          items={trip.excursions}
-          labels={{
-            eyebrow: t("excursionsEyebrow"),
-            title: t("excursionsTitle"),
-            intro: t("excursionsIntro"),
-            perPerson: t("excursionsPerPerson"),
-            note: t("excursionsNote"),
-            noteSub: t("excursionsNoteSub"),
-            prev: t("excursionsPrev"),
-            next: t("excursionsNext"),
-          }}
-        />
       )}
 
       {/* Make this itinerary yours (enquire, pre-filled with this trip). No

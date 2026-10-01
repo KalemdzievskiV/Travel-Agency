@@ -17,7 +17,9 @@ import { photoLayers } from "@/lib/photo";
  * Reused on the home page and each destination page — pass the intro copy in.
  */
 /** Pause between automatic steps, in ms. */
-const AUTO_MS = 3000;
+const AUTO_MS = 500;
+/** How long each automatic glide takes, in ms. */
+const AUTO_GLIDE_MS = 1000;
 
 export function TripsCarousel({
   id,
@@ -165,7 +167,8 @@ export function TripsCarousel({
     let visible = false;
     const io = new IntersectionObserver(([e]) => {
       visible = e.isIntersecting;
-      if (visible) lastMove.current = Date.now();
+      // Back the clock off so the first glide starts as soon as it is in view.
+      if (visible) lastMove.current = Date.now() - AUTO_MS;
     }, { threshold: 0.4 });
     io.observe(section);
     // Native swipes and trackpad scrolls count as a manual move, and fold back
@@ -185,8 +188,8 @@ export function TripsCarousel({
       : window.setInterval(() => {
           if (!visible || held.current || document.hidden || gliding.current) return;
           if (Date.now() - lastMove.current < AUTO_MS) return;
-          glide(1, 1400);
-        }, 250);
+          glide(1, AUTO_GLIDE_MS);
+        }, 50);
     return () => {
       io.disconnect();
       el.removeEventListener("scroll", onScroll);
