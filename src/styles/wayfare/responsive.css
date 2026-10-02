@@ -2526,6 +2526,42 @@
   text-transform: uppercase;
   color: var(--wf-ink-900);
 }
+/* Photo dots: only when an excursion has more than one picture. Each dot is
+   a 24px tap target around a small mark. */
+.wf-excursion__dots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: clamp(8px, 1.2vw, 14px);
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+}
+.wf-excursion__dot {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.wf-excursion__dot::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--wf-paper);
+  opacity: 0.55;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 4px rgb(0 0 0 / 0.35);
+  transition: opacity 200ms var(--wf-ease-out), width 200ms var(--wf-ease-out);
+}
+.wf-excursion__dot.is-on::after { opacity: 1; width: 18px; border-radius: 4px; }
+.wf-excursion__dot:focus-visible { outline: 2px solid var(--wf-paper); outline-offset: -2px; border-radius: 50%; }
 .wf-excursion__body { animation: wf-excursion-in 480ms var(--wf-ease-out) both; }
 @keyframes wf-excursion-in {
   from { opacity: 0; transform: translateY(8px); }

@@ -142,7 +142,8 @@ export type Trip = {
 
 /** One optional excursion on a trip page's "За ова ќе раскажуваш" slider. */
 export type Excursion = {
-  image: string;
+  /** In order; the first is the cover. May be empty. */
+  images: string[];
   label: string;
   eyebrow: string;
   title: string;

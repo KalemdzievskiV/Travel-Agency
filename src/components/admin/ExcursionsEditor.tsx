@@ -2,13 +2,13 @@
 
 import React from "react";
 import type { TripExcursion } from "@/db/schema";
-import { uploadAdminImage } from "@/app/[locale]/(admin)/actions";
+import { GalleryPicker } from "./GalleryField";
 import { Field, inputStyle, labelStyle } from "./ui";
 
-type Row = TripExcursion & { key: string; status: string };
+type Row = Omit<TripExcursion, "image" | "images"> & { images: string[]; key: string };
 
-const EMPTY: TripExcursion = {
-  image: "",
+const EMPTY: Omit<Row, "key"> = {
+  images: [],
   label: "",
   labelMk: "",
   eyebrow: "",
@@ -24,14 +24,20 @@ let seq = 0;
 const newKey = () => `x${Date.now().toString(36)}${seq++}`;
 
 /**
- * Repeatable excursions (ФАКУЛТАТИВИ) for a trip: one picture per excursion and
- * the copy that goes with it. The text travels to the action as one JSON field
- * (`excursions`). A photo uploads the moment it's picked (one request per
- * photo, like GalleryField), so the row already holds its URL by save time.
+ * Repeatable excursions (ФАКУЛТАТИВИ) for a trip: a few pictures per excursion
+ * and the copy that goes with them. Everything travels to the action as one
+ * JSON field (`excursions`). Photos upload the moment they're picked (one
+ * request per photo, via GalleryPicker), so each row already holds its URLs by
+ * save time; the first photo doubles as `image` for older readers.
  */
 export function ExcursionsEditor({ initial = [] }: { initial?: TripExcursion[] }) {
   const [rows, setRows] = React.useState<Row[]>(() =>
-    initial.map((x) => ({ ...EMPTY, ...x, key: newKey(), status: "" })),
+    initial.map(({ image, images, ...x }) => ({
+      ...EMPTY,
+      ...x,
+      images: images?.length ? images : image ? [image] : [],
+      key: newKey(),
+    })),
   );
 
   const update = (key: string, patch: Partial<Row>) =>
@@ -49,15 +55,14 @@ export function ExcursionsEditor({ initial = [] }: { initial?: TripExcursion[] }
     rows.map((r) => {
       const x: Partial<Row> = { ...r };
       delete x.key;
-      delete x.status;
-      return x;
+      return { ...x, image: r.images[0] ?? "" };
     }),
   );
 
   return (
     <Field
       label="Excursions (факултативи)"
-      hint="Shown on the trip page as the “За ова ќе раскажуваш” slider, between the notes and the enquiry card. Each picture carries its own text, so the copy changes with the photo. Leave empty to hide the section. Photos upload as soon as they're picked (max 4 MB each)."
+      hint="Shown on the trip page as the “За ова ќе раскажуваш” slider, between the notes and the enquiry card. Each excursion has its own photos and text: the arrows step between excursions, the dots on the photo step through its pictures. The first photo is the cover. Leave empty to hide the section. Photos upload as soon as they're picked (max 4 MB each)."
     >
       <input type="hidden" name="excursions" value={payload} />
       <div style={{ display: "grid", gap: 14 }}>
@@ -86,54 +91,23 @@ export function ExcursionsEditor({ initial = [] }: { initial?: TripExcursion[] }
               </SmallButton>
             </div>
 
-            <div className="wf-form-grid" style={{ alignItems: "start" }}>
-              <div style={{ display: "grid", gap: 8 }}>
-                <span style={labelStyle}>Picture</span>
-                {r.image && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={r.image}
-                    alt=""
-                    style={{
-                      width: 220,
-                      maxWidth: "100%",
-                      height: 132,
-                      objectFit: "cover",
-                      borderRadius: "var(--wf-radius-md)",
-                      border: "1px solid var(--wf-border)",
-                    }}
-                  />
-                )}
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={async (e) => {
-                    const input = e.currentTarget;
-                    const file = input.files?.[0];
-                    if (!file) return;
-                    if (file.size > 4 * 1024 * 1024 - 64 * 1024) {
-                      update(r.key, { status: "That photo is larger than 4 MB. Please resize it." });
-                      input.value = "";
-                      return;
-                    }
-                    update(r.key, { status: "Uploading… wait for it to finish before saving." });
-                    try {
-                      const fd = new FormData();
-                      fd.append("file", file);
-                      update(r.key, { image: await uploadAdminImage(fd), status: "" });
-                    } catch {
-                      update(r.key, { status: "The photo could not be uploaded." });
-                    }
-                    input.value = "";
-                  }}
-                  style={{ ...inputStyle, padding: 8 }}
-                />
-                {r.status && <span role="status" style={{ fontSize: 13, color: "var(--wf-ink-700)" }}>{r.status}</span>}
-              </div>
-              <Input label="Price (per person)" value={r.price} placeholder="€90" onChange={(v) => update(r.key, { price: v })} />
+            <div style={{ display: "grid", gap: 8 }}>
+              <span style={labelStyle}>Pictures</span>
+              <GalleryPicker
+                urls={r.images}
+                setUrls={(next) =>
+                  setRows((rs) =>
+                    rs.map((x) =>
+                      x.key === r.key ? { ...x, images: typeof next === "function" ? next(x.images) : next } : x,
+                    ),
+                  )
+                }
+              />
             </div>
 
             <div className="wf-form-grid">
+              <Input label="Price (per person)" value={r.price} placeholder="€90" onChange={(v) => update(r.key, { price: v })} />
+              <div />
               <Input label="Photo label" value={r.label} placeholder="Day 4 · Luxor" onChange={(v) => update(r.key, { label: v })} />
               <Input label="Photo label (MK)" value={r.labelMk} placeholder="Ден 4 · Луксор" onChange={(v) => update(r.key, { labelMk: v })} />
               <Input label="Eyebrow" value={r.eyebrow} placeholder="A different perspective" onChange={(v) => update(r.key, { eyebrow: v })} />
@@ -147,7 +121,7 @@ export function ExcursionsEditor({ initial = [] }: { initial?: TripExcursion[] }
         ))}
 
         <div>
-          <SmallButton onClick={() => setRows((rs) => [...rs, { ...EMPTY, key: newKey(), status: "" }])}>
+          <SmallButton onClick={() => setRows((rs) => [...rs, { ...EMPTY, key: newKey() }])}>
             + Add excursion
           </SmallButton>
         </div>

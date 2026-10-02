@@ -1,5 +1,6 @@
 import { TextField, TextAreaField, CheckboxField, FormCard, Field } from "@/components/admin/ui";
 import { SubmitButton, ImageField } from "@/components/admin/controls";
+import { GalleryField } from "@/components/admin/GalleryField";
 import type { HotelRow } from "@/db/schema";
 import { saveHotel } from "./actions";
 
@@ -51,7 +52,10 @@ export function HotelForm({
         <TextAreaField label="Style tags" name="style" defaultValue={h?.style.join("\n")} rows={3} hint="One per line, e.g. Beachfront, Boutique, Adults-only." />
 
         <ImageField currentUrl={h?.image} />
-        <TextAreaField label="Gallery images" name="images" defaultValue={h?.images.join("\n")} rows={4} hint="One image URL per line." />
+        <GalleryField
+          initial={h?.images ?? []}
+          hint="Upload photos from your device (max 4 MB each) or paste a URL. Use the arrows to reorder."
+        />
         <TextField label="Gradient (fallback)" name="grad" defaultValue={h?.grad} hint="CSS gradient shown when no image is set." />
 
         <div

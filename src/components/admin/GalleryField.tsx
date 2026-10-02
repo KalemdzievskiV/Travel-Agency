@@ -27,6 +27,26 @@ export function GalleryField({
   initial?: string[];
 }) {
   const [urls, setUrls] = React.useState<string[]>(initial);
+  return (
+    <Field label={label} hint={hint}>
+      <input type="hidden" name={name} value={urls.join("\n")} />
+      <GalleryPicker urls={urls} setUrls={setUrls} />
+    </Field>
+  );
+}
+
+/**
+ * The picker on its own, for a parent that keeps the list itself (e.g. one
+ * gallery per excursion row). `setUrls` must accept an updater function, since
+ * uploads finish one by one and each appends to whatever the list is by then.
+ */
+export function GalleryPicker({
+  urls,
+  setUrls,
+}: {
+  urls: string[];
+  setUrls: React.Dispatch<React.SetStateAction<string[]>>;
+}) {
   const [busy, setBusy] = React.useState<{ done: number; total: number } | null>(null);
   const [errors, setErrors] = React.useState<string[]>([]);
   const [pasted, setPasted] = React.useState("");
@@ -75,9 +95,7 @@ export function GalleryField({
   }
 
   return (
-    <Field label={label} hint={hint}>
-      <input type="hidden" name={name} value={urls.join("\n")} />
-
+    <div style={{ display: "grid", gap: 12 }}>
       {urls.length > 0 && (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))", gap: 12 }}>
           {urls.map((u, i) => (
@@ -156,7 +174,7 @@ export function GalleryField({
           Add
         </IconButton>
       </div>
-    </Field>
+    </div>
   );
 }
 

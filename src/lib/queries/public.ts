@@ -108,7 +108,7 @@ export function toTrip(r: TripRow, mk = false): Trip {
     notIncluded: mk && r.notIncludedMk && r.notIncludedMk.length ? r.notIncludedMk : r.notIncluded,
     visaNotes: mk && r.visaNotesMk ? r.visaNotesMk : r.visaNotes,
     excursions: (r.excursions ?? []).map((x) => ({
-      image: x.image,
+      images: x.images?.length ? x.images : x.image ? [x.image] : [],
       label: (mk && x.labelMk) || x.label,
       eyebrow: (mk && x.eyebrowMk) || x.eyebrow,
       title: (mk && x.titleMk) || x.title,

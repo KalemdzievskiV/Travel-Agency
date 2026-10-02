@@ -18,7 +18,10 @@ import { relations } from "drizzle-orm";
  * public page prefers in Macedonian, the same fallback the other trip fields use.
  */
 export type TripExcursion = {
+  /** Cover photo — always the first of `images` (kept for rows saved before `images`). */
   image: string;
+  /** Every photo for this excursion, in order. Older rows may lack it. */
+  images?: string[];
   /** Chip over the photo, e.g. "Day 4 · Luxor". */
   label: string;
   labelMk: string;

@@ -7,9 +7,11 @@ import type { Excursion } from "@/content/types";
 
 /**
  * Optional excursions (ФАКУЛТАТИВИ) — "За ова ќе раскажуваш". One excursion at
- * a time: its photo and the copy that belongs to it change together, stepped
- * by the arrows (or a swipe on the photo). Every photo is mounted and stacked,
- * so switching is a crossfade with nothing left to load.
+ * a time: its photos and the copy that belongs to them change together, stepped
+ * by the arrows. An excursion with several photos gets dots on the photo; a
+ * swipe steps through its photos and runs on into the next excursion at either
+ * end. Every photo is mounted and stacked, so switching is a crossfade with
+ * nothing left to load.
  */
 export function TripExcursions({
   items,
@@ -25,13 +27,25 @@ export function TripExcursions({
     noteSub: string;
     prev: string;
     next: string;
+    photo: string;
   };
 }) {
-  const [i, setI] = React.useState(0);
+  const [{ i, p }, setPos] = React.useState({ i: 0, p: 0 });
   const n = items.length;
-  const go = (d: -1 | 1) => setI((cur) => (cur + d + n) % n);
-  const swipeX = React.useRef<number | null>(null);
   const cur = items[i];
+  const photos = cur.images.length;
+  // Arrows: whole excursions, always opening on the cover.
+  const go = (d: -1 | 1) => setPos((s) => ({ i: (s.i + d + n) % n, p: 0 }));
+  // Swipe: photo by photo, spilling into the neighbouring excursion at the ends
+  // (onto its last photo when going back).
+  const step = (d: -1 | 1) =>
+    setPos((s) => {
+      const q = s.p + d;
+      if (q >= 0 && q < items[s.i].images.length) return { i: s.i, p: q };
+      const j = (s.i + d + n) % n;
+      return { i: j, p: d < 0 ? Math.max(items[j].images.length - 1, 0) : 0 };
+    });
+  const swipeX = React.useRef<number | null>(null);
 
   return (
     <section style={{ padding: "clamp(40px, 6vw, 72px) 0" }} aria-roledescription="carousel" aria-label={labels.title}>
@@ -60,27 +74,45 @@ export function TripExcursions({
               swipeX.current = e.clientX;
             }}
             onPointerUp={(e) => {
-              if (swipeX.current == null || n < 2) return;
+              if (swipeX.current == null || (n < 2 && photos < 2)) return;
               const dx = e.clientX - swipeX.current;
               swipeX.current = null;
-              if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+              if (Math.abs(dx) > 40) step(dx < 0 ? 1 : -1);
             }}
           >
             {items.map((x, k) =>
-              x.image ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  key={k}
-                  src={x.image}
-                  alt={k === i ? x.title : ""}
-                  aria-hidden={k !== i}
-                  draggable={false}
-                  loading={k === 0 ? undefined : "lazy"}
-                  className={`wf-excursion__img${k === i ? " is-on" : ""}`}
-                />
-              ) : null,
+              x.images.map((src, m) => {
+                const on = k === i && m === p;
+                return (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    key={`${k}-${m}`}
+                    src={src}
+                    alt={on ? x.title : ""}
+                    aria-hidden={!on}
+                    draggable={false}
+                    loading={k === 0 && m === 0 ? undefined : "lazy"}
+                    className={`wf-excursion__img${on ? " is-on" : ""}`}
+                  />
+                );
+              }),
             )}
             {cur.label && <span className="wf-excursion__label">{cur.label}</span>}
+            {photos > 1 && (
+              <div className="wf-excursion__dots">
+                {cur.images.map((_, m) => (
+                  <button
+                    key={m}
+                    type="button"
+                    className={`wf-excursion__dot${m === p ? " is-on" : ""}`}
+                    aria-label={`${labels.photo} ${m + 1} / ${photos}`}
+                    aria-current={m === p}
+                    onPointerDown={(e) => e.stopPropagation()}
+                    onClick={() => setPos({ i, p: m })}
+                  />
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Keyed on the index so the copy re-runs its fade with each photo. */}

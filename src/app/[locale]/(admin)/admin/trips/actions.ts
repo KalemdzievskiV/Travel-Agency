@@ -17,7 +17,7 @@ function str(formData: FormData, key: string): string {
 
 /**
  * The excursions editor posts its rows as one JSON field; photos were already
- * uploaded when picked, so each row carries its image URL. Rows with neither a
+ * uploaded when picked, so each row carries its image URLs. Rows with neither a
  * picture nor a title are dropped as blanks.
  */
 async function readExcursions(formData: FormData): Promise<TripExcursion[]> {
@@ -32,8 +32,11 @@ async function readExcursions(formData: FormData): Promise<TripExcursion[]> {
   const out: TripExcursion[] = [];
   for (const item of raw) {
     const r = (item ?? {}) as Record<string, unknown>;
+    const images = Array.isArray(r.images) ? r.images.map(text).filter(Boolean) : [];
+    if (!images.length && text(r.image)) images.push(text(r.image));
     const x: TripExcursion = {
-      image: text(r.image),
+      image: images[0] ?? "",
+      images,
       label: text(r.label),
       labelMk: text(r.labelMk),
       eyebrow: text(r.eyebrow),

@@ -222,6 +222,7 @@ export default async function TripPage({
             noteSub: t("excursionsNoteSub"),
             prev: t("excursionsPrev"),
             next: t("excursionsNext"),
+            photo: t("excursionsPhoto"),
           }}
         />
       )}
